@@ -1,0 +1,240 @@
+import React, { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import Modal from 'react-modal';
+import { getApiBaseUrl } from '../../../helpers/config';
+import '../../../grid-layout.css';
+import SortableRecipeItem from './SortableRecipeItem';
+const API_BASE = getApiBaseUrl();
+import { TouchSensor } from '@dnd-kit/core';
+import Loader from '../../UserControls/Loader/Loader';
+
+import {
+    DndContext,
+    closestCenter,
+    useSensor,
+    useSensors,
+    PointerSensor,
+    KeyboardSensor,
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+Modal.setAppElement('#root'); // for accessibility
+
+interface Recipe {
+    id: number;
+    name: string;
+    description: string;
+    sortOrder: number;
+    subject: {
+        id: number;
+        description: string;
+    };
+    canTake: boolean;
+}
+
+const MyRecipesDesktop: React.FC = () => {
+
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [recipeToDelete, setRecipeToDelete] = useState<{ id: number; name: string } | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const openDeleteModal = (recipe: { id: number; name: string }) => {
+        setRecipeToDelete(recipe);
+        setModalIsOpen(true);
+    };
+
+    const { setBanner } = useOutletContext<{
+        setBanner: (message: string) => void;
+    }>();
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(TouchSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    useEffect(() => {
+        const fetchRecipes = async () => {
+            setIsLoading(true);
+            const response = await fetch(`${API_BASE}/api/MyRecipes/getRecipes`, {
+                credentials: 'include',
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setRecipes(data);
+                setIsLoading(false);
+            } else {
+                console.error('Failed to fetch recipes');
+                setIsLoading(false);
+            }
+        };
+
+        fetchRecipes();
+    }, []);
+
+    const handleDragEnd = async (event: any) => {
+        setBanner('');
+        const { active, over } = event;
+        if (active.id !== over?.id) {
+            const oldIndex = recipes.findIndex(r => r.id.toString() === active.id);
+            const newIndex = recipes.findIndex(r => r.id.toString() === over?.id);
+            const newOrder = arrayMove(recipes, oldIndex, newIndex).map((recipe, index) => ({
+                ...recipe,
+                sortOrder: index + 1,
+            }));
+
+            setRecipes(newOrder);
+
+            const response = await fetch(API_BASE + `/api/MyRecipes/updateSortOrder`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newOrder.map(r => ({
+                    id: r.id,
+                    sortOrder: r.sortOrder,
+                }))),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                setBanner('Recipes successfully re-ordered!');
+            } else {
+                setBanner('Error occurred during sorting');
+            }
+        }
+    };
+
+    const handleDelete = async () => {
+        setBanner('');
+
+        const response = await fetch(`${API_BASE}/api/MyRecipes/${recipeToDelete?.id}`, {
+            method: 'DELETE',
+            credentials: 'include',
+        });
+
+        if (response.ok) {
+            const refreshed = await fetch(`${API_BASE}/api/MyRecipes/getRecipes`, {
+                credentials: 'include',
+            });
+
+            if (refreshed.ok) {
+                const data = await refreshed.json();
+                setRecipes(data);
+                setBanner('Recipe successfully deleted!');
+            } else {
+                setBanner('Recipe deleted, but failed to reload list.');
+            }
+        } else {
+            setBanner('Error occurred during deletion');
+        }
+
+        setModalIsOpen(false);
+    };
+
+    if (isLoading) {
+        return (
+            <Loader message="Loading recipes ..." />
+        );
+    }
+
+    return (
+        <div className="page-container w-100 pt-3">
+
+            <div className="content-inner-desktop">
+
+                {recipes.length === 0 && !isLoading ? (
+                    <div className="empty-grid">No recipes found. Start by creating one.</div>
+                ) : (
+                    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                        <SortableContext items={recipes.map(r => r.id.toString())} strategy={verticalListSortingStrategy}>
+                            
+                            {/* Header */}
+                            <div className="d-flex align-items-start">
+                                <div className="d-flex">
+                                    <div className="drag-handle-width-desktop"></div>
+                                </div>
+
+                                <div className="flex-grow-1">
+                                    <div className="row">
+                                        <div className="col-6 col-custom-6-12 fw-bold">Name</div>
+                                        <div className="col-6 col-custom-6-0 fw-bold">Description</div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div className="d-flex ms-3">
+                                    <div className="fixed-button-icon"></div>
+                                    <div className="fixed-button"></div>
+                                    <div className="fixed-button"></div>
+                                    <div className="fixed-button-icon"></div>
+                                    <div className="fixed-button-icon"></div>
+                                </div>
+                            </div>
+
+                            {/* Rows */}
+                            <div className="grid-overflow-box gof-tall" id="sortable">
+                                {recipes.map((recipe, i) => (
+                                    <SortableRecipeItem
+                                        key={recipe.id}
+                                        recipe={recipe}
+                                        index={i}
+                                        isMobile={false}
+                                        openDeleteModal={() => openDeleteModal(recipe)}
+                                    />
+                                ))}
+                            </div>
+
+                        </SortableContext>
+                    </DndContext>
+                )}
+
+            </div>
+
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)}
+                contentLabel="Confirm Delete"
+                className="dialog-wrapper"
+            >
+                <div className="modal-header dialog-header">
+                    <h5 className="modal-title">Confirm Delete</h5>
+                    <button className="btn-close" onClick={() => setModalIsOpen(false)} ></button>
+                </div>
+                <div className="dialog-content-holder">
+                    <div className="dialog-content modal-body dialog-text">
+                        Are you sure you want to delete recipe "{recipeToDelete?.name}"?
+                        <input type="hidden" value={recipeToDelete?.id} />
+                    </div>
+
+                    <div className="dialog-footer d-flex justify-content-end gap-2">
+                        <button
+                            className="button button-modal"
+                            onClick={() => {
+                                setBanner(null);
+                                setModalIsOpen(false);
+                            }}
+                        >
+                            Cancel
+                        </button>
+                        <button className="button button-modal" onClick={handleDelete}>Yes, Delete</button>
+                    </div>
+                </div>
+
+            </Modal>
+
+        </div>
+    );
+};
+
+export default MyRecipesDesktop;

@@ -1,0 +1,129 @@
+﻿@media print {
+    /* ✅ Preserve title text, remove background styling */
+    .card-title,
+    .card-title-mobile {
+        background: none !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    .page-title-name {
+        max-width: none !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        color: black;
+    }
+    /* ❌ Hide non-print elements */
+    .home-icon-holder,
+    .signout-holder,
+    .button-grid-holder-desktop,
+    .button-grid-holder-mobile,
+    button,
+    .edit-button,
+    .feedback-banner-placeholder,
+    #feedback-banner {
+        display: none !important;
+    }
+
+    /* ✅ Hide scrollbars (cross-browser) */
+    body,
+    html {
+        overflow: visible !important;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    .grid-overflow-box {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: flex-start !important;
+        overflow: visible !important;
+        overflow-y: auto; /* Ensure all content is visible */
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        /*page-break-inside: avoid;*/
+
+
+    }
+
+    .grid-overflow-box .row {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
+    }
+
+    .gof-row,
+    .gof-tall,
+    .gof-mobile,
+    .gof-mobile.gof-tall {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        overflow-y: auto; /* Ensure all content is visible */
+    }
+
+    /* ✅ Ensure columns print side-by-side */
+    .grid-overflow-box .col-md-6,
+    .grid-overflow-box .col-12 {
+        width: 50% !important;
+        float: left;
+        box-sizing: border-box;
+        padding: 0 1rem;
+    }
+
+    ul li, ol li {
+        page-break-inside: avoid;
+    }
+
+    /* Optional: tighten spacing for print clarity */
+    .pt-2,
+    .pb-2 {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+
+    /* Remove page border */
+    .page-layout,
+    .page-layout-margin,
+    .wide-card,
+    .mobile-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    /* Ensure parent containers don't clip overflow-box */
+    .page-card,
+    .page-layout,
+    .wide-card,
+    .mobile-card,
+    .content-holder-desktop,
+    .content-holder-mobile,
+    .content-inner-desktop,
+    .content-inner-mobile {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        display: block !important;
+    }
+
+    
+
+    body {
+        font-size: 12pt;
+        background: #fff !important;
+        color: #000 !important;
+    }
+
+    .print-button, .button-icon-responsive {
+        display: none;
+    }
+}
