@@ -200,7 +200,7 @@ const MyRecipesMobile: React.FC = () => {
                             </div>
 
                             {/* Rows */}
-                            <div className="grid-overflow-box gof-tall" id="sortable">
+                            <div className="grid-overflow-box gof-editable-mobile" id="sortable">
                                 {recipes.map((recipe, i) => (
                                     <SortableRecipeItem
                                         key={recipe.id}

@@ -43,7 +43,23 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({ buttons, handleSave }) => {
             const isDisabled = btn.isDisabled ?? false;
             const isVisible = btn.isVisible ?? true;
             const baseClass = isDisabled ? "button-disabled" : "button";
-            const shrinkClass = btn.text.length > 12 ? "button-shrink-text" : "";
+            const isIcon = btn.icon != null;
+
+            let shrinkClass = "";
+
+            if (isIcon) {
+                if (btn.text.length >= 10 && btn.text.length <= 12) {
+                    shrinkClass = "button-shrink-text-large";
+                } else if (btn.text.length > 12) {
+                    shrinkClass = "button-shrink-text";
+                }
+            } else {
+                if (btn.text.length > 12) {
+                    shrinkClass = "button-shrink-text";
+                }
+            }
+
+
 
 
             // If button is not visible → spacer

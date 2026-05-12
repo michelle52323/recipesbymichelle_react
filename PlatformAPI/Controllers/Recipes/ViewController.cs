@@ -80,7 +80,7 @@ namespace PlatformAPI.Controllers.Recipes
                     Unit = MeasurementHelper.BuildUnitDisplayString(i.Quantity, i.Unit, recipe.ShowAbbreviations, unitTable).ToString(),
                     Description = i.Description,
                     Instructions = i.Instructions,
-                    SortOrder = i.SortOrder,
+                    SortOrder = i.SortOrder ?? 0,
                     IsActive = i.IsActive
                 })
                 .ToList();

@@ -19,7 +19,7 @@ export interface RecipeView extends RecipeBase {
 
 export interface Ingredient {
     id: number;
-    quantity: number | null;
+    quantity: string | null;
     unit: string | null;
     description: string | null;
     instructions: string | null;
@@ -33,3 +33,13 @@ export interface Step {
     sortOrder: number | null;
     isActive: boolean;
 }
+
+export interface Unit {
+    id: number;
+    description: string;
+    abbreviation: string;
+    plural: string | null;
+    system: number | null;
+}
+
+

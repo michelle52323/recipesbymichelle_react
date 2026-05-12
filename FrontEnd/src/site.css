@@ -415,6 +415,7 @@ use-wide-card {
     padding: 0px 4vw 0px 4vw;
     width: 100%;
     height: 100%;
+    
 }
 
 @media (max-width : 767px) {
@@ -709,6 +710,26 @@ a.button-tiny-ios {
 @media (max-width: 580px) {
     .button-shrink-text {
         font-size: 11px;
+        padding-left: 3px;
+        padding-right: 3px;
+        min-height: 38px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 885px) {
+    .button-shrink-text-large {
+        font-size: 14px;
+        padding-left: 6px;
+        padding-right: 6px;
+        min-height: 38px;
+        /* match your normal button height */
+    }
+}
+
+
+@media (max-width: 580px) {
+    .button-shrink-text-large {
+        font-size: 12px;
         padding-left: 3px;
         padding-right: 3px;
         min-height: 38px;

@@ -12,13 +12,12 @@ namespace PlatformAPI.DTO.Recipe
         public bool IsActive { get; set; }
         public int SortOrder { get; set; }
         public RecipeVisibility RecipeVisibility { get; set; }
-
-        public List<IngredientDto>? Ingredients { get; set; }
-        public List<StepDto>? Steps { get; set; }
     }
 
     public class ViewRecipeDTO : RecipeDto
     {
+        public List<IngredientDto> Ingredients { get; set; }
+        public List<StepDto> Steps { get; set; }
         public MeasurementSystem MeasurementSystem { get; set; }
     }
 
@@ -41,6 +40,13 @@ namespace PlatformAPI.DTO.Recipe
         public bool IsActive { get; set; }
     }
 
-
+    public class UnitDto
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public string Abbreviation { get; set; }
+        public string? Plural { get; set; }
+        public int? System { get; set; }
+    }
 
 }

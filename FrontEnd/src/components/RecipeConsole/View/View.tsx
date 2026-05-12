@@ -41,7 +41,7 @@ function View() {
     const [measurementSystem, setMeasurementSystem] = useState<"Imperial" | "Metric" | null>(null);
 
 
-    const layoutClass = isMobileTouchDevice() ? "gof-mobile-tall" : "gof-tall";
+    const layoutClass = isMobileTouchDevice() ? "gof-view-mobile" : "gof-tall";
     const innerlayoutClass = isMobileTouchDevice() ? "grid-page-row-height-mobile" : "grid-page-row-height-desktop";
     //const layoutClass = "";
     //const innerlayoutClass = "";
@@ -132,7 +132,7 @@ function View() {
                 <div className="content-inner-desktop">
                     {/*INSERT CONTENT HERE */}
 
-                    <div className={`mt-4 grid-overflow-box gof-row ${layoutClass}`}>
+                    <div className={`pt-4 grid-overflow-box gof-row ${layoutClass}`}>
                         <div className={`d-flex row align-items-start ${innerlayoutClass}`}>
                             <div className="col-md-6 col-12 pt-2">
                                 <div className="d-flex align-items-center pb-3 fw-bold">

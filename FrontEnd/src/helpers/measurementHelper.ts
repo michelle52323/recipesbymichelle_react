@@ -116,9 +116,6 @@ export function convertDegreeToSymbol(input: string): string {
     return output;
 }
 
-
-
-
 export function renderAllMixedNumbersHtml(input: string): string {
     if (!input) return "";
 

@@ -243,7 +243,7 @@ const RecipeInfo: React.FC = () => {
             // navigate back to the same recipe using the existing id
             if (result) {
                 navigate(`/Recipes/RecipeInfo/${id}`, {
-                    state: { banner: "Recipe successfully updated!" },
+                    state: { banner: "Recipe updated successfully!" },
                 });
             }
         }
@@ -309,7 +309,6 @@ const RecipeInfo: React.FC = () => {
                             </div>
                             <div className="page-item col-12 col-md-6">
                                 <label className='form-label-tight'>Description</label>
-                                <span className="required">*</span>
                                 <br />
                                 <div className="form-element">
                                     <textarea

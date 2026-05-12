@@ -4,15 +4,17 @@ import Register from './components/Account/Register/Register';
 import ThemeSelectorPage from './components/Account/Themes/Themes';
 import Profile from './components/Account/Profile/Profile';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
-import MyRecipes from './components/RecipeConsole/MyRecipes/MyRecipes'
-import RecipeInfo from './components/RecipeConsole/RecipeInfo/RecipeInfo'
-import View from './components/RecipeConsole/View/View'
+import MyRecipes from './components/RecipeConsole/MyRecipes/MyRecipes';
+import RecipeInfo from './components/RecipeConsole/RecipeInfo/RecipeInfo';
+import Ingredients from './components/RecipeConsole/Ingredients/Ingredients';
+import View from './components/RecipeConsole/View/View';
+
 // import QuizInfo from './components/QuizBuilder/QuizInfo/QuizInfo'
 // import Questions from './components/QuizBuilder/Questions/Questions'
 
-import ChangePasswordPage from './components/Account/ChangePassword/ChangePasswordPage.tsx'
-import ForgotPassword from './components/Account/ForgotPassword/ForgotPassword'
-import ResetPasswordPage from './components/Account/ForgotPassword/ResetPassword'
+import ChangePasswordPage from './components/Account/ChangePassword/ChangePasswordPage.tsx';
+import ForgotPassword from './components/Account/ForgotPassword/ForgotPassword';
+import ResetPasswordPage from './components/Account/ForgotPassword/ResetPassword';
 
 import Layout from './components/Layout.tsx';
 import LoadCheckAuth from './components/LoadCheckAuth/LoadCheckAuth.jsx';
@@ -113,6 +115,9 @@ function App() {
 
                 <Route path="recipes/recipeinfo" element={<RecipeInfo />} />
                 <Route path="recipes/recipeinfo/:id" element={<RecipeInfo />} />
+
+                <Route path="recipes/ingredients" element={<Ingredients />} />
+                <Route path="recipes/ingredients/:id" element={<Ingredients />} />
 
                 <Route path="recipes/view" element={<View />} />
                 <Route path="recipes/view/:id" element={<View />} />

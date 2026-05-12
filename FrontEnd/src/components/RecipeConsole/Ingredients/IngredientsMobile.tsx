@@ -46,7 +46,7 @@ interface Props {
     recipeId: string;
 }
 
-function IngredientsListDesktop({ recipeId }: Props) {
+function IngredientsListMobile({ recipeId }: Props) {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -212,7 +212,7 @@ function IngredientsListDesktop({ recipeId }: Props) {
                                             ingredient={ingredient}
                                             index={i}
                                             openDeleteModal={() => openDeleteModal(ingredient, i + 1)}
-                                            deviceType="desktop"
+                                            deviceType="mobile"
                                         />
                                     ))}
                                 </div>
@@ -276,4 +276,4 @@ function IngredientsListDesktop({ recipeId }: Props) {
     );
 }
 
-export default IngredientsListDesktop;
+export default IngredientsListMobile;
