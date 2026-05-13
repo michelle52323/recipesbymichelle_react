@@ -3,6 +3,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import Icon from "../../UserControls/Icons/icons";
 import type { Ingredient } from "../../../types/Recipe/Recipe";
+import type { MeasurementUnit } from "src/types/Measurement/MeasurementType";
+import { trimQuantity, validateUnitInput, requiresPlural } from "../../../helpers/measurementHelper";
 
 interface Props {
     ingredient: Ingredient | null;
@@ -31,6 +33,9 @@ interface Props {
     pendingAction: "add" | "save" | null;
     setPendingAction: React.Dispatch<React.SetStateAction<"add" | "save" | null>>;
 
+    unitLookupTable: MeasurementUnit[];
+    measurementSystem: "Imperial" | "Metric" | null;
+
 }
 
 
@@ -46,8 +51,12 @@ const SortableIngredientItem: React.FC<Props> = ({
     setAddRow,
     openValidationModal,
     pendingAction,
-    setPendingAction
+    setPendingAction,
+    unitLookupTable,
+    measurementSystem
 }) => {
+    //console.log("render lookup:", unitLookupTable);
+    //console.log("render measurement system:", measurementSystem);
 
     // Local editable state
     // For normal rows, keep local state.
@@ -88,16 +97,16 @@ const SortableIngredientItem: React.FC<Props> = ({
         transition,
     };
 
-    const validate = () => {
-        const errors: string[] = [];
+    // const validate = () => {
+    //     const errors: string[] = [];
 
-        if (!qty.trim()) errors.push("Quantity is required.");
-        if (!desc.trim()) errors.push("Description is required.");
+    //     if (!qty.trim()) errors.push("Quantity is required.");
+    //     if (!desc.trim()) errors.push("Description is required.");
 
-        // Optional: add unit/qty format validation later
+    //     // Optional: add unit/qty format validation later
 
-        return errors;
-    };
+    //     return errors;
+    // };
 
 
     // const onSave = () => {
@@ -111,87 +120,69 @@ const SortableIngredientItem: React.FC<Props> = ({
     // };
 
     const onSave = () => {
-        const errors = validate();
+        // 1. Clean quantity
+        const cleanedQty = trimQuantity(qty);
 
-        if (errors.length > 0) {
-            setPendingAction("save");
+        // 2. Plural logic
+        const isPlural = requiresPlural(cleanedQty, measurementSystem);
 
-            openValidationModal(
-                errors,
-                "save",
-                {
-                    ...ingredient!,
-                    quantity: qty,
-                    unit: unit,
-                    description: desc,
-                    instructions: instr
-                }
-            );
+        // 3. Validate + clean unit
+        const result = validateUnitInput(
+            measurementSystem,
+            unit,
+            isPlural,
+            unitLookupTable
+        );
+        const cleanedUnit = result.cleaned.trim();
 
-            return;
-        }
+        // 4. Clean description + instructions
+        const cleanedDesc = desc.trim();
+        const cleanedInstr = instr.trim();
 
-        // No validation errors → perform save
+        // 5. Update local state so UI reflects cleaned values
+        setLocalQty(cleanedQty);
+        setLocalUnit(cleanedUnit);
+        setLocalDesc(cleanedDesc);
+        setLocalInstr(cleanedInstr);
+
+        // 6. Perform save with cleaned values
         handleSave?.({
             ...ingredient!,
-            quantity: qty,
-            unit: unit,
-            description: desc,
-            instructions: instr
+            quantity: cleanedQty,
+            unit: cleanedUnit,
+            description: cleanedDesc,
+            instructions: cleanedInstr
         });
     };
 
 
-    // const onAdd = () => {
-    //     handleAdd?.({
-    //         id: 0,
-    //         quantity: qty,
-    //         unit: unit,
-    //         description: desc,
-    //         instructions: instr,
-    //         sortOrder: index + 1,
-    //         isActive: true
-    //     });
-    // };
-
-    // useEffect(() => {
-    //     if (isAddRow) {
-    //         qtyRef.current?.focus();
-    //     }
-    // }, [isAddRow]);
 
     const onAdd = () => {
-        const errors = validate();
+        setAddRow(prev => {
+            const cleanedQty = trimQuantity(prev.quantity);
+            const isPlural = requiresPlural(cleanedQty, measurementSystem);
 
-        if (errors.length > 0) {
-            setPendingAction("add");
-
-            openValidationModal(
-                errors,
-                "add",
-                {
-                    id: 0,
-                    quantity: qty,
-                    unit: unit,
-                    description: desc,
-                    instructions: instr,
-                    sortOrder: index + 1,
-                    isActive: true
-                }
+            const result = validateUnitInput(
+                measurementSystem,
+                prev.unit,
+                isPlural,
+                unitLookupTable
             );
 
-            return;
-        }
+            const cleanedIngredient = {
+                ...prev,
+                quantity: cleanedQty,
+                unit: result.cleaned.trim(),
+                description: prev.description.trim(),
+                instructions: prev.instructions.trim(),
+                id: 0,
+                sortOrder: index + 1,
+                isActive: true
+            };
 
-        // No validation errors → perform add
-        handleAdd?.({
-            id: 0,
-            quantity: qty,
-            unit: unit,
-            description: desc,
-            instructions: instr,
-            sortOrder: index + 1,
-            isActive: true
+            handleAdd?.(cleanedIngredient);
+
+            return cleanedIngredient;
         });
     };
 
@@ -257,6 +248,46 @@ const SortableIngredientItem: React.FC<Props> = ({
                         className="form-control textbox textbox-small textbox-text"
                         maxLength={20}
                         value={qty}
+
+                        onBlur={(e) => {
+                            const cleanedQty = trimQuantity(e.target.value);
+
+                            // Update DOM
+                            e.target.value = cleanedQty;
+
+                            // 1. Update qty state
+                            if (isAddRow && cleanedQty !== qty) {
+                                setAddRow(prev => ({ ...prev, quantity: cleanedQty }));
+                            }
+
+                            if (!isAddRow && cleanedQty !== localQty) {
+                                setLocalQty(cleanedQty);
+                            }
+
+                            // 2. Recalculate pluralization using the cleaned qty
+                            const isPlural = requiresPlural(cleanedQty, measurementSystem);
+
+                            // 3. Re-validate + autocorrect the unit
+                            const result = validateUnitInput(
+                                measurementSystem,
+                                isAddRow ? unit : localUnit,
+                                isPlural,
+                                unitLookupTable
+                            );
+
+                            const cleanedUnit = result.cleaned.trim();
+
+                            // 4. Update unit state (so UI reflects the corrected plural form)
+                            if (isAddRow && cleanedUnit !== unit) {
+                                setAddRow(prev => ({ ...prev, unit: cleanedUnit }));
+                            }
+
+                            if (!isAddRow && cleanedUnit !== localUnit) {
+                                setLocalUnit(cleanedUnit);
+                            }
+                        }}
+
+
                         onChange={(e) => {
                             if (isAddRow) {
                                 setAddRow?.(prev => ({ ...prev, quantity: e.target.value }));
@@ -264,8 +295,8 @@ const SortableIngredientItem: React.FC<Props> = ({
                                 setLocalQty(e.target.value);
                             }
                         }}
-
                     />
+
 
                 </div>
 
@@ -276,6 +307,39 @@ const SortableIngredientItem: React.FC<Props> = ({
                         className="form-control textbox textbox-small textbox-text"
                         maxLength={20}
                         value={unit}
+                        onBlur={(e) => {
+                            const raw = e.target.value;
+
+                            // ⭐ Use the DOM qty, not props
+                            const qtyValue = qtyRef.current?.value ?? "";
+
+                            const isPlural = requiresPlural(qtyValue, measurementSystem);
+
+                            const result = validateUnitInput(
+                                measurementSystem,
+                                raw,
+                                isPlural,
+                                unitLookupTable
+                            );
+
+                            const cleaned = result.isValid ? result.cleaned.trim() : raw.trim();
+
+                            e.target.value = cleaned;
+
+                            if (isAddRow && cleaned !== unit) {
+                                setAddRow(prev => ({ ...prev, unit: cleaned }));
+                            }
+
+                            if (!isAddRow && cleaned !== localUnit) {
+                                setLocalUnit(cleaned);
+                            }
+                        }}
+
+
+
+
+
+
                         onChange={(e) => {
                             if (isAddRow) {
                                 setAddRow?.(prev => ({ ...prev, unit: e.target.value }));

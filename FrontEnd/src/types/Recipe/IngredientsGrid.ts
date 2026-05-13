@@ -1,5 +1,6 @@
 import type { DragEndEvent } from "@dnd-kit/core";
-import type { Ingredient, Unit } from './Recipe';
+import type { Ingredient } from './Recipe';
+import type { MeasurementUnit } from "../Measurement/MeasurementType";
 
 /* Ingredient grid types */
 export interface IngredientGridController {
@@ -19,6 +20,8 @@ export interface IngredientGridController {
     addRow: Ingredient;
     setAddRow: React.Dispatch<React.SetStateAction<Ingredient>>;
 
+    measurementSystem: "Imperial" | "Metric" | null;
+
     //DELETE MODAL
     validationModalIsOpen: boolean;
     validationErrors: string[];
@@ -34,5 +37,5 @@ export interface IngredientGridController {
 
 export interface IngredientGrid {
     ingredients: Ingredient[];
-    validUnits: Unit[];
+    unitLookupTable: MeasurementUnit[];
 }

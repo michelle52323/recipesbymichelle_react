@@ -116,6 +116,8 @@ function IngredientsListDesktop({ controller }: Props) {
                                         openValidationModal={controller.openValidationModal}
                                         pendingAction={controller.pendingAction}
                                         setPendingAction={controller.setPendingAction}
+                                        unitLookupTable={controller.grid.unitLookupTable}
+                                        measurementSystem={controller.measurementSystem}
                                     />
                                 ))}
                             </div>
@@ -131,6 +133,8 @@ function IngredientsListDesktop({ controller }: Props) {
                                     openValidationModal={controller.openValidationModal}
                                     pendingAction={controller.pendingAction}
                                     setPendingAction={controller.setPendingAction}
+                                    unitLookupTable={controller.grid.unitLookupTable}
+                                    measurementSystem={controller.measurementSystem}
                                 />
 
                             </div>

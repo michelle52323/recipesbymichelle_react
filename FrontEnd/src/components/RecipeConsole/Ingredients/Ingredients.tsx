@@ -2,13 +2,16 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useLocation, useOutletContext, useParams } from "react-router-dom";
 import Modal from "react-modal";
 
-import { isMobileTouchDevice } from "../../../helpers/config";
+import { isMobileTouchDevice, getApiBaseUrl } from "../../../helpers/config";
+
 import CheckAuth from "../../../components/Account/CheckAuth";
+import { trimQuantity, validateQuantityNumeric, validateUnitInput, requiresPlural } from "../../../helpers/measurementHelper";
+
 import type { LayoutContext } from "../../Layout";
 
 import IngredientsListMobile from "./IngredientsMobile";
 import IngredientsListDesktop from "./IngredientsDesktop";
-import { getApiBaseUrl } from "../../../helpers/config";
+
 import ProgressBar from "../../UserControls/ProgressBar/ProgressBar";
 
 import ButtonGrid from "../../UserControls/ButtonGrid/ButtonGrid";
@@ -195,15 +198,64 @@ function Ingredients() {
     // -----------------------------
 
     const handleAdd = async (added: Ingredient) => {
+        setBanner('');
+
+        // 1. Trim fields
+        const cleanedQty = trimQuantity(added.quantity);
+        const cleanedUnit = added.unit?.trim() ?? "";
+        const cleanedDesc = added.description?.trim() ?? "";
+        const cleanedInstr = added.instructions?.trim() ?? "";
+
+
+
+        // 2. Numeric validation (Imperial/Metric)
+        const errors: string[] = [];
+        const qtyResult = validateQuantityNumeric(measurementSystem, cleanedQty);
+        if (!qtyResult.isValid) {
+            errors.push(qtyResult.error!);
+        }
+
+        // 3. Unit validation 
+        const isPlural = requiresPlural(cleanedQty, measurementSystem);
+        const unitResult = validateUnitInput(measurementSystem, cleanedUnit, isPlural, unitLookupTable);
+        if (!unitResult.isValid) errors.push(unitResult.error);
+
+        // 4. Basic blank validation
+        if (!cleanedDesc) errors.push("Description is required.");
+
+        // 5. If any errors → open modal and stop
+        if (errors.length > 0) {
+            setPendingAction("add");
+
+            openValidationModal(
+                errors,
+                "add",
+                {
+                    ...added,
+                    quantity: cleanedQty,
+                    unit: cleanedUnit,
+                    description: cleanedDesc,
+                    instructions: cleanedInstr,
+                    sortOrder: added.sortOrder ?? index + 1,
+                    isActive: true
+                }
+            );
+
+            return;
+        }
+
+        // 6. Build IngredientAdd object
         const ingredientToAdd: IngredientAdd = {
             ...added,
+            quantity: cleanedQty,
+            unit: cleanedUnit,
+            description: cleanedDesc,
+            instructions: cleanedInstr,
             recipeId: Number(recipeId)
         };
 
-        setBanner('');
-
         try {
-            // 1. Call API
+            // 7. Call API
             const response = await fetch(`${API_BASE}/api/Ingredients`, {
                 method: "POST",
                 credentials: "include",
@@ -211,10 +263,7 @@ function Ingredients() {
                 body: JSON.stringify(ingredientToAdd)
             });
 
-            // 2. Check success
-            if (!response.ok) {
-                throw new Error("Save failed");
-            }
+            if (!response.ok) throw new Error("Save failed");
 
             const result = await response.json();
 
@@ -225,13 +274,10 @@ function Ingredients() {
             // Extract the ingredient returned by the API
             const saved: Ingredient = result.ingredient;
 
-            // 3. Add the new ingredient to the list
+            // 8. Add the new ingredient to the list
             setIngredients(prev => [...prev, saved]);
 
-            // 4. Highlight the saved row
-            //setRecentlySavedId(addRow.id);
-
-            //5.  Set add row to blank entries
+            // 9. Reset Add Row
             setAddRow({
                 id: 0,
                 quantity: "",
@@ -242,8 +288,7 @@ function Ingredients() {
                 isActive: true
             });
 
-
-            // 6. Banner
+            // 10. Banner
             setBanner('Ingredient successfully added!');
 
         } catch (err) {
@@ -253,36 +298,83 @@ function Ingredients() {
     };
 
 
+
     // -----------------------------
     // SAVE (UPDATED) HANDLING
     // -----------------------------
     const handleSave = async (updated: Ingredient) => {
         setBanner('');
+
+        // 1. Trim fields
+        const cleanedQty = trimQuantity(updated.quantity);
+        const cleanedUnit = updated.unit?.trim() ?? "";
+        const cleanedDesc = updated.description?.trim() ?? "";
+
+
+        // 2. Numeric validation (Imperial/Metric)
+        const errors: string[] = [];
+
+        const qtyResult = validateQuantityNumeric(measurementSystem, cleanedQty);
+        if (!qtyResult.isValid) {
+            errors.push(qtyResult.error!);
+        }
+
+        // 3. Unit validation 
+        const isPlural = requiresPlural(cleanedQty, measurementSystem);
+        const unitResult = validateUnitInput(measurementSystem, cleanedUnit, isPlural, unitLookupTable);
+        if (!unitResult.isValid) errors.push(unitResult.error);
+
+        // 4. Basic blank validation
+        if (!cleanedDesc) errors.push("Description is required.");
+
+        // 5. If any errors → open modal and stop
+        if (errors.length > 0) {
+            setPendingAction("save");
+
+            openValidationModal(
+                errors,
+                "save",
+                {
+                    ...updated,
+                    quantity: cleanedQty,
+                    unit: cleanedUnit,
+                    description: cleanedDesc
+                }
+            );
+
+            return;
+        }
+
+        // 6. If valid → perform save
         try {
-            // 1. Call API
             const response = await fetch(`${API_BASE}/api/Ingredients`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updated)
+                body: JSON.stringify({
+                    ...updated,
+                    quantity: cleanedQty,
+                    unit: cleanedUnit,
+                    description: cleanedDesc
+                })
             });
 
             if (!response.ok) throw new Error("Save failed");
 
-            // 2. Update local state
             setIngredients(prev =>
-                prev.map(i => (i.id === updated.id ? updated : i))
+                prev.map(i => (i.id === updated.id ? {
+                    ...updated,
+                    quantity: cleanedQty,
+                    unit: cleanedUnit,
+                    description: cleanedDesc
+                } : i))
             );
 
-            // 3. Highlight the saved row
             setRecentlySavedId(updated.id);
-
-            // 4. Scroll override (we’ll do this next)
-            //scrollToRow(updated.id);
-            setBanner('Ingredient successfully updated!');
+            setBanner("Ingredient successfully updated!");
 
         } catch (err) {
             console.error(err);
-            setBanner('Error updating ingredient.');
+            setBanner("Error updating ingredient.");
         }
     };
 
@@ -469,7 +561,7 @@ function Ingredients() {
     const controller: IngredientGridController = {
         grid: {
             ingredients,
-            validUnits,
+            unitLookupTable,
         },
         modalIsOpen,
         ingredientToDelete,
@@ -483,6 +575,7 @@ function Ingredients() {
         recentlySavedId,
         addRow,
         setAddRow,
+        measurementSystem,
         validationModalIsOpen,
         validationErrors,
         openValidationModal,

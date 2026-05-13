@@ -96,12 +96,13 @@ namespace PlatformAPI.Controllers.Recipes
                         i.Quantity,
                         fractionTable
                     ),
-                    Unit = MeasurementHelper.BuildUnitDisplayString(
-                        i.Quantity,
-                        i.Unit,
-                        recipe.ShowAbbreviations,
-                        unitTable
-                    ).ToString(),
+                    //Unit = MeasurementHelper.BuildUnitDisplayString(
+                    //    i.Quantity,
+                    //    i.Unit,
+                    //    recipe.ShowAbbreviations,
+                    //    unitTable
+                    //).ToString(),
+                    Unit = i.Unit,
                     Description = i.Description,
                     Instructions = i.Instructions,
                     SortOrder = i.SortOrder ?? 0,
