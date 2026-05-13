@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
@@ -23,6 +24,7 @@ function IngredientsListDesktop({ controller }: Props) {
         handleDragEnd,
         handleDelete,
         handleSave,
+        handleAdd,
         openDeleteModal,
         ingredientToDelete,
         ingredientIndexToDelete,
@@ -30,6 +32,14 @@ function IngredientsListDesktop({ controller }: Props) {
     } = controller;
 
     const ingredients = grid.ingredients;
+
+    const scrollRef = React.useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [ingredients.length]);
 
     if (isLoading) {
         return <Loader message="Loading ingredients ..." />;
@@ -39,110 +49,97 @@ function IngredientsListDesktop({ controller }: Props) {
         <div className="pt-3">
             <div className="content-inner-desktop">
 
-                {ingredients.length === 0 ? (
-                    <div className="empty-grid">
-                        No ingredients found. Start by creating one.
-                    </div>
-                ) : (
-                    <DndContext
-                        collisionDetection={closestCenter}
-                        onDragEnd={handleDragEnd}
+                <DndContext
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                >
+                    <SortableContext
+                        items={ingredients.map(i => i.id.toString())}
+                        strategy={verticalListSortingStrategy}
                     >
-                        <SortableContext
-                            items={ingredients.map(i => i.id.toString())}
-                            strategy={verticalListSortingStrategy}
-                        >
-                            {/* Header */}
-                            <div className="d-flex align-items-start">
-                                <div className="d-flex">
-                                    <div className="drag-handle-width-desktop"></div>
+                        {/* Header */}
+                        <div className="d-flex align-items-start">
+                            {/* LEFT: Drag + Qty + Unit headers */}
+                            <div className="d-flex">
+                                {/* Drag handle column */}
+                                <div className="drag-handle-width-desktop"></div>
+
+                                {/* Qty header (aligned with qty textbox) */}
+                                <div className="fixed-textbox">
+                                    <div className="fw-bold">Qty</div>
                                 </div>
 
-                                <div className="flex-grow-1">
-                                    <div className="row">
-                                        <div className="col-1 fw-bold">#</div>
-                                        <div className="col-7 fw-bold">Description</div>
-                                        <div className="col-4 fw-bold">Ingredient Type</div>
-                                    </div>
-                                </div>
-
-                                <div className="d-flex ms-3">
-                                    <div className="fixed-button-icon"></div>
-                                    <div className="fixed-button-icon"></div>
+                                {/* Unit header (aligned with unit textbox) */}
+                                <div className="fixed-textbox">
+                                    <div className="fw-bold">Unit</div>
                                 </div>
                             </div>
 
-                            {/* Rows */}
-                            <div className="grid-overflow-box gof-editable" id="sortable">
-                                <div id="ingredients-list-container">
-                                    {ingredients.map((ingredient, i) => (
-                                        <SortableIngredientItem
-                                            key={ingredient.id}
-                                            ingredient={ingredient}
-                                            index={i}
-                                            handleSave={handleSave}
-                                            openDeleteModal={() =>
-                                                openDeleteModal(ingredient, i + 1)
-                                            }
-                                            deviceType="desktop"
-                                        />
-                                    ))}
+                            {/* MIDDLE: Description + Instructions */}
+                            <div className="flex-grow-1">
+                                <div className="row">
+                                    {/* Description (col-7) */}
+                                    <div className="col-7 fw-bold">Description</div>
+
+                                    {/* Instructions (col-5) */}
+                                    <div className="col-5 fw-bold">Instructions (optional)</div>
+
+                                    {/* Placeholder for alignment (col-1) */}
+                                    {/* <div className="col-1"></div> */}
                                 </div>
                             </div>
-                        </SortableContext>
-                    </DndContext>
-                )}
-            </div>
 
-            {/* DELETE MODAL */}
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={() => openDeleteModal(null, null)}
-                contentLabel="Confirm Delete"
-                className="dialog-wrapper"
-            >
-                <div className="modal-header dialog-header">
-                    <h5 className="modal-title">Confirm Delete</h5>
-                    <button
-                        className="btn-close"
-                        onClick={() => openDeleteModal(null, null)}
-                    ></button>
-                </div>
-
-                <div className="dialog-content-holder">
-                    <div className="dialog-content modal-body dialog-text">
-                        <div>
-                            Are you sure you want to delete ingredient #
-                            {ingredientIndexToDelete})?
+                            {/* RIGHT: Save/Delete button columns */}
+                            <div className="d-flex ms-3">
+                                <div className="fixed-button-icon"></div>
+                                <div className="fixed-button-icon"></div>
+                            </div>
                         </div>
 
-                        <div
-                            className="mt-2"
-                            dangerouslySetInnerHTML={{
-                                __html: ingredientToDelete?.description ?? "",
-                            }}
-                        />
 
-                        <input type="hidden" value={ingredientToDelete?.id} />
-                    </div>
+                        {/* Rows */}
+                        <div className="grid-overflow-box gof-editable" id="sortable" ref={scrollRef}>
+                            <div id="ingredients-list-container">
+                                {ingredients.map((ingredient, i) => (
+                                    <SortableIngredientItem
+                                        key={ingredient.id}
+                                        ingredient={ingredient}
+                                        index={i}
+                                        handleSave={handleSave}
+                                        isAddRow={false}
+                                        handleAdd={handleAdd}
+                                        openDeleteModal={() =>
+                                            openDeleteModal(ingredient, i + 1)
+                                        }
+                                        deviceType="desktop"
+                                        recentlySavedId={controller.recentlySavedId}
+                                        openValidationModal={controller.openValidationModal}
+                                        pendingAction={controller.pendingAction}
+                                        setPendingAction={controller.setPendingAction}
+                                    />
+                                ))}
+                            </div>
+                            <div id="ingredients-list-container">
 
-                    <div className="dialog-footer d-flex justify-content-end gap-2">
-                        <button
-                            className="button button-modal"
-                            onClick={() => openDeleteModal(null, null)}
-                        >
-                            Cancel
-                        </button>
+                                <SortableIngredientItem
+                                    ingredient={controller.addRow}
+                                    index={ingredients.length}
+                                    isAddRow={true}
+                                    handleAdd={handleAdd}
+                                    deviceType="desktop"
+                                    setAddRow={controller.setAddRow}
+                                    openValidationModal={controller.openValidationModal}
+                                    pendingAction={controller.pendingAction}
+                                    setPendingAction={controller.setPendingAction}
+                                />
 
-                        <button
-                            className="button button-modal"
-                            onClick={handleDelete}
-                        >
-                            Yes, Delete
-                        </button>
-                    </div>
-                </div>
-            </Modal>
+                            </div>
+                        </div>
+                    </SortableContext>
+                </DndContext>
+            </div>
+
+
         </div>
     );
 }

@@ -27,6 +27,10 @@ export interface Ingredient {
     isActive: boolean;
 }
 
+export interface IngredientAdd extends Ingredient{
+    recipeId: number;
+}
+
 export interface Step {
     id: number;
     description: string | null;

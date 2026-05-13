@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useLocation, useOutletContext, useParams } from "react-router-dom";
+import Modal from "react-modal";
 
 import { isMobileTouchDevice } from "../../../helpers/config";
 import CheckAuth from "../../../components/Account/CheckAuth";
@@ -14,7 +15,8 @@ import ButtonGrid from "../../UserControls/ButtonGrid/ButtonGrid";
 import Icon from "../../UserControls/Icons/icons";
 import Loader from "../../UserControls/Loader/Loader";
 
-import type { Ingredient, Unit } from "../../../types/Recipe/Recipe";
+import type { Ingredient, IngredientAdd, Unit } from "../../../types/Recipe/Recipe";
+import type { FractionDecimal, MeasurementUnit } from "src/types/Measurement/MeasurementType";
 import type {
     IngredientGrid,
     IngredientGridController,
@@ -55,11 +57,43 @@ function Ingredients() {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [validUnits, setValidUnits] = useState<Unit[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [recentlySavedId, setRecentlySavedId] = useState<number | null>(null);
+
+    //ADD ROW STATE
+    const [addRow, setAddRow] = useState<Ingredient>({
+        id: 0,
+        quantity: "",
+        unit: "",
+        description: "",
+        instructions: "",
+        sortOrder: null,
+        isActive: true
+    });
+
+
 
     // DELETE MODAL STATE
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [ingredientToDelete, setIngredientToDelete] = useState<Ingredient | null>(null);
     const [ingredientIndexToDelete, setIngredientIndexToDelete] = useState<number | null>(null);
+
+    //VALIDATION MODAL STATE
+    // Validation modal state
+    const [validationModalIsOpen, setValidationModalIsOpen] = useState(false);
+    const [validationErrors, setValidationErrors] = useState<string[]>([]);
+    const [pendingAction, setPendingAction] = useState<"add" | "save" | null>(null);
+
+
+    //MEASUREMENT STATES
+    const [measurementSystem, setMeasurementSystem] = useState<"Imperial" | "Metric" | null>(null);
+    const [fractionDecimalLookupTable, setFractionDecimalLookupTable] =
+        useState<FractionDecimal[]>([]);
+
+    const [unitLookupTable, setUnitLookupTable] =
+        useState<MeasurementUnit[]>([]);
+
+
+
 
     // -----------------------------
     // AUTH + TITLE + BANNER LOGIC
@@ -93,6 +127,23 @@ function Ingredients() {
         if (!auth.auth) navigate("/signin");
         else setTitle(recipe.name);
     }, [auth, navigate, recipe.name, setTitle]);
+
+    //Set Meausrement System
+    useEffect(() => {
+        if (auth) {
+
+            const claim = auth?.claims?.MeasurementSystem;
+
+            const normalized =
+                claim === "Imperial" || claim === "Metric"
+                    ? claim
+                    : "Imperial";
+
+            setMeasurementSystem(normalized);
+            //console.log("Measurement System: " + measurementSystem);
+        }
+    }, [auth]);
+
 
     // -----------------------------
     // RECIPE INFO
@@ -140,25 +191,108 @@ function Ingredients() {
     }, [auth, loadIngredients]);
 
     // -----------------------------
-    // SAVE HANDLING
+    // ADD NEW SAVE HANDLING
     // -----------------------------
-    const handleSave = async (updated: Ingredient) => {
-        setBanner("");
 
-        const response = await fetch(`${API_BASE}/api/Ingredients/${updated.id}`, {
-            method: "PUT",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updated),
-        });
+    const handleAdd = async (added: Ingredient) => {
+        const ingredientToAdd: IngredientAdd = {
+            ...added,
+            recipeId: Number(recipeId)
+        };
 
-        if (response.ok) {
-            await loadIngredients();
-            setBanner("Ingredient saved!");
-        } else {
-            setBanner("Error saving ingredient");
+        setBanner('');
+
+        try {
+            // 1. Call API
+            const response = await fetch(`${API_BASE}/api/Ingredients`, {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(ingredientToAdd)
+            });
+
+            // 2. Check success
+            if (!response.ok) {
+                throw new Error("Save failed");
+            }
+
+            const result = await response.json();
+
+            if (!result.success) {
+                throw new Error(result.message ?? "Save failed");
+            }
+
+            // Extract the ingredient returned by the API
+            const saved: Ingredient = result.ingredient;
+
+            // 3. Add the new ingredient to the list
+            setIngredients(prev => [...prev, saved]);
+
+            // 4. Highlight the saved row
+            //setRecentlySavedId(addRow.id);
+
+            //5.  Set add row to blank entries
+            setAddRow({
+                id: 0,
+                quantity: "",
+                unit: "",
+                description: "",
+                instructions: "",
+                sortOrder: null,
+                isActive: true
+            });
+
+
+            // 6. Banner
+            setBanner('Ingredient successfully added!');
+
+        } catch (err) {
+            console.error(err);
+            setBanner('Error adding ingredient.');
         }
     };
+
+
+    // -----------------------------
+    // SAVE (UPDATED) HANDLING
+    // -----------------------------
+    const handleSave = async (updated: Ingredient) => {
+        setBanner('');
+        try {
+            // 1. Call API
+            const response = await fetch(`${API_BASE}/api/Ingredients`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updated)
+            });
+
+            if (!response.ok) throw new Error("Save failed");
+
+            // 2. Update local state
+            setIngredients(prev =>
+                prev.map(i => (i.id === updated.id ? updated : i))
+            );
+
+            // 3. Highlight the saved row
+            setRecentlySavedId(updated.id);
+
+            // 4. Scroll override (we’ll do this next)
+            //scrollToRow(updated.id);
+            setBanner('Ingredient successfully updated!');
+
+        } catch (err) {
+            console.error(err);
+            setBanner('Error updating ingredient.');
+        }
+    };
+
+    useEffect(() => {
+
+        controller.recentlySavedId = recentlySavedId;
+
+    }, [recentlySavedId]);
+
+
 
 
     // -----------------------------
@@ -216,7 +350,7 @@ function Ingredients() {
         setIngredients(updated);
 
         const response = await fetch(
-            `${API_BASE}/api/Ingredients/${recipeId}/update-sort-order`,
+            `${API_BASE}/api/Ingredients/update-sort-order`,
             {
                 method: "POST",
                 credentials: "include",
@@ -240,6 +374,95 @@ function Ingredients() {
     };
 
     // -----------------------------
+    // VALIDATION HANDLING
+    // -----------------------------
+
+    const openValidationModal = (errors: string[]) => {
+        setValidationErrors(errors);
+        setValidationModalIsOpen(true);
+    };
+
+    const closeValidationModal = () => {
+        setValidationModalIsOpen(false);
+        setValidationErrors([]);
+    };
+
+    // -----------------------------
+    // MEASUREMENT
+    // -----------------------------
+    useEffect(() => {
+        async function loadFractionLookup() {
+            try {
+                const response = await fetch(
+                    `${API_BASE}/api/Measurement/fractions`,
+                    {
+                        method: "GET",
+                        credentials: "include" // optional but safe
+                    }
+                );
+
+                if (!response.ok) {
+                    console.error("Failed to load fraction lookup table");
+                    return;
+                }
+
+                const data: FractionDecimal[] = await response.json();
+                setFractionDecimalLookupTable(data);
+            } catch (err) {
+                console.error("Error loading fraction lookup table:", err);
+            }
+        }
+
+        loadFractionLookup();
+    }, []);
+
+    useEffect(() => {
+        async function loadUnitLookup() {
+            try {
+                const response = await fetch(
+                    `${API_BASE}/api/Measurement/units`,
+                    {
+                        method: "GET",
+                        credentials: "include" // REQUIRED
+                    }
+                );
+
+                if (!response.ok) {
+                    console.error("Failed to load unit lookup table");
+                    return;
+                }
+
+                const data: MeasurementUnit[] = await response.json();
+                setUnitLookupTable(data);
+            } catch (err) {
+                console.error("Error loading unit lookup table:", err);
+            }
+        }
+
+        loadUnitLookup();
+    }, []);
+
+    // useEffect(() => {
+    //     if (fractionDecimalLookupTable.length > 0) {
+    //         console.log(
+    //             "Fraction Decimal Lookup Table:",
+    //             JSON.stringify(fractionDecimalLookupTable, null, 2)
+    //         );
+    //     }
+    // }, [fractionDecimalLookupTable]);
+
+    // useEffect(() => {
+    //     if (unitLookupTable.length > 0) {
+    //         console.log(
+    //             "Unit Lookup Table:",
+    //             JSON.stringify(unitLookupTable, null, 2)
+    //         );
+    //     }
+    // }, [unitLookupTable]);
+
+
+
+    // -----------------------------
     // CONTROLLER OBJECT
     // -----------------------------
 
@@ -255,7 +478,17 @@ function Ingredients() {
         handleDragEnd,
         handleDelete,
         handleSave,
+        handleAdd,
         openDeleteModal,
+        recentlySavedId,
+        addRow,
+        setAddRow,
+        validationModalIsOpen,
+        validationErrors,
+        openValidationModal,
+        closeValidationModal,
+        pendingAction,
+        setPendingAction
     };
 
     // -----------------------------
@@ -312,6 +545,83 @@ function Ingredients() {
                     },
                 ]}
             />
+
+            {/* DELETE MODAL */}
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={() => openDeleteModal(null, null)}
+                contentLabel="Confirm Delete"
+                className="dialog-wrapper"
+            >
+                <div className="modal-header dialog-header">
+                    <h5 className="modal-title">Confirm Delete</h5>
+                    <button
+                        className="btn-close"
+                        onClick={() => openDeleteModal(null, null)}
+                    ></button>
+                </div>
+
+                <div className="dialog-content-holder">
+                    <div className="dialog-content modal-body dialog-text">
+                        <div>
+                            Are you sure you want to delete ingredient?
+                        </div>
+
+                        <div
+                            className="mt-2"
+                            dangerouslySetInnerHTML={{
+                                __html: ingredientToDelete?.description ?? "",
+                            }}
+                        />
+
+                        <input type="hidden" value={ingredientToDelete?.id} />
+                    </div>
+
+                    <div className="dialog-footer d-flex justify-content-end gap-2">
+                        <button
+                            className="button button-modal"
+                            onClick={() => openDeleteModal(null, null)}
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            className="button button-modal"
+                            onClick={handleDelete}
+                        >
+                            Yes, Delete
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+
+            {/* VALIDATION MODAL */}
+            <Modal
+                isOpen={controller.validationModalIsOpen}
+                onRequestClose={controller.closeValidationModal}
+                contentLabel="Validation Errors"
+                className="dialog-wrapper"
+            >
+                <div className="modal-header dialog-header">
+                    <h5 className="modal-title">Please fix the following</h5>
+                    <button className="btn-close" onClick={controller.closeValidationModal}></button>
+                </div>
+
+                <div className="dialog-content-holder">
+                    <div className="dialog-content modal-body dialog-text">
+                        {controller.validationErrors.map((err, idx) => (
+                            <div key={idx}>{err}</div>
+                        ))}
+                    </div>
+
+                    <div className="dialog-footer d-flex justify-content-end gap-2">
+                        <button className="button button-modal" onClick={controller.closeValidationModal}>
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+
         </>
     );
 }

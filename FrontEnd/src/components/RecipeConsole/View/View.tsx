@@ -94,6 +94,7 @@ function View() {
                 //need to write logic for this later when
                 //implementing search other's recipes
                 data.isMyRecipe = true;
+                //console.log("Is My Recipe: " + data.isMyRecipe);
                 //console.log("Recipe data: " + JSON.stringify(data));
 
                 setRecipe(data);
@@ -153,27 +154,37 @@ function View() {
 
                                 {/* Forces vertical block flow and resets padding for bullet indents */}
 
-                                <ul
-                                    style={{ display: "block", paddingLeft: "20px", listStyleType: "disc" }}
-                                    className="m-0"
-                                >
-                                    {recipe?.ingredients
-                                        ?.sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-                                        .map((ingredient) => (
-                                            <li
-                                                key={ingredient.id}
-                                                style={{ display: "list-item", width: "100%" }}
-                                                className="pb-2 text-start"
-                                            >
-                                                <span
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: renderNumberDisplayBySystem(ingredient.quantity.toString(), measurementSystem),
-                                                    }}
-                                                />
-                                                &nbsp;{ingredient.unit} {ingredient.description}
-                                            </li>
-                                        ))}
-                                </ul>
+                                {recipe?.ingredients && recipe.ingredients.length > 0 ? (
+                                    <ul
+                                        style={{ display: "block", paddingLeft: "20px", listStyleType: "disc" }}
+                                        className="m-0"
+                                    >
+                                        {recipe.ingredients
+                                            .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+                                            .map((ingredient) => (
+                                                <li
+                                                    key={ingredient.id}
+                                                    style={{ display: "list-item", width: "100%" }}
+                                                    className="pb-2 text-start"
+                                                >
+                                                    <span
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: renderNumberDisplayBySystem(
+                                                                ingredient.quantity.toString(),
+                                                                measurementSystem
+                                                            ),
+                                                        }}
+                                                    />
+                                                    &nbsp;{ingredient.unit} {ingredient.description}
+                                                </li>
+                                            ))}
+                                    </ul>
+                                ) : (
+                                    <div className="text-start">
+                                        No ingredients found.  Start adding some.
+                                    </div>
+                                )}
+
 
                             </div>
 
@@ -195,19 +206,26 @@ function View() {
                                     )}
                                 </div>
 
-                                <ol>
-                                    {recipe?.steps
-                                        ?.sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-                                        .map(step => (
-                                            <li
-                                                key={step.id}
-                                                className="pb-2"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: renderStep(step.description)
-                                                }}
-                                            />
-                                        ))}
-                                </ol>
+                                {recipe?.steps && recipe.steps.length > 0 ? (
+                                    <ol>
+                                        {recipe.steps
+                                            .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+                                            .map((step) => (
+                                                <li
+                                                    key={step.id}
+                                                    className="pb-2"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: renderStep(step.description)
+                                                    }}
+                                                />
+                                            ))}
+                                    </ol>
+                                ) : (
+                                    <div className="text-start">
+                                        No steps found. Start adding some.
+                                    </div>
+                                )}
+
 
                             </div>
                         </div>
