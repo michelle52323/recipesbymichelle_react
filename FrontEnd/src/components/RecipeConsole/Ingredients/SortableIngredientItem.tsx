@@ -6,6 +6,8 @@ import type { Ingredient } from "../../../types/Recipe/Recipe";
 import type { MeasurementUnit } from "src/types/Measurement/MeasurementType";
 import { trimQuantity, validateUnitInput, requiresPlural } from "../../../helpers/measurementHelper";
 
+
+
 interface Props {
     ingredient: Ingredient | null;
     index: number;
@@ -36,6 +38,11 @@ interface Props {
     unitLookupTable: MeasurementUnit[];
     measurementSystem: "Imperial" | "Metric" | null;
 
+    isOpen?: boolean;
+    openId?: string | null;
+    setOpenId?: React.Dispatch<React.SetStateAction<string | null>>;
+    onToggle?: () => void;
+
 }
 
 
@@ -53,7 +60,11 @@ const SortableIngredientItem: React.FC<Props> = ({
     pendingAction,
     setPendingAction,
     unitLookupTable,
-    measurementSystem
+    measurementSystem,
+    isOpen,
+    openId,
+    setOpenId,
+    onToggle
 }) => {
     //console.log("render lookup:", unitLookupTable);
     //console.log("render measurement system:", measurementSystem);
@@ -73,12 +84,11 @@ const SortableIngredientItem: React.FC<Props> = ({
     const instr = isAddRow ? ingredient?.instructions ?? "" : localInstr;
 
 
+
+
     const qtyRef = React.useRef<HTMLInputElement>(null);
     const isHighlighted = !isAddRow && ingredient?.id === recentlySavedId;
 
-
-    // const { attributes, listeners, setNodeRef, transform, transition } =
-    //     useSortable({ id: ingredient.id.toString() });
     const sortable = !isAddRow
         ? useSortable({ id: ingredient!.id.toString() })
         : {
@@ -96,28 +106,6 @@ const SortableIngredientItem: React.FC<Props> = ({
         transform: CSS.Transform.toString(transform),
         transition,
     };
-
-    // const validate = () => {
-    //     const errors: string[] = [];
-
-    //     if (!qty.trim()) errors.push("Quantity is required.");
-    //     if (!desc.trim()) errors.push("Description is required.");
-
-    //     // Optional: add unit/qty format validation later
-
-    //     return errors;
-    // };
-
-
-    // const onSave = () => {
-    //     handleSave({
-    //         ...ingredient,
-    //         quantity: qty,
-    //         unit: unit,
-    //         description: desc,
-    //         instructions: instr
-    //     });
-    // };
 
     const onSave = () => {
         // 1. Clean quantity
@@ -216,6 +204,287 @@ const SortableIngredientItem: React.FC<Props> = ({
     }, [recentlySavedId, isAddRow, ingredient]);
 
 
+    if (deviceType === "mobile") {
+        return (
+            <>
+                <div
+                    ref={setNodeRef}
+                    style={style}
+                    className="mobile-ingredient-row grid-page-row"
+                >
+                    {/* COLLAPSED ROW ADD ROW */}
+                    {(isAddRow && !isOpen) && (
+                        <>
+                            <div
+                                className=" add-item-row d-flex align-items-center"
+                                onClick={() => onToggle()}
+
+                                style={{
+                                    cursor: "pointer",
+                                    padding: "8px 16px",
+                                }}
+                            >
+                                <div className="d-flex align-items-center">
+                                    <div className="add-icon me-3">
+                                        <Icon name="add" />
+                                    </div>
+                                </div>
+
+                                <div className="flex-grow-1">
+                                    <span className="fw-bold">Add Ingredient</span>
+                                </div>
+                            </div></>
+                    )}
+                    {/* COLLAPSED ROW EDITABLE ROW */}
+                    {(!isAddRow || isOpen) && (
+                        <>
+                            <div className="d-flex align-items-start mobile-collapsed-row">
+
+                                {/* Drag handle column */}
+                                <div className="drag-handle-column">
+                                    <div className="mobile-drag-handle-wrapper">
+                                        {!isAddRow ? (
+                                            <div className="mobile-drag-handle" {...listeners}>
+                                                <Icon name="drag" />
+                                            </div>
+                                        ) : (
+                                            <div className="mobile-drag-handle">&nbsp;</div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Content column */}
+                                <div className="content-column flex-grow-1">
+                                    <div className="row mobile-content-col-height">
+
+                                        {/* Qty + Unit */}
+                                        <div className="col-4">
+                                            <div className="d-flex align-items-baseline flex-wrap">
+                                                {/* Plain text for now — formatting helpers later */}
+                                                <span>{qty}</span>
+                                                <span className="ps-1">{unit}</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Description */}
+                                        <div className="col-8 ps-3">
+                                            <span>{desc}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Action column */}
+                                <div className="action-column">
+                                    <div className="fixed-button">
+                                        <button
+                                            type="button"
+                                            className="button button-icon"
+                                            onClick={() => onToggle()}
+                                        >
+                                            {isOpen ? (
+                                                <Icon name="chevronUp" />
+                                            ) : (
+                                                <Icon name="pencil" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div></>
+                    )}
+
+
+                    {/* EXPANDED AREA */}
+                    {isOpen && (
+                        <>
+                            <div className="accordion-content expanded-content" data-expand-id={isAddRow ? "ADD_ROW" : ingredient.id}>
+                                <div className="p-2 d-flex flex-wrap accordion">
+                                    <div className="accordion-content-inner ps-3 pe-3">
+
+                                        {/* Qty */}
+                                        <div className="fixed-textbox qty-input form-row-tiny">
+                                            <div className="label-mobile">Quantity</div>
+                                            <div className="form-element">
+                                                <input
+                                                    ref={qtyRef}
+                                                    type="text"
+                                                    className="form-control textbox textbox-small textbox-text"
+                                                    maxLength={20}
+                                                    value={qty}
+                                                    onChange={(e) => {
+                                                        if (isAddRow) {
+                                                            setAddRow?.(prev => ({ ...prev, quantity: e.target.value }));
+                                                        } else {
+                                                            setLocalQty(e.target.value);
+                                                        }
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        const cleanedQty = trimQuantity(e.target.value);
+
+                                                        // Update DOM
+                                                        e.target.value = cleanedQty;
+
+                                                        // 1. Update qty state
+                                                        if (isAddRow && cleanedQty !== qty) {
+                                                            setAddRow(prev => ({ ...prev, quantity: cleanedQty }));
+                                                        }
+
+                                                        if (!isAddRow && cleanedQty !== localQty) {
+                                                            setLocalQty(cleanedQty);
+                                                        }
+
+                                                        // 2. Recalculate pluralization using the cleaned qty
+                                                        const isPlural = requiresPlural(cleanedQty, measurementSystem);
+
+                                                        // 3. Re-validate + autocorrect the unit
+                                                        const result = validateUnitInput(
+                                                            measurementSystem,
+                                                            isAddRow ? unit : localUnit,
+                                                            isPlural,
+                                                            unitLookupTable
+                                                        );
+
+                                                        const cleanedUnit = result.cleaned.trim();
+
+                                                        // 4. Update unit state (so UI reflects the corrected plural form)
+                                                        if (isAddRow && cleanedUnit !== unit) {
+                                                            setAddRow(prev => ({ ...prev, unit: cleanedUnit }));
+                                                        }
+
+                                                        if (!isAddRow && cleanedUnit !== localUnit) {
+                                                            setLocalUnit(cleanedUnit);
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Unit */}
+                                        <div className="fixed-textbox unit-input form-row-tiny">
+                                            <div className="label-mobile">Unit</div>
+                                            <div className="form-element">
+                                                <input
+                                                    type="text"
+                                                    className="form-control textbox textbox-small textbox-text"
+                                                    maxLength={20}
+                                                    value={unit}
+                                                    onChange={(e) => {
+                                                        if (isAddRow) {
+                                                            setAddRow?.(prev => ({ ...prev, unit: e.target.value }));
+                                                        } else {
+                                                            setLocalUnit(e.target.value);
+                                                        }
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        const raw = e.target.value;
+
+                                                        // ⭐ Use the DOM qty, not props
+                                                        const qtyValue = qtyRef.current?.value ?? "";
+
+                                                        const isPlural = requiresPlural(qtyValue, measurementSystem);
+
+                                                        const result = validateUnitInput(
+                                                            measurementSystem,
+                                                            raw,
+                                                            isPlural,
+                                                            unitLookupTable
+                                                        );
+
+                                                        const cleaned = result.isValid ? result.cleaned.trim() : raw.trim();
+
+                                                        e.target.value = cleaned;
+
+                                                        if (isAddRow && cleaned !== unit) {
+                                                            setAddRow(prev => ({ ...prev, unit: cleaned }));
+                                                        }
+
+                                                        if (!isAddRow && cleaned !== localUnit) {
+                                                            setLocalUnit(cleaned);
+                                                        }
+                                                    }}
+                                                />
+                                                {/* <div className="blur-catcher" tabIndex={0}></div> */}
+                                            </div>
+                                        </div>
+
+                                        {/* Description */}
+                                        <div className="fixed-textbox-large desc-input form-row-tiny">
+                                            <div className="label-mobile">Description</div>
+                                            <span className="required">*</span>
+                                            <div className="form-element">
+                                                <input
+                                                    type="text"
+                                                    className="form-control textbox textbox-large textbox-text"
+                                                    maxLength={50}
+                                                    value={desc}
+                                                    onChange={(e) => {
+                                                        if (isAddRow) {
+                                                            setAddRow?.(prev => ({ ...prev, description: e.target.value }));
+                                                        } else {
+                                                            setLocalDesc(e.target.value);
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Instructions */}
+                                        <div className="fixed-textbox-large inst-input form-row-tiny">
+                                            <div className="label-mobile">Instructions (i.e. chopped, ground)</div>
+                                            <div className="form-element">
+                                                <input
+                                                    type="text"
+                                                    className="form-control textbox textbox-large textbox-text"
+                                                    maxLength={50}
+                                                    value={instr}
+                                                    onChange={(e) => {
+                                                        if (isAddRow) {
+                                                            setAddRow?.(prev => ({ ...prev, instructions: e.target.value }));
+                                                        } else {
+                                                            setLocalInstr(e.target.value);
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Save + Delete */}
+                                        <div className="button-row-tiny d-flex justify-content-end">
+                                            <div className="fixed-button-icon save-input">
+                                                {!isAddRow ? (
+                                                    <button className="button button-icon-responsive" onClick={onSave}>
+                                                        <Icon name="save" />
+                                                    </button>
+                                                ) : (
+                                                    <button className="button button-icon-responsive" onClick={onAdd}>
+                                                        <Icon name="save" />
+                                                    </button>
+                                                )}
+                                            </div>
+
+                                            <div className="fixed-button-icon del-input ms-2">
+                                                {!isAddRow ? (
+                                                    <button
+                                                        className="button button-icon-responsive button-icon-delete"
+                                                        onClick={() => openDeleteModal?.(ingredient!)}
+                                                    >
+                                                        <Icon name="delete" />
+                                                    </button>
+                                                ) : (
+                                                    <span className="button-icon">&nbsp;</span>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </>
+        );
+    }
+
 
 
     return (
@@ -287,7 +556,6 @@ const SortableIngredientItem: React.FC<Props> = ({
                             }
                         }}
 
-
                         onChange={(e) => {
                             if (isAddRow) {
                                 setAddRow?.(prev => ({ ...prev, quantity: e.target.value }));
@@ -296,8 +564,6 @@ const SortableIngredientItem: React.FC<Props> = ({
                             }
                         }}
                     />
-
-
                 </div>
 
                 {/* Unit */}
@@ -334,11 +600,6 @@ const SortableIngredientItem: React.FC<Props> = ({
                                 setLocalUnit(cleaned);
                             }
                         }}
-
-
-
-
-
 
                         onChange={(e) => {
                             if (isAddRow) {

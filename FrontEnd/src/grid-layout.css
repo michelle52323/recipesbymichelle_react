@@ -245,15 +245,23 @@ a.button-tiny-responsive-mobile {
     min-height: calc(var(--vh) - 210px);
 }
 
-.gof-editable{
+.gof-editable {
+    height: 450px;
+}
+
+.gof-editable-short {
     height: 410px;
 }
 
-.gof-editable-mobile{
-    height: 410px;
+.gof-editable-mobile {
+    height: 450px;
 }
 
-.gof-view-mobile{
+.gof-editable-mobile-short {
+    height: 380px;
+}
+
+.gof-view-mobile {
     height: 490px;
 }
 
@@ -374,8 +382,7 @@ a.button-tiny-responsive-mobile {
 }
 
 .accordion-content {
-    display: none;
-    /* hidden by default */
+    
 }
 
 .accordion-content.show {
@@ -414,4 +421,11 @@ a.button-tiny-responsive-mobile {
 
 .border-red {
     border: 1px solid red;
+}
+
+.mobile-ingredient-row,
+.mobile-step-row {
+    /* display: flex;
+    flex-direction: column; */
+    overflow-x: hidden;
 }

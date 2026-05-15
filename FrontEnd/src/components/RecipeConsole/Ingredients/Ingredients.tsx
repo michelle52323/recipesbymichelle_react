@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate, useLocation, useOutletContext, useParams } from "react-router-dom";
 import Modal from "react-modal";
 
@@ -25,6 +25,11 @@ import type {
     IngredientGridController,
 } from "../../../types/Recipe/IngredientsGrid";
 import type { DragEndEvent } from "@dnd-kit/core";
+
+import '../../../grid-layout.css';
+
+//consider removing
+import './ingredients.css';
 
 
 const API_BASE = getApiBaseUrl();
@@ -96,7 +101,12 @@ function Ingredients() {
         useState<MeasurementUnit[]>([]);
 
 
+    //Mobile expandable open state
+    const [openId, setOpenId] = useState<string | null>(null);
+    const ADD_ID = "ADD_ROW";
 
+    //Mobile expandable scroll state
+    const scrollBoxRef = useRef<HTMLDivElement>(null);
 
     // -----------------------------
     // AUTH + TITLE + BANNER LOGIC
@@ -288,7 +298,10 @@ function Ingredients() {
                 isActive: true
             });
 
-            // 10. Banner
+            //10.  Close add row (gets applied to mobile only)
+            setOpenId(null);
+
+            // 11. Banner
             setBanner('Ingredient successfully added!');
 
         } catch (err) {
@@ -552,6 +565,29 @@ function Ingredients() {
     //     }
     // }, [unitLookupTable]);
 
+    const onToggle = (id: string) => {
+        setOpenId(prev => (prev === id ? null : id));
+    };
+
+
+    useEffect(() => {
+        if (!openId) return;
+
+        const scrollBox = controller.scrollBoxRef.current;
+        if (!scrollBox) return;
+
+        const expanded = scrollBox.querySelector(
+            `[data-expand-id="${openId}"]`
+        );
+        if (!expanded) return;
+
+        (expanded as HTMLElement).scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+    }, [openId]);
+
+
 
 
     // -----------------------------
@@ -581,7 +617,12 @@ function Ingredients() {
         openValidationModal,
         closeValidationModal,
         pendingAction,
-        setPendingAction
+        setPendingAction,
+        openId,
+        setOpenId,
+        onToggle,
+        ADD_ID,
+        scrollBoxRef
     };
 
     // -----------------------------
@@ -604,7 +645,7 @@ function Ingredients() {
                     <ProgressBar />
 
                     {isMobileTouchDevice() ? (
-                        <IngredientsListMobile recipeId={recipeId} />
+                        <IngredientsListMobile controller={controller} />
                     ) : (
                         <IngredientsListDesktop controller={controller} />
                     )}
@@ -627,15 +668,7 @@ function Ingredients() {
                         type: "button",
                         mobileSlot: 2,
                         desktopSlot: 3,
-                    },
-                    {
-                        text: "Ingredient",
-                        url: `/recipes/ingredients/add/${recipeId}`,
-                        icon: <Icon name="add" />,
-                        type: "button",
-                        mobileSlot: 3,
-                        desktopSlot: 5,
-                    },
+                    }
                 ]}
             />
 
@@ -667,7 +700,6 @@ function Ingredients() {
                             }}
                         />
 
-                        <input type="hidden" value={ingredientToDelete?.id} />
                     </div>
 
                     <div className="dialog-footer d-flex justify-content-end gap-2">

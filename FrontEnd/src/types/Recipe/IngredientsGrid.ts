@@ -32,6 +32,16 @@ export interface IngredientGridController {
     pendingAction: "add" | "save" | null;
 
     setPendingAction: React.Dispatch<React.SetStateAction<"add" | "save" | null>>;
+
+    //MOBILE open state
+    openId: string | null;
+    setOpenId: React.Dispatch<React.SetStateAction<string | null>>;
+    onToggle: (id: string) => void;
+    ADD_ID: "ADD_ROW";
+
+    //MOBILE scrolling
+    scrollBoxRef: React.RefObject<HTMLDivElement>
+
 }
 
 

@@ -1,0 +1,26 @@
+
+.grid-input-group  {
+    display: grid !important;
+    grid-template-areas:
+        "qty unit save"
+        "desc inst delete";
+    grid-template-columns: 50% 50% 20%;
+    gap: 0.5rem;
+}
+
+
+.qty-input    { grid-area: qty; }
+.unit-input   { grid-area: unit; }
+.save-input   { grid-area: save; }
+.desc-input   { grid-area: desc; }
+.inst-input   { grid-area: inst; }
+.del-input    { grid-area: delete; }
+
+
+@media (orientation:landscape) {
+    .grid-input-group {
+        grid-template-areas:
+            "qty unit desc inst save delete";
+        grid-template-columns: repeat(6, 1fr);
+    }
+}

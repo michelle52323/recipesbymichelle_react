@@ -33,13 +33,13 @@ function IngredientsListDesktop({ controller }: Props) {
 
     const ingredients = grid.ingredients;
 
-    const scrollRef = React.useRef<HTMLDivElement>(null);
+    //const scrollRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        }
-    }, [ingredients.length]);
+            if (controller.scrollBoxRef.current) {
+                controller.scrollBoxRef.current.scrollTop = controller.scrollBoxRef.current.scrollHeight;
+            }
+        }, [ingredients.length]);
 
     if (isLoading) {
         return <Loader message="Loading ingredients ..." />;
@@ -98,7 +98,7 @@ function IngredientsListDesktop({ controller }: Props) {
 
 
                         {/* Rows */}
-                        <div className="grid-overflow-box gof-editable" id="sortable" ref={scrollRef}>
+                        <div className="grid-overflow-box gof-editable-short" id="sortable" ref={controller.scrollBoxRef}>
                             <div id="ingredients-list-container">
                                 {ingredients.map((ingredient, i) => (
                                     <SortableIngredientItem

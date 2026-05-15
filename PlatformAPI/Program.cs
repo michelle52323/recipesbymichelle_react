@@ -150,8 +150,10 @@ else
         options.Cookie.Path = "/";
         options.Cookie.SameSite = SameSiteMode.None;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        //options.Cookie.Domain = "websitesbymichelle.com";
-        options.Cookie.Domain = ".mquizbymichelle.com";
+        options.Cookie.Domain = ".websitesbymichelle.com";
+
+        //Uncomment when going live
+        //options.Cookie.Domain = ".mquizbymichelle.com";
 
         options.Events.OnRedirectToLogin = context =>
         {
