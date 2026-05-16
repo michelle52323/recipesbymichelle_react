@@ -3,6 +3,17 @@
   "WorkspaceRootPath": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Migrations\\20260516163635_ChangeThemeVariablesColorsLength.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20260516163635_ChangeThemeVariablesColorsLength.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58915EA0-E7E3-4E65-B414-60C5E6C182D6}|PlatformAPI.csproj|c:\\users\\miche\\documents\\websites\\react.js\\recipes\\platformapi\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58915EA0-E7E3-4E65-B414-60C5E6C182D6}|PlatformAPI.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\miche\\AppData\\Local\\Temp\\hfy0hym1..sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{58915EA0-E7E3-4E65-B414-60C5E6C182D6}|PlatformAPI.csproj|c:\\users\\miche\\documents\\websites\\react.js\\recipes\\platformapi\\helpers\\fractionhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{58915EA0-E7E3-4E65-B414-60C5E6C182D6}|PlatformAPI.csproj|solutionrelative:helpers\\fractionhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -60,10 +71,6 @@
       "RelativeMoniker": "D:0:0:{58915EA0-E7E3-4E65-B414-60C5E6C182D6}|PlatformAPI.csproj|solutionrelative:controllers\\users\\genderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{58915EA0-E7E3-4E65-B414-60C5E6C182D6}|PlatformAPI.csproj|c:\\users\\miche\\documents\\websites\\react.js\\recipes\\platformapi\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58915EA0-E7E3-4E65-B414-60C5E6C182D6}|PlatformAPI.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{58915EA0-E7E3-4E65-B414-60C5E6C182D6}|PlatformAPI.csproj|c:\\users\\miche\\documents\\websites\\react.js\\recipes\\platformapi\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{58915EA0-E7E3-4E65-B414-60C5E6C182D6}|PlatformAPI.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -114,6 +121,12 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\miche\\Documents\\Websites\\React.js\\Quiz-Builder\\PlatformAPI.Tests\\Quizzes\\MyQuizzesTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\miche\\AppData\\Local\\Temp\\hfy0hym1..sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\miche\\AppData\\Local\\Temp\\hfy0hym1..sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|ResultFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -132,6 +145,30 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "20260516163635_ChangeThemeVariablesColorsLength.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Migrations\\20260516163635_ChangeThemeVariablesColorsLength.cs",
+              "RelativeDocumentMoniker": "Migrations\\20260516163635_ChangeThemeVariablesColorsLength.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Migrations\\20260516163635_ChangeThemeVariablesColorsLength.cs",
+              "RelativeToolTip": "Migrations\\20260516163635_ChangeThemeVariablesColorsLength.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-16T16:36:35.894Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SQLQuery1.sql ",
+              "DocumentMoniker": "C:\\Users\\miche\\AppData\\Local\\Temp\\hfy0hym1..sql",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\hfy0hym1..sql",
+              "ToolTip": "SQLQuery1.sql *",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-05-16T16:27:30.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "FractionHelper.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Helpers\\FractionHelper.cs",
               "RelativeDocumentMoniker": "Helpers\\FractionHelper.cs",
@@ -144,20 +181,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ViewController.cs",
-              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Recipes\\ViewController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Recipes\\ViewController.cs",
-              "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Recipes\\ViewController.cs",
-              "RelativeToolTip": "Controllers\\Recipes\\ViewController.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAAAG0AAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T01:25:33.523Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "RecipeInfoController.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Recipes\\RecipeInfoController.cs",
               "RelativeDocumentMoniker": "Controllers\\Recipes\\RecipeInfoController.cs",
@@ -165,12 +189,36 @@
               "RelativeToolTip": "Controllers\\Recipes\\RecipeInfoController.cs",
               "ViewState": "AgIAAEAAAAAAAAAAAAAAAKEAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-10T23:49:27.593Z",
+              "WhenOpened": "2026-05-10T23:49:27.593Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AppDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Data\\AppDBContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDBContext.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Data\\AppDBContext.cs",
+              "RelativeToolTip": "Data\\AppDBContext.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAEsAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T22:51:38.3Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
+              "Title": "ViewController.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Recipes\\ViewController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Recipes\\ViewController.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Recipes\\ViewController.cs",
+              "RelativeToolTip": "Controllers\\Recipes\\ViewController.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAG0AAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-11T01:25:33.523Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "RecipeDTO.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\DTO\\Recipe\\RecipeDTO.cs",
               "RelativeDocumentMoniker": "DTO\\Recipe\\RecipeDTO.cs",
@@ -178,12 +226,11 @@
               "RelativeToolTip": "DTO\\Recipe\\RecipeDTO.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T23:40:35.912Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-11T23:40:35.912Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Recipe.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Models\\Recipe\\Recipe.cs",
               "RelativeDocumentMoniker": "Models\\Recipe\\Recipe.cs",
@@ -191,12 +238,11 @@
               "RelativeToolTip": "Models\\Recipe\\Recipe.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAAwBQAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T16:53:27.66Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-15T16:53:27.66Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "AuthService.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Service\\AuthService.cs",
               "RelativeDocumentMoniker": "Service\\AuthService.cs",
@@ -204,12 +250,11 @@
               "RelativeToolTip": "Service\\AuthService.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAawBMAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-14T15:55:26.257Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-14T15:55:26.257Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "IngredientsController.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Recipes\\IngredientsController.cs",
               "RelativeDocumentMoniker": "Controllers\\Recipes\\IngredientsController.cs",
@@ -217,12 +262,11 @@
               "RelativeToolTip": "Controllers\\Recipes\\IngredientsController.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAAAuwGgAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T23:19:14.382Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-11T23:19:14.382Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -234,7 +278,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -242,12 +286,11 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAIMAAAAAAAAAAAAAwJgAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T22:46:25.321Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-07T22:46:25.321Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "MeasurementController.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Recipes\\MeasurementController.cs",
               "RelativeDocumentMoniker": "Controllers\\Recipes\\MeasurementController.cs",
@@ -259,7 +302,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "Ingredient.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Models\\Recipe\\Ingredient.cs",
               "RelativeDocumentMoniker": "Models\\Recipe\\Ingredient.cs",
@@ -267,12 +310,11 @@
               "RelativeToolTip": "Models\\Recipe\\Ingredient.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-13T00:04:03.221Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-13T00:04:03.221Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "Microsoft.Common.CurrentVersion.targets",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
@@ -284,7 +326,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "wd1d5al2..sql",
               "DocumentMoniker": "C:\\Users\\miche\\AppData\\Local\\Temp\\wd1d5al2..sql",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\wd1d5al2..sql",
@@ -295,7 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "GendersController.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Users\\GendersController.cs",
               "RelativeDocumentMoniker": "Controllers\\Users\\GendersController.cs",
@@ -303,12 +345,11 @@
               "RelativeToolTip": "Controllers\\Users\\GendersController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T02:07:04.663Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T02:07:04.663Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "MyRecipes.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\NET_Core\\Recipes_Core\\Recipes_Core\\Pages\\Recipe\\MyRecipes.cshtml.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\NET_Core\\Recipes_Core\\Recipes_Core\\Pages\\Recipe\\MyRecipes.cshtml.cs",
@@ -320,19 +361,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "AppDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Data\\AppDBContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDBContext.cs",
-              "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Data\\AppDBContext.cs",
-              "RelativeToolTip": "Data\\AppDBContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T22:51:38.3Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\appsettings.Development.json",
               "RelativeDocumentMoniker": "appsettings.Development.json",
@@ -344,7 +373,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "Favorite.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Models\\Recipe\\Favorite.cs",
               "RelativeDocumentMoniker": "Models\\Recipe\\Favorite.cs",
@@ -352,12 +381,11 @@
               "RelativeToolTip": "Models\\Recipe\\Favorite.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAEAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T22:57:14.526Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-07T22:57:14.526Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "ThemeController.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Themes\\ThemeController.cs",
               "RelativeDocumentMoniker": "Controllers\\Themes\\ThemeController.cs",
@@ -365,12 +393,11 @@
               "RelativeToolTip": "Controllers\\Themes\\ThemeController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-24T23:34:16.382Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-24T23:34:16.382Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "EmailService.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Service\\EmailService.cs",
               "RelativeDocumentMoniker": "Service\\EmailService.cs",
@@ -378,12 +405,11 @@
               "RelativeToolTip": "Service\\EmailService.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAAwCAAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T23:06:03.306Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-05T23:06:03.306Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "PlatformAPI.csproj",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\PlatformAPI.csproj",
               "RelativeDocumentMoniker": "PlatformAPI.csproj",
@@ -395,7 +421,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "QuizInfoTests.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Quiz-Builder\\PlatformAPI.Tests\\Quizzes\\QuizInfoTests.cs",
               "RelativeDocumentMoniker": "..\\..\\Quiz-Builder\\PlatformAPI.Tests\\Quizzes\\QuizInfoTests.cs",
@@ -407,7 +433,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 31,
               "Title": "UserQuizFactory.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Quiz-Builder\\PlatformAPI.Tests\\MockData\\Quizzes\\UserQuizFactory.cs",
               "RelativeDocumentMoniker": "..\\..\\Quiz-Builder\\PlatformAPI.Tests\\MockData\\Quizzes\\UserQuizFactory.cs",
@@ -419,7 +445,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 32,
               "Title": "MyQuizzesTests.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Quiz-Builder\\PlatformAPI.Tests\\Quizzes\\MyQuizzesTests.cs",
               "RelativeDocumentMoniker": "..\\..\\Quiz-Builder\\PlatformAPI.Tests\\Quizzes\\MyQuizzesTests.cs",
@@ -431,7 +457,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "zkblwxv0..sql",
               "DocumentMoniker": "C:\\Users\\miche\\AppData\\Local\\Temp\\zkblwxv0..sql",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\zkblwxv0..sql",
@@ -442,7 +468,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "sv0twxyr..sql",
               "DocumentMoniker": "C:\\Users\\miche\\AppData\\Local\\Temp\\sv0twxyr..sql",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\sv0twxyr..sql",
@@ -453,7 +479,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "Theme.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Models\\Themes\\Theme.cs",
               "RelativeDocumentMoniker": "Models\\Themes\\Theme.cs",
@@ -461,12 +487,11 @@
               "RelativeToolTip": "Models\\Themes\\Theme.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-07T02:02:03.649Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-07T02:02:03.649Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "yos1jj5c..sql",
               "DocumentMoniker": "C:\\Users\\miche\\AppData\\Local\\Temp\\yos1jj5c..sql",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\yos1jj5c..sql",
@@ -477,7 +502,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "dbo.AnswerChoices.sql",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/quiz_platform/True/SqlTable/dbo.AnswerChoices.sql",
               "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/quiz_platform/True/SqlTable/dbo.AnswerChoices.sql",
@@ -486,7 +511,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "dbo.Quizzes.sql",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/quiz_platform/True/SqlTable/dbo.Quizzes.sql",
               "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/quiz_platform/True/SqlTable/dbo.Quizzes.sql",
@@ -495,7 +520,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "ThemeVariableColor.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Models\\Themes\\ThemeVariableColor.cs",
               "RelativeDocumentMoniker": "Models\\Themes\\ThemeVariableColor.cs",
@@ -503,8 +528,7 @@
               "RelativeToolTip": "Models\\Themes\\ThemeVariableColor.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T16:57:11.306Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-04T16:57:11.306Z"
             }
           ]
         }

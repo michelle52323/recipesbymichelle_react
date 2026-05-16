@@ -569,24 +569,47 @@ function Ingredients() {
         setOpenId(prev => (prev === id ? null : id));
     };
 
+    //ORGINAL SCROLL BEHAVIOR FOR EXPANDABLE
+    // useEffect(() => {
+    //     if (!openId) return;
+
+    //     const scrollBox = controller.scrollBoxRef.current;
+    //     if (!scrollBox) return;
+
+    //     const expanded = scrollBox.querySelector(
+    //         `[data-expand-id="${openId}"]`
+    //     );
+    //     if (!expanded) return;
+
+    //     (expanded as HTMLElement).scrollIntoView({
+    //         behavior: "smooth",
+    //         block: "nearest"
+    //     });
+    // }, [openId]);
 
     useEffect(() => {
         if (!openId) return;
 
-        const scrollBox = controller.scrollBoxRef.current;
+        const scrollBox = scrollBoxRef.current;
         if (!scrollBox) return;
 
         const expanded = scrollBox.querySelector(
             `[data-expand-id="${openId}"]`
-        );
+        ) as HTMLElement | null;
+
         if (!expanded) return;
 
-        (expanded as HTMLElement).scrollIntoView({
+        const boxRect = scrollBox.getBoundingClientRect();
+        const elRect = expanded.getBoundingClientRect();
+
+        // distance from top of scrollBox to element, plus current scroll
+        const offset = elRect.top - boxRect.top + scrollBox.scrollTop-48;
+
+        scrollBox.scrollTo({
+            top: offset,
             behavior: "smooth",
-            block: "nearest"
         });
     }, [openId]);
-
 
 
 

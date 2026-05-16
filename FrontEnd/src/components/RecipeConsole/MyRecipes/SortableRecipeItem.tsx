@@ -57,13 +57,27 @@ const SortableRecipeItem: React.FC<Props> = ({
                     <input type="hidden" name={`MyRecipesDto[${index}].Id`} value={recipe.id} />
                     <input type="hidden" name={`MyRecipesDto[${index}].SortOrder`} value={recipe.sortOrder} />
 
-                    <div className="col-6 col-custom-6-12 fw-bold truncate-two-lines">
-                        {recipe.name}
-                    </div>
+                    {isMobile ? (
+                        <>
+                            <div className="col-12 fw-bold truncate-one-line">
+                                {recipe.name}
+                            </div>
+                            <div className="col-12 truncate-one-line">
+                                {recipe.description}
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="col-6 col-custom-6-12 fw-bold truncate-responsive">
+                                {recipe.name}
+                            </div>
 
-                    <div className="col-6 col-custom-6-0 truncate-two-lines-responsive">
-                        {recipe.description}
-                    </div>
+                            <div className="col-6 col-custom-6-12 truncate-responsive">
+                                {recipe.description}
+                            </div>
+                        </>
+                    )}
+
                 </div>
             </div>
 

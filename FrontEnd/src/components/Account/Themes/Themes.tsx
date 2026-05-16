@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import CheckAuth from '../../../components/Account/CheckAuth';
+import type { LayoutContext } from '../../Layout';
 import { getApiBaseUrl, isMobileTouchDevice } from '../../../helpers/config';
 import { Dropdown } from "../../UserControls/Dropdown/Dropdown";
 import ButtonGrid from "../../UserControls/ButtonGrid/ButtonGrid";
@@ -32,7 +33,8 @@ const ThemeSelectorPage: React.FC = () => {
     const navigate = useNavigate();
     const API_BASE = getApiBaseUrl();
 
-    const { setTitle, setBanner } = useOutletContext();
+    //const { setTitle, setBanner } = useOutletContext();
+    const { setTitle, setBanner }  =useOutletContext<LayoutContext>()
 
     useEffect(() => {
         setTitle('Themes');
@@ -92,21 +94,7 @@ const ThemeSelectorPage: React.FC = () => {
 
     }, [auth]);
 
-    // useEffect(() => {
-    //     setIsLoading(true);
-    //     fetch(`${API_BASE}/api/theme/active`, {
-    //         credentials: "include"
-    //     })
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             setThemes(data.map(g => ({
-    //                 id: g.id.toString(),
-    //                 text: g.description
-    //             })));
-    //         });
 
-    //     //setIsLoading(false);
-    // }, []);
     useEffect(() => {
         setIsLoading(true);
 
@@ -132,49 +120,10 @@ const ThemeSelectorPage: React.FC = () => {
 
 
 
-
-
-
     const handleSelect = (id: string, text: string) => {
         //console.log("Selected:", id);
         setSelectedTheme(id.toString());
     };
-
-
-    //Apply theme variables when a theme is selected (temporarily changed)
-    // useEffect(() => {
-    //     if (!selectedTheme) return;
-
-    //     fetch(`${API_BASE}/api/theme/${selectedTheme}/variables`, {
-    //         credentials: "include",
-    //         headers: { "Content-Type": "application/json" }
-    //     })
-    //         .then(res => {
-    //             if (!res.ok) throw new Error(`Failed to fetch theme variables: ${res.status}`);
-    //             return res.json();
-    //         })
-    //         .then((data: { description: string; color: string }[]) => {
-    //             setSaveDisabled(selectedTheme === initialTheme);
-
-
-
-    //             // Apply CSS variables
-    //             data.forEach(({ description, color }) => {
-    //                 document.documentElement.style.setProperty(`--${description}`, color);
-    //             });
-
-    //             const borderHex =
-    //                 data.find(v => v.description === "textBoxBorderColor")?.color ?? "#dfdfdf";
-
-    //             const borderRgba = hexToRgba(borderHex, 0.75);
-    //             document.documentElement.style.setProperty("--textBoxShadowColorRgba", borderRgba);
-
-    //             console.log("Theme variables applied successfully.");
-    //         })
-    //         .catch(err => {
-    //             console.error("Error fetching theme variables:", err);
-    //         });
-    // }, [selectedTheme]);
 
     useEffect(() => {
         if (!selectedTheme) return;
@@ -186,10 +135,6 @@ const ThemeSelectorPage: React.FC = () => {
     useEffect(() => {
         setSaveDisabled(selectedTheme === initialTheme);
     }, [selectedTheme, initialTheme]);
-
-
-
-
 
     const applyThemeVariables = async (themeId: string) => {
         lastRequestedThemeRef.current = themeId;

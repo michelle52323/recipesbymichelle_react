@@ -144,7 +144,7 @@ html {
 }
 
 body {
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 60px;
     margin-left: 0px;
     margin-right: 0px;
@@ -154,7 +154,7 @@ body {
 
 @supports (-webkit-touch-callout: none) {
     body {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
@@ -162,7 +162,7 @@ body {
 @media (pointer: coarse) {
     @supports not (-webkit-touch-callout: none) {
         body {
-            font-size: 14px;
+            font-size: 16px;
         }
     }
 }
@@ -473,6 +473,8 @@ use-wide-card {
     height: 63px;
 }
 
+
+
 .form-row-100 {
     clear: both;
     height: 100px;
@@ -486,6 +488,11 @@ use-wide-card {
 .form-row-tall {
     clear: both;
     height: 139px;
+}
+
+.height-65 {
+    clear: both;
+    min-height: 65px;
 }
 
 .height-80 {
@@ -506,9 +513,25 @@ label {
     min-width: 97px;
     float: left;
     color: var(--textBoxLabelColor);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     padding: 5px 0px 5px 15px;
+}
+
+
+@supports (-webkit-touch-callout: none) {
+    label {
+        font-size: 16px;
+    }
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        label {
+            font-size: 16px;
+        }
+    }
 }
 
 .indented-content {
@@ -521,6 +544,10 @@ label {
 
 .form-element-small {
     clear: both;
+}
+
+.form-element-tall{
+    
 }
 
 .textbox {
@@ -870,6 +897,10 @@ a.button-tiny-ios {
 
 .text-specified {
         color: var(--contentTextColor);     
+}
+
+.text-14 {
+    font-size: 14px;
 }
 
 

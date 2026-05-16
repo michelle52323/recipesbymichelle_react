@@ -189,8 +189,9 @@ const MyRecipesMobile: React.FC = () => {
 
                                 <div className="flex-grow-1">
                                     <div className="row">
-                                        <div className="col-6 col-custom-6-12 fw-bold">Name</div>
-                                        <div className="col-6 col-custom-6-0 fw-bold">Description</div>
+                                        {/* <div className="col-6 col-custom-6-12 fw-bold">Name</div>
+                                        <div className="col-6 col-custom-6-0 fw-bold">Description</div> */}
+                                        &nbsp;
                                     </div>
                                 </div>
 

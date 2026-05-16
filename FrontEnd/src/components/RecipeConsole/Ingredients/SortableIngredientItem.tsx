@@ -260,7 +260,7 @@ const SortableIngredientItem: React.FC<Props> = ({
 
                                         {/* Qty + Unit */}
                                         <div className="col-4">
-                                            <div className="d-flex align-items-baseline flex-wrap">
+                                            <div className="d-flex align-items-baseline flex-wrap text-14 ">
                                                 {/* Plain text for now — formatting helpers later */}
                                                 <span
                                                     dangerouslySetInnerHTML={{
@@ -277,8 +277,8 @@ const SortableIngredientItem: React.FC<Props> = ({
                                         </div>
 
                                         {/* Description */}
-                                        <div className="col-8 ps-3">
-                                            <span>{desc}</span>
+                                        <div className="col-8 ps-3 ">
+                                            <span className="truncate-one-line">{desc}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -311,7 +311,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                                     <div className="accordion-content-inner ps-3 pe-3">
 
                                         {/* Qty */}
-                                        <div className="fixed-textbox-large qty-input form-row-tiny">
+                                        <div className="fixed-textbox-large qty-input height-65">
                                             <div className="label-mobile">Quantity</div>
                                             <span className="required">*</span>
                                             <div className="form-element">
@@ -370,7 +370,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                                         </div>
 
                                         {/* Unit */}
-                                        <div className="fixed-textbox unit-input form-row-tiny">
+                                        <div className="fixed-textbox unit-input height-65">
                                             <div className="label-mobile">Unit</div>
                                             <div className="form-element">
                                                 <input
@@ -418,7 +418,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                                         </div>
 
                                         {/* Description */}
-                                        <div className="fixed-textbox-large desc-input form-row-tiny">
+                                        <div className="fixed-textbox-large desc-input height-65">
                                             <div className="label-mobile">Description</div>
                                             <span className="required">*</span>
                                             <div className="form-element">
@@ -439,7 +439,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                                         </div>
 
                                         {/* Instructions */}
-                                        <div className="fixed-textbox-large inst-input form-row-tiny">
+                                        <div className="fixed-textbox-large inst-input height-65">
                                             <div className="label-mobile">Instructions (i.e. chopped, ground)</div>
                                             <div className="form-element">
                                                 <input
@@ -459,7 +459,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                                         </div>
 
                                         {/* Save + Delete */}
-                                        <div className="button-row-tiny d-flex justify-content-end">
+                                        <div className="button-row-tiny d-flex justify-content-end pt-2">
                                             <div className="fixed-button-icon save-input">
                                                 {!isAddRow ? (
                                                     <button className="button button-icon-responsive" onClick={onSave}>

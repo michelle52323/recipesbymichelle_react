@@ -3,7 +3,7 @@
 }
 
 .recipe-card-handwritten-font::before {
-    background-color: var(--contentBackColor); 
+    background-color: var(--paperBackgroundColor); 
     content: "";
     position: absolute;
     inset: 0;
@@ -11,7 +11,7 @@
     background-size: cover;
     background-repeat: repeat;
     background-blend-mode: multiply;
-    opacity: 0.35; /* only affects texture */
+    opacity: var(--paperBackgroundOpacity); 
     pointer-events: none;
     z-index: 0;
 }
@@ -20,30 +20,6 @@
     position: relative;
     z-index: 1;
 }
-
-.theme-3 .recipe-card-handwritten-font::before {
-    background-color: transparent;
-    opacity: 0.15;
-}
-
-.theme-5 .recipe-card-handwritten-font::before {
-    background-color: transparent;
-    opacity: 0.15;
-}
-
-.theme-6 .recipe-card-handwritten-font::before {
-    opacity: 0.75;
-}
-
-.theme-7 .recipe-card-handwritten-font::before {
-    opacity: 0.95;
-}
-
-.theme-8 .recipe-card-handwritten-font::before {
-    opacity: 0.55;
-}
-
-
 
 
 @media print {
