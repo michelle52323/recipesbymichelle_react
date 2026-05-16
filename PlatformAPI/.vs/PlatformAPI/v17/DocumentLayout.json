@@ -217,7 +217,8 @@
               "RelativeToolTip": "Controllers\\Recipes\\IngredientsController.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAAAuwGgAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T23:19:14.382Z"
+              "WhenOpened": "2026-05-11T23:19:14.382Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -241,7 +242,8 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAIMAAAAAAAAAAAAAwJgAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T22:46:25.321Z"
+              "WhenOpened": "2026-05-07T22:46:25.321Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -265,7 +267,8 @@
               "RelativeToolTip": "Models\\Recipe\\Ingredient.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-13T00:04:03.221Z"
+              "WhenOpened": "2026-05-13T00:04:03.221Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -300,7 +303,8 @@
               "RelativeToolTip": "Controllers\\Users\\GendersController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T02:07:04.663Z"
+              "WhenOpened": "2026-05-09T02:07:04.663Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -348,7 +352,8 @@
               "RelativeToolTip": "Models\\Recipe\\Favorite.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAEAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T22:57:14.526Z"
+              "WhenOpened": "2026-05-07T22:57:14.526Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -360,7 +365,8 @@
               "RelativeToolTip": "Controllers\\Themes\\ThemeController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-24T23:34:16.382Z"
+              "WhenOpened": "2026-02-24T23:34:16.382Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -372,7 +378,8 @@
               "RelativeToolTip": "Service\\EmailService.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAAwCAAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T23:06:03.306Z"
+              "WhenOpened": "2026-05-05T23:06:03.306Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -454,7 +461,8 @@
               "RelativeToolTip": "Models\\Themes\\Theme.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-07T02:02:03.649Z"
+              "WhenOpened": "2025-10-07T02:02:03.649Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -495,7 +503,8 @@
               "RelativeToolTip": "Models\\Themes\\ThemeVariableColor.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T16:57:11.306Z"
+              "WhenOpened": "2025-10-04T16:57:11.306Z",
+              "EditorCaption": ""
             }
           ]
         }
