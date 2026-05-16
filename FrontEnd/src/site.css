@@ -152,6 +152,21 @@ body {
     color: var(--contentTextColor);
 }
 
+@supports (-webkit-touch-callout: none) {
+    body {
+        font-size: 14px;
+    }
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        body {
+            font-size: 14px;
+        }
+    }
+}
+
 
 a:link,
 a:visited,
@@ -853,6 +868,10 @@ a.button-tiny-ios {
     outline: none;
 }
 
+.text-specified {
+        color: var(--contentTextColor);     
+}
+
 
 
 .error-message {
@@ -1221,52 +1240,6 @@ a.button-tiny-ios {
     /* Limit to 2 lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
-}
-
-.fraction {
-    font-family: 'Arial';
-    /* Font for fractions */
-    display: inline-block;
-    font-size: 1.5em;
-    vertical-align: middle;
-}
-
-.fraction-mobile {
-    font-family: 'Segoe UI', 'Roboto', 'San Francisco', sans-serif;
-    display: inline-block;
-    font-size: 1.3em;
-    letter-spacing: -0.2em;
-    vertical-align: middle;
-}
-
-.fraction-ios {
-    display: inline-flex;
-    align-items: baseline;
-    font-size: 1.2em;
-    font-family: 'San Francisco', 'Segoe UI', 'Roboto', sans-serif;
-    white-space: nowrap;
-    line-height: 1.2;
-}
-
-.fraction-ios .numerator {
-    font-size: 0.75em;
-    position: relative;
-    top: -0.2em;
-    /* raised */
-    margin-right: 0.04em;
-}
-
-.fraction-ios .slash {
-    margin: 0 0.02em;
-    font-weight: 400;
-}
-
-.fraction-ios .denominator {
-    font-size: 0.75em;
-    position: relative;
-    top: 0.2em;
-    /* lowered */
-    margin-left: 0.04em;
 }
 
 .page-title-name {

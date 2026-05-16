@@ -1,3 +1,4 @@
+
 export interface RecipeBase {
     id: number;
     name: string | null;
@@ -6,6 +7,7 @@ export interface RecipeBase {
     isActive: boolean;
     sortOrder: number;
     recipeVisibility: "MeOnly" | "AllUsers";
+    recipeFont: "SansSerif" | "Serif" | "Handwritten";
 
 }
 
@@ -46,4 +48,9 @@ export interface Unit {
     system: number | null;
 }
 
+export enum RecipeFont {
+    SansSerif = 1,
+    Serif = 2,
+    Handwritten = 3
+}
 

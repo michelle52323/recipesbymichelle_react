@@ -18,7 +18,7 @@ export function getSmartTitleClass(title: string, containerWidth: number): strin
     if (length < 23) {
         return '';
     }
-    
+
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
     // Long titles: choose style based on actual container width
@@ -31,3 +31,27 @@ export function getSmartTitleClass(title: string, containerWidth: number): strin
 
     return 'card-title-long-narrow-screen';
 }
+
+export function mapFontToClass (font: string | null | undefined) {
+    switch (font) {
+        case "Handwritten":
+            return "recipe-font-handwritten";
+        case "Serif":
+            return "recipe-font-serif";
+        case "SansSerif":
+        default:
+            return "recipe-font-sansserif";
+    }
+};
+
+export function mapFractionFontToClass (font: string | null | undefined) {
+    switch (font) {
+        case "Handwritten":
+            return "fraction-font-handwritten";
+        case "Serif":
+            return "fraction-font-serif";
+        case "SansSerif":
+        default:
+            return "fraction-font-sansserif";
+    }
+};

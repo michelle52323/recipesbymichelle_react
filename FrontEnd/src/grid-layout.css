@@ -14,6 +14,23 @@
     height: 50px;
 }
 
+/* iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    .grid-page-row-height-desktop {
+        height: 50px;
+    }
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        .grid-page-row-height-desktop {
+            height: 50px;
+        }
+    }
+}
+
+
 .grid-page-row-height-tall-desktop {
     height: 90px;
 }

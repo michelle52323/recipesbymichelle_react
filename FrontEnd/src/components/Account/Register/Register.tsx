@@ -28,7 +28,6 @@ function Register() {
     const [middleName, setMiddleName] = useState('');
     const [lastName, setLastName] = useState('');
     const [genderId, setGenderId] = useState('');
-    const [accountType, setAccountType] = useState('');
     const [genderOptions, setGenderOptions] = useState([]);
     const [errors, setErrors] = useState({} as any);
     const [isRegistering, setIsRegistering] = useState(false);
@@ -101,7 +100,6 @@ function Register() {
         if (!confirmPassword.trim()) newErrors.confirmPassword = 'Please confirm password';
         if (password !== confirmPassword) newErrors.confirmPassword = 'Passwords must match';
         //if (!genderId) newErrors.gender = 'Please select a gender';
-        if (!accountType) newErrors.accountType = 'Please select an account type';
 
 
         setErrors(newErrors);
@@ -120,8 +118,7 @@ function Register() {
                         password,
                         email,
                         firstName,
-                        themeId: 1,
-                        userTypeId: getUserTypeId()
+                        themeId: 1
                     })
 
                 });
@@ -143,13 +140,6 @@ function Register() {
             }
         })();
     };
-
-    const getUserTypeId = () => {
-        if (accountType === "Instructor")
-            return 3;
-        else if (accountType === "Student")
-            return 4;
-    }
 
     useEffect(() => {
 
@@ -297,44 +287,6 @@ function Register() {
                         />
                     </div>
                     {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
-                </div>
-
-                {/* ACCOUNT TYPE RADIO */}
-                <div className="form-row">
-                    <label>Account Type</label>
-                    <span className="required">*</span>
-
-                    <div className="radio-holder-vertical">
-                        <ul>
-                            <li>
-                                <input
-                                    type="radio"
-                                    id="acct-student"
-                                    name="accountType"
-                                    value="Student"
-                                    checked={accountType === 'Student'}
-                                    onChange={() => setAccountType('Student')}
-                                />
-                                <div className="check"></div>
-                                <label htmlFor="acct-student">Student</label>
-                            </li>
-
-                            <li>
-                                <input
-                                    type="radio"
-                                    id="acct-instructor"
-                                    name="accountType"
-                                    value="Instructor"
-                                    checked={accountType === 'Instructor'}
-                                    onChange={() => setAccountType('Instructor')}
-                                />
-                                <div className="check"></div>
-                                <label htmlFor="acct-instructor">Instructor</label>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {errors.accountType && <div className="error-message">{errors.accountType}</div>}
                 </div>
 
                 {/* SUBMIT */}

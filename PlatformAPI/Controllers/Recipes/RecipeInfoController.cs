@@ -26,6 +26,8 @@ namespace PlatformAPI.Controllers.Recipes
 
         public string RecipeVisibility { get; set; }
 
+        public string RecipeFont {  get; set; }
+
         public string UserId { get; set; }
     }
 
@@ -35,6 +37,8 @@ namespace PlatformAPI.Controllers.Recipes
         public string? Description { get; set; }
         public bool ShowAbbreviations { get; set; }
         public string RecipeVisibility { get; set; }
+
+        public string RecipeFont { get; set; }
     }
     public class EditRecipeDto
     {
@@ -47,6 +51,8 @@ namespace PlatformAPI.Controllers.Recipes
         public bool ShowAbbreviations { get; set; }
 
         public string RecipeVisibility { get; set; }
+
+        public string RecipeFont { get; set; }
     }
 
 
@@ -83,6 +89,7 @@ namespace PlatformAPI.Controllers.Recipes
                 Description = recipe.Description,
                 ShowAbbreviations = recipe.ShowAbbreviations,
                 RecipeVisibility = recipe.RecipeVisibility.ToString(),
+                RecipeFont = recipe.RecipeFont.ToString(),
                 UserId = recipe.UserRecipe.UserId.ToString()
             };
 
@@ -109,6 +116,7 @@ namespace PlatformAPI.Controllers.Recipes
                 recipe.Description = dto.Description;
                 recipe.ShowAbbreviations = dto.ShowAbbreviations;
                 recipe.RecipeVisibility = Enum.Parse<RecipeVisibility>(dto.RecipeVisibility);
+                recipe.RecipeFont = Enum.Parse<RecipeFont>(dto.RecipeFont);
                 recipe.IsActive = true;
                 recipe.SortOrder = maxSortOrder + 1;
 
@@ -155,6 +163,7 @@ namespace PlatformAPI.Controllers.Recipes
                 recipe.Description = dto.Description;
                 recipe.ShowAbbreviations = dto.ShowAbbreviations;
                 recipe.RecipeVisibility = Enum.Parse<RecipeVisibility>(dto.RecipeVisibility);
+                recipe.RecipeFont = Enum.Parse<RecipeFont>(dto.RecipeFont);
 
                 await _context.SaveChangesAsync();
 

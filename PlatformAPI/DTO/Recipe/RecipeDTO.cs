@@ -11,7 +11,8 @@ namespace PlatformAPI.DTO.Recipe
         public bool ShowAbbreviations { get; set; }
         public bool IsActive { get; set; }
         public int SortOrder { get; set; }
-        public RecipeVisibility RecipeVisibility { get; set; }
+        public string RecipeVisibility { get; set; }
+        public string RecipeFont { get; set; }
     }
 
     public class ViewRecipeDTO : RecipeDto

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using PlatformAPI.Enums;
 using PlatformAPI.DTO.Recipe;
 using PlatformAPI.Helpers;
+using PlatformAPI.Enums;
 
 namespace PlatformAPI.Controllers.Recipes
 {
@@ -106,7 +107,8 @@ namespace PlatformAPI.Controllers.Recipes
                 ShowAbbreviations = recipe.ShowAbbreviations,
                 IsActive = recipe.IsActive,
                 SortOrder = recipe.SortOrder,
-                RecipeVisibility = recipe.RecipeVisibility,
+                RecipeVisibility = recipe.RecipeVisibility.ToString(),
+                RecipeFont = recipe.RecipeFont.ToString(),
                 Ingredients = ingredientDtos,
                 Steps = stepDtos,
                 MeasurementSystem = measurementSystem

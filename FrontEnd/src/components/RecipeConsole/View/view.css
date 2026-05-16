@@ -1,4 +1,15 @@
-﻿@media print {
+﻿.recipe-card-handwritten-font {
+    /* background-color: var(--contentBackColor); 
+    background-image: url('/src/assets/images/paper-texture.png');
+    background-size: cover;
+    background-repeat: repeat;
+    background-blend-mode: multiply;
+    opacity: 0.98;  */
+}
+
+
+
+@media print {
     /* ✅ Preserve title text, remove background styling */
     .card-title,
     .card-title-mobile {
@@ -80,7 +91,16 @@
 
     ul li, ol li {
         page-break-inside: avoid;
+        background: #fff !important;
+        color: #000 !important;
+        
     }
+
+    .text-specified{
+        background: #fff !important;
+        color: #000 !important;
+    }
+
 
     /* Optional: tighten spacing for print clarity */
     .pt-2,
@@ -123,7 +143,16 @@
         color: #000 !important;
     }
 
+    .header-holder, view-recipe-content{
+        background: #fff !important;
+        color: #000 !important;
+    }
+
     .print-button, .button-icon-responsive {
+        display: none;
+    }
+
+    footer{
         display: none;
     }
 }

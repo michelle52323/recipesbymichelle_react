@@ -2,7 +2,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useOutletContext, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getApiBaseUrl, isMobileTouchDevice } from '../../../helpers/config';
-import { renderNumberDisplayBySystem, renderStep } from '../../../helpers/measurementHelper';
+import { renderNumberDisplayBySystem, renderStep, renderUnit } from '../../../helpers/measurementHelper';
+import { mapFontToClass } from '../../../helpers/displayHelper';
 import CheckAuth from '../../../components/Account/CheckAuth';
 import { Dropdown } from '../../UserControls/Dropdown/Dropdown';
 import type { LayoutContext } from '../../Layout';
@@ -40,9 +41,15 @@ function View() {
     const [auth, setAuth] = useState<AuthResult | null>(null);
     const [measurementSystem, setMeasurementSystem] = useState<"Imperial" | "Metric" | null>(null);
 
+    const [fontClass, setFontClass] = useState<string | null>(null);
+    const [backgroundCardClass, setBackgroundCardClass] = useState<string | null>(null);
+
 
     const layoutClass = isMobileTouchDevice() ? "gof-view-mobile" : "gof-tall";
     const innerlayoutClass = isMobileTouchDevice() ? "grid-page-row-height-mobile" : "grid-page-row-height-desktop";
+    
+    //const backgroundCardClass = "hello";
+
     //const layoutClass = "";
     //const innerlayoutClass = "";
 
@@ -96,7 +103,7 @@ function View() {
                 data.isMyRecipe = true;
                 //console.log("Is My Recipe: " + data.isMyRecipe);
                 //console.log("Recipe data: " + JSON.stringify(data));
-
+                //console.log("Font: " + data.recipeFont);
                 setRecipe(data);
             } catch (err: any) {
                 setError(err.message);
@@ -115,11 +122,23 @@ function View() {
         }
     }, [recipe, loading, setTitle]);
 
+    useEffect(() => {
+        if (recipe?.recipeFont) {
+            setFontClass(mapFontToClass(recipe.recipeFont));
+            setBackgroundCardClass(recipe.recipeFont == "Handwritten" ? "recipe-card-handwritten-font" : "hello");
+        }
+    }, [recipe?.recipeFont]);
+
+
+    //const fontClass = getFontClass(recipe?.recipeFont);
+    console.log("Font class: " + fontClass);
+
     const handlePrint = () => {
         window.print();
     }
 
-    if (measurementSystem === null) return <div><Loader message="Loading recipe ..." /></div>;
+
+    if (measurementSystem === null || fontClass === null) return <div><Loader message="Loading recipe ..." /></div>;
 
     if (auth === null) return <div><Loader message="Loading recipe ..." /></div>;
     if (!auth.auth) return null;
@@ -130,10 +149,12 @@ function View() {
 
             <div className="content-holder-desktop" >
 
-                <div className="content-inner-desktop">
+                {/* <div className="content-inner-desktop "> */}
+                <div className={`content-inner-desktop ${backgroundCardClass}`}>
+
                     {/*INSERT CONTENT HERE */}
 
-                    <div className={`pt-4 grid-overflow-box gof-row ${layoutClass}`}>
+                    <div className={`pt-4 grid-overflow-box gof-row  ${layoutClass} ${fontClass} `}>
                         <div className={`d-flex row align-items-start ${innerlayoutClass}`}>
                             <div className="col-md-6 col-12 pt-2">
                                 <div className="d-flex align-items-center pb-3 fw-bold">
@@ -143,7 +164,7 @@ function View() {
                                         <div className="d-print-none">
                                             <button
                                                 type="button"
-                                                className="button button-icon-responsive"
+                                                className="button button-icon"
                                                 onClick={() => navigate(`/recipes/ingredients/${recipe.id}`)}
                                             >
                                                 <Icon name="pencil" />
@@ -165,17 +186,18 @@ function View() {
                                                 <li
                                                     key={ingredient.id}
                                                     style={{ display: "list-item", width: "100%" }}
-                                                    className="pb-2 text-start"
+                                                    className="pb-2 text-specified"
                                                 >
                                                     <span
                                                         dangerouslySetInnerHTML={{
                                                             __html: renderNumberDisplayBySystem(
                                                                 ingredient.quantity.toString(),
-                                                                measurementSystem
+                                                                measurementSystem,
+                                                                recipe.recipeFont
                                                             ),
                                                         }}
                                                     />
-                                                    &nbsp;{ingredient.unit} {ingredient.description}
+                                                    &nbsp;{renderUnit(ingredient.unit)}{ingredient.description}
                                                 </li>
                                             ))}
                                     </ul>
@@ -197,7 +219,7 @@ function View() {
                                         <div className="d-print-none">
                                             <button
                                                 type="button"
-                                                className="button button-icon-responsive"
+                                                className="button button-icon"
                                                 onClick={() => navigate(`/recipes/steps/${recipe.id}`)}
                                             >
                                                 <Icon name="pencil" />
@@ -213,9 +235,9 @@ function View() {
                                             .map((step) => (
                                                 <li
                                                     key={step.id}
-                                                    className="pb-2"
+                                                    className="pb-2 text-specified"
                                                     dangerouslySetInnerHTML={{
-                                                        __html: renderStep(step.description)
+                                                        __html: renderStep(step.description, recipe.recipeFont)
                                                     }}
                                                 />
                                             ))}

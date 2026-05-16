@@ -66,7 +66,7 @@ function IngredientsListDesktop({ controller }: Props) {
 
                                 {/* Qty header (aligned with qty textbox) */}
                                 <div className="fixed-textbox">
-                                    <div className="fw-bold">Qty</div>
+                                    <div className="fw-bold">Qty<span className="required" style={{ marginLeft: "-15px" }}></span></div>
                                 </div>
 
                                 {/* Unit header (aligned with unit textbox) */}
@@ -79,7 +79,7 @@ function IngredientsListDesktop({ controller }: Props) {
                             <div className="flex-grow-1">
                                 <div className="row">
                                     {/* Description (col-7) */}
-                                    <div className="col-7 fw-bold">Description</div>
+                                    <div className="col-7 fw-bold">Description<span className="required" style={{ marginLeft: "-15px" }}></span></div>
 
                                     {/* Instructions (col-5) */}
                                     <div className="col-5 fw-bold">Instructions (optional)</div>

@@ -9,6 +9,7 @@ import Icon from '../../UserControls/Icons/icons';
 import ButtonGrid from '../../UserControls/ButtonGrid/ButtonGrid';
 import ProgressBar from '../../UserControls/ProgressBar/ProgressBar';
 import Loader from '../../UserControls/Loader/Loader';
+import { RecipeFont } from '../../../types/Recipe/Recipe';
 import '../../../radio.css';
 
 const API_BASE = getApiBaseUrl();
@@ -18,6 +19,7 @@ interface RecipeForm {
     description: string;
     showAbbreviations: boolean;
     recipeVisibility: "MeOnly" | "AllUsers" | null;
+    recipeFont: "SansSerif" | "Serif" | "Handwritten";
 }
 
 interface RecipeValidationErrors {
@@ -26,6 +28,7 @@ interface RecipeValidationErrors {
         description?: string;
         showAbbreviations?: string;
         recipeVisibility?: string;
+        recipeFont?: "SansSerif" | "Serif" | "Handwritten";
 
     };
 }
@@ -77,7 +80,8 @@ const RecipeInfo: React.FC = () => {
         name: '',
         description: '',
         showAbbreviations: true,
-        recipeVisibility: 'MeOnly'
+        recipeVisibility: 'MeOnly',
+        recipeFont: "SansSerif"
 
     });
     const [errors, setErrors] = useState<{ recipe: Partial<Record<keyof RecipeForm, string>> }>({ recipe: {} });
@@ -119,10 +123,10 @@ const RecipeInfo: React.FC = () => {
                     name: data.name,
                     description: data.description,
                     showAbbreviations: data.showAbbreviations,
-                    recipeVisibility: data.recipeVisibility
+                    recipeVisibility: data.recipeVisibility,
+                    recipeFont: data.recipeFont
 
                 };
-
                 setRecipe(hydratedRecipe);
 
 
@@ -167,7 +171,8 @@ const RecipeInfo: React.FC = () => {
                 Name: formData.name,
                 Description: formData.description,
                 ShowAbbreviations: formData.showAbbreviations,
-                RecipeVisibility: formData.recipeVisibility
+                RecipeVisibility: formData.recipeVisibility,
+                RecipeFont: formData.recipeFont
             };
             const response = await axios.post(`${API_BASE}/api/RecipeInfo/create-recipe`, dto, {
                 headers: { 'Content-Type': 'application/json' },
@@ -205,7 +210,8 @@ const RecipeInfo: React.FC = () => {
                 Name: formData.name,
                 Description: formData.description,
                 ShowAbbreviations: formData.showAbbreviations,
-                RecipeVisibility: formData.recipeVisibility
+                RecipeVisibility: formData.recipeVisibility,
+                RecipeFont: formData.recipeFont
             };
 
             const response = await axios.put(
@@ -367,6 +373,57 @@ const RecipeInfo: React.FC = () => {
                                 <span className="error-message-placeholder-height">&nbsp;</span>
                             </div>
                             <div className="page-item col-12 col-md-6 ">
+                                <label>Recipe Font</label>
+                                <div className="form-element">
+                                    <div className="radio-holder-vertical">
+                                        <ul>
+                                            <li>
+                                                <input
+                                                    type="radio"
+                                                    id="recipe-font-sans-serif"
+                                                    name="recipeFont"
+                                                    value="SansSerif"
+                                                    checked={recipe.recipeFont === "SansSerif"}
+                                                    onChange={() =>
+                                                        setRecipe(prev => ({
+                                                            ...prev,
+                                                            recipeFont: "SansSerif"
+                                                        }))
+                                                    }
+                                                />
+                                                <div className="check"></div>
+                                                <label htmlFor="recipe-font-sans-serif">Sans‑Serif</label>
+                                            </li>
+
+                                            <li>
+                                                <input
+                                                    type="radio"
+                                                    id="recipe-font-handwritten"
+                                                    name="recipeFont"
+                                                    value="Handwritten"
+                                                    checked={recipe.recipeFont === "Handwritten"}
+                                                    onChange={() =>
+                                                        setRecipe(prev => ({
+                                                            ...prev,
+                                                            recipeFont: "Handwritten"
+                                                        }))
+                                                    }
+                                                />
+                                                <div className="check"></div>
+                                                <label htmlFor="recipe-font-handwritten">Handwritten</label>
+                                            </li>
+                                        </ul>
+
+                                        <span className="ps-3 d-block">
+                                            Choose how this recipe will be displayed
+                                        </span>
+                                    </div>
+
+                                    <span className="error-message-placeholder-height">&nbsp;</span>
+                                </div>
+                            </div>
+
+                            <div className="page-item col-12 col-md-6 ">
                                 <label>Recipe Visibility</label>
                                 <div className="form-element">
                                     <div className="radio-holder-vertical">
@@ -407,6 +464,7 @@ const RecipeInfo: React.FC = () => {
                                     <span className="error-message-placeholder-height">&nbsp;</span>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

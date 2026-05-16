@@ -1,24 +1,34 @@
 import { isIOS, isAndroid, isMobileTouchDevice } from './config';
+import { mapFractionFontToClass } from './displayHelper';
 import type { MeasurementUnit } from 'src/types/Measurement/MeasurementType';
 
 //Rendering functions
 export function renderNumberDisplayBySystem(
     input: string | null | undefined,
-    measurementSystem: "Imperial" | "Metric" | null
+    measurementSystem: "Imperial" | "Metric" | null,
+    recipeFont: "SansSerif" | "Serif" | "Handwritten"
 ): string {
     if (!input) return "";
 
     if (measurementSystem === "Imperial") {
-        return renderMixedNumberHtml(input);
+        return renderMixedNumberHtml(input, recipeFont);
     }
     // Metric or null → return raw
     return input;
 }
 
-export function renderMixedNumberHtml(input: string): string {
+export function renderMixedNumberHtml(input: string, recipeFont: "SansSerif" | "Serif" | "Handwritten"): string {
     const isIos = isIOS();
     const isAndroidDevice = isAndroid();
     const isMobile = isMobileTouchDevice();
+
+    const fractionFontClass = mapFractionFontToClass(recipeFont);
+
+    const deviceType =
+        isIos ? "iOS" :
+            isAndroidDevice ? "Android" :
+                "Desktop";
+
 
     const { whole, numerator, denominator } = parseMixedNumber(input);
 
@@ -36,24 +46,40 @@ export function renderMixedNumberHtml(input: string): string {
 
     // Fraction
     if (numerator > 0) {
-        if (isIos) {
-            html += `
-        <span class="fraction-ios">
+        //     if (isIos) {
+        //         html += `
+        //     <span class="fraction-ios ${fractionFontClass}">
+        //       <span class="numerator">${numerator}</span>
+        //       <span class="slash">⁄</span>
+        //       <span class="denominator">${denominator}</span>
+        //     </span>
+        //   `;
+        //     } else {
+        //         const fractionClass = isMobile ? "fraction-mobile" : "fraction";
+        //         html += `<span class="${fractionClass} ${fractionFontClass}">${spaceFraction(numerator.toString(), isAndroidDevice)}⁄${spaceFraction(denominator.toString(), isAndroidDevice)}</span>`;
+        //     }
+        html += `
+        <span class="fraction ${fractionFontClass}">
           <span class="numerator">${numerator}</span>
           <span class="slash">⁄</span>
           <span class="denominator">${denominator}</span>
         </span>
       `;
-        } else {
-            const fractionClass = isMobile ? "fraction-mobile" : "fraction";
-            html += `<span class="${fractionClass}">${spaceFraction(numerator.toString(), isAndroidDevice)}⁄${spaceFraction(denominator.toString(), isAndroidDevice)}</span>`;
-        }
+        html = html.trim();
+
+        html += (recipeFont == "Handwritten") ? "&nbsp" : "";
     }
 
-    //return html.trim();
-    return (isAndroidDevice) ? html.trim() + "&nbsp;" : html.trim()
+    return html;
+
+    return html.trim();
+    //return (isAndroidDevice) ? html.trim() + "&nbsp;" : html.trim()
     //return isAndroid() ? html.trim() + " " : html.trim();
 }
+
+//------------------------------------------------------
+// Render fraction according to font and device type 
+//------------------------------------------------------
 
 export function spaceFraction(input: string, isAndroidDevice: boolean) {
     if (!isAndroidDevice) return input;
@@ -96,14 +122,14 @@ function parseMixedNumber(input: string) {
     };
 }
 
-export function renderStep(input: string): string {
+export function renderStep(input: string, recipeFont: "SansSerif" | "Serif" | "Handwritten"): string {
     if (!input) return "";
 
     // 1. Convert "degree" → "°"
     const withDegrees = convertDegreeToSymbol(input);
 
     // 2. Render fractions / mixed numbers
-    return renderAllMixedNumbersHtml(withDegrees);
+    return renderAllMixedNumbersHtml(withDegrees, recipeFont);
 }
 
 
@@ -119,13 +145,13 @@ export function convertDegreeToSymbol(input: string): string {
     return output;
 }
 
-export function renderAllMixedNumbersHtml(input: string): string {
+export function renderAllMixedNumbersHtml(input: string, recipeFont: "SansSerif" | "Serif" | "Handwritten"): string {
     if (!input) return "";
 
     const fractionRegex = /(\d+\s+\d+\/\d+|\d+\/\d+)/g;
 
     return input.replace(fractionRegex, (match) => {
-        return renderMixedNumberHtml(match);
+        return renderMixedNumberHtml(match, recipeFont);
     });
 }
 
@@ -273,7 +299,7 @@ function checkUnitExceptions(input: string): string | null {
         "fl.oz.": "fl oz",
         "floz.": "fl oz",
         "fl.oz": "fl oz",
-        "pinc" : "pinch"
+        "pinc": "pinch"
     };
 
     return exceptions[normalized] || null;
@@ -358,6 +384,30 @@ function firstThreeMatch(
     return null;
 }
 
+// Unit lookup functions
+export function getAbbreviation(unit: string, unitLookup: MeasurementUnit[]): string {
+    if (!unit || !unitLookup || unitLookup.length === 0) return unit;
+
+    const normalized = unit.trim().toLowerCase();
+
+    // Try to find a matching unit by any of its names
+    const match = unitLookup.find(u =>
+        u.abbreviation?.toLowerCase() === normalized ||
+        u.description?.toLowerCase() === normalized ||
+        u.plural?.toLowerCase() === normalized
+    );
+
+    // If no match → return input
+    if (!match) return unit;
+
+    // If abbreviation exists → return it
+    if (match.abbreviation) return match.abbreviation;
+
+    // Otherwise → return input
+    return unit;
+}
+
+
 
 // Unit requires pluralization
 
@@ -407,4 +457,14 @@ function requiresPluralMetric(qtyString) {
 
     // If greater than 1, return true (plural)
     return true;
+}
+
+
+// Formatting functions
+
+export function renderUnit(unit) {
+    if (unit == "" || unit == null)
+        return "";
+    else
+        return unit + " ";
 }

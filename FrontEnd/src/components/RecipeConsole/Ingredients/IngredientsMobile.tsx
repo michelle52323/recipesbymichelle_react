@@ -78,44 +78,41 @@ function IngredientsListMobile({ controller }: Props) {
                         items={ingredients.map(i => i.id.toString())}
                         strategy={verticalListSortingStrategy}
                     >
-                        {/* Header */}
-                        <div className="d-flex align-items-start">
-                            {/* LEFT: Drag + Qty + Unit headers */}
-                            <div className="d-flex">
-                                {/* Drag handle column */}
-                                <div className="drag-handle-width-desktop"></div>
+                        <div className="d-flex align-items-start mobile-collapsed-row header-row">
 
-                                {/* Qty header (aligned with qty textbox) */}
-                                <div className="fixed-textbox">
-                                    <div className="fw-bold">Qty</div>
-                                </div>
-
-                                {/* Unit header (aligned with unit textbox) */}
-                                <div className="fixed-textbox">
-                                    <div className="fw-bold">Unit</div>
+                            {/* Drag handle column */}
+                            <div className="drag-handle-column">
+                                <div className="mobile-drag-handle-wrapper">
+                                    &nbsp;
                                 </div>
                             </div>
 
-                            {/* MIDDLE: Description + Instructions */}
-                            <div className="flex-grow-1">
-                                <div className="row">
-                                    {/* Description (col-7) */}
-                                    <div className="col-7 fw-bold">Description</div>
+                            {/* Content column */}
+                            <div className="content-column flex-grow-1">
+                                <div className="row ">
 
-                                    {/* Instructions (col-5) */}
-                                    <div className="col-5 fw-bold">Instructions (optional)</div>
+                                    {/* Quantity label */}
+                                    <div className="col-4">
+                                        <div className="d-flex align-items-baseline flex-wrap">
+                                            <span className="mobile-header-label"><b>Quantity</b></span>
+                                        </div>
+                                    </div>
 
-                                    {/* Placeholder for alignment (col-1) */}
-                                    {/* <div className="col-1"></div> */}
+                                    {/* Description label */}
+                                    <div className="col-8 ps-3">
+                                        <span className="mobile-header-label"><b>Description</b></span>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* RIGHT: Save/Delete button columns */}
-                            <div className="d-flex ms-3">
-                                <div className="fixed-button-icon"></div>
-                                <div className="fixed-button-icon"></div>
+                            {/* Action column */}
+                            <div className="action-column">
+                                <div className="fixed-button">
+                                    &nbsp;
+                                </div>
                             </div>
                         </div>
+
 
 
                         {/* Rows */}

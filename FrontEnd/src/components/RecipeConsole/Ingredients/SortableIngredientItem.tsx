@@ -4,7 +4,8 @@ import { CSS } from "@dnd-kit/utilities";
 import Icon from "../../UserControls/Icons/icons";
 import type { Ingredient } from "../../../types/Recipe/Recipe";
 import type { MeasurementUnit } from "src/types/Measurement/MeasurementType";
-import { trimQuantity, validateUnitInput, requiresPlural } from "../../../helpers/measurementHelper";
+import { trimQuantity, validateUnitInput, requiresPlural, 
+    renderNumberDisplayBySystem, getAbbreviation } from "../../../helpers/measurementHelper";
 
 
 
@@ -261,8 +262,17 @@ const SortableIngredientItem: React.FC<Props> = ({
                                         <div className="col-4">
                                             <div className="d-flex align-items-baseline flex-wrap">
                                                 {/* Plain text for now — formatting helpers later */}
-                                                <span>{qty}</span>
-                                                <span className="ps-1">{unit}</span>
+                                                <span
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: renderNumberDisplayBySystem(
+                                                            qty.toString(),
+                                                            measurementSystem,
+                                                            "SansSerif"
+                                                        ),
+                                                    }}
+                                                />
+
+                                                <span className="ps-1">{getAbbreviation(unit, unitLookupTable)}</span>
                                             </div>
                                         </div>
 
@@ -301,8 +311,9 @@ const SortableIngredientItem: React.FC<Props> = ({
                                     <div className="accordion-content-inner ps-3 pe-3">
 
                                         {/* Qty */}
-                                        <div className="fixed-textbox qty-input form-row-tiny">
+                                        <div className="fixed-textbox-large qty-input form-row-tiny">
                                             <div className="label-mobile">Quantity</div>
+                                            <span className="required">*</span>
                                             <div className="form-element">
                                                 <input
                                                     ref={qtyRef}

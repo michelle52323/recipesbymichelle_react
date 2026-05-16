@@ -310,7 +310,7 @@ namespace PlatformAPI.Controllers.Users
                 FirstName = dto.FirstName,
                 Email = dto.Email,
                 ThemeId = dto.ThemeId,
-                UserTypeId = dto.UserTypeId,
+                UserTypeId = 4,
 
             };
 
