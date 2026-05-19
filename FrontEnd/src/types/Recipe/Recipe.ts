@@ -40,6 +40,10 @@ export interface Step {
     isActive: boolean;
 }
 
+export interface StepAdd extends Step{
+    recipeId: number;
+}
+
 export interface Unit {
     id: number;
     description: string;

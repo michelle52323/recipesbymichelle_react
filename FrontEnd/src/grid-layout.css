@@ -271,6 +271,10 @@ a.button-tiny-responsive-mobile {
     /* Ensure all content is visible */
 }
 
+.gof-view{
+   height: 370px; 
+}
+
 .gof-tall {
     /* height: 410px; */
     min-height: calc(var(--vh) - 210px);

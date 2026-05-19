@@ -366,11 +366,10 @@ const RecipeInfo: React.FC = () => {
                                         <span className="ps-3 d-block">
                                             Used to determine layout preference
                                         </span>
-                                        <span id="layoutPreferenceText" className="ps-3 d-block"></span>
                                     </div>
-
+                                    <div className="form-row-extra-space"></div>
                                 </div>
-                                <span className="error-message-placeholder-height">&nbsp;</span>
+                                
                             </div>
                             <div className="page-item col-12 col-md-6 ">
                                 <label>Recipe Font</label>
@@ -419,7 +418,7 @@ const RecipeInfo: React.FC = () => {
                                         </span>
                                     </div>
 
-                                    <span className="error-message-placeholder-height">&nbsp;</span>
+                                    <div className="form-row-extra-space"></div>
                                 </div>
                             </div>
 

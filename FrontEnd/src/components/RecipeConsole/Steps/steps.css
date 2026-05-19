@@ -1,0 +1,87 @@
+.theme-1 {
+    --editProgressTextColor: color-mix(in srgb, var(--contentHeaderTextColor), white 50%);
+    --editSectionTextColor: color-mix(in srgb, var(--contentHeaderTextColor), blue 70%);
+}
+
+.theme-3 {
+    --editProgressTextColor: color-mix(in srgb, var(--contentHeaderTextColor), black 90%);
+    --editSectionTextColor: color-mix(in srgb, var(--contentHeaderTextColor), black 9%);
+}
+
+.theme-4 {
+    --editProgressTextColor: color-mix(in srgb, var(--contentHeaderTextColor), white 50%);
+    --editSectionTextColor: color-mix(in srgb, var(--contentHeaderTextColor), green 80%);
+}
+
+.theme-5 {
+    --editProgressTextColor: color-mix(in srgb, var(--contentHeaderTextColor), black 10%);
+    --editSectionTextColor: color-mix(in srgb, var(--contentHeaderTextColor), green 100%);
+}
+
+.theme-6 {
+    --editProgressTextColor: color-mix(in srgb, var(--contentHeaderTextColor), white 40%);
+    --editSectionTextColor: color-mix(in srgb, var(--contentHeaderTextColor), black 9%);
+}
+
+.theme-7 {
+    --editProgressTextColor: color-mix(in srgb, var(--contentHeaderTextColor), white 50%);
+    --editSectionTextColor: color-mix(in srgb, var(--contentHeaderTextColor), black 9%);
+}
+
+.theme-8 {
+    --editProgressTextColor: color-mix(in srgb, var(--contentHeaderTextColor), white 40%);
+    --editSectionTextColor: color-mix(in srgb, var(--contentHeaderTextColor), black 9%);
+}
+
+
+:root {
+
+
+
+
+    --editProgressBackColor: color-mix(in srgb, var(--contentHeaderBackColor), white 30%);
+    --editProgressBackColorGradient: color-mix(in srgb, var(--contentHeaderBackColorGradient), white 30%);
+
+
+
+    --editSectionContentTextColor: color-mix(in srgb, var(--contentHeaderBackColor), #A0A0A0 75%);
+    --editSectionContentTextColorGradient: color-mix(in srgb, var(--contentHeaderBackColorGradient), gray 75%);
+}
+
+/* Section spacing */
+.edit-section {
+    margin-bottom: 24px;
+}
+
+.edit-section-content {
+    padding: 15px;
+    border: 1px dashed #666;
+    border-radius: 6px;
+    background-image: linear-gradient(45deg, var(--editSectionContentTextColor), var(--editSectionContentTextColorGradient));
+}
+
+.grid-input-group  {
+    display: grid !important;
+    grid-template-areas:
+        "qty unit save"
+        "desc inst delete";
+    grid-template-columns: 50% 50% 20%;
+    gap: 0.5rem;
+}
+
+
+.qty-input    { grid-area: qty; }
+.unit-input   { grid-area: unit; }
+.save-input   { grid-area: save; }
+.desc-input   { grid-area: desc; }
+.inst-input   { grid-area: inst; }
+.del-input    { grid-area: delete; }
+
+
+@media (orientation:landscape) {
+    .grid-input-group {
+        grid-template-areas:
+            "qty unit desc inst save delete";
+        grid-template-columns: repeat(6, 1fr);
+    }
+}

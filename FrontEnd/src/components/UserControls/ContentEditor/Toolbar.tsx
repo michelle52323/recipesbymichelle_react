@@ -127,12 +127,20 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor, editorId, splitOnWidth
                             </svg>
 
                         </button>
+
+                        {/* DEGREE SYMBOL */}
+                        <button
+                            className="text-editor-biu"
+                            onClick={() => editor.chain().focus().insertContent('°').run()}
+                        >
+                            <div className="text-editor-degree">°</div>
+                        </button>
                     </div>
 
                     {/* Row 2: Math + Code + HR */}
-                    <div className="text-editor-toolbar row-2">
-                        {/* MATH */}
-                        <button
+                    {/* <div className="text-editor-toolbar row-2"> */}
+                    {/* MATH */}
+                    {/* <button
                             className={`text-editor-text-block ${editor.isActive("mathNode") ? "active" : ""}`}
                             onClick={() => {
                                 editor
@@ -146,24 +154,24 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor, editorId, splitOnWidth
                             }}
                         >
                             Math
-                        </button>
+                        </button> */}
 
-                        {/* CODE */}
-                        <button
+                    {/* CODE */}
+                    {/* <button
                             className={`text-editor-text-block ${editor.isActive("codeBlock") ? "active" : ""}`}
                             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                         >
                             Code
-                        </button>
+                        </button> */}
 
-                        {/* HR */}
-                        <button
+                    {/* HR */}
+                    {/* <button
                             className={`text-editor-text-block ${editor.isActive("horizontalRule") ? "active" : ""}`}
                             onClick={() => editor.chain().focus().setHorizontalRule().run()}
                         >
                             ― HR
-                        </button>
-                    </div>
+                        </button> */}
+                    {/* </div> */}
                 </>
             ) : (
                 // Wide: single row with everything
@@ -236,8 +244,17 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor, editorId, splitOnWidth
 
                     </button>
 
-                    {/* MATH */}
+                    {/* DEGREE SYMBOL */}
                     <button
+                        className="text-editor-biu"
+                        onClick={() => editor.chain().focus().insertContent('°').run()}
+                    >
+                        <div className="text-editor-degree">°</div>
+                    </button>
+
+
+                    {/* MATH */}
+                    {/* <button
                         className={`text-editor-text-block ${editor.isActive("mathNode") ? "active" : ""}`}
                         onClick={() => {
                             editor
@@ -251,23 +268,23 @@ export const Toolbar: React.FC<ToolbarProps> = ({ editor, editorId, splitOnWidth
                         }}
                     >
                         Math
-                    </button>
+                    </button> */}
 
                     {/* CODE */}
-                    <button
+                    {/* <button
                         className={`text-editor-text-block ${editor.isActive("codeBlock") ? "active" : ""}`}
                         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                     >
                         Code
-                    </button>
+                    </button> */}
 
                     {/* HR */}
-                    <button
+                    {/* <button
                         className={`text-editor-text-block ${editor.isActive("horizontalRule") ? "active" : ""}`}
                         onClick={() => editor.chain().focus().setHorizontalRule().run()}
                     >
                         ― HR
-                    </button>
+                    </button> */}
                 </div>
             )}
         </div>

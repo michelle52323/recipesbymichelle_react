@@ -253,6 +253,7 @@ a:focus {
 
 
 .feedback-banner-message {
+    font-size: 14px;
     padding-left: 3%;
 }
 
@@ -480,10 +481,32 @@ use-wide-card {
     height: 100px;
 }
 
-.form-row-130 {
-    clear: both;
-    height: 130px;
+@media (min-width: 768px) {
+    .form-row-130 {
+        height: 130px;
+        clear: both;
+    }
 }
+
+@media (max-width: 767.98px) {
+    .form-row-130 {
+        height: auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .form-row-extra-space {
+        height: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .form-row-extra-space {
+        height: 15px;
+        clear:both;
+    }
+}
+
 
 .form-row-tall {
     clear: both;

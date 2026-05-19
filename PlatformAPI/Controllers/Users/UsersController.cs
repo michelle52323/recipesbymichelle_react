@@ -67,6 +67,10 @@ namespace PlatformAPI.Controllers.Users
         public string Email { get; set; }
     }
 
+    public class UpdateMeasurementSystemRequest
+    {
+        public string MeasurementSystem { get; set; } // "Imperial" or "Metric"
+    }
 
 
 
@@ -547,6 +551,47 @@ namespace PlatformAPI.Controllers.Users
                     message = "An error occurred while processing your request."
                 });
             }
+        }
+
+        [HttpPut("update-measurement-system")]
+        public async Task<IActionResult> UpdateMeasurementSystem([FromBody] UpdateMeasurementSystemRequest request)
+        {
+            if (request == null || string.IsNullOrWhiteSpace(request.MeasurementSystem))
+                return BadRequest("Measurement system is required.");
+
+            // Normalize input
+            var system = request.MeasurementSystem.Trim();
+
+            // Validate
+            if (system != "Imperial" && system != "Metric")
+                return BadRequest("Invalid measurement system.");
+
+            // Extract user ID from claims
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            if (!int.TryParse(userIdClaim, out var userId))
+                return Unauthorized(); // or BadRequest, depending on your pattern
+
+            var user = await _context.Users
+                .Include(u => u.UserType)
+                .Include(u => u.Gender)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+                return NotFound("User not found.");
+
+            // Map string → enum
+            user.MeasurementSystem = system == "Imperial"
+                ? Enums.MeasurementSystem.Imperial
+                : Enums.MeasurementSystem.Metric;
+
+            // Mark onboarding step complete
+            user.HasSelectedMeasurementSystem = true;
+
+            await _context.SaveChangesAsync();
+            await _authService.SignInUserAsync(user);
+
+            return Ok(new { success = true });
         }
 
 

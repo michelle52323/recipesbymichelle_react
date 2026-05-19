@@ -25,6 +25,8 @@ namespace PlatformAPI.Controllers.Users
         public int? ThemeId { get; set; }
         public bool IsLockedOut { get; set; }
 
+        public bool HasMeasurementSystem { get; set; }
+
         public string ErrorMessage { get; set; }
     }
 
@@ -118,7 +120,9 @@ namespace PlatformAPI.Controllers.Users
                     UserId = user.Id,
                     Username = user.Username,
                     UserType = user.UserType.Code,
-                    ThemeId = user.ThemeId
+                    ThemeId = user.ThemeId,
+                    HasMeasurementSystem = user.HasSelectedMeasurementSystem
+
                 });
             }
             else

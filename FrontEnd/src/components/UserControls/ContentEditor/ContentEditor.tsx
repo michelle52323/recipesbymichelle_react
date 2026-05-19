@@ -4,13 +4,14 @@ import React, {
     useState,
     useImperativeHandle,
 } from "react"
+
 import { useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Underline from "@tiptap/extension-underline"
 import { MathfieldElement } from "mathlive"
 import { Toolbar } from "./Toolbar"
 import { Editor } from "./Editor"
-import "./matheditor.css"
+import "./contenteditor.css"
 import { InlineMathNode } from "../../../extensions/InlineMathNode"
 import { isEditorEmpty } from "../../../helpers/textHelper"
 
@@ -19,7 +20,7 @@ import type { EditorJson } from '../../../types/Editor/EditorJSON';
 // -----------------------------
 // Props
 // -----------------------------
-type MathEditorProps = {
+type ContenteditorProps = {
     editorId: string
     recordId?: string
     label?: string
@@ -32,20 +33,21 @@ type MathEditorProps = {
     splitToolbarOnWidth?: number | false
 
     // added for forwardRef wrapper
-    forwardedRef?: React.Ref<any>
+    //forwardedRef?: React.Ref<any>
+    forwardedRef?: React.Ref<ContenteditorHandle>
 }
 
 // -----------------------------
 // Handle exposed to parent
 // -----------------------------
-export type MathEditorHandle = {
+export type ContenteditorHandle = {
     isEditorEmpty: () => boolean
 }
 
 // -----------------------------
 // ORIGINAL COMPONENT (unchanged)
 // -----------------------------
-const MathEditorComponent: React.FC<MathEditorProps> = ({
+const ContenteditorComponent: React.FC<ContenteditorProps> = ({
     editorId,
     recordId,
     label,
@@ -132,13 +134,16 @@ const MathEditorComponent: React.FC<MathEditorProps> = ({
         }
     }, [initialLatex])
 
-    // expose method to parent
     useImperativeHandle(forwardedRef, () => ({
-        isEditorEmpty() {
-            if (!editor) return true
-            return isEditorEmpty(editor.getJSON())
+        focus() {
+            editor?.commands.focus();
         },
-    }))
+        isEditorEmpty() {
+            if (!editor) return true;
+            return isEditorEmpty(editor.getJSON());
+        }
+    }));
+
 
     return (
         <div className="math-editor-wrapper">
@@ -171,8 +176,8 @@ const MathEditorComponent: React.FC<MathEditorProps> = ({
 // -----------------------------
 // SAFE WRAPPER WITH forwardRef
 // -----------------------------
-export const MathEditor = React.forwardRef<MathEditorHandle, MathEditorProps>(
+export const ContentEditor = React.forwardRef<ContenteditorHandle, ContenteditorProps>(
     (props, ref) => {
-        return <MathEditorComponent {...props} forwardedRef={ref} />
+        return <ContenteditorComponent {...props} forwardedRef={ref} />
     }
 )

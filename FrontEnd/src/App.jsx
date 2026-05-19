@@ -7,7 +7,10 @@ import Dashboard from './components/Dashboard/Dashboard.tsx';
 import MyRecipes from './components/RecipeConsole/MyRecipes/MyRecipes';
 import RecipeInfo from './components/RecipeConsole/RecipeInfo/RecipeInfo';
 import Ingredients from './components/RecipeConsole/Ingredients/Ingredients';
+import Steps from './components/RecipeConsole/Steps/Steps';
 import View from './components/RecipeConsole/View/View';
+
+import SelectMeasurementSystem from './components/Account/SelectMeasurementSystem/SelectMeasurementSystem';
 
 // import QuizInfo from './components/QuizBuilder/QuizInfo/QuizInfo'
 // import Questions from './components/QuizBuilder/Questions/Questions'
@@ -105,6 +108,7 @@ function App() {
 
                 <Route path="account/themes" element={<ThemeSelectorPage />} />
                 <Route path="account/profile" element={<Profile />} />
+                <Route path="account/selectmeasurementsystem" element={<SelectMeasurementSystem />} />
 
                 <Route path="account/changepassword" element={<ChangePasswordPage />} />
                 <Route path="account/forgotpassword" element={<ForgotPassword />} />
@@ -118,6 +122,9 @@ function App() {
 
                 <Route path="recipes/ingredients" element={<Ingredients />} />
                 <Route path="recipes/ingredients/:id" element={<Ingredients />} />
+
+                <Route path="recipes/steps" element={<Steps />} />
+                <Route path="recipes/steps/:id" element={<Steps />} />
 
                 <Route path="recipes/view" element={<View />} />
                 <Route path="recipes/view/:id" element={<View />} />

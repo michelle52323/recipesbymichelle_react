@@ -7,7 +7,7 @@ import CheckAuth from '../../../../components/Account/CheckAuth';
 import ProgressBar from '../../../UserControls/ProgressBar/ProgressBar';
 import type { LayoutContext } from '../../../../components/Layout';
 import { getApiBaseUrl, isMobileTouchDevice } from '../../../../helpers/config';
-import { MathEditor, MathEditorHandle } from "../../../UserControls/MathEditor/MathEditor";
+import { MathEditor, MathEditorHandle } from "../../../UserControls/ContentEditor/ContentEditor";
 import { renderMathInHtml } from '../../../../helpers/mathHelper'
 import Modal from 'react-modal';
 import EditPageToolbar from '../../../UserControls/EditPageToolbar/EditPageToolbar';

@@ -52,12 +52,13 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
 
 
 
-    const publicRoutes = import.meta.env.VITE_PUBLIC_ROUTES?.split(',') ?? [];
+    //const publicRoutes = import.meta.env.VITE_PUBLIC_ROUTES?.split(',') ?? [];
+    const narrowCardRoutes = import.meta.env.VITE_NARROW_LAYOUT_ROUTES?.split(',') ?? [];
     const currentRoute = location.pathname;
-    const isPublicRoute = publicRoutes.includes(currentRoute);
+    const isNarrowCardRoute = narrowCardRoutes.includes(currentRoute);
     const isMobile = isMobileTouchDevice();
     
-    const useCard = isPublicRoute && !isMobileTouchDevice();
+    const useCard = isNarrowCardRoute && !isMobileTouchDevice();
     
     const isResetPasswordPage = currentRoute.toLowerCase().includes("resetpassword");
 
@@ -65,7 +66,7 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
     const borderClassName = useCard ? 'use-border' : 'no-border';
     const pageFadeInClassName = isMobile ? 'page-fade-in-mobile' : 'page-fade-in';
 
-    const innerHeightClass = isPublicRoute ? '' : 'inner-page-height';
+    const innerHeightClass = isNarrowCardRoute ? '' : 'inner-page-height';
     const API_BASE = getApiBaseUrl();
 
     useEffect(() => {
@@ -226,7 +227,7 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
                 <div className={innerHeightClass}>
                     <div className={cardClassName}>
                         <header className={`card-title d-flex ${borderClassName}`}>
-                            {!isPublicRoute && !isResetPasswordPage && (
+                            {!isNarrowCardRoute && !isResetPasswordPage && (
                                 <div className="home-icon-holder">
                                     <a href="#" className="card-text-color icon-margin" id="menuToggle" onClick={toggleMenu}>
                                         <Icon name="menu" />
@@ -236,7 +237,7 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
 
                             <div
                                 ref={headerRef}
-                                className={`header-holder truncate-html ${!isPublicRoute ? 'header-padding' : ''} ${smartClass}`}
+                                className={`header-holder truncate-html ${!isNarrowCardRoute ? 'header-padding' : ''} ${smartClass}`}
                             >
                                 {title}
                             </div>

@@ -9,8 +9,7 @@ import { trimQuantity, validateQuantityNumeric, validateUnitInput, requiresPlura
 
 import type { LayoutContext } from "../../Layout";
 
-import IngredientsListMobile from "./IngredientsMobile";
-import IngredientsListDesktop from "./IngredientsDesktop";
+import StepsListDesktopMobile from "./StepsDesktopMobile";
 
 import ProgressBar from "../../UserControls/ProgressBar/ProgressBar";
 
@@ -18,18 +17,20 @@ import ButtonGrid from "../../UserControls/ButtonGrid/ButtonGrid";
 import Icon from "../../UserControls/Icons/icons";
 import Loader from "../../UserControls/Loader/Loader";
 
-import type { Ingredient, IngredientAdd, Unit } from "../../../types/Recipe/Recipe";
+import type { Step, StepAdd, Unit } from "../../../types/Recipe/Recipe";
 import type { FractionDecimal, MeasurementUnit } from "src/types/Measurement/MeasurementType";
 import type {
-    IngredientGrid,
-    IngredientGridController,
-} from "../../../types/Recipe/IngredientsGrid";
+    StepGrid,
+    StepGridController,
+} from "../../../types/Recipe/StepsGrid";
 import type { DragEndEvent } from "@dnd-kit/core";
+
+import {isTipTapEmpty} from '../../UserControls/ContentEditor/UtilityFunctions';
 
 import '../../../grid-layout.css';
 
 //consider removing
-import './ingredients.css';
+import './steps.css';
 
 
 const API_BASE = getApiBaseUrl();
@@ -44,7 +45,7 @@ interface AuthResult {
     claims: Record<string, string>;
 }
 
-function Ingredients() {
+function Steps() {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -62,13 +63,13 @@ function Ingredients() {
     });
 
     // GRID STATE
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+    const [steps, setSteps] = useState<Step[]>([]);
     const [validUnits, setValidUnits] = useState<Unit[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [recentlySavedId, setRecentlySavedId] = useState<number | null>(null);
 
     //ADD ROW STATE
-    const [addRow, setAddRow] = useState<Ingredient>({
+    const [addRow, setAddRow] = useState<Step>({
         id: 0,
         quantity: "",
         unit: "",
@@ -82,8 +83,8 @@ function Ingredients() {
 
     // DELETE MODAL STATE
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [ingredientToDelete, setIngredientToDelete] = useState<Ingredient | null>(null);
-    const [ingredientIndexToDelete, setIngredientIndexToDelete] = useState<number | null>(null);
+    const [stepToDelete, setStepToDelete] = useState<Step | null>(null);
+    const [stepIndexToDelete, setStepIndexToDelete] = useState<number | null>(null);
 
     //VALIDATION MODAL STATE
     // Validation modal state
@@ -177,58 +178,58 @@ function Ingredients() {
     }, [recipeId, navigate]);
 
     // -----------------------------
-    // INGREDIENT GRID FETCH
+    // STEP GRID FETCH
     // -----------------------------
 
-    const loadIngredients = useCallback(async () => {
+    const loadSteps = useCallback(async () => {
         setIsLoading(true);
 
         const response = await fetch(
-            `${API_BASE}/api/Ingredients/ingredients/${recipeId}/`,
+            `${API_BASE}/api/Steps/steps/${recipeId}/`,
             { credentials: "include" }
         );
 
         if (response.ok) {
             const data = await response.json();
-            setIngredients(data.ingredients ?? data); // supports old + new API
+            setSteps(data.steps ?? data); // supports old + new API
             setValidUnits(data.validUnits ?? []);
         } else {
-            console.error("Failed to fetch ingredients");
+            console.error("Failed to fetch steps");
         }
 
         setIsLoading(false);
     }, [recipeId]);
 
     useEffect(() => {
-        if (auth?.auth) loadIngredients();
-    }, [auth, loadIngredients]);
+        if (auth?.auth) loadSteps();
+    }, [auth, loadSteps]);
 
     // -----------------------------
     // ADD NEW SAVE HANDLING
     // -----------------------------
 
-    const handleAdd = async (added: Ingredient) => {
+    const handleAdd = async (added: Step) => {
         setBanner('');
 
         // 1. Trim fields
-        const cleanedQty = trimQuantity(added.quantity);
-        const cleanedUnit = added.unit?.trim() ?? "";
-        const cleanedDesc = added.description?.trim() ?? "";
-        const cleanedInstr = added.instructions?.trim() ?? "";
+        //const cleanedQty = trimQuantity(added.quantity);
+        //const cleanedUnit = added.unit?.trim() ?? "";
+        const cleanedDesc = isTipTapEmpty(added.description?.trim()) ? "" : added.description?.trim();
+        //const cleanedInstr = added.instructions?.trim() ?? "";
 
 
 
         // 2. Numeric validation (Imperial/Metric)
         const errors: string[] = [];
-        const qtyResult = validateQuantityNumeric(measurementSystem, cleanedQty);
-        if (!qtyResult.isValid) {
-            errors.push(qtyResult.error!);
-        }
+        //const qtyResult = validateQuantityNumeric(measurementSystem, cleanedQty);
+        // if (!qtyResult.isValid) {
+        //     errors.push(qtyResult.error!);
+        // }
 
         // 3. Unit validation 
-        const isPlural = requiresPlural(cleanedQty, measurementSystem);
-        const unitResult = validateUnitInput(measurementSystem, cleanedUnit, isPlural, unitLookupTable);
-        if (!unitResult.isValid) errors.push(unitResult.error);
+        //const isPlural = requiresPlural(cleanedQty, measurementSystem);
+        //const unitResult = validateUnitInput(measurementSystem, cleanedUnit, isPlural, unitLookupTable);
+        //if (!unitResult.isValid) errors.push(unitResult.error);
 
         // 4. Basic blank validation
         if (!cleanedDesc) errors.push("Description is required.");
@@ -242,10 +243,7 @@ function Ingredients() {
                 "add",
                 {
                     ...added,
-                    quantity: cleanedQty,
-                    unit: cleanedUnit,
                     description: cleanedDesc,
-                    instructions: cleanedInstr,
                     sortOrder: added.sortOrder ?? index + 1,
                     isActive: true
                 }
@@ -254,23 +252,23 @@ function Ingredients() {
             return;
         }
 
-        // 6. Build IngredientAdd object
-        const ingredientToAdd: IngredientAdd = {
+        // 6. Build StepAdd object
+        const stepToAdd: StepAdd = {
             ...added,
-            quantity: cleanedQty,
-            unit: cleanedUnit,
+            //quantity: cleanedQty,
+            //unit: cleanedUnit,
             description: cleanedDesc,
-            instructions: cleanedInstr,
+            //instructions: cleanedInstr,
             recipeId: Number(recipeId)
         };
 
         try {
             // 7. Call API
-            const response = await fetch(`${API_BASE}/api/Ingredients`, {
+            const response = await fetch(`${API_BASE}/api/Steps`, {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(ingredientToAdd)
+                body: JSON.stringify(stepToAdd)
             });
 
             if (!response.ok) throw new Error("Save failed");
@@ -281,19 +279,16 @@ function Ingredients() {
                 throw new Error(result.message ?? "Save failed");
             }
 
-            // Extract the ingredient returned by the API
-            const saved: Ingredient = result.ingredient;
+            // Extract the step returned by the API
+            const saved: Step = result.step;
 
-            // 8. Add the new ingredient to the list
-            setIngredients(prev => [...prev, saved]);
+            // 8. Add the new step to the list
+            setSteps(prev => [...prev, saved]);
 
             // 9. Reset Add Row
             setAddRow({
                 id: 0,
-                quantity: "",
-                unit: "",
                 description: "",
-                instructions: "",
                 sortOrder: null,
                 isActive: true
             });
@@ -302,11 +297,11 @@ function Ingredients() {
             setOpenId(null);
 
             // 11. Banner
-            setBanner('Ingredient successfully added!');
+            setBanner('Step successfully added!');
 
         } catch (err) {
             console.error(err);
-            setBanner('Error adding ingredient.');
+            setBanner('Error adding step.');
         }
     };
 
@@ -315,27 +310,27 @@ function Ingredients() {
     // -----------------------------
     // SAVE (UPDATED) HANDLING
     // -----------------------------
-    const handleSave = async (updated: Ingredient) => {
+    const handleSave = async (updated: Step) => {
         setBanner('');
 
         // 1. Trim fields
-        const cleanedQty = trimQuantity(updated.quantity);
-        const cleanedUnit = updated.unit?.trim() ?? "";
-        const cleanedDesc = updated.description?.trim() ?? "";
+        //const cleanedQty = trimQuantity(updated.quantity);
+        //const cleanedUnit = updated.unit?.trim() ?? "";
+        const cleanedDesc = isTipTapEmpty(updated.description?.trim()) ? "" : updated.description?.trim();
 
 
         // 2. Numeric validation (Imperial/Metric)
         const errors: string[] = [];
 
-        const qtyResult = validateQuantityNumeric(measurementSystem, cleanedQty);
-        if (!qtyResult.isValid) {
-            errors.push(qtyResult.error!);
-        }
+        //const qtyResult = validateQuantityNumeric(measurementSystem, cleanedQty);
+        // if (!qtyResult.isValid) {
+        //     errors.push(qtyResult.error!);
+        // }
 
         // 3. Unit validation 
-        const isPlural = requiresPlural(cleanedQty, measurementSystem);
-        const unitResult = validateUnitInput(measurementSystem, cleanedUnit, isPlural, unitLookupTable);
-        if (!unitResult.isValid) errors.push(unitResult.error);
+        // const isPlural = requiresPlural(cleanedQty, measurementSystem);
+        // const unitResult = validateUnitInput(measurementSystem, cleanedUnit, isPlural, unitLookupTable);
+        // if (!unitResult.isValid) errors.push(unitResult.error);
 
         // 4. Basic blank validation
         if (!cleanedDesc) errors.push("Description is required.");
@@ -349,8 +344,6 @@ function Ingredients() {
                 "save",
                 {
                     ...updated,
-                    quantity: cleanedQty,
-                    unit: cleanedUnit,
                     description: cleanedDesc
                 }
             );
@@ -360,34 +353,30 @@ function Ingredients() {
 
         // 6. If valid → perform save
         try {
-            const response = await fetch(`${API_BASE}/api/Ingredients`, {
+            const response = await fetch(`${API_BASE}/api/Steps`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     ...updated,
-                    quantity: cleanedQty,
-                    unit: cleanedUnit,
                     description: cleanedDesc
                 })
             });
 
             if (!response.ok) throw new Error("Save failed");
 
-            setIngredients(prev =>
+            setSteps(prev =>
                 prev.map(i => (i.id === updated.id ? {
                     ...updated,
-                    quantity: cleanedQty,
-                    unit: cleanedUnit,
                     description: cleanedDesc
                 } : i))
             );
 
             setRecentlySavedId(updated.id);
-            setBanner("Ingredient successfully updated!");
+            setBanner("Step successfully updated!");
 
         } catch (err) {
             console.error(err);
-            setBanner("Error updating ingredient.");
+            setBanner("Error updating step.");
         }
     };
 
@@ -404,25 +393,25 @@ function Ingredients() {
     // DELETE HANDLING
     // -----------------------------
 
-    const openDeleteModal = (ingredient: Ingredient | null, index: number | null) => {
-        setIngredientToDelete(ingredient);
-        setIngredientIndexToDelete(index);
-        setModalIsOpen(!!ingredient);
+    const openDeleteModal = (step: Step | null, index: number | null) => {
+        setStepToDelete(step);
+        setStepIndexToDelete(index);
+        setModalIsOpen(!!step);
     };
 
     const handleDelete = async () => {
-        if (!ingredientToDelete) return;
+        if (!stepToDelete) return;
 
         setBanner("");
 
-        const response = await fetch(`${API_BASE}/api/Ingredients/${ingredientToDelete.id}`, {
+        const response = await fetch(`${API_BASE}/api/Steps/${stepToDelete.id}`, {
             method: "DELETE",
             credentials: "include",
         });
 
         if (response.ok) {
-            await loadIngredients();
-            setBanner("Ingredient successfully deleted!");
+            await loadSteps();
+            setBanner("Step successfully deleted!");
         } else {
             setBanner("Error occurred during deletion");
         }
@@ -440,10 +429,10 @@ function Ingredients() {
         const { active, over } = event;
         if (!over || active.id === over.id) return;
 
-        const oldIndex = ingredients.findIndex((i) => i.id.toString() === active.id);
-        const newIndex = ingredients.findIndex((i) => i.id.toString() === over.id);
+        const oldIndex = steps.findIndex((i) => i.id.toString() === active.id);
+        const newIndex = steps.findIndex((i) => i.id.toString() === over.id);
 
-        const reordered = [...ingredients];
+        const reordered = [...steps];
         const [moved] = reordered.splice(oldIndex, 1);
         reordered.splice(newIndex, 0, moved);
 
@@ -452,10 +441,10 @@ function Ingredients() {
             sortOrder: idx + 1,
         }));
 
-        setIngredients(updated);
+        setSteps(updated);
 
         const response = await fetch(
-            `${API_BASE}/api/Ingredients/update-sort-order`,
+            `${API_BASE}/api/Steps/update-sort-order`,
             {
                 method: "POST",
                 credentials: "include",
@@ -472,7 +461,7 @@ function Ingredients() {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            setBanner("Ingredients successfully re-ordered!");
+            setBanner("Steps successfully re-ordered!");
         } else {
             setBanner("Error occurred during sorting");
         }
@@ -617,14 +606,14 @@ function Ingredients() {
     // CONTROLLER OBJECT
     // -----------------------------
 
-    const controller: IngredientGridController = {
+    const controller: StepGridController = {
         grid: {
-            ingredients,
+            steps,
             unitLookupTable,
         },
         modalIsOpen,
-        ingredientToDelete,
-        ingredientIndexToDelete,
+        stepToDelete,
+        stepIndexToDelete,
         isLoading,
         handleDragEnd,
         handleDelete,
@@ -652,7 +641,7 @@ function Ingredients() {
     // RENDER
     // -----------------------------
 
-    if (auth === null) return <Loader message="Loading ingredients ..." />;
+    if (auth === null) return <Loader message="Loading steps ..." />;
     if (!auth.auth) return null;
 
     return (
@@ -668,9 +657,9 @@ function Ingredients() {
                     <ProgressBar />
 
                     {isMobileTouchDevice() ? (
-                        <IngredientsListMobile controller={controller} />
+                        <StepsListDesktopMobile controller={controller} />
                     ) : (
-                        <IngredientsListDesktop controller={controller} />
+                        <StepsListDesktopMobile controller={controller} />
                     )}
                 </div>
             </div>
@@ -679,7 +668,7 @@ function Ingredients() {
                 buttons={[
                     {
                         text: "Back",
-                        url: `/recipes/recipeInfo/${recipeId}`,
+                        url: `/recipes/ingredients/${recipeId}`,
                         icon: <Icon name="leftArrow" />,
                         type: "button",
                         mobileSlot: 1,
@@ -693,9 +682,8 @@ function Ingredients() {
                         desktopSlot: 3,
                     },
                     {
-                        text: "Next",
-                        url: `/recipes/steps/${recipeId}`,
-                        icon: <Icon name="rightArrow" />,
+                        text: "Complete",
+                        url: `/recipes/view/${recipeId}`,
                         type: "button",
                         mobileSlot: 3,
                         desktopSlot: 5,
@@ -721,13 +709,13 @@ function Ingredients() {
                 <div className="dialog-content-holder">
                     <div className="dialog-content modal-body dialog-text">
                         <div>
-                            Are you sure you want to delete ingredient?
+                            Are you sure you want to delete step?
                         </div>
 
                         <div
                             className="mt-2"
                             dangerouslySetInnerHTML={{
-                                __html: ingredientToDelete?.description ?? "",
+                                __html: stepToDelete?.description ?? "",
                             }}
                         />
 
@@ -782,4 +770,4 @@ function Ingredients() {
     );
 }
 
-export default Ingredients;
+export default Steps;

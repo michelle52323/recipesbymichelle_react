@@ -38,41 +38,25 @@ function SignInForm() {
                     const data = await response.json();
 
                     if (data.success) {
-                        // setBanner(null);
-                        // //console.log("DATA: " + JSON.stringify(data));
-                        // setHasStarterKit(data.hasStarterKit);
-
-                        // // Perform clone if user does NOT have a starter kit
-                        // if (data.hasStarterKit === false) {
-                        //     const cloneResponse = await fetch(`${API_BASE}/api/QuizClone/${data.userId}`, {
-                        //         method: 'POST',
-                        //         credentials: 'include'
-                        //     });
-
-                        //     if (cloneResponse.ok) {
-                        //         // Only update HasStarterKit if cloning succeeded
-                        //         await fetch(`${API_BASE}/api/Users/set-starter-kit`, {
-                        //             method: 'PUT',
-                        //             credentials: 'include'
-                        //         });
-
-                        //     } else {
-                        //         // Optional: handle clone failure
-                        //         console.error("Starter kit cloning failed.");
-                        //     }
-                        // }
+                        //console.log("SignIn API result:", JSON.stringify(data, null, 2));
 
 
+                        
+
+                        if (!data.hasMeasurementSystem) {
+                            window.location.href = '/account/selectmeasurementsystem';
+                            return;
+                        }
 
                         localStorage.setItem('authToken', data.token); // optional
                         window.location.href = '/dashboard';
                     } else {
                         setIsLoading(false);
                         setHasStarterKit(null);
-                        if (data.status=429) {
+                        if (data.status = 429) {
                             setBanner(data.failureReason);
                         }
-                        else if (data.status=401) {
+                        else if (data.status = 401) {
                             setBanner('Invalid username or password');
                         }
 
@@ -83,7 +67,7 @@ function SignInForm() {
                     console.error('Login error:', err);
                     setBanner('Something went wrong');
 
-                    
+
                 }
             })();
         }

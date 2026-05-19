@@ -4,7 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import Icon from '../../../UserControls/Icons/icons';
 import '../../../../multiple-choice-selection.css';
-import { MathEditor, MathEditorHandle } from "../../../UserControls/MathEditor/MathEditor";
+import { MathEditor, MathEditorHandle } from "../../../UserControls/ContentEditor/ContentEditor";
 import { renderMathInHtml } from '../../../../helpers/mathHelper';
 
 import type { AnswerChoice } from "../../../../types/AnswerChoices/AnswerChoice";

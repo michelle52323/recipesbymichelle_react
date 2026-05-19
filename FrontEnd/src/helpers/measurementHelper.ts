@@ -188,7 +188,7 @@ export function validateQuantityNumeric(
     const cleaned = trimQuantity(rawValue);
 
     if (!cleaned) {
-        return { isValid: false, cleaned, error: "Quantity is required." };
+        return { isValid: true, cleaned, error: "" };
     }
 
     // Reject negatives early
