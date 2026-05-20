@@ -10,12 +10,14 @@ import type { LayoutContext } from '../../Layout';
 import Icon from '../../UserControls/Icons/icons';
 import ButtonGrid from '../../UserControls/ButtonGrid/ButtonGrid';
 import type { RecipeView } from '../../../types/Recipe/Recipe';
+import type { PreviousPageNavigation } from '../../../types/Navigation/Navigation';
 import Loader from '../../UserControls/Loader/Loader';
 import FavoritesStar from '../../../components/UserControls/Favorites/FavoriteStar';
 import '../../../grid-layout.css';
 import './view.css';
 
 const API_BASE = getApiBaseUrl();
+
 
 interface Claims {
     FirstName?: string;
@@ -33,7 +35,7 @@ function View() {
     const { id } = useParams<{ id?: string }>();
 
     const navigate = useNavigate();
-    const { setTitle, setBanner, setTitleBarSlot } = useOutletContext<LayoutContext>();
+    const { setTitle, setBanner, setTitleBarSlot, previousPath } = useOutletContext<LayoutContext>();
     const location = useLocation();
 
     const [recipe, setRecipe] = useState<RecipeView | null>(null);
@@ -44,15 +46,49 @@ function View() {
 
     const [fontClass, setFontClass] = useState<string | null>(null);
     const [backgroundCardClass, setBackgroundCardClass] = useState<string | null>(null);
+    const [previousPageNavigation, setPreviousPathNavigation] = useState<PreviousPageNavigation | null>(null);
+    const [isMyRecipe, setIsMyRecipe] = useState<boolean>(false);
 
 
     const layoutClass = isMobileTouchDevice() ? "gof-view-mobile" : "gof-tall";
     const innerlayoutClass = isMobileTouchDevice() ? "grid-page-row-height-mobile" : "grid-page-row-height-desktop";
 
-    //const backgroundCardClass = "hello";
+    //console.log("Previous location:", previousPath.current);
 
-    //const layoutClass = "";
-    //const innerlayoutClass = "";
+    //Set previous page navigation button correctly
+    useEffect(() => {
+        const prev = previousPath.current;
+        if (!prev) return;
+
+        const lower = prev.toLowerCase();
+        let buttonText = "";
+        let url = prev;
+
+        // Special case: Steps should behave like MyRecipes
+        if (lower.includes("steps")) {
+            buttonText = "My Recipes";
+            url = "/recipes/myrecipes";
+        }
+        else if (lower.includes("myrecipes")) {
+            buttonText = "My Recipes";
+        }
+        else if (lower.includes("favorites")) {
+            buttonText = "Favorites";
+        }
+        else if (lower.includes("search")) {
+            buttonText = "Back to Search";
+        }
+        else {
+            buttonText = "Back";
+        }
+
+        setPreviousPathNavigation({ buttonText, url });
+
+    }, [previousPath.current]);
+
+
+
+
 
     useEffect(() => {
         CheckAuth().then(setAuth);
@@ -95,6 +131,35 @@ function View() {
     useEffect(() => {
         setTitleBarSlot(<FavoritesStar recipeId={id} />);
     }, [id]);
+
+    useEffect(() => {
+        const load = async () => {
+            const r = await checkIsMyRecipe(id);
+            setIsMyRecipe(r);
+        };
+
+        if (id) {
+            load();
+        }
+    }, [id]);
+
+
+
+    const checkIsMyRecipe = async (recipeId: string): Promise<boolean> => {
+        const res = await fetch(`${API_BASE}/api/View/isMyRecipe/${recipeId}`, {
+            method: "GET",
+            credentials: "include"
+        });
+
+        if (!res.ok) {
+            console.error("Failed to check recipe ownership");
+            return false;
+        }
+
+        const data = await res.json();
+        return data.isOwner === true;
+    };
+
 
 
     useEffect(() => {
@@ -172,7 +237,7 @@ function View() {
                                 <div className="d-flex align-items-center pb-3 fw-bold">
                                     <span className="me-2">Ingredients</span>
 
-                                    {recipe?.isMyRecipe && (
+                                    {isMyRecipe && (
                                         <div className="d-print-none">
                                             <button
                                                 type="button"
@@ -227,7 +292,7 @@ function View() {
                                 <div className="d-flex align-items-center pb-2 fw-bold">
                                     <span className="me-2">Steps</span>
 
-                                    {recipe?.isMyRecipe && (
+                                    {isMyRecipe && (
                                         <div className="d-print-none">
                                             <button
                                                 type="button"
@@ -275,8 +340,8 @@ function View() {
             <ButtonGrid
                 buttons={[
                     {
-                        text: "My Recipes",
-                        url: "/recipes/myrecipes",
+                        text: previousPageNavigation.buttonText,
+                        url: previousPageNavigation.url,
                         type: "button",
                         mobileSlot: 2,
                         desktopSlot: 3

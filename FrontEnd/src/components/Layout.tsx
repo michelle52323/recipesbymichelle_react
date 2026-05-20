@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { getApiBaseUrl, isMobileTouchDevice } from '../helpers/config';
 import { getSmartTitleClass } from '../helpers/displayHelper';
@@ -26,7 +26,7 @@ export interface LayoutContext {
     setTitle: (title: string) => void;
     setBanner: (banner: string | null) => void;
     setTitleBarSlot: (node: React.ReactNode | null) => void;
-
+    previousPath: React.RefObject<string | null>;
 
 }
 
@@ -58,7 +58,9 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
 
     //const publicRoutes = import.meta.env.VITE_PUBLIC_ROUTES?.split(',') ?? [];
     const narrowCardRoutes = import.meta.env.VITE_NARROW_LAYOUT_ROUTES?.split(',') ?? [];
-    const currentRoute = location.pathname;
+    //const currentRoute = location.pathname;
+    const routerLocation = useLocation();
+    const currentRoute = routerLocation.pathname;
     const isNarrowCardRoute = narrowCardRoutes.includes(currentRoute);
     const isMobile = isMobileTouchDevice();
 
@@ -72,6 +74,18 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
 
     const innerHeightClass = isNarrowCardRoute ? '' : 'inner-page-height';
     const API_BASE = getApiBaseUrl();
+
+    //Track previous path
+    const previousPath = useRef<string | null>(null);
+    const lastPath = useRef<string | null>(routerLocation.pathname);
+
+    useEffect(() => {
+        if (routerLocation.pathname !== lastPath.current) {
+            previousPath.current = lastPath.current;   // store the true previous route
+            lastPath.current = routerLocation.pathname; // update lastPath
+        }
+    }, [routerLocation.pathname]);
+
 
     useEffect(() => {
         const setVH = () => {
@@ -252,7 +266,7 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
                         </header>
 
                         <main style={{ flex: 1 }}>
-                            <Outlet context={{ setTitle, setBanner, setTitleBarSlot }} />
+                            <Outlet context={{ setTitle, setBanner, setTitleBarSlot, previousPath }} />
                         </main>
 
                         {/* BUTTON SLOT HERE */}

@@ -117,6 +117,29 @@ namespace PlatformAPI.Controllers.Recipes
             return Ok(dto);
         }
 
+        [HttpGet("isMyRecipe/{recipeId}")]
+        [Authorize]
+        public async Task<IActionResult> IsMyRecipe(int recipeId)
+        {
+            // Extract UserId from claims
+            int userId = int.TryParse(
+                User?.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value,
+                out var parsedId
+            ) ? parsedId : 0;
+
+            if (userId == 0)
+                return Unauthorized("UserId claim missing or invalid.");
+
+            // Query the UserRecipe table to check ownership
+            var ownership = await _context.UserRecipes
+                .FirstOrDefaultAsync(ur => ur.RecipeId == recipeId && ur.UserId == userId);
+
+            // Return a simple boolean
+            return Ok(new
+            {
+                isOwner = ownership != null
+            });
+        }
 
     }
 }
