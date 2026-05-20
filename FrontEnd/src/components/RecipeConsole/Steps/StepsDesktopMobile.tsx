@@ -92,16 +92,16 @@ function StepsListMobile({ controller }: Props) {
                                 <div className="row ">
 
                                     {/* Quantity label */}
-                                    <div className="col-4">
+                                    {/* <div className="col-4">
                                         <div className="d-flex align-items-baseline flex-wrap">
                                             <span className="mobile-header-label"><b>Quantity</b></span>
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     {/* Description label */}
-                                    <div className="col-8 ps-3">
+                                    {/* <div className="col-8 ps-3">
                                         <span className="mobile-header-label"><b>Description</b></span>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 

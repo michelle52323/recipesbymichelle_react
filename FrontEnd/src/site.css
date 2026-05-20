@@ -367,6 +367,15 @@ use-wide-card {
     font-size: clamp(13px, 3.5vw, 21px);
 }
 
+.titlebar-slot-holder {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    padding-right: 12px; /* matches your menu icon spacing */
+    padding-bottom: 10px;
+}
+
+
 .centered-content {
 
     justify-content: center;
@@ -1399,6 +1408,11 @@ a.button-tiny-ios {
 .dashboard-link {
     font-size: 18px;
 }
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
 
 .starter-kit-link {
     display: inline-flex;

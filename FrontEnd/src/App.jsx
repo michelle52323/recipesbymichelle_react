@@ -9,6 +9,7 @@ import RecipeInfo from './components/RecipeConsole/RecipeInfo/RecipeInfo';
 import Ingredients from './components/RecipeConsole/Ingredients/Ingredients';
 import Steps from './components/RecipeConsole/Steps/Steps';
 import View from './components/RecipeConsole/View/View';
+import Favorites from './components/RecipeConsole/Favorites/Favorites';
 
 import SelectMeasurementSystem from './components/Account/SelectMeasurementSystem/SelectMeasurementSystem';
 
@@ -129,10 +130,10 @@ function App() {
                 <Route path="recipes/view" element={<View />} />
                 <Route path="recipes/view/:id" element={<View />} />
 
+                <Route path="recipes/favorites" element={<Favorites />} />
 
 
 
-                
 
 
             </Route>

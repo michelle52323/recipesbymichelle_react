@@ -125,12 +125,28 @@ function parseMixedNumber(input: string) {
 export function renderStep(input: string, recipeFont: "SansSerif" | "Serif" | "Handwritten"): string {
     if (!input) return "";
 
-    // 1. Convert "degree" → "°"
-    const withDegrees = convertDegreeToSymbol(input);
+    //1.  Remove opening and cloisng <p> </p> tags
+    const cleaned = removeOuterPTag(input);
 
-    // 2. Render fractions / mixed numbers
+    // 2. Convert "degree" → "°"
+    const withDegrees = convertDegreeToSymbol(cleaned);
+
+    // 3. Render fractions / mixed numbers
     return renderAllMixedNumbersHtml(withDegrees, recipeFont);
 }
+
+export function removeOuterPTag(input: string): string {
+    if (!input) return input;
+
+    const trimmed = input.trim();
+
+    if (trimmed.startsWith("<p>") && trimmed.endsWith("</p>")) {
+        return trimmed.slice(3, -4); // remove <p> and </p>
+    }
+
+    return input;
+}
+
 
 
 export function convertDegreeToSymbol(input: string): string {

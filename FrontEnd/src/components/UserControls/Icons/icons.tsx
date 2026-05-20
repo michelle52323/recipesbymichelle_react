@@ -21,6 +21,8 @@ import warningIcon from '../../../assets/icons/warning-svgrepo-com.svg?raw'
 import reviewIcon from '../../../assets/icons/review-screen-svgrepo-com.svg?raw'
 import answerSelectedIcon from '../../../assets/icons/answer-selected.svg?raw'
 import moreOptionsIcon from '../../../assets/icons/more-options.svg?raw'
+import favoritesStarUnfilledIcon from '../../../assets/icons/favorite-svgrepo-com.svg?raw'
+import favoritesStarFilledIcon from '../../../assets/icons/favorite-filled-svgrepo-com.svg?raw'
 
 
 
@@ -45,7 +47,9 @@ const iconMap: Record<string, string> = {
   warning: warningIcon,
   review: reviewIcon,
   answerSelected: answerSelectedIcon,
-  moreOptions: moreOptionsIcon
+  moreOptions: moreOptionsIcon,
+  favoritesStarUnfilled: favoritesStarUnfilledIcon,
+  favoritesStarFilled: favoritesStarFilledIcon
 };
 
 const defaultClassMap: Partial<Record<keyof typeof iconMap, string>> = {

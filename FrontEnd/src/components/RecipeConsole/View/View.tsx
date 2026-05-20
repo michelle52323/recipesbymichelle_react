@@ -11,6 +11,7 @@ import Icon from '../../UserControls/Icons/icons';
 import ButtonGrid from '../../UserControls/ButtonGrid/ButtonGrid';
 import type { RecipeView } from '../../../types/Recipe/Recipe';
 import Loader from '../../UserControls/Loader/Loader';
+import FavoritesStar from '../../../components/UserControls/Favorites/FavoriteStar';
 import '../../../grid-layout.css';
 import './view.css';
 
@@ -32,7 +33,7 @@ function View() {
     const { id } = useParams<{ id?: string }>();
 
     const navigate = useNavigate();
-    const { setTitle, setBanner } = useOutletContext<LayoutContext>();
+    const { setTitle, setBanner, setTitleBarSlot } = useOutletContext<LayoutContext>();
     const location = useLocation();
 
     const [recipe, setRecipe] = useState<RecipeView | null>(null);
@@ -47,7 +48,7 @@ function View() {
 
     const layoutClass = isMobileTouchDevice() ? "gof-view-mobile" : "gof-tall";
     const innerlayoutClass = isMobileTouchDevice() ? "grid-page-row-height-mobile" : "grid-page-row-height-desktop";
-    
+
     //const backgroundCardClass = "hello";
 
     //const layoutClass = "";
@@ -83,6 +84,17 @@ function View() {
             //console.log("Measurement System: " + measurementSystem);
         }
     }, [auth]);
+
+    useEffect(() => {
+        return () => {
+            setBanner('');
+            setTitleBarSlot(null);
+        };
+    }, [setTitleBarSlot]);
+
+    useEffect(() => {
+        setTitleBarSlot(<FavoritesStar recipeId={id} />);
+    }, [id]);
 
 
     useEffect(() => {
@@ -147,8 +159,8 @@ function View() {
     return (
         <>
 
-            <div className="content-holder-desktop" >
 
+            <div className="content-holder-desktop" >
                 {/* <div className="content-inner-desktop "> */}
                 <div className={`content-inner-desktop ${backgroundCardClass}`}>
 

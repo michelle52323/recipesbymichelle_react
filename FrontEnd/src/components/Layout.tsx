@@ -25,6 +25,9 @@ const hexToRgba = (hex: string, alpha = 1): string => {
 export interface LayoutContext {
     setTitle: (title: string) => void;
     setBanner: (banner: string | null) => void;
+    setTitleBarSlot: (node: React.ReactNode | null) => void;
+
+
 }
 
 interface AuthResult {
@@ -41,6 +44,7 @@ interface LayoutProps {
 function Layout({ buttonSlot, footerSlots }: LayoutProps) {
     const [title, setTitle] = useState<string>('');
     const [banner, setBanner] = useState<string | null>(null);
+    const [titleBarSlot, setTitleBarSlot] = useState<React.ReactNode | null>(null)
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const [auth, setAuth] = useState<AuthResult | null>(null);
@@ -57,9 +61,9 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
     const currentRoute = location.pathname;
     const isNarrowCardRoute = narrowCardRoutes.includes(currentRoute);
     const isMobile = isMobileTouchDevice();
-    
+
     const useCard = isNarrowCardRoute && !isMobileTouchDevice();
-    
+
     const isResetPasswordPage = currentRoute.toLowerCase().includes("resetpassword");
 
     const cardClassName = useCard ? 'use-card' : 'no-card';
@@ -89,7 +93,7 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
         }
         hydrateAuth();
     }, []);
-   
+
     useEffect(() => {
         if (!auth || !auth.claims?.ThemeId) {
             // Public user (not authenticated)
@@ -241,10 +245,14 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
                             >
                                 {title}
                             </div>
+                            <div className="titlebar-slot-holder">
+                                {titleBarSlot}
+                            </div>
+
                         </header>
 
                         <main style={{ flex: 1 }}>
-                            <Outlet context={{ setTitle, setBanner }} />
+                            <Outlet context={{ setTitle, setBanner, setTitleBarSlot }} />
                         </main>
 
                         {/* BUTTON SLOT HERE */}

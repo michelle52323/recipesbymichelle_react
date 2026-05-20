@@ -33,11 +33,6 @@ interface Recipe {
     name: string;
     description: string;
     sortOrder: number;
-    subject: {
-        id: number;
-        description: string;
-    };
-    canTake: boolean;
 }
 
 const MyRecipesMobile: React.FC = () => {

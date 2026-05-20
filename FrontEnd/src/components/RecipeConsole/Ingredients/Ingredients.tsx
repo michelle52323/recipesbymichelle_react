@@ -17,6 +17,7 @@ import ProgressBar from "../../UserControls/ProgressBar/ProgressBar";
 import ButtonGrid from "../../UserControls/ButtonGrid/ButtonGrid";
 import Icon from "../../UserControls/Icons/icons";
 import Loader from "../../UserControls/Loader/Loader";
+import FavoritesStar from '../../../components/UserControls/Favorites/FavoriteStar';
 
 import type { Ingredient, IngredientAdd, Unit } from "../../../types/Recipe/Recipe";
 import type { FractionDecimal, MeasurementUnit } from "src/types/Measurement/MeasurementType";
@@ -50,6 +51,7 @@ function Ingredients() {
 
     const { setTitle } = useOutletContext<{ setTitle: (title: string) => void }>();
     const { setBanner } = useOutletContext<{ setBanner: (message: string) => void }>();
+    const { setTitleBarSlot } = useOutletContext<LayoutContext>();
 
     const { id: recipeId } = useParams();
     if (!recipeId) navigate("/dashboard");
@@ -115,6 +117,16 @@ function Ingredients() {
     useEffect(() => {
         return () => setBanner("");
     }, []);
+
+    useEffect(() => {
+        return () => {
+            setTitleBarSlot(null);
+        };
+    }, [setTitleBarSlot]);
+
+    useEffect(() => {
+        setTitleBarSlot(<FavoritesStar recipeId={recipeId} />);
+    }, [recipeId]);
 
     useEffect(() => {
         if (location.state?.banner) {
@@ -603,7 +615,7 @@ function Ingredients() {
         const elRect = expanded.getBoundingClientRect();
 
         // distance from top of scrollBox to element, plus current scroll
-        const offset = elRect.top - boxRect.top + scrollBox.scrollTop-48;
+        const offset = elRect.top - boxRect.top + scrollBox.scrollTop - 48;
 
         scrollBox.scrollTo({
             top: offset,

@@ -9,6 +9,7 @@ import Icon from '../../UserControls/Icons/icons';
 import ButtonGrid from '../../UserControls/ButtonGrid/ButtonGrid';
 import ProgressBar from '../../UserControls/ProgressBar/ProgressBar';
 import Loader from '../../UserControls/Loader/Loader';
+import FavoritesStar from '../../../components/UserControls/Favorites/FavoriteStar';
 import { RecipeFont } from '../../../types/Recipe/Recipe';
 import '../../../radio.css';
 
@@ -50,7 +51,7 @@ const RecipeInfo: React.FC = () => {
     const isEditMode = !!id;
 
     const navigate = useNavigate();
-    const { setTitle, setBanner } = useOutletContext<LayoutContext>();
+    const { setTitle, setBanner, setTitleBarSlot } = useOutletContext<LayoutContext>();
     const location = useLocation();
 
     useEffect(() => {
@@ -63,6 +64,19 @@ const RecipeInfo: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        return () => {
+            setTitleBarSlot(null);
+        };
+    }, [setTitleBarSlot]);
+
+    useEffect(() => {
+        if (id != null) {
+            setTitleBarSlot(<FavoritesStar recipeId={id} />);
+        }
+
+    }, [id]);
+
+    useEffect(() => {
         if (location.state?.banner) {
             setBanner(location.state.banner);
             navigate(location.pathname, {
@@ -71,6 +85,7 @@ const RecipeInfo: React.FC = () => {
             });
         }
     }, [location.state?.banner, setBanner, navigate, location.pathname]);
+
 
 
 
@@ -369,7 +384,7 @@ const RecipeInfo: React.FC = () => {
                                     </div>
                                     <div className="form-row-extra-space"></div>
                                 </div>
-                                
+
                             </div>
                             <div className="page-item col-12 col-md-6 ">
                                 <label>Recipe Font</label>

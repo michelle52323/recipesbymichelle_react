@@ -52,6 +52,21 @@ export interface Unit {
     system: number | null;
 }
 
+export interface FavoriteBase {
+    id: number;
+    userId: number;
+    recipeId: number;
+    sortOrder: number;
+    isMine: boolean;
+    isFavorite: boolean;
+}
+
+
+export interface Favorite extends FavoriteBase {
+    recipe: RecipeBase;
+}
+
+
 export enum RecipeFont {
     SansSerif = 1,
     Serif = 2,

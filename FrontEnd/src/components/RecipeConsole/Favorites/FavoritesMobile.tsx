@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import { getApiBaseUrl } from '../../../helpers/config';
+import {mapApiFavoritesToFavorites} from './UtilityFunctions'
 import '../../../grid-layout.css';
-import SortableRecipeItem from './SortableRecipeItem';
+import SortableFavoriteItem from './SortableFavoriteItem';
 const API_BASE = getApiBaseUrl();
 import { TouchSensor } from '@dnd-kit/core';
+import { isDevUseMockLogin, isMobileTouchDeviceDev, isMobileTouchDevice } from '../../../helpers/config';
+import MobileFavoriteActionsMenu from '../../UserControls/SubMenus/Favorites/MobileFavoriteActionsMenu';
 import Loader from '../../UserControls/Loader/Loader';
+import type {Favorite} from '../../../types/Recipe/Recipe';
 
 import {
     DndContext,
@@ -26,23 +30,29 @@ import { CSS } from '@dnd-kit/utilities';
 
 Modal.setAppElement('#root'); // for accessibility
 
-interface Recipe {
-    id: number;
-    name: string;
-    description: string;
-    sortOrder: number;
-}
+// interface Favorite {
+//     id: number;
+//     name: string;
+//     description: string;
+//     sortOrder: number;
+// }
 
-const MyRecipesDesktop: React.FC = () => {
+const FavoritesMobile: React.FC = () => {
 
-    const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const navigate = useNavigate();
+
+    const [favorites, setFavorites] = useState<Favorite[]>([]);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [recipeToDelete, setRecipeToDelete] = useState<{ id: number; name: string } | null>(null);
+    const [favoriteToDelete, setFavoriteToDelete] = useState<{ id: number; name: string } | null>(null);
+
+    const [selectedFavorite, setSelectedFavorite] = useState<Favorite | null>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    const openDeleteModal = (recipe: { id: number; name: string }) => {
-        setRecipeToDelete(recipe);
+    const openDeleteModal = (favorite: { id: number; name: string }) => {
+        setFavoriteToDelete(favorite);
         setModalIsOpen(true);
     };
 
@@ -59,38 +69,44 @@ const MyRecipesDesktop: React.FC = () => {
     );
 
     useEffect(() => {
-        const fetchRecipes = async () => {
-            setIsLoading(true);
-            const response = await fetch(`${API_BASE}/api/MyRecipes/getRecipes`, {
+        setIsLoading(true);
+        const mode = import.meta.env.VITE_MODE;
+        const url = isDevUseMockLogin() && mode == "dev"
+            ? `${API_BASE}/api/Favorites/`
+            : `${API_BASE}/api/Favorites/`;
+
+        const fetchFavorites = async () => {
+            const response = await fetch(url, {
                 credentials: 'include',
             });
             if (response.ok) {
                 const data = await response.json();
-                setRecipes(data);
+                const cleaned = mapApiFavoritesToFavorites(data);
+                setFavorites(data);
                 setIsLoading(false);
             } else {
-                console.error('Failed to fetch recipes');
+                console.error('Failed to fetch favorites');
                 setIsLoading(false);
             }
         };
 
-        fetchRecipes();
+        fetchFavorites();
     }, []);
 
     const handleDragEnd = async (event: any) => {
         setBanner('');
         const { active, over } = event;
         if (active.id !== over?.id) {
-            const oldIndex = recipes.findIndex(r => r.id.toString() === active.id);
-            const newIndex = recipes.findIndex(r => r.id.toString() === over?.id);
-            const newOrder = arrayMove(recipes, oldIndex, newIndex).map((recipe, index) => ({
-                ...recipe,
+            const oldIndex = favorites.findIndex(r => r.id.toString() === active.id);
+            const newIndex = favorites.findIndex(r => r.id.toString() === over?.id);
+            const newOrder = arrayMove(favorites, oldIndex, newIndex).map((favorite, index) => ({
+                ...favorite,
                 sortOrder: index + 1,
             }));
 
-            setRecipes(newOrder);
+            setFavorites(newOrder);
 
-            const response = await fetch(API_BASE + `/api/MyRecipes/updateSortOrder`, {
+            const response = await fetch(API_BASE + `/api/Favorites/updateSortOrder`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -103,7 +119,7 @@ const MyRecipesDesktop: React.FC = () => {
             const result = await response.json();
 
             if (response.ok && result.success) {
-                setBanner('Recipes successfully re-ordered!');
+                setBanner('Favorites successfully re-ordered!');
             } else {
                 setBanner('Error occurred during sorting');
             }
@@ -113,22 +129,22 @@ const MyRecipesDesktop: React.FC = () => {
     const handleDelete = async () => {
         setBanner('');
 
-        const response = await fetch(`${API_BASE}/api/MyRecipes/${recipeToDelete?.id}`, {
+        const response = await fetch(`${API_BASE}/api/Favorites/${favoriteToDelete?.id}`, {
             method: 'DELETE',
             credentials: 'include',
         });
 
         if (response.ok) {
-            const refreshed = await fetch(`${API_BASE}/api/MyRecipes/getRecipes`, {
+            const refreshed = await fetch(`${API_BASE}/api/Favorites/`, {
                 credentials: 'include',
             });
 
             if (refreshed.ok) {
                 const data = await refreshed.json();
-                setRecipes(data);
-                setBanner('Recipe successfully deleted!');
+                setFavorites(data);
+                setBanner('Favorite successfully deleted!');
             } else {
-                setBanner('Recipe deleted, but failed to reload list.');
+                setBanner('Favorite deleted, but failed to reload list.');
             }
         } else {
             setBanner('Error occurred during deletion');
@@ -137,9 +153,19 @@ const MyRecipesDesktop: React.FC = () => {
         setModalIsOpen(false);
     };
 
+    const closeMenu = () => {
+        setIsClosing(true);
+
+        setTimeout(() => {
+            setIsMenuOpen(false);
+            setSelectedFavorite(null);
+            setIsClosing(false);
+        }, 150);
+    };
+
     if (isLoading) {
         return (
-            <Loader message="Loading recipes ..." />
+            <Loader message="Loading favorites ..." />
         );
     }
 
@@ -148,12 +174,11 @@ const MyRecipesDesktop: React.FC = () => {
 
             <div className="content-inner-desktop">
 
-                {recipes.length === 0 && !isLoading ? (
-                    <div className="empty-grid">No recipes found. Start by creating one.</div>
+                {favorites.length === 0 && !isLoading ? (
+                    <div className="empty-grid">No favorites found. Start by creating one.</div>
                 ) : (
                     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                        <SortableContext items={recipes.map(r => r.id.toString())} strategy={verticalListSortingStrategy}>
-                            
+                        <SortableContext items={favorites.map(r => r.id.toString())} strategy={verticalListSortingStrategy}>
                             {/* Header */}
                             <div className="d-flex align-items-start">
                                 <div className="d-flex">
@@ -162,34 +187,30 @@ const MyRecipesDesktop: React.FC = () => {
 
                                 <div className="flex-grow-1">
                                     <div className="row">
-                                        <div className="col-6 col-custom-6-12 fw-bold">Name</div>
-                                        <div className="col-6 col-custom-6-0 fw-bold">Description</div>
-                                        
+                                        {/* <div className="col-6 col-custom-6-12 fw-bold">Name</div>
+                                        <div className="col-6 col-custom-6-0 fw-bold">Description</div> */}
+                                        &nbsp;
                                     </div>
                                 </div>
 
                                 <div className="d-flex ms-3">
-                                    <div className="fixed-button-icon"></div>
-                                    <div className="fixed-button"></div>
-                                    <div className="fixed-button"></div>
-                                    <div className="fixed-button-icon"></div>
-                                    <div className="fixed-button-icon"></div>
+
                                 </div>
                             </div>
 
                             {/* Rows */}
-                            <div className="grid-overflow-box gof-editable" id="sortable">
-                                {recipes.map((recipe, i) => (
-                                    <SortableRecipeItem
-                                        key={recipe.id}
-                                        recipe={recipe}
+                            <div className="grid-overflow-box gof-editable-mobile" id="sortable">
+                                {favorites.map((favorite, i) => (
+                                    <SortableFavoriteItem
+                                        key={favorite.id}
+                                        favorite={favorite}
                                         index={i}
-                                        isMobile={false}
-                                        openDeleteModal={() => openDeleteModal(recipe)}
+                                        isMobile={true}
+                                         setSelectedFavorite={setSelectedFavorite}
+                                        setIsMenuOpen={setIsMenuOpen}
                                     />
                                 ))}
                             </div>
-
                         </SortableContext>
                     </DndContext>
                 )}
@@ -208,8 +229,8 @@ const MyRecipesDesktop: React.FC = () => {
                 </div>
                 <div className="dialog-content-holder">
                     <div className="dialog-content modal-body dialog-text">
-                        Are you sure you want to delete recipe "{recipeToDelete?.name}"?
-                        <input type="hidden" value={recipeToDelete?.id} />
+                        Are you sure you want to delete favorite "{favoriteToDelete?.name}"?
+                        <input type="hidden" value={favoriteToDelete?.id} />
                     </div>
 
                     <div className="dialog-footer d-flex justify-content-end gap-2">
@@ -228,8 +249,32 @@ const MyRecipesDesktop: React.FC = () => {
 
             </Modal>
 
+            {isMenuOpen && selectedFavorite && (
+                <>
+                    <div
+                        className="mobile-menu-backdrop"
+                        onClick={closeMenu}
+                        style={{
+                            position: 'fixed',
+                            inset: 0,
+                            background: 'rgba(0,0,0,0.4)',
+                            zIndex: 9998
+                        }}
+                    ></div>
+
+                    <MobileFavoriteActionsMenu
+                        favorite={selectedFavorite}
+                        navigate={(path: string) => navigate(path)}
+                        openDeleteModal={() => openDeleteModal(selectedFavorite)}
+                        closeMenu={closeMenu}
+                        isClosing={isClosing}
+                    />
+                </>
+            )}
+
         </div>
+
     );
 };
 
-export default MyRecipesDesktop;
+export default FavoritesMobile;
