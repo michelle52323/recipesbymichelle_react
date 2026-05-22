@@ -14,9 +14,10 @@ const API_BASE = getApiBaseUrl();
 
 interface FavoritesStarProps {
     recipeId: string;
+    onRemoved?: (recipeId: string) => void
 }
 
-function FavoritesStar({ recipeId }: FavoritesStarProps) {
+function FavoritesStar({ recipeId, onRemoved }: FavoritesStarProps) {
     const [isFavorite, setIsFavorite] = useState<boolean | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -52,6 +53,11 @@ function FavoritesStar({ recipeId }: FavoritesStarProps) {
             if (!res.ok) {
                 // revert on failure
                 setIsFavorite(isFavorite);
+            }
+            else {
+                if (!newValue && onRemoved) {
+                    onRemoved(recipeId);
+                }
             }
 
         } catch {

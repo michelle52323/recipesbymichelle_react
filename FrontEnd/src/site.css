@@ -885,6 +885,10 @@ a.button-tiny-ios {
     padding: 0px 0px 0px 5px !important;
 }
 
+.button-icon-search {
+    padding: 1px 0px 0px 4px !important;
+}
+
 .button-icon-print {
     padding: 4px 0px 0px 0px !important;
     margin: 6px 25px 0px 0px !important;

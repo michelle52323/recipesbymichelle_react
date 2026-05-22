@@ -23,6 +23,7 @@ import answerSelectedIcon from '../../../assets/icons/answer-selected.svg?raw'
 import moreOptionsIcon from '../../../assets/icons/more-options.svg?raw'
 import favoritesStarUnfilledIcon from '../../../assets/icons/favorite-svgrepo-com.svg?raw'
 import favoritesStarFilledIcon from '../../../assets/icons/favorite-filled-svgrepo-com.svg?raw'
+import searchIcon from '../../../assets/icons/search-svgrepo-com.svg?raw';
 
 
 
@@ -49,7 +50,8 @@ const iconMap: Record<string, string> = {
   answerSelected: answerSelectedIcon,
   moreOptions: moreOptionsIcon,
   favoritesStarUnfilled: favoritesStarUnfilledIcon,
-  favoritesStarFilled: favoritesStarFilledIcon
+  favoritesStarFilled: favoritesStarFilledIcon,
+  search: searchIcon
 };
 
 const defaultClassMap: Partial<Record<keyof typeof iconMap, string>> = {
@@ -61,7 +63,8 @@ const defaultClassMap: Partial<Record<keyof typeof iconMap, string>> = {
   leftArrow: "button-icon-left-arrow",
   chevronUp: "button-icon-chevron-up",
   review: "button-icon-review",
-  moreOptions: "button-icon-more-options"
+  moreOptions: "button-icon-more-options",
+  search: "button-icon-search"
 };
 
 interface IconProps {

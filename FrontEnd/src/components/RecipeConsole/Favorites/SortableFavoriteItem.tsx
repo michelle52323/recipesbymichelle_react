@@ -19,6 +19,7 @@ interface Props {
     isMobile: boolean;
     setSelectedFavorite?: (favorite: Favorite) => void;
     setIsMenuOpen?: (open: boolean) => void;
+    onRemoved?: (recipeId: string) => void;
 }
 
 const SortableFavoriteItem: React.FC<Props> = ({
@@ -26,7 +27,8 @@ const SortableFavoriteItem: React.FC<Props> = ({
     index,
     isMobile,
     setSelectedFavorite,
-    setIsMenuOpen
+    setIsMenuOpen,
+    onRemoved
 }) => {
 
     const navigate = useNavigate();
@@ -140,7 +142,7 @@ const SortableFavoriteItem: React.FC<Props> = ({
 
                         {/* Delete */}
                         <div className="fixed-button-icon">
-                            <FavoritesStar recipeId={favorite.recipe.id.toString()} />
+                            <FavoritesStar recipeId={favorite.recipe.id.toString()} onRemoved={onRemoved} />
 
                         </div>
                     </>

@@ -98,7 +98,7 @@ const FavoritesDesktop: React.FC = () => {
 
             setFavorites(newOrder);
 
-            const response = await fetch(API_BASE + `/api/Favorites/updateSortOrder`, {
+            const response = await fetch(API_BASE + `/api/Favorites/update-sort-order`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -144,6 +144,12 @@ const FavoritesDesktop: React.FC = () => {
 
         setModalIsOpen(false);
     };
+
+    const handleRemoved = (recipeId: string) => {
+        setFavorites(prev =>
+            prev.filter(f => f.recipe.id.toString() !== recipeId)
+        );
+    }
 
     if (isLoading) {
         return (
@@ -193,6 +199,7 @@ const FavoritesDesktop: React.FC = () => {
                                         favorite={favorite}
                                         index={i}
                                         isMobile={false}
+                                        onRemoved={handleRemoved}
                                     />
                                 ))}
                             </div>

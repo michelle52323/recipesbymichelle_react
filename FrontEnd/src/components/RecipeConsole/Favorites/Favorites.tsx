@@ -51,6 +51,8 @@ function Favorites() {
         }
     }, [auth, navigate, setTitle]);
 
+    
+
     if (auth === null) {
         return (
             <div>

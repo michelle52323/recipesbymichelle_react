@@ -12,6 +12,7 @@ interface ButtonConfig {
     desktopSlot: number;
     isDisabled?: boolean;
     isVisible?: boolean;
+    navigateOptions?: any;
 }
 
 interface ButtonGridProps {
@@ -74,7 +75,7 @@ const ButtonGrid: React.FC<ButtonGridProps> = ({ buttons, handleSave }) => {
                     btn.onClick();
                 } else if (btn.url) {
                     //window.location.href = btn.url;
-                    navigate(btn.url);
+                    navigate(btn.url, btn.navigateOptions);
                 }
             };
 

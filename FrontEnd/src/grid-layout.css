@@ -300,6 +300,10 @@ a.button-tiny-responsive-mobile {
     height: 490px;
 }
 
+.gof-search {
+    height: 500px;
+}
+
 .gof-short {
     min-height: calc(var(--vh) - 450px);
 }

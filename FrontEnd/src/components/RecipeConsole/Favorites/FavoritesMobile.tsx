@@ -153,6 +153,13 @@ const FavoritesMobile: React.FC = () => {
         setModalIsOpen(false);
     };
 
+    const handleRemoved = (recipeId: string) => {
+        setFavorites(prev =>
+            prev.filter(f => f.recipe.id.toString() !== recipeId)
+        );
+    }
+    
+
     const closeMenu = () => {
         setIsClosing(true);
 
@@ -268,6 +275,7 @@ const FavoritesMobile: React.FC = () => {
                         openDeleteModal={() => openDeleteModal(selectedFavorite)}
                         closeMenu={closeMenu}
                         isClosing={isClosing}
+                        onRemoved={handleRemoved}
                     />
                 </>
             )}

@@ -28,6 +28,13 @@ namespace PlatformAPI.Controllers.Recipes
 
     }
 
+    public class FavoriteSortOrderDto
+    {
+        public int Id { get; set; }        // Favorite.Id
+        public int SortOrder { get; set; } // New sort order
+    }
+
+
     #endregion
     [ApiController]
     [Route("api/[controller]")]
@@ -205,6 +212,53 @@ namespace PlatformAPI.Controllers.Recipes
                 return BadRequest($"Error adding favorite: {ex.Message}");
             }
         }
+
+        [HttpPost("update-sort-order")]
+        [Authorize]
+        public async Task<IActionResult> UpdateFavoriteSortOrder(
+    [FromBody] List<FavoriteSortOrderDto> updates)
+        {
+            try
+            {
+                // Extract UserId from claims
+                int userId = int.TryParse(
+                    User?.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value,
+                    out var parsedId
+                ) ? parsedId : 0;
+
+                if (userId == 0)
+                {
+                    return Unauthorized("UserId claim missing or invalid.");
+                }
+
+                // Extract Favorite IDs from payload
+                var favoriteIds = updates.Select(u => u.Id).ToList();
+
+                // Load only the user's favorites
+                var favorites = await _context.Favorites
+                    .Where(f => favoriteIds.Contains(f.Id) && f.UserId == userId)
+                    .ToListAsync();
+
+                // Apply updates
+                foreach (var fav in favorites)
+                {
+                    var update = updates.FirstOrDefault(u => u.Id == fav.Id);
+                    if (update != null)
+                    {
+                        fav.SortOrder = update.SortOrder;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.ToString() });
+            }
+        }
+
 
 
 

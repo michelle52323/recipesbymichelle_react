@@ -38,6 +38,9 @@ function View() {
     const { setTitle, setBanner, setTitleBarSlot, previousPath } = useOutletContext<LayoutContext>();
     const location = useLocation();
 
+    //const [restoredSearchTerm, setRestoredSearchTerm] = useState<string | null>(location.state?.searchTerm);
+    const [restoredSearchTerm, setRestoredSearchTerm] = useState<string | null>(null);
+
     const [recipe, setRecipe] = useState<RecipeView | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -77,6 +80,9 @@ function View() {
         }
         else if (lower.includes("search")) {
             buttonText = "Back to Search";
+            if (restoredSearchTerm == null || restoredSearchTerm == "")
+                setRestoredSearchTerm("<ALL/>");
+
         }
         else {
             buttonText = "Back";
@@ -86,6 +92,12 @@ function View() {
 
     }, [previousPath.current]);
 
+    //console.log("Search: " + restoredSearchTerm);
+    useEffect(() => {
+        if (location.state?.searchTerm !== undefined) {
+            setRestoredSearchTerm(location.state.searchTerm);
+        }
+    }, []);
 
 
 
@@ -208,11 +220,34 @@ function View() {
 
 
     //const fontClass = getFontClass(recipe?.recipeFont);
-    console.log("Font class: " + fontClass);
+    //console.log("Font class: " + fontClass);
 
     const handlePrint = () => {
         window.print();
     }
+
+    const buttonGridConfig = useMemo(() => [
+        {
+            text: previousPageNavigation?.buttonText,
+            url: previousPageNavigation?.url,
+            type: "button" as const,
+            mobileSlot: 2,
+            desktopSlot: 3,
+            navigateOptions: {
+                state: { searchTerm: restoredSearchTerm }
+            }
+        },
+        {
+            text: "Print",
+            onClick: handlePrint,
+            type: "button" as const,
+            icon: <Icon name="print" />,
+            mobileSlot: 3,
+            desktopSlot: 5
+        }
+    ], [previousPageNavigation, restoredSearchTerm]);
+
+
 
 
     if (measurementSystem === null || fontClass === null) return <div><Loader message="Loading recipe ..." /></div>;
@@ -337,25 +372,8 @@ function View() {
             </div>
 
             {/* BUTTON SLOT FEATURE */}
-            <ButtonGrid
-                buttons={[
-                    {
-                        text: previousPageNavigation.buttonText,
-                        url: previousPageNavigation.url,
-                        type: "button",
-                        mobileSlot: 2,
-                        desktopSlot: 3
-                    },
-                    {
-                        text: "Print",
-                        onClick: handlePrint,
-                        type: "button",
-                        icon: <Icon name="print" />,
-                        mobileSlot: 3,
-                        desktopSlot: 5
-                    }
-                ]}
-            />
+            <ButtonGrid buttons={buttonGridConfig} />
+
         </>
     );
 }

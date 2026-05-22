@@ -23,14 +23,16 @@ interface Props {
     openDeleteModal: () => void;
     closeMenu: () => void;
     isClosing: boolean;
+    onRemoved?: (recipeId: string) => void;
 }
 
-const MobileRecipeActionsMenu: React.FC<Props> = ({
+const MobileFavoriteActionsMenu: React.FC<Props> = ({
     favorite,
     navigate,
     openDeleteModal,
     closeMenu,
-    isClosing
+    isClosing,
+    onRemoved
 }) => {
 
     return (
@@ -128,7 +130,11 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
                 {/* Delete */}
                 <div className="menu-item">
                     <div className="menu-button-link">
-                        <FavoritesStar recipeId={favorite.recipe.id.toString()} />
+                        <FavoritesStar recipeId={favorite.recipe.id.toString()}
+                            onRemoved={(id) => {
+                                if (onRemoved) onRemoved(id);   // remove from list
+                                closeMenu();                    // close the sheet
+                            }} />
                         <div className="menu-text">Remove from Favorites</div>
                     </div>
                 </div>
@@ -138,4 +144,4 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
     );
 };
 
-export default MobileRecipeActionsMenu;
+export default MobileFavoriteActionsMenu;

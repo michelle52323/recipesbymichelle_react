@@ -50,7 +50,8 @@
 
             if (isProduction)
             {
-                options.Domain = ".mquizbymichelle.com";
+                //options.Domain = ".websitesbymichelle.com";
+                options.Domain = ".recipesbymichelle.com";
             }
 
             response.Cookies.Append(key, value, options);
