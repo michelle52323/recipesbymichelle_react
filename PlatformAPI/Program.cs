@@ -153,7 +153,7 @@ else
         //options.Cookie.Domain = ".websitesbymichelle.com";
 
         //Uncomment when going live
-        options.Cookie.Domain = ".recipesbymichelle.com";
+        options.Cookie.Domain = ".recipesbymichelle.app";
 
         options.Events.OnRedirectToLogin = context =>
         {
@@ -176,8 +176,8 @@ if (builder.Environment.IsDevelopment())
             policy.WithOrigins(
                 "https://www.websitesbymichelle.com",
                 "https://websitesbymichelle.com",
-                "https://www.recipesbymichelle.com",
-                "https://.recipesbymichelle.com",
+                "https://www.recipesbymichelle.app",
+                "https://.recipesbymichelle.app",
                 "https://localhost:5173",
                 "http://localhost:5173",
                 "https://localhost",
@@ -212,8 +212,8 @@ else
                 "https://localhost:5173",
                 "http://localhost:5173",
                 "https://192.168.1.10:5173",
-                "https://www.recipesbymichelle.com",
-                "https://recipesbymichelle.com",
+                "https://www.recipesbymichelle.app",
+                "https://recipesbymichelle.app",
                 "https://www.websitesbymichelle.com"
             )
             .AllowCredentials()

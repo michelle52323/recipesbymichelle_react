@@ -118,22 +118,6 @@ function View() {
     }, [auth, navigate]);
 
     useEffect(() => {
-        if (auth) {
-
-            const value = auth.claims?.MeasurementSystem;
-
-            if (value === "Imperial") {
-                setMeasurementSystem("Imperial");
-            } else if (value === "Metric") {
-                setMeasurementSystem("Metric");
-            } else {
-                setMeasurementSystem(null);
-            }
-            //console.log("Measurement System: " + measurementSystem);
-        }
-    }, [auth]);
-
-    useEffect(() => {
         return () => {
             setBanner('');
             setTitleBarSlot(null);
@@ -194,6 +178,17 @@ function View() {
                 //console.log("Recipe data: " + JSON.stringify(data));
                 //console.log("Font: " + data.recipeFont);
                 setRecipe(data);
+
+                const value = data.measurementSystem;
+
+                if (value === "Imperial") {
+                    setMeasurementSystem("Imperial");
+                } else if (value === "Metric") {
+                    setMeasurementSystem("Metric");
+                } else {
+                    setMeasurementSystem(null);
+                }
+                //console.log("Measurement System: " + data.measurementSystem);
             } catch (err: any) {
                 setError(err.message);
             } finally {

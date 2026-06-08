@@ -34,26 +34,34 @@ namespace PlatformAPI.Helpers
             if (string.IsNullOrWhiteSpace(unit))
                 return string.Empty;
 
-            // Find matching unit (by Description or Abbreviation)
             var match = validUnits.FirstOrDefault(u =>
                 string.Equals(u.Description, unit, StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(u.Abbreviation, unit, StringComparison.OrdinalIgnoreCase));
+                string.Equals(u.Abbreviation, unit, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(u.Plural, unit, StringComparison.OrdinalIgnoreCase));
 
             if (match == null)
-                return unit; // fallback if not found
+                return unit;
 
-            // Abbreviation path
+            bool isPlural = qty > 1f;
+
+            // First determine the correct full/plural form
+            string fullForm = isPlural
+                ? (match.Plural ?? match.Description ?? unit)
+                : (match.Description ?? unit);
+
+            // THEN override with abbreviation if requested
             if (showAbbreviations && !string.IsNullOrWhiteSpace(match.Abbreviation))
                 return match.Abbreviation;
 
-            // Plural vs singular
-            bool isPlural = qty > 1f;
-
-            if (isPlural)
-                return match.Plural ?? match.Description ?? unit;
-
-            return match.Description ?? unit;
+            return fullForm;
         }
+
+
+
+
+
+
+
 
         //public static IHtmlContent BuildUnitDisplayString(string quantity, string? unit, List<Unit> ValidUnits)
         //{

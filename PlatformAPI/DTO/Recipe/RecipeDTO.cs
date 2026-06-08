@@ -11,6 +11,8 @@ namespace PlatformAPI.DTO.Recipe
         public bool ShowAbbreviations { get; set; }
         public bool IsActive { get; set; }
         public int SortOrder { get; set; }
+        
+        public bool IsMyRecipe { get; set; }
         public string RecipeVisibility { get; set; }
         public string RecipeFont { get; set; }
     }
@@ -19,7 +21,7 @@ namespace PlatformAPI.DTO.Recipe
     {
         public List<IngredientDto> Ingredients { get; set; }
         public List<StepDto> Steps { get; set; }
-        public MeasurementSystem MeasurementSystem { get; set; }
+        public string MeasurementSystem { get; set; }
     }
 
     public class IngredientDto

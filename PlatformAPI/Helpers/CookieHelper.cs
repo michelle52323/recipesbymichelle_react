@@ -51,7 +51,7 @@
             if (isProduction)
             {
                 //options.Domain = ".websitesbymichelle.com";
-                options.Domain = ".recipesbymichelle.com";
+                options.Domain = ".recipesbymichelle.app";
             }
 
             response.Cookies.Append(key, value, options);

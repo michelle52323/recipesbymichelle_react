@@ -25,16 +25,22 @@ namespace PlatformAPI.Controllers.Recipes
         [HttpGet("{id}")]
         public async Task<ActionResult<ViewRecipeDTO>> GetRecipe(int id)
         {
-            var claimValue = User?
+            var userId = User?
             .Claims
-            .FirstOrDefault(c => c.Type == "MeasurementSystem")
+            .FirstOrDefault(c => c.Type == "UserId")
             ?.Value;
 
-            MeasurementSystem measurementSystem =
-            Enum.TryParse<MeasurementSystem>(claimValue, ignoreCase: true, out var parsedEnum)
-            ? parsedEnum
-            : MeasurementSystem.Imperial;
+            // Load the recipe itself
+            var recipe = await _context.Recipes
+                .Include(r => r.UserRecipe)
+                .FirstOrDefaultAsync(r => r.Id == id && r.IsActive);
 
+            if (recipe == null)
+                return NotFound();
+
+            //Load the measurement system that belongs to the user 
+            //who created the recipe
+            MeasurementSystem measurementSystem = await GetMeasurementSystemByUser(recipe.UserRecipe.UserId);
 
             //Load fraction lookup table
             List<FractionDecimal>? fractionTable = null;
@@ -48,15 +54,6 @@ namespace PlatformAPI.Controllers.Recipes
             //Load unit lookup table
             var unitDB = new UnitDB(_context);
             List<Unit> unitTable = await unitDB.LoadUnitTableAsync();
-
-
-            // Load the recipe itself
-            var recipe = await _context.Recipes
-                .Include(r => r.UserRecipe)
-                .FirstOrDefaultAsync(r => r.Id == id && r.IsActive);
-
-            if (recipe == null)
-                return NotFound();
 
             // Load ingredients for this recipe
             var ingredients = await _context.Ingredients
@@ -107,11 +104,12 @@ namespace PlatformAPI.Controllers.Recipes
                 ShowAbbreviations = recipe.ShowAbbreviations,
                 IsActive = recipe.IsActive,
                 SortOrder = recipe.SortOrder,
+                IsMyRecipe = Convert.ToInt32(userId) == recipe.UserRecipe.UserId,
                 RecipeVisibility = recipe.RecipeVisibility.ToString(),
                 RecipeFont = recipe.RecipeFont.ToString(),
                 Ingredients = ingredientDtos,
                 Steps = stepDtos,
-                MeasurementSystem = measurementSystem
+                MeasurementSystem = measurementSystem.ToString()
             };
 
             return Ok(dto);
@@ -141,5 +139,25 @@ namespace PlatformAPI.Controllers.Recipes
             });
         }
 
+
+        #region Auxilliary Functions
+
+        private async Task<MeasurementSystem> GetMeasurementSystemByUser(int userId)
+        {
+            var ms = await _context.Users
+                .Where(u => u.Id == userId)
+                .Select(u => u.MeasurementSystem)
+                .FirstOrDefaultAsync();
+
+            // Because MeasurementSystem is an enum (non-nullable),
+            // FirstOrDefaultAsync() returns the *default enum value* if no user is found.
+            // If your default enum value is not Imperial, enforce it manually:
+            if (!Enum.IsDefined(typeof(MeasurementSystem), ms))
+                return MeasurementSystem.Imperial;
+
+            return ms;
+        }
+
+        #endregion
     }
 }
