@@ -53,7 +53,7 @@ jobs:
           VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
           VITE_MODE: ${{ secrets.VITE_MODE }}
           VITE_PUBLIC_ROUTES: ${{ secrets.VITE_PUBLIC_ROUTES }}
-          VITE_NARROW_LAYOUT_ROUTE: ${{ secrets.VITE_NARROW_LAYOUT_ROUTE }}
+          VITE_NARROW_LAYOUT_ROUTES: ${{ secrets.VITE_NARROW_LAYOUT_ROUTES }}
 
       - name: Debug Env Vars
         run: |
