@@ -41,6 +41,12 @@
                     Id = 4,
                     Description = "Blue",
                     Color = "#1A3D8F"   // rich cobalt blue, warm vintage glow
+                },
+                new TestDto
+                {
+                    Id = 5,
+                    Description = "Purple",
+                    Color = "#5A2A83"   // rich cobalt blue, warm vintage glow
                 }
             };
 

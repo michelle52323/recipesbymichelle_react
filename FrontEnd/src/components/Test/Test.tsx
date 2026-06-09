@@ -4,7 +4,7 @@ export default function Test() {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        setMessage("This is a test");
+        setMessage("This is a test of CI/CD");
     }, []);
 
     return (
