@@ -1,0 +1,89 @@
+name: Deploy Recipes By Michelle App
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - uses: actions/checkout@v4
+
+      # --- BACKEND PORTION ---
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build API
+        run: dotnet build PlatformAPI/PlatformAPI.csproj --configuration Release
+
+      # This creates the 'Keyhole' so Azure can inject your real Connection String.
+      - name: Create Master Blueprint
+        run: |
+          cat <<EOF > PlatformAPI/appsettings.json
+          {
+            "DatabaseConnection": "TestConnection",
+            "ConnectionStrings": {
+              "TestConnection": "DataSource=:memory:",
+              "LiveConnection": "Placeholder"
+            }
+          }
+          EOF
+
+      - name: Run xUnit Tests
+        run: dotnet test PlatformAPI.Tests/PlatformAPI.Tests.csproj --configuration Release --verbosity normal
+
+      # --- FRONTEND PORTION ---
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        working-directory: ./FrontEnd
+        run: npm install
+
+      # We inject the Frontend secrets here for the build
+      - name: Build React App
+        working-directory: ./FrontEnd
+        run: npm run build
+        env:
+          VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
+          VITE_MODE: ${{ secrets.VITE_MODE }}
+          VITE_PUBLIC_ROUTES: ${{ secrets.VITE_PUBLIC_ROUTES }}
+          VITE_NARROW_LAYOUT_ROUTE: ${{ secrets.VITE_NARROW_LAYOUT_ROUTE }}
+
+      - name: Debug Env Vars
+        run: |
+          echo "API BASE: $VITE_API_BASE"
+          echo "MODE: $VITE_MODE"
+          echo "PUBLIC ROUTES: $VITE_PUBLIC_ROUTES"
+        env:
+          VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
+          VITE_MODE: ${{ secrets.VITE_MODE }}
+          VITE_PUBLIC_ROUTES: ${{ secrets.VITE_PUBLIC_ROUTES }}
+
+      # --- DEPLOYMENT ---
+      # 1. Deploy the Backend API
+      - name: Publish API
+        run: dotnet publish PlatformAPI/PlatformAPI.csproj --configuration Release --output ./publish
+
+      - name: Deploy API to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'recipe-app-web-app'
+          publish-profile: ${{ secrets.AZURE_API_PUBLISH_PROFILE }}
+          package: './publish'
+
+      # 2. Deploy the React Front-End
+      - name: Deploy Front-End to Azure SWA
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_SWA_DEPLOY_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "./FrontEnd/dist"
+          output_location: ""
+          skip_app_build: true
