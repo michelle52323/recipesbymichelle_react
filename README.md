@@ -35,9 +35,9 @@ https://www.recipesbymichelle.app/
 - Print friendly recipe pages
 
 ## New Features ##
--Recipe font choice — Choose between a clean sans‑serif style or a handwritten aesthetic (Google Caveat) for a more personal, cookbook‑like feel.
--Ingredient auto‑correction — Quantities and units auto‑correct on blur based on the selected measurement system, reducing errors and improving consistency.
--Enhanced steps editor — Supports basic formatting (bold, italic, underline) for clearer, more readable cooking instructions.
+- Recipe font choice — Choose between a clean sans‑serif style or a handwritten aesthetic (Google Caveat) for a more personal, cookbook‑like feel.
+- Ingredient auto‑correction — Quantities and units auto‑correct on blur based on the selected measurement system, reducing errors and improving consistency.
+- Enhanced steps editor — Supports basic formatting (bold, italic, underline) for clearer, more readable cooking instructions.
 
 ## Screenshots ##
 
