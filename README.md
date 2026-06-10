@@ -1,6 +1,6 @@
 # Project Description
 
-This project is the second‑generation version of my original .NET Razor Pages recipe app. The first version (source available at recipesbymichelle_razor) proved the concept, but this release is a full SPA rebuild using React + RESTful APIs for a faster, smoother, more modern experience. All core features were carried forward, and many were redesigned or expanded for better usability, consistency, and long‑term maintainability.
+This project is the second‑generation version of my original .NET Razor Pages recipe app. The first version (source available at https://github.com/michelle52323/recipesbymichelle_razor) proved the concept, but this release is a full SPA rebuild using React + RESTful APIs for a faster, smoother, more modern experience. All core features were carried forward, and many were redesigned or expanded for better usability, consistency, and long‑term maintainability.
 
 ## Live URL
 
