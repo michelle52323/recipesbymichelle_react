@@ -98,11 +98,25 @@ namespace PlatformAPI.Controllers.Recipes
                 )
                 .ToList();
 
+            if (filtered.Count == 0)
+            {
+                normalizedTerm = GetSoundExPhrase(searchPhrase);
+                filtered = recipeList
+                .Where(r =>
+                    r.Name != null &&
+                    (
+                        r.Name.Contains(searchPhrase, StringComparison.OrdinalIgnoreCase) ||
+                        GetSoundExPhrase(r.Name).Contains(normalizedTerm, StringComparison.OrdinalIgnoreCase)
+                    )
+                )
+                .ToList();
+            }
+
             return filtered;
         }
 
 
-        string NormalizeWord(string word)
+        private string NormalizeWord(string word)
         {
             word = word.ToLower();
 
@@ -162,6 +176,91 @@ namespace PlatformAPI.Controllers.Recipes
                 ? (true, fragileMap[token])
                 : (false, token);
         }
+
+        #region SoundEx Algorithm Functions
+
+        private string GetSoundexTerm(string term)
+        {
+            if (string.IsNullOrWhiteSpace(term))
+                return "0000";
+
+            term = term.Trim().ToUpperInvariant();
+
+            // 1. Preserve first letter
+            char firstLetter = term[0];
+
+            // 2. Soundex digit map
+            string MapChar(char c) => c switch
+            {
+                'B' or 'F' or 'P' or 'V' => "1",
+                'C' or 'G' or 'J' or 'K' or 'Q' or 'S' or 'X' or 'Z' => "2",
+                'D' or 'T' => "3",
+                'L' => "4",
+                'M' or 'N' => "5",
+                'R' => "6",
+                _ => "0" // vowels + H, W, Y
+            };
+
+            // 3. Map remaining characters to digits
+            var encoded = new List<string>();
+            string previous = MapChar(firstLetter);
+
+            for (int i = 1; i < term.Length; i++)
+            {
+                string code = MapChar(term[i]);
+
+                // Skip vowels/H/W/Y but reset duplicate suppression
+                if (code == "0")
+                {
+                    previous = "0";
+                    continue;
+                }
+
+                // Skip duplicate codes
+                if (code == previous)
+                    continue;
+
+                encoded.Add(code);
+                previous = code;
+            }
+
+            // 4. Build final code: first letter + digits
+            string result = firstLetter + string.Join("", encoded);
+
+            // 5. Pad or trim to exactly 4 chars
+            if (result.Length < 4)
+                result = result.PadRight(4, '0');
+            else if (result.Length > 4)
+                result = result.Substring(0, 4);
+
+            return result;
+        }
+
+        private string GetSoundExPhrase(string phrase)
+        {
+            if (string.IsNullOrWhiteSpace(phrase))
+                return string.Empty;
+
+            // Step 1: Normalize the entire phrase (your existing function)
+            string normalized = NormalizeWord(phrase);
+            // e.g., "mashed potatoes" -> "mash potato"
+
+            // Step 2: Split into individual words
+            var tokens = normalized
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            // Step 3: Convert each token to Soundex
+            var soundexTokens = tokens
+                .Select(t => GetSoundexTerm(t))
+                .ToList();
+
+            // Step 4: Reassemble into a space-separated phrase
+            return string.Join(" ", soundexTokens);
+        }
+
+
+
+        #endregion
 
         #endregion
 
