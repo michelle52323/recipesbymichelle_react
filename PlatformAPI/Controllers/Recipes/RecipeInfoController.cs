@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlatformAPI.Data;
-using PlatformAPI.Models.Quizzes;
 using System.Security.Claims;
 using PlatformAPI.Models.Users;
 using Microsoft.Data.SqlClient;
-using PlatformAPI.Models.StudentQuizzes;
 using PlatformAPI.Enums;
 using PlatformAPI.Models.Recipe;
 
