@@ -4,6 +4,7 @@ using PlatformAPI.Data;
 using PlatformAPI.DTO.Recipe;
 using PlatformAPI.Enums;
 using PlatformAPI.RecipeImport.Parser;
+using PlatformAPI.Service;
 
 namespace PlatformAPI.Controllers.RecipeImport
 {
@@ -27,9 +28,12 @@ namespace PlatformAPI.Controllers.RecipeImport
     {
         private readonly AppDbContext _context;
 
-        public RecipeImportController(AppDbContext context)
+        private readonly RecipeScraperService _scraperService;
+
+        public RecipeImportController(AppDbContext context, RecipeScraperService scraperService)
         {
             _context = context;
+            _scraperService = scraperService;
         }
 
         [HttpPost("test-ingredient")]
@@ -58,6 +62,7 @@ namespace PlatformAPI.Controllers.RecipeImport
 
             // Load valid units once
             var validUnits = await _context.Units.ToListAsync();
+            var fractionDecimalTable = await _context.FractionDecimals.ToListAsync();
 
             // Create parser
             var parser = new IngredientParser();
@@ -66,7 +71,8 @@ namespace PlatformAPI.Controllers.RecipeImport
             var dto = parser.ParseIngredientLine(
                 request.Line,
                 systemEnum,
-                validUnits
+                validUnits,
+                fractionDecimalTable
             );
 
             // Validate result

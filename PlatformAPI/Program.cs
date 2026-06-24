@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Authentication;
 using PlatformAPI.Repositories.Interfaces;
 using PlatformAPI.Repositories;
+using PlatformAPI.Service;
 //using PlatformAPI.MockAuth;
 
 
@@ -54,11 +55,15 @@ builder.Services.Configure<OrganizationSettings>(
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
+
 
 builder.Services.AddScoped<OrganizationContext>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EmailService>();
+
+builder.Services.AddScoped<RecipeScraperService>();
 
 
 builder.Services.AddScoped<ILoginAttemptRepository, LoginAttemptRepository>();

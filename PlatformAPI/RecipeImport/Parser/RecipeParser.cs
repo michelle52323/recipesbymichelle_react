@@ -5,6 +5,7 @@ using PlatformAPI.Enums;
 using PlatformAPI.Helpers;
 using PlatformAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace PlatformAPI.RecipeImport.Parser
 {
@@ -31,9 +32,11 @@ namespace PlatformAPI.RecipeImport.Parser
         MeasurementSystem measurementSystem)
         {
             UnitDB unitDB = new UnitDB(_context);
+            FractionHelperDB fractionHelperDB = new FractionHelperDB(_context);
 
             // 1. Load valid units once
             var validUnits = await unitDB.LoadUnitTableAsync();
+            var fractionDecimalTable = await fractionHelperDB.LoadFractionTableAsync();
 
             // 2. Split into lines
             var lines = text
@@ -55,7 +58,8 @@ namespace PlatformAPI.RecipeImport.Parser
                 var parsed = ingredientParser.ParseIngredientLine(
                     workingLine,
                     measurementSystem,
-                    validUnits
+                    validUnits,
+                    fractionDecimalTable
                 );
 
                 var ingredientDto = new ConvertRecipeIngredientDto
@@ -122,6 +126,61 @@ namespace PlatformAPI.RecipeImport.Parser
                 BottomLines = bottomLines
             };
         }
+
+        public async Task<ConvertRecipeIntermediateDto> ConvertJsonLdToRecipeDto(
+        string text,
+        MeasurementSystem measurementSystem)
+        {
+            UnitDB unitDB = new UnitDB(_context);
+            FractionHelperDB fractionHelperDB = new FractionHelperDB(_context);
+
+            // 1. Load valid units once
+            var validUnits = await unitDB.LoadUnitTableAsync();
+            var fractionDecimalTable = await fractionHelperDB.LoadFractionTableAsync();
+
+            // 2. Parse the JSON-LD into a JsonDocument
+            JsonDocument doc;
+            try
+            {
+                doc = JsonDocument.Parse(text);
+            }
+            catch
+            {
+                throw new Exception("Invalid JSON-LD recipe format.");
+            }
+
+            JsonElement root = doc.RootElement;
+
+            // 3. Extract name
+            string? name = root.TryGetProperty("name", out var nameProp)
+                ? nameProp.GetString()
+                : null;
+
+            // 4. Extract description
+            string? description = root.TryGetProperty("description", out var descProp)
+                ? descProp.GetString()
+                : null;
+
+            // 5. Extract ingredients
+            IngredientParser ingredientParser = new IngredientParser();
+            List<ConvertRecipeIngredientDto> ingredients = 
+                ingredientParser.ExtractIngredientsFromJsonLd(root, measurementSystem, validUnits, fractionDecimalTable);
+
+            // 6. Extract steps (we will call a separate function)
+            StepParser stepParser = new StepParser();
+            List<ConvertRecipeStepDto> steps = stepParser.ExtractStepsFromJsonLd(root);
+
+            // 7. Build the intermediate DTO
+            return new ConvertRecipeIntermediateDto
+            {
+                Name = name,
+                Description = description,
+                Ingredients = ingredients,
+                Steps = steps,
+                MeasurementSystem = measurementSystem
+            };
+        }
+
 
     }
 }

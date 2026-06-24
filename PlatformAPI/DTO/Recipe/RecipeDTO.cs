@@ -77,4 +77,6 @@ namespace PlatformAPI.DTO.Recipe
         public List<string> BottomLines {  get; set; }
     }
 
+
+
 }
