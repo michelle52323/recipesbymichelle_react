@@ -11,6 +11,7 @@ import ProgressBar from '../../UserControls/ProgressBar/ProgressBar';
 import Loader from '../../UserControls/Loader/Loader';
 import FavoritesStar from '../../../components/UserControls/Favorites/FavoriteStar';
 import { RecipeFont } from '../../../types/Recipe/Recipe';
+import ImportRecipeReminder from '../ImportRecipe/ImportRecipeReminder';
 import '../../../radio.css';
 
 const API_BASE = getApiBaseUrl();
@@ -89,6 +90,8 @@ const RecipeInfo: React.FC = () => {
 
 
 
+
+
     const [auth, setAuth] = useState<AuthResult | null>(null);
 
     const [recipe, setRecipe] = useState<RecipeForm>({
@@ -101,8 +104,17 @@ const RecipeInfo: React.FC = () => {
     });
     const [errors, setErrors] = useState<{ recipe: Partial<Record<keyof RecipeForm, string>> }>({ recipe: {} });
     const [selectedCategory, setSelectedCategory] = useState<{ id: string; text: string } | null>(null);
+    const [showImportReminder, setShowImportReminder] = useState<boolean | null>(null);
 
-
+    useEffect(() => {
+        if (location.state?.showImportReminder) {
+            setShowImportReminder(true);
+            navigate(location.pathname, {
+                replace: true,
+                state: {},
+            });
+        }
+    }, [location.state?.showImportReminder, navigate, location.pathname]);
 
 
     useEffect(() => {
@@ -303,6 +315,9 @@ const RecipeInfo: React.FC = () => {
 
     return (
         <>
+            {showImportReminder && (
+                <ImportRecipeReminder onClose={() => setShowImportReminder(false)} />
+            )}
 
             <form id="page-form">
                 <div className="content-holder-desktop" >

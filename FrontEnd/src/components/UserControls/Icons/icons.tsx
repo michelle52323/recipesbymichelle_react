@@ -24,6 +24,9 @@ import moreOptionsIcon from '../../../assets/icons/more-options.svg?raw'
 import favoritesStarUnfilledIcon from '../../../assets/icons/favorite-svgrepo-com.svg?raw'
 import favoritesStarFilledIcon from '../../../assets/icons/favorite-filled-svgrepo-com.svg?raw'
 import searchIcon from '../../../assets/icons/search-svgrepo-com.svg?raw';
+import linkIcon from '../../../assets/icons/link-horizontal-svgrepo-com.svg?raw';
+import clearIcon from '../../../assets/icons/clear-svgrepo-com.svg?raw';
+import infoIcon from '../../../assets/icons/info-circle-svgrepo-com.svg?raw';
 
 
 
@@ -51,7 +54,10 @@ const iconMap: Record<string, string> = {
   moreOptions: moreOptionsIcon,
   favoritesStarUnfilled: favoritesStarUnfilledIcon,
   favoritesStarFilled: favoritesStarFilledIcon,
-  search: searchIcon
+  search: searchIcon,
+  link: linkIcon,
+  clear: clearIcon,
+  info: infoIcon
 };
 
 const defaultClassMap: Partial<Record<keyof typeof iconMap, string>> = {
@@ -64,7 +70,8 @@ const defaultClassMap: Partial<Record<keyof typeof iconMap, string>> = {
   chevronUp: "button-icon-chevron-up",
   review: "button-icon-review",
   moreOptions: "button-icon-more-options",
-  search: "button-icon-search"
+  search: "button-icon-search",
+  clear: "button-icon-clear"
 };
 
 interface IconProps {

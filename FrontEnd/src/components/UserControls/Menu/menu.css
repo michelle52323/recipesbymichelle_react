@@ -54,6 +54,10 @@
     cursor: pointer;
 }
 
+.menu-item-wide{
+    width: 100%;
+}
+
 /* Shared styling for both <button> and <a> menu links */
 .menu-item .menu-button,
 .menu-item .menu-button-link,
@@ -128,4 +132,27 @@
 #menu-overlay {
     position: relative;
     z-index: 1000;
+}
+
+.menu-size {
+        font-size: 20px;
+        width: 100%;
+        max-width: 450px;
+    }
+
+@supports (-webkit-touch-callout: none) {
+    .menu-size {
+        font-size: 21.5px;
+        width: 100%;
+    }
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        .menu-size {
+        font-size: 21.5px;
+        width: 100%;
+    }
+    }
 }

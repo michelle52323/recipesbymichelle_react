@@ -6,6 +6,7 @@ import Profile from './components/Account/Profile/Profile';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import MyRecipes from './components/RecipeConsole/MyRecipes/MyRecipes';
 import RecipeInfo from './components/RecipeConsole/RecipeInfo/RecipeInfo';
+import ImportRecipeFromUrl from './components/RecipeConsole/ImportRecipe/ImportRecipeFromUrl';
 import Ingredients from './components/RecipeConsole/Ingredients/Ingredients';
 import Steps from './components/RecipeConsole/Steps/Steps';
 import View from './components/RecipeConsole/View/View';
@@ -121,6 +122,8 @@ function App() {
 
                 <Route path="recipes/recipeinfo" element={<RecipeInfo />} />
                 <Route path="recipes/recipeinfo/:id" element={<RecipeInfo />} />
+
+                <Route path="recipes/import/url" element={<ImportRecipeFromUrl />} />
 
                 <Route path="recipes/ingredients" element={<Ingredients />} />
                 <Route path="recipes/ingredients/:id" element={<Ingredients />} />

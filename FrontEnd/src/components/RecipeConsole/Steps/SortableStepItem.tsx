@@ -192,7 +192,7 @@ const SortableStepItem: React.FC<Props> = ({
 
             if (isBlank) {
                 setTimeout(() => {
-                    console.log("ADD descRef.current:", descRef.current);
+                    //console.log("ADD descRef.current:", descRef.current);
 
                     descRef.current?.focus();
                 }, 50);

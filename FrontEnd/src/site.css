@@ -174,6 +174,25 @@ a:focus {
     color: var(--linkTextColor);
 }
 
+h4 {
+        font-size: 20px;
+    }
+
+@supports (-webkit-touch-callout: none) {
+    h4 {
+        font-size: 21.5px;
+    }
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        h4 {
+        font-size: 21.5px;
+    }
+    }
+}
+
 
 .page-layout {
     display: flex;
@@ -371,7 +390,8 @@ use-wide-card {
     margin-left: auto;
     display: flex;
     align-items: center;
-    padding-right: 12px; /* matches your menu icon spacing */
+    padding-right: 12px;
+    /* matches your menu icon spacing */
     padding-bottom: 10px;
 }
 
@@ -512,7 +532,7 @@ use-wide-card {
 @media (max-width: 767.98px) {
     .form-row-extra-space {
         height: 15px;
-        clear:both;
+        clear: both;
     }
 }
 
@@ -578,9 +598,7 @@ label {
     clear: both;
 }
 
-.form-element-tall{
-    
-}
+.form-element-tall {}
 
 .textbox {
     padding-left: 10px;
@@ -889,6 +907,10 @@ a.button-tiny-ios {
     padding: 1px 0px 0px 4px !important;
 }
 
+.button-icon-clear {
+    padding: 0.5px 0px 0px 2.75px !important;
+}
+
 .button-icon-print {
     padding: 4px 0px 0px 0px !important;
     margin: 6px 25px 0px 0px !important;
@@ -932,7 +954,7 @@ a.button-tiny-ios {
 }
 
 .text-specified {
-        color: var(--contentTextColor);     
+    color: var(--contentTextColor);
 }
 
 .text-14 {
@@ -1513,5 +1535,13 @@ a.button-tiny-ios {
 }
 
 .mobile-bottom-sheet.closing {
+    animation: slideDown 0.15s ease-in forwards;
+}
+
+.menu-bottom-sheet.opening {
+    animation: slideUp 0.25s ease-out forwards;
+}
+
+.menu-bottom-sheet.closing {
     animation: slideDown 0.15s ease-in forwards;
 }

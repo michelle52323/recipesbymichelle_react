@@ -127,7 +127,8 @@ namespace PlatformAPI.RecipeImport.Parser
             };
         }
 
-        public async Task<ConvertRecipeIntermediateDto> ConvertJsonLdToRecipeDto(
+        //public async Task<ConvertRecipeIntermediateDto> ConvertJsonLdToRecipeDto(
+        public async Task<ConvertRecipeDto> ConvertJsonLdToRecipeDto(
         string text,
         MeasurementSystem measurementSystem)
         {

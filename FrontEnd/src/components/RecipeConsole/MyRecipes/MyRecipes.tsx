@@ -7,6 +7,7 @@ import ButtonGrid from '../../UserControls/ButtonGrid/ButtonGrid';
 import Icon from '../../UserControls/Icons/icons';
 import Loader from '../../UserControls/Loader/Loader';
 import MyRecipesDesktop from './MyRecipesDesktop';
+import AddRecipeActionsMenu from '../../UserControls/SubMenus/MyRecipes/AddRecipeActionsMenu';
 
 // ---- Types ----
 interface AuthResult {
@@ -23,6 +24,8 @@ function MyRecipes() {
     const navigate = useNavigate();
     const { setTitle, setBanner } = useOutletContext<OutletContextType>();
     const [auth, setAuth] = useState<AuthResult | null>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
 
     // Cleanup banner on unmount
     useEffect(() => {
@@ -30,6 +33,15 @@ function MyRecipes() {
             setBanner('');
         };
     }, [setBanner]);
+
+    const closeMenu = () => {
+        setIsClosing(true);
+
+        setTimeout(() => {
+            setIsMenuOpen(false);
+            setIsClosing(false);
+        }, 150);
+    };
 
     // Load auth
     useEffect(() => {
@@ -51,6 +63,7 @@ function MyRecipes() {
         }
     }, [auth, navigate, setTitle]);
 
+
     if (auth === null) {
         return (
             <div>
@@ -71,7 +84,7 @@ function MyRecipes() {
                 buttons={[
                     {
                         text: "Recipe",
-                        url: "/recipes/recipeinfo",
+                        onClick: () => setIsMenuOpen(true),
                         icon: <Icon name="add" />,
                         type: "button",
                         mobileSlot: 3,
@@ -79,6 +92,27 @@ function MyRecipes() {
                     }
                 ]}
             />
+
+            {isMenuOpen && (
+                <>
+                    <div
+                        className="mobile-menu-backdrop"
+                        onClick={closeMenu}
+                        style={{
+                            position: 'fixed',
+                            inset: 0,
+                            background: 'rgba(0,0,0,0.4)',
+                            zIndex: 9998
+                        }}
+                    ></div>
+
+                    <AddRecipeActionsMenu
+                        navigate={(path: string) => navigate(path)}
+                        closeMenu={closeMenu}
+                        isClosing={isClosing}
+                    />
+                </>
+            )}
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
 import Icon from '../UserControls/Icons/icons';
+import AddRecipeActionsMenu from '../UserControls/SubMenus/MyRecipes/AddRecipeActionsMenu';
 
 import CheckAuth from '../../components/Account/CheckAuth';
 import Loader from '../UserControls/Loader/Loader';
@@ -25,6 +26,18 @@ function Dashboard() {
     const [auth, setAuth] = useState<AuthResult | null>(null);
 
     const [showOverview, setShowOverview] = useState<boolean>(false);
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+
+    const closeMenu = () => {
+        setIsClosing(true);
+
+        setTimeout(() => {
+            setIsMenuOpen(false);
+            setIsClosing(false);
+        }, 150);
+    };
 
     // Load auth
     useEffect(() => {
@@ -96,7 +109,7 @@ function Dashboard() {
                         <div className="dashboard-item col-12 col-md-4 text-center">
                             <div
                                 className="dashboard-link-inner"
-                                onClick={() => navigate("/Recipes/RecipeInfo")}
+                                onClick={() => setIsMenuOpen(true)}
                                 style={{ cursor: "pointer", display: "inline-block" }}
                             >
                                 <span className="w-100">Add New Recipe</span>
@@ -145,7 +158,26 @@ function Dashboard() {
 
                     </div>
 
+                    {isMenuOpen && (
+                        <>
+                            <div
+                                className="mobile-menu-backdrop"
+                                onClick={closeMenu}
+                                style={{
+                                    position: 'fixed',
+                                    inset: 0,
+                                    background: 'rgba(0,0,0,0.4)',
+                                    zIndex: 9998
+                                }}
+                            ></div>
 
+                            <AddRecipeActionsMenu
+                                navigate={(path: string) => navigate(path)}
+                                closeMenu={closeMenu}
+                                isClosing={isClosing}
+                            />
+                        </>
+                    )}
 
                 </div>
             </div>

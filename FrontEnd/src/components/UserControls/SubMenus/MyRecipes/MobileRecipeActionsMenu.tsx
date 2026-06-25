@@ -11,7 +11,6 @@ interface Recipe {
         id: number;
         description: string;
     };
-    canTake: boolean;
 }
 
 interface Props {
