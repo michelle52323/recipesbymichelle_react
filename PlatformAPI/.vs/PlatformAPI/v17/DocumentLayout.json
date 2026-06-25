@@ -133,8 +133,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-24T19:30:17.362Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -150,8 +149,7 @@
               "RelativeToolTip": "Controllers\\RecipeImport\\UrlScraperController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-24T01:18:03.696Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-24T01:18:03.696Z"
             },
             {
               "$type": "Document",
@@ -163,8 +161,7 @@
               "RelativeToolTip": "RecipeImport\\Parser\\RecipeParser.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAI0AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T01:18:07.106Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T01:18:07.106Z"
             },
             {
               "$type": "Document",
@@ -189,8 +186,7 @@
               "RelativeToolTip": "..\\..\\..\\NET_Core\\Recipes_Core\\Recipes_Core\\Pages\\Recipe\\Search.cshtml.cs",
               "ViewState": "AgIAAEYAAAAAAAAAAAAQwHAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-21T19:56:56.14Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-21T19:56:56.14Z"
             },
             {
               "$type": "Document",
@@ -202,8 +198,7 @@
               "RelativeToolTip": "Controllers\\Themes\\ThemeController.cs",
               "ViewState": "AgIAAGwAAAAAAAAAAAAAAHUAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-21T19:12:32.977Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-21T19:12:32.977Z"
             },
             {
               "$type": "Document",
@@ -226,8 +221,7 @@
               "RelativeToolTip": "Controllers\\Recipes\\FavoritesController.cs",
               "ViewState": "AgIAANoAAAAAAAAAAAAQwAQBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T00:01:50.265Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-20T00:01:50.265Z"
             },
             {
               "$type": "Document",
@@ -239,8 +233,7 @@
               "RelativeToolTip": "Controllers\\Users\\UsersController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAACsBAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T01:16:50.073Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T01:16:50.073Z"
             },
             {
               "$type": "Document",
@@ -263,8 +256,7 @@
               "RelativeToolTip": "Controllers\\Users\\SignInController.cs",
               "ViewState": "AgIAAFcAAAAAAAAAAAAQwHUAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T01:43:34.373Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T01:43:34.373Z"
             },
             {
               "$type": "Document",
@@ -276,8 +268,7 @@
               "RelativeToolTip": "Service\\AuthService.cs",
               "ViewState": "AgIAAAcAAAAAAAAAAIA3wBwAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-14T15:55:26.257Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-14T15:55:26.257Z"
             },
             {
               "$type": "Document",
@@ -289,8 +280,7 @@
               "RelativeToolTip": "Enums\\MeasurementSystem.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T01:19:10.745Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T01:19:10.745Z"
             },
             {
               "$type": "Document",
@@ -302,8 +292,7 @@
               "RelativeToolTip": "Controllers\\Recipes\\StepsController.cs",
               "ViewState": "AgIAACcAAAAAAAAAAAAuwDsAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T18:33:11.015Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-18T18:33:11.015Z"
             },
             {
               "$type": "Document",
@@ -315,8 +304,7 @@
               "RelativeToolTip": "Controllers\\Recipes\\MeasurementController.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAAAC8AAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-13T02:21:29.014Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-13T02:21:29.014Z"
             },
             {
               "$type": "Document",
@@ -328,8 +316,7 @@
               "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "ViewState": "AgIAANwUAAAAAAAAAAAvwOcUAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2026-05-12T21:17:59.068Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-12T21:17:59.068Z"
             },
             {
               "$type": "Document",
@@ -352,8 +339,7 @@
               "RelativeToolTip": "Controllers\\Users\\GendersController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T02:07:04.663Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T02:07:04.663Z"
             },
             {
               "$type": "Document",
@@ -365,8 +351,7 @@
               "RelativeToolTip": "..\\..\\..\\NET_Core\\Recipes_Core\\Recipes_Core\\Pages\\Recipe\\MyRecipes.cshtml.cs",
               "ViewState": "AgIAAEIAAAAAAAAAAAAAAFoAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T02:09:34.078Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T02:09:34.078Z"
             },
             {
               "$type": "Document",
@@ -378,8 +363,7 @@
               "RelativeToolTip": "appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-06T02:11:58.473Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-06T02:11:58.473Z"
             },
             {
               "$type": "Document",
@@ -391,8 +375,7 @@
               "RelativeToolTip": "Service\\EmailService.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAAwCAAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T23:06:03.306Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-05T23:06:03.306Z"
             },
             {
               "$type": "Document",
@@ -404,8 +387,7 @@
               "RelativeToolTip": "..\\..\\Quiz-Builder\\PlatformAPI.Tests\\Quizzes\\QuizInfoTests.cs",
               "ViewState": "AgIAAEkAAAAAAAAAAAAQwDIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-25T02:38:59.51Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-25T02:38:59.51Z"
             },
             {
               "$type": "Document",
@@ -417,8 +399,7 @@
               "RelativeToolTip": "..\\..\\Quiz-Builder\\PlatformAPI.Tests\\MockData\\Quizzes\\UserQuizFactory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T17:45:51.253Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-17T17:45:51.253Z"
             },
             {
               "$type": "Document",
@@ -430,8 +411,7 @@
               "RelativeToolTip": "..\\..\\Quiz-Builder\\PlatformAPI.Tests\\Quizzes\\MyQuizzesTests.cs",
               "ViewState": "AgIAAC0AAAAAAAAAAAAAADAAAABmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T22:31:16.408Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-16T22:31:16.408Z"
             },
             {
               "$type": "Document",
@@ -465,8 +445,7 @@
               "RelativeToolTip": "Models\\Themes\\Theme.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-07T02:02:03.649Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-07T02:02:03.649Z"
             },
             {
               "$type": "Document",
@@ -507,8 +486,7 @@
               "RelativeToolTip": "Models\\Themes\\ThemeVariableColor.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T16:57:11.306Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-04T16:57:11.306Z"
             }
           ]
         }
