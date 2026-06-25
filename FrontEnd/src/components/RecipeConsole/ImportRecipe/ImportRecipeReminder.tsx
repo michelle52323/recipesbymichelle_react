@@ -1,5 +1,5 @@
 import React from 'react';
-import './importrecipereminder.css';
+import './importRecipeReminder.css';
 
 import Icon  from '../../UserControls/Icons/icons';
 
