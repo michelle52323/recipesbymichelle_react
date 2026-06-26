@@ -91,7 +91,7 @@ export default function SearchOthers() {
                             onClick={performSearch}
                         >
                             <span className="btn-text">
-                                <Icon name="search" />
+                                <div className="margin-3"><Icon name="search" /></div>
                             </span>
                         </button>
                     </div>

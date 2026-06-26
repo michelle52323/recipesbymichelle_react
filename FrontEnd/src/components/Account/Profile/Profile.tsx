@@ -349,7 +349,7 @@ const Profile: React.FC = () => {
         })();
     }, []);
 
-    if (loading) return <div><Loader message = "Loading profile ..." /></div>;
+    if (loading) return <div><Loader message="Loading profile ..." /></div>;
     if (error) return <div className="error-message">{error}</div>;
 
 
@@ -434,19 +434,6 @@ const Profile: React.FC = () => {
                             </div>
 
                             <div className="page-item col-12 col-md-6">
-                                <label className="form-label-tight">Pronouns</label>
-                                <div className="form-element">
-                                    <input
-                                        type="text"
-                                        className="form-control textbox textbox-large textbox-text"
-                                        value={profile.pronouns}
-                                        onChange={e => setProfile(prev => ({ ...prev, pronouns: e.target.value }))}
-                                    />
-                                </div>
-                                <div className="error-message-placeholder-height"></div>
-                            </div>
-
-                            <div className="page-item col-12 col-md-6">
                                 <label className="form-label-tight">Gender</label>
                                 <div className="form-element">
                                     <Dropdown
@@ -466,6 +453,19 @@ const Profile: React.FC = () => {
                                 ) : (
                                     <div className="error-message-placeholder-height"></div>
                                 )}
+                            </div>
+
+                            <div className="page-item col-12 col-md-6">
+                                <label className="form-label-tight">Pronouns</label>
+                                <div className="form-element">
+                                    <input
+                                        type="text"
+                                        className="form-control textbox textbox-large textbox-text"
+                                        value={profile.pronouns}
+                                        onChange={e => setProfile(prev => ({ ...prev, pronouns: e.target.value }))}
+                                    />
+                                </div>
+                                <div className="error-message-placeholder-height"></div>
                             </div>
 
                         </div>
