@@ -166,7 +166,7 @@ const SearchRow: React.FC<RowProps> = ({ recipe, navigate, onFavoriteRemoved, qu
 
 
                 >
-                    <Icon name="eye" />
+                    <div className="margin-4"><Icon name="eye" /></div>
                 </button>
 
                 {/* Favorite Star (fixed width wrapper) */}
