@@ -274,7 +274,7 @@ function View() {
                                                 className="button button-icon"
                                                 onClick={() => navigate(`/recipes/ingredients/${recipe.id}`)}
                                             >
-                                                <Icon name="pencil" />
+                                                <div className="margin-4"><Icon name="pencil" /></div>
                                             </button>
                                         </div>
                                     )}
@@ -329,7 +329,7 @@ function View() {
                                                 className="button button-icon"
                                                 onClick={() => navigate(`/recipes/steps/${recipe.id}`)}
                                             >
-                                                <Icon name="pencil" />
+                                                <div className="margin-4"><Icon name="pencil" /></div>
                                             </button>
                                         </div>
                                     )}

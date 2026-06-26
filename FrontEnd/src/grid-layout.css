@@ -271,8 +271,8 @@ a.button-tiny-responsive-mobile {
     /* Ensure all content is visible */
 }
 
-.gof-view{
-   height: 370px; 
+.gof-view {
+    height: 370px;
 }
 
 .gof-tall {
@@ -293,7 +293,7 @@ a.button-tiny-responsive-mobile {
 }
 
 .gof-editable-mobile-short {
-    height: 380px;
+    height: 395px;
 }
 
 .gof-view-mobile {
@@ -397,7 +397,16 @@ a.button-tiny-responsive-mobile {
 
 @supports (-webkit-touch-callout: none) {
     .action-column {
-        width: 40px;
+        width: 44px;
+    }
+}
+
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+
+        .action-column {
+            width: 44px;
+        }
     }
 }
 

@@ -175,8 +175,8 @@ a:focus {
 }
 
 h4 {
-        font-size: 20px;
-    }
+    font-size: 20px;
+}
 
 @supports (-webkit-touch-callout: none) {
     h4 {
@@ -188,8 +188,8 @@ h4 {
 @media (pointer: coarse) {
     @supports not (-webkit-touch-callout: none) {
         h4 {
-        font-size: 21.5px;
-    }
+            font-size: 21.5px;
+        }
     }
 }
 
@@ -584,7 +584,7 @@ label {
 .textbox {
     padding-left: 10px;
     padding-right: 10px;
-    height: 33px;
+    height: 37px;
     border: 2px solid;
     border-radius: 4px;
     background-color: var(--textBoxBackColor);
@@ -913,6 +913,78 @@ a.button-tiny-ios {
 .button-icon-more-options {
     padding-top: 4px;
     padding-left: 3px;
+}
+
+.margin-1{
+    margin-left: 1px;
+}
+
+@supports (-webkit-touch-callout: none) {
+
+    .button,
+    .button-disabled {
+        min-width: 42px;
+        min-height: 42px;
+    }
+
+    .button-icon,
+    .button-icon-full-screen {
+        width: 42px;
+        height: 42px;
+    }
+
+    .textbox {
+        height: 42px;
+    }
+
+    .margin-3 {
+        margin-left: 3px;
+    }
+
+    .margin-4 {
+        margin-left: 4px;
+    }
+
+    .margin-5 {
+        margin-left: 5px;
+    }
+
+
+
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+
+        .button,
+        .button-disabled {
+            min-width: 42px;
+            min-height: 42px;
+        }
+
+        .button-icon,
+        .button-icon-full-screen {
+            width: 42px;
+            height: 42px;
+        }
+
+        .textbox {
+            height: 42px;
+        }
+
+        .margin-3 {
+            margin-left: 3px;
+        }
+
+        .margin-4 {
+            margin-left: 4px;
+        }
+
+        .margin-5 {
+            margin-left: 5px;
+        }
+    }
 }
 
 .static-large-button {

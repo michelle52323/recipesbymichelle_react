@@ -302,9 +302,9 @@ const SortableStepItem: React.FC<Props> = ({
                                         onClick={() => onToggle()}
                                     >
                                         {isOpen ? (
-                                            <Icon name="chevronUp" />
+                                            <div className="margin-3"><Icon name="chevronUp" /></div>
                                         ) : (
-                                            <Icon name="pencil" />
+                                            <div className="margin-4"><Icon name="pencil" /></div>
                                         )}
                                     </button>
                                 </div>
@@ -316,9 +316,9 @@ const SortableStepItem: React.FC<Props> = ({
                 {/* EXPANDED AREA */}
                 {isOpen && (
                     <>
-                        <div className="accordion-content expanded-content" data-expand-id={isAddRow ? "ADD_ROW" : step.id}>
+                        <div className="pt-1 accordion-content expanded-content" data-expand-id={isAddRow ? "ADD_ROW" : step.id}>
                             <div className="p-2 d-flex flex-wrap accordion">
-                                <div className="accordion-content-inner ps-3 pe-3">
+                                <div className="accordion-content-inner ps-1 pe-1">
 
                                     {/* Description */}
                                     <div className="fixed-textbox-large desc-input height-65">
@@ -351,11 +351,11 @@ const SortableStepItem: React.FC<Props> = ({
                                         <div className="fixed-button-icon save-input">
                                             {!isAddRow ? (
                                                 <button className="button button-icon" onClick={onSave}>
-                                                    <Icon name="save" />
+                                                    <div className="margin-3"><Icon name="save" /></div>
                                                 </button>
                                             ) : (
                                                 <button className="button button-icon" onClick={onAdd}>
-                                                    <Icon name="save" />
+                                                    <div className="margin-3"><Icon name="save" /></div>
                                                 </button>
                                             )}
                                         </div>
@@ -366,7 +366,7 @@ const SortableStepItem: React.FC<Props> = ({
                                                     className="button button-icon button-icon-delete"
                                                     onClick={() => openDeleteModal?.(step!)}
                                                 >
-                                                    <Icon name="delete" />
+                                                    <div className="margin-3"><Icon name="delete" /></div>
                                                 </button>
                                             ) : (
                                                 <span className="button-icon">&nbsp;</span>

@@ -27,7 +27,7 @@
     color: var(--dropdownContentTextColor) !important;
 }
 
-.menu-divider{
+.menu-divider {
     color: var(--dropdownContentTextColor) !important;
 }
 
@@ -54,7 +54,7 @@
     cursor: pointer;
 }
 
-.menu-item-wide{
+.menu-item-wide {
     width: 100%;
 }
 
@@ -67,7 +67,7 @@
     gap: 10px;
 
     color: var(--dropdownContentTextColor) !important;
-    padding: 7px 16px;
+    padding: 8px 16px;
     text-decoration: none;
 
     background-color: transparent;
@@ -78,6 +78,30 @@
     text-align: left;
     font: inherit;
     cursor: pointer;
+}
+
+
+@supports (-webkit-touch-callout: none) {
+
+    .menu-item .menu-button,
+    .menu-item .menu-button-link,
+    .menu-item a {
+        padding: 9px 16px;
+    }
+
+
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+
+        .menu-item .menu-button,
+        .menu-item .menu-button-link,
+        .menu-item a {
+            padding: 9px 16px;
+        }
+    }
 }
 
 /* Hover state for both <button> and <a> */
@@ -135,10 +159,10 @@
 }
 
 .menu-size {
-        font-size: 20px;
-        width: 100%;
-        max-width: 450px;
-    }
+    font-size: 20px;
+    width: 100%;
+    max-width: 450px;
+}
 
 @supports (-webkit-touch-callout: none) {
     .menu-size {
@@ -151,8 +175,8 @@
 @media (pointer: coarse) {
     @supports not (-webkit-touch-callout: none) {
         .menu-size {
-        font-size: 21.5px;
-        width: 100%;
-    }
+            font-size: 21.5px;
+            width: 100%;
+        }
     }
 }
