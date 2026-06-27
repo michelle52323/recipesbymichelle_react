@@ -865,8 +865,9 @@ a.button-tiny-ios {
 
 .button-icon-delete {
     padding: 3px 0px 0px 3px !important;
-
 }
+
+
 
 .button-icon-save {
     padding: 1px 0px 0px 4px !important;
@@ -1550,6 +1551,14 @@ a.button-tiny-ios {
         height: 42px;
     }
 
+    .margin-1 {
+        margin-left: 1px;
+    }
+
+    .margin-2 {
+        margin-left: 2px;
+    }
+
     .margin-3 {
         margin-left: 3px;
     }
@@ -1597,6 +1606,14 @@ a.button-tiny-ios {
 
         .textbox {
             height: 42px;
+        }
+
+        .margin-1 {
+            margin-left: 1px;
+        }
+
+        .margin-2 {
+            margin-left: 2px;
         }
 
         .margin-3 {

@@ -136,7 +136,7 @@ const SortableFavoriteItem: React.FC<Props> = ({
                                 className="button button-icon"
                                 onClick={() => navigate(`/Recipes/View/${favorite.recipe.id}`)}
                             >
-                                <Icon name="eye" />
+                                <div style={{ marginLeft: -1, marginTop: -1 }} ><Icon name="eye" width={27} height={27} /></div>
                             </button>
                         </div>
 

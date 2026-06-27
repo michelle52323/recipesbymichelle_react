@@ -209,7 +209,7 @@ const ImportRecipeFromUrl: React.FC = () => {
                                             onClick={() => setRecipe({ url: "" })}
                                         >
                                             <span className="btn-text">
-                                                <Icon name="clear" />
+                                                <div className="margin-3"><Icon name="clear" /></div>
                                             </span>
                                         </button>
                                     </div>

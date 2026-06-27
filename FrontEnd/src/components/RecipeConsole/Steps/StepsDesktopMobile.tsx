@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {isMobileTouchDevice} from "../../../helpers/config";
 import Modal from "react-modal";
 import {
     DndContext,
@@ -65,6 +66,7 @@ function StepsListMobile({ controller }: Props) {
         return <Loader message="Loading steps ..." />;
     }
 
+    const deviceType = isMobileTouchDevice() ? "mobile" : "desktop";
     return (
         <div className="pt-3">
             <div className="content-inner-desktop">
@@ -129,7 +131,7 @@ function StepsListMobile({ controller }: Props) {
                                         openDeleteModal={() =>
                                             openDeleteModal(step, i + 1)
                                         }
-                                        deviceType="mobile"
+                                        deviceType={deviceType}
                                         recentlySavedId={controller.recentlySavedId}
                                         openValidationModal={controller.openValidationModal}
                                         pendingAction={controller.pendingAction}
@@ -150,7 +152,7 @@ function StepsListMobile({ controller }: Props) {
                                     index={steps.length}
                                     isAddRow={true}
                                     handleAdd={handleAdd}
-                                    deviceType="mobile"
+                                    deviceType={deviceType}
                                     setAddRow={controller.setAddRow}
                                     openValidationModal={controller.openValidationModal}
                                     pendingAction={controller.pendingAction}

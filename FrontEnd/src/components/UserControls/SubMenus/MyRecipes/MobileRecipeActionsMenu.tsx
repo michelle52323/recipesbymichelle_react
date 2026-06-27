@@ -107,7 +107,7 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
                         }}
                     >
                         <div className="menu-icon">
-                            <Icon name="eye" />
+                            <div style={{marginTop:2}}><Icon name="eye" width={28} height={28} /></div>
                         </div>
                         <div className="menu-text">View</div>
                     </button>
@@ -123,7 +123,7 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
                         }}
                     >
                         <div className="menu-icon">
-                            <Icon name="delete" />
+                            <div style={{marginTop:-5}}><Icon name="delete" width={21} height={21} /></div>
                         </div>
                         <div className="menu-text">Delete</div>
                     </button>

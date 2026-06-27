@@ -159,15 +159,22 @@ const SearchRow: React.FC<RowProps> = ({ recipe, navigate, onFavoriteRemoved, qu
 
                 {/* View */}
                 <button
-                    className="button button-icon me-2"
                     onClick={() => navigate(`/Recipes/View/${recipe.recipeId}`, {
                         state: { searchTerm: query }
                     })}
-
-
+                    className="button button-icon me-2"
                 >
-                    <div className="margin-4"><Icon name="eye" /></div>
+                    {isMobile ? (
+                        <div className="margin-1">
+                            <Icon name="eye" width={31} height={31} />
+                        </div>
+                    ) : (
+                        <div className="margin-4">
+                            <div style={{ marginLeft: -1, marginTop: -1 }} ><Icon name="eye" width={27} height={27} /></div>
+                        </div>
+                    )}
                 </button>
+
 
                 {/* Favorite Star (fixed width wrapper) */}
                 <div style={{ width: "32px", display: "flex", justifyContent: "center" }}>

@@ -229,6 +229,7 @@ const SortableStepItem: React.FC<Props> = ({
 
 
     //if (deviceType === "mobile") {
+
     return (
         <>
             <div
@@ -351,11 +352,19 @@ const SortableStepItem: React.FC<Props> = ({
                                         <div className="fixed-button-icon save-input">
                                             {!isAddRow ? (
                                                 <button className="button button-icon" onClick={onSave}>
-                                                    <div className="margin-3"><Icon name="save" /></div>
+                                                    {deviceType === "desktop" ? (
+                                                        <div className="margin-2"><Icon name="save" width={23} height={23} /></div>
+                                                    ) : (
+                                                        <div className="margin-3"><Icon name="save" width={26} height={26} /></div>
+                                                    )}
                                                 </button>
                                             ) : (
                                                 <button className="button button-icon" onClick={onAdd}>
-                                                    <div className="margin-3"><Icon name="save" /></div>
+                                                    {deviceType === "desktop" ? (
+                                                        <div className="margin-2"><Icon name="save" width={23} height={23} /></div>
+                                                    ) : (
+                                                        <div className="margin-3"><Icon name="save" width={26} height={26} /></div>
+                                                    )}
                                                 </button>
                                             )}
                                         </div>
@@ -366,7 +375,16 @@ const SortableStepItem: React.FC<Props> = ({
                                                     className="button button-icon button-icon-delete"
                                                     onClick={() => openDeleteModal?.(step!)}
                                                 >
-                                                    <div className="margin-3"><Icon name="delete" /></div>
+                                                    {deviceType === "desktop" ? (
+                                                        <div className="margin-4" style={{ marginTop: -3 }}>
+                                                            <div style={{ marginTop: -5, marginLeft: 2 }}><Icon name="delete" width={21} height={21} /></div>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="margin-4" style={{ marginTop: -3 }}>
+                                                            <Icon name="delete" width={25} height={25} />
+                                                        </div>
+                                                    )}
+
                                                 </button>
                                             ) : (
                                                 <span className="button-icon">&nbsp;</span>

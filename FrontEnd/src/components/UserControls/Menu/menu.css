@@ -144,11 +144,27 @@
     font-size: 15px;
 }
 
-@media(max-width: 550px) {
+@supports (-webkit-touch-callout: none) {
+
     .menu-text {
-        font-size: 17px;
+    flex-grow: 1;
+    font-size: 17px;
+}
+
+
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+
+        .menu-text {
+    flex-grow: 1;
+    font-size: 17px;
+}
     }
 }
+
 
 .menu-signout {
     margin-top: 50px;
