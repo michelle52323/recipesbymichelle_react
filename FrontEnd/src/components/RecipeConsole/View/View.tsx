@@ -55,7 +55,7 @@ function View() {
 
     const layoutClass = isMobileTouchDevice() ? "gof-view-mobile" : "gof-tall";
     const innerlayoutClass = isMobileTouchDevice() ? "grid-page-row-height-mobile" : "grid-page-row-height-desktop";
-
+    const isMobile = isMobileTouchDevice();
     //console.log("Previous location:", previousPath.current);
 
     //Set previous page navigation button correctly
@@ -274,7 +274,11 @@ function View() {
                                                 className="button button-icon"
                                                 onClick={() => navigate(`/recipes/ingredients/${recipe.id}`)}
                                             >
-                                                <div className="margin-4"><Icon name="pencil" /></div>
+                                                {isMobile ? (
+                                                    <Icon name="pencil" marginLeft={4} />
+                                                ) : (
+                                                    <Icon name="pencil" marginLeft={1} marginTop={-2} />
+                                                )}
                                             </button>
                                         </div>
                                     )}
@@ -329,7 +333,11 @@ function View() {
                                                 className="button button-icon"
                                                 onClick={() => navigate(`/recipes/steps/${recipe.id}`)}
                                             >
-                                                <div className="margin-4"><Icon name="pencil" /></div>
+                                                {isMobile ? (
+                                                    <Icon name="pencil" marginLeft={4} />
+                                                ) : (
+                                                    <Icon name="pencil" marginLeft={1} marginTop={-2} />
+                                                )}
                                             </button>
                                         </div>
                                     )}

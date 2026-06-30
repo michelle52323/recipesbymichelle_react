@@ -26,7 +26,7 @@ function FeedbackBanner({ message, onClose }: FeedbackBannerProps) {
     const ios = isIOS();
     const android = isAndroid();
 
-    var iconSize = "20";
+    var iconSize = "21";
     if (ios)
         iconSize = "24";
     if (android)

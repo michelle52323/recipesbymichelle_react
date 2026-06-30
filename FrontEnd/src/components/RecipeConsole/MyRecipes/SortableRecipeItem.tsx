@@ -92,7 +92,7 @@ const SortableRecipeItem: React.FC<Props> = ({
                                 className="button button-icon"
                                 onClick={() => navigate(`/Recipes/RecipeInfo/${recipe.id}`)}
                             >
-                                <Icon name="pencil" />
+                                <Icon name="pencil" marginLeft={1} marginTop={-1} />
                             </button>
                         </div>
 
@@ -123,7 +123,7 @@ const SortableRecipeItem: React.FC<Props> = ({
                                 
                                 onClick={() => navigate(`/Recipes/View/${recipe.id}`)}
                             >
-                                <div style={{ marginLeft: -1, marginTop: -1 }} ><Icon name="eye" width={27} height={27} /></div>
+                                <Icon name="eye" marginTop={-2} width={27} height={27} />
                             </button>
                         </div>
 
@@ -137,7 +137,7 @@ const SortableRecipeItem: React.FC<Props> = ({
                                 data-id={recipe.id}
                                 onClick={openDeleteModal}
                             >
-                                <div style={{marginTop:-5, marginLeft:2}}><Icon name="delete" width={21} height={21} /></div>
+                                <Icon name="delete" marginLeft={2} marginTop={-5} width={21} height={21} />
                             </button>
                         </div>
                     </>

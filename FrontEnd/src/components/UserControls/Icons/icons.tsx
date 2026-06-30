@@ -75,28 +75,33 @@ const defaultClassMap: Partial<Record<keyof typeof iconMap, string>> = {
 };
 
 interface IconProps {
-  name: keyof typeof iconMap;
-  width?: number;
-  height?: number;
-  className?: string;
+    name: keyof typeof iconMap;
+    width?: number;
+    height?: number;
+    className?: string;
+    marginTop?: number;
+    marginLeft?: number;
 }
 
 
-const Icon: React.FC<IconProps> = ({ name, width = 24, height = 24, className }) => {
-  const svgMarkup = iconMap[name];
-  if (!svgMarkup) return null;
+const Icon: React.FC<IconProps> = ({ name, width = 24, height = 24, className, marginTop=0, marginLeft=0 }) => {
+    const svgMarkup = iconMap[name];
+    if (!svgMarkup) return null;
 
-  const defaultClass = defaultClassMap[name] ?? '';
-  const combinedClassName = [defaultClass, className].filter(Boolean).join(' ');
+    const defaultClass = defaultClassMap[name] ?? '';
+    const combinedClassName = [defaultClass, className].filter(Boolean).join(' ');
 
-  return (
-    <div
-      className={combinedClassName}
-      style={{ width, height }}
-      dangerouslySetInnerHTML={{ __html: svgMarkup }}
-      aria-hidden="true"
-    />
-  );
+    return (
+        <div style={{ marginLeft: marginLeft, marginTop: marginTop }}>
+            <div
+                className={combinedClassName}
+                style={{ width, height }}
+                dangerouslySetInnerHTML={{ __html: svgMarkup }}
+                aria-hidden="true"
+            />
+        </div>
+
+    );
 };
 
 export default Icon;

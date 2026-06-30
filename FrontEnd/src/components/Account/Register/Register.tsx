@@ -154,6 +154,7 @@ function Register() {
     }, []);
 
     const cardClass = isMobileTouchDevice() ? "mobile-card" : "narrow-card";
+    const deviceType = isMobileTouchDevice() ? "mobile" : "desktop";
 
     if (isRegistering){
         return (
@@ -181,6 +182,7 @@ function Register() {
                             onChange={e => setUsername(e.target.value)}
                             onBlur={handleUsernameBlur}
                             status={usernameStatus}
+                            deviceType={deviceType}
                         />
                     </div>
                     {errors.username && <div className="error-message">{errors.username}</div>}
@@ -196,6 +198,7 @@ function Register() {
                             onChange={e => setEmail(e.target.value)}
                             onBlur={handleEmailBlur}
                             status={emailStatus}
+                            deviceType={deviceType}
                         />
 
                     </div>

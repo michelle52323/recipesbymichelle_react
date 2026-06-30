@@ -463,11 +463,11 @@ const SortableIngredientItem: React.FC<Props> = ({
                                             <div className="fixed-button-icon save-input">
                                                 {!isAddRow ? (
                                                     <button className="button button-icon-responsive" onClick={onSave}>
-                                                        <div className="margin-3"><Icon name="save" width={26} height={26} /></div>
+                                                        <Icon name="save" marginLeft={3} width={26} height={26} />
                                                     </button>
                                                 ) : (
                                                     <button className="button button-icon-responsive" onClick={onAdd}>
-                                                        <div className="margin-3"><Icon name="save" width={26} height={26} /></div>
+                                                        <Icon name="save" marginLeft={3} width={26} height={26} />
                                                     </button>
                                                 )}
                                             </div>
@@ -478,7 +478,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                                                         className="button button-icon-responsive button-icon-delete"
                                                         onClick={() => openDeleteModal?.(ingredient!)}
                                                     >
-                                                        <div className="margin-4" style={{marginTop:-3}}><Icon name="delete" width={25} height={25} /></div>
+                                                        <Icon name="delete" marginLeft={4} marginTop={-3} width={25} height={25} />
                                                     </button>
                                                 ) : (
                                                     <span className="button-icon">&nbsp;</span>
@@ -687,7 +687,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                         </button>
                     ) : (
                         <button className="button button-icon" onClick={onAdd}>
-                            <div className="margin-1"><Icon name="add" /></div>
+                            <Icon name="add" marginLeft={1} />
                         </button>
 
                     )}
@@ -700,7 +700,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                             className="button button-icon button-icon-delete"
                             onClick={() => openDeleteModal?.(ingredient!)}
                         >
-                            <div style={{marginTop:-5, marginLeft:2}}><Icon name="delete" width={21} height={21} /></div>
+                            <Icon name="delete" marginLeft={2} marginTop={-5} width={21} height={21} />
                         </button>
                     ) : (
                         <span className="button-icon">&nbsp;</span>

@@ -38,6 +38,7 @@ export default function SearchOthers() {
     const [isLoading, setIsLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
 
+    const isMobile = isMobileTouchDevice();
 
     useEffect(() => {
         setTitle("Search Others' Recipes");
@@ -91,7 +92,12 @@ export default function SearchOthers() {
                             onClick={performSearch}
                         >
                             <span className="btn-text">
-                                <div className="margin-3"><Icon name="search" /></div>
+                                
+                                {isMobile ? (
+                                    <Icon name="search" marginLeft={3} />
+                                ) : (
+                                    <Icon name="search" />
+                                )}
                             </span>
                         </button>
                     </div>
@@ -165,13 +171,9 @@ const SearchRow: React.FC<RowProps> = ({ recipe, navigate, onFavoriteRemoved, qu
                     className="button button-icon me-2"
                 >
                     {isMobile ? (
-                        <div className="margin-1">
-                            <Icon name="eye" width={31} height={31} />
-                        </div>
+                        <Icon name="eye" marginLeft={1} marginTop={1} width={31} height={31} />
                     ) : (
-                        <div className="margin-4">
-                            <div style={{ marginLeft: -1, marginTop: -1 }} ><Icon name="eye" width={27} height={27} /></div>
-                        </div>
+                        <Icon name="eye" marginTop={-2} width={27} height={27} />
                     )}
                 </button>
 

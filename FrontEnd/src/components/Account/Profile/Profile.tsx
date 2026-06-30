@@ -98,6 +98,8 @@ const Profile: React.FC = () => {
 
     const [errors, setErrors] = useState<any>({});
 
+    const deviceType = isMobileTouchDevice() ? "mobile" : "desktop";
+
     useEffect(() => {
         setTitle('Profile');
     }, [setTitle]);
@@ -424,6 +426,7 @@ const Profile: React.FC = () => {
                                         onChange={e => setProfile(prev => ({ ...prev, email: e.target.value }))}
                                         onBlur={handleEmailBlur}
                                         status={emailStatus}
+                                        deviceType={deviceType}
                                     />
                                 </div>
                                 {profileValidationErrors.profile.email ? (

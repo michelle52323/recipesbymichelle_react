@@ -120,7 +120,7 @@ const MobileFavoriteActionsMenu: React.FC<Props> = ({
                         }}
                     >
                         <div className="menu-icon">
-                            <div style={{marginTop:2}}><Icon name="eye" width={28} height={28} /></div>
+                            <Icon name="eye" marginTop={2} width={28} height={28} />
                         </div>
                         <div className="menu-text">View</div>
                     </button>

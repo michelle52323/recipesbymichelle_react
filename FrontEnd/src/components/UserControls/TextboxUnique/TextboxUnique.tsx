@@ -9,6 +9,7 @@ interface TextboxUniqueProps {
     placeholder?: string;
     className?: string;
     status: 'none' | 'available' | 'taken';
+    deviceType?: "desktop" | "mobile";
 }
 
 export default function TextboxUnique({
@@ -18,8 +19,11 @@ export default function TextboxUnique({
     name = '',
     placeholder = '',
     className = 'form-control textbox textbox-text textbox-large',
-    status
+    status,
+    deviceType = "desktop"
 }: TextboxUniqueProps) {
+    const successIconSize = deviceType == "desktop" ? 21.5 : 25;
+    const errorIconSize = deviceType == "desktop" ? 21.5 : 25;
     return (
         <div className="form-element validated-input-wrapper" style={{ position: 'relative' }}>
             <input
@@ -42,9 +46,9 @@ export default function TextboxUnique({
                     }}
                 >
                     {status === 'available' ? (
-                        <Icon name="success" width={20} height={20} />
+                        <Icon name="success" marginTop={2} width={successIconSize} height={successIconSize} />
                     ) : (
-                        <Icon name="error" width={20} height={20} />
+                        <Icon name="error" marginTop={2} width={errorIconSize} height={errorIconSize} />
                     )}
                 </span>
             )}
