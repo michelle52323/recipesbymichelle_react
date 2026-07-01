@@ -133,7 +133,9 @@ const MobileFavoriteActionsMenu: React.FC<Props> = ({
                             onRemoved={(id) => {
                                 if (onRemoved) onRemoved(id);   // remove from list
                                 closeMenu();                    // close the sheet
-                            }} />
+                            }}
+                            starLocation="menu"
+                            />
                         <div className="menu-text">Remove from Favorites</div>
                     </div>
                 </div>

@@ -72,7 +72,7 @@ const RecipeInfo: React.FC = () => {
 
     useEffect(() => {
         if (id != null) {
-            setTitleBarSlot(<FavoritesStar recipeId={id} />);
+            setTitleBarSlot(<FavoritesStar recipeId={id} starLocation="title" />);
         }
 
     }, [id]);

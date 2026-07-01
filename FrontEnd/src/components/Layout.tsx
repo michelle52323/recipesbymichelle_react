@@ -73,6 +73,11 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
     const pageFadeInClassName = isMobile ? 'page-fade-in-mobile' : 'page-fade-in';
 
     const innerHeightClass = isNarrowCardRoute ? '' : 'inner-page-height';
+    const copyrightClassName =
+        isNarrowCardRoute && actualThemeId >= 6 && actualThemeId <= 8
+            ? `copyright-${actualThemeId}`
+            : "";
+
     const API_BASE = getApiBaseUrl();
 
     //Track previous path
@@ -290,7 +295,7 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
                 )}
 
 
-                <footer>© {currentYear} Recipes by Michelle</footer>
+                <footer><span className={copyrightClassName}>© {currentYear} Recipes by Michelle</span></footer>
                 <Menu isOpen={menuOpen} closeMenu={() => setMenuOpen(false)} ref={menuRef} />
             </div>
         </div>

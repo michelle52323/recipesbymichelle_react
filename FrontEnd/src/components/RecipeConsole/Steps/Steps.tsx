@@ -126,7 +126,7 @@ function Steps() {
     }, [setTitleBarSlot]);
 
     useEffect(() => {
-        setTitleBarSlot(<FavoritesStar recipeId={recipeId} />);
+        setTitleBarSlot(<FavoritesStar recipeId={recipeId} starLocation="title" />);
     }, [recipeId]);
 
     useEffect(() => {

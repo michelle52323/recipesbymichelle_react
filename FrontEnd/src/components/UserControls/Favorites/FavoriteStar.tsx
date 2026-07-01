@@ -14,12 +14,16 @@ const API_BASE = getApiBaseUrl();
 
 interface FavoritesStarProps {
     recipeId: string;
-    onRemoved?: (recipeId: string) => void
+    onRemoved?: (recipeId: string) => void;
+    starLocation?: "title" | "menu" | "grid" | "";
 }
 
-function FavoritesStar({ recipeId, onRemoved }: FavoritesStarProps) {
+function FavoritesStar({ recipeId, onRemoved, starLocation = "" }: FavoritesStarProps) {
     const [isFavorite, setIsFavorite] = useState<boolean | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const starClass = starLocation
+        ? `favorite-star-color-${starLocation}`
+        : "";
 
     // 1. Load initial favorite state
     useEffect(() => {
@@ -81,11 +85,11 @@ function FavoritesStar({ recipeId, onRemoved }: FavoritesStarProps) {
     }
 
     return (
-        <div className="cursor-pointer" onClick={toggleFavorite}>
+        <div className={`cursor-pointer ${starClass}`} onClick={toggleFavorite}>
             {isFavorite ? (
-                <Icon name="favoritesStarFilled" width={26} height={26} />
+                <Icon name="favoritesStarFilled"   />
             ) : (
-                <Icon name="favoritesStarUnfilled" />
+                <Icon name="favoritesStarUnfilled"  />
             )}
         </div>
     );

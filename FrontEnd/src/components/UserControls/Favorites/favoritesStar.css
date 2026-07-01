@@ -1,0 +1,12 @@
+.favorite-star-color-title{
+    color: var(--favoriteStarTitleColor);
+    filter: drop-shadow(0px 1px 1.5px rgba(11, 41, 19, 0.65));
+}
+
+.favorite-star-color-menu{
+    color: var(--favoriteStarMenuColor);
+}
+
+.favorite-star-color-grid{
+    color: var(--favoriteStarGridColor);
+}

@@ -183,6 +183,7 @@ const SearchRow: React.FC<RowProps> = ({ recipe, navigate, onFavoriteRemoved, qu
                     <FavoritesStar
                         recipeId={recipe.recipeId.toString()}
                         onRemoved={(id) => onFavoriteRemoved(Number(id))}
+                        starLocation="grid"
                     />
                 </div>
 

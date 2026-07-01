@@ -142,7 +142,7 @@ const SortableFavoriteItem: React.FC<Props> = ({
 
                         {/* Delete */}
                         <div className="fixed-button-icon">
-                            <FavoritesStar recipeId={favorite.recipe.id.toString()} onRemoved={onRemoved} />
+                            <FavoritesStar recipeId={favorite.recipe.id.toString()} onRemoved={onRemoved} starLocation="grid" />
 
                         </div>
                     </>
