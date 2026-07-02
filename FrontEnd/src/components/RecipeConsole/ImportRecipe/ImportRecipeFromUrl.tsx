@@ -184,7 +184,7 @@ const ImportRecipeFromUrl: React.FC = () => {
                     <div className="content-inner-desktop">
                         <div className="page-container row pt-3">
 
-                            <div className="page-item col-12 col-md-6">
+                            <div className="page-item col-12 ">
 
                                 {/* Row 1: Label + * */}
                                 <div className="d-flex align-items-center mb-1">
@@ -222,7 +222,10 @@ const ImportRecipeFromUrl: React.FC = () => {
                                     <div className="error-message-placeholder-height"></div>
                                 )}
                             </div>
-
+                            <div className="page-item col-12 ">
+                                Websites format recipes differently, so imports aren’t always perfect.
+                                You’ll be able to review and fix anything after import.
+                            </div>
 
                         </div>
                     </div>
