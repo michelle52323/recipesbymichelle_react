@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CheckAuth from '../../../components/Account/CheckAuth';
 import SignOut from '../../../components/Account/signOut/signOut';
+import appIcon from "../../../assets/app-icons/recipes-icon.png";
+
 import './menu.css';
 
 interface MenuProps {
@@ -52,7 +54,28 @@ const Menu = React.forwardRef<HTMLDivElement, MenuProps>(({ isOpen, closeMenu },
 
     return (
         <div ref={ref} id="sideMenu" className={`side-menu ${isOpen ? 'menu-open' : 'menu-close'}`}>
-            
+            <div className="menu-header d-flex">
+                <div className="menu-header-left  col-2">
+                    <img
+                        src={appIcon}
+                        alt="App Icon"
+                        width={30}
+                        height={30}
+                    />
+                </div>
+
+                <div className="menu-header-right col-8">
+                    <span className="menu-header-title">M Recipes</span>
+                </div>
+                <div className="menu-header-close col-2">
+                    <button className="menu-button-link" onClick={closeMenu}>
+                        {/* <div className="menu-icon">✖️</div> */}
+                        <div className="close-x">×</div>
+                    </button>
+                </div>
+            </div>
+            <hr className="menu-divider" />
+
             <div className="menu-item">
                 <button className="menu-button-link" onClick={() => handleNavigate("/dashboard")}>
                     <div className="menu-icon">🏠</div>
@@ -61,18 +84,18 @@ const Menu = React.forwardRef<HTMLDivElement, MenuProps>(({ isOpen, closeMenu },
             </div>
 
             <div className="menu-item">
-                    <button className="menu-button-link" onClick={() => handleNavigate("/recipes/myrecipes")}>
-                        <div className="menu-icon">📖</div>
-                        <div className="menu-text">My Recipes</div>
-                    </button>
-                </div>
+                <button className="menu-button-link" onClick={() => handleNavigate("/recipes/myrecipes")}>
+                    <div className="menu-icon">📖</div>
+                    <div className="menu-text">My Recipes</div>
+                </button>
+            </div>
 
             <div className="menu-item">
-                    <button className="menu-button-link" onClick={() => handleNavigate("/recipes/recipeInfo")}>
-                        <div className="menu-icon">➕</div>
-                        <div className="menu-text">Create Recipe</div>
-                    </button>
-                </div>
+                <button className="menu-button-link" onClick={() => handleNavigate("/recipes/recipeInfo")}>
+                    <div className="menu-icon">➕</div>
+                    <div className="menu-text">Create Recipe</div>
+                </button>
+            </div>
 
             <div className="menu-item">
                 <button className="menu-button-link" onClick={() => handleNavigate("/recipes/search")}>
@@ -109,12 +132,12 @@ const Menu = React.forwardRef<HTMLDivElement, MenuProps>(({ isOpen, closeMenu },
                 </button>
             </div>
 
-            <div className="menu-item">
+            {/* <div className="menu-item">
                 <button className="menu-button-link" onClick={closeMenu}>
                     <div className="menu-icon">✖️</div>
                     <div className="menu-text">Close</div>
                 </button>
-            </div>
+            </div> */}
 
             <div id="menuSignout" className="menu-item menu-signout">
                 <form onSubmit={handleSignOut}>

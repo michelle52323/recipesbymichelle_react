@@ -272,6 +272,7 @@ h4 {
 }
 
 .use-card {
+
     margin-top: 19px;
     border-radius: 7px;
     box-shadow: 2px 3px #CCCCCC, -1.5px -1px #CCCCCC;
@@ -738,6 +739,12 @@ a.button {
     transition-duration: 0.4s;
     cursor: pointer;
     background-image: linear-gradient(45deg, var(--buttonBackgroundColor), var(--buttonBackgroundColorGradient));
+    /* filter: drop-shadow(0 0 2px rgba(128,128,128,0.7)); */
+    
+/* MODERN */
+/* box-shadow: 0 2px 6px rgba(0,0,0,.18); */
+/* box-shadow: 0 2px 6px rgba(128,128,128,.58); */
+
 }
 
 .button-disabled {
@@ -1189,7 +1196,7 @@ a.button-tiny-ios {
     z-index: 1001;
     background-color: #fff;
     border-radius: 8px;
-
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.7));
 
 }
 
@@ -1274,9 +1281,13 @@ a.button-tiny-ios {
 .btn-close {
     width: 28px;
     height: 28px;
-    background-color: #343434;
+    background-color: #F4F4F4;
     color: white;
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.7));
 }
+
+
+
 
 
 
@@ -1643,7 +1654,7 @@ a.button-tiny-ios {
 .copyright-6 {
     color: #FFBF9F;
     /*ffc6ac*/
-    
+
 }
 
 .copyright-7 {

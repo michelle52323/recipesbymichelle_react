@@ -8,6 +8,7 @@ import CheckAuth from '../components/Account/CheckAuth';
 import Icon from '../components/UserControls/Icons/icons';
 import Menu from '../components/UserControls/Menu/Menu';
 import ButtonGrid from './UserControls/ButtonGrid/ButtonGrid';
+import BrandingHeader from './UserControls/BrandingHeader/BrandingHeader';
 
 //Layout.tsx
 //This page is a defines the basic layout for all pages
@@ -56,12 +57,14 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
 
 
 
-    //const publicRoutes = import.meta.env.VITE_PUBLIC_ROUTES?.split(',') ?? [];
+    const publicRoutes = import.meta.env.VITE_PUBLIC_ROUTES?.split(',') ?? [];
+
     const narrowCardRoutes = import.meta.env.VITE_NARROW_LAYOUT_ROUTES?.split(',') ?? [];
     //const currentRoute = location.pathname;
     const routerLocation = useLocation();
     const currentRoute = routerLocation.pathname;
     const isNarrowCardRoute = narrowCardRoutes.includes(currentRoute);
+    const isPublicRoute = publicRoutes.includes(currentRoute);
     const isMobile = isMobileTouchDevice();
 
     const useCard = isNarrowCardRoute && !isMobileTouchDevice();
@@ -249,38 +252,54 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
                 )}
 
 
-                <div className={innerHeightClass}>
-                    <div className={cardClassName}>
-                        <header className={`card-title d-flex ${borderClassName}`}>
-                            {!isNarrowCardRoute && !isResetPasswordPage && (
-                                <div className="home-icon-holder">
-                                    <a href="#" className="card-text-color icon-margin" id="menuToggle" onClick={toggleMenu}>
-                                        <Icon name="menu" />
-                                    </a>
-                                </div>
+                <div className={innerHeightClass} style={{ width: "100%" }}>
+                    {isPublicRoute && (
+                        <>
+                            <BrandingHeader />
+                            {isMobile && (
+                                <div className="page-background pb-3"></div>
                             )}
+                        </>
+                    )}
 
-                            <div
-                                ref={headerRef}
-                                className={`header-holder truncate-html ${!isNarrowCardRoute ? 'header-padding' : ''} ${smartClass}`}
-                            >
-                                {title}
+                    <div
+                        style={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "center"
+                        }}>
+                        <div className={cardClassName}>
+                            <header className={`card-title d-flex ${borderClassName}`}>
+                                {!isNarrowCardRoute && !isResetPasswordPage && (
+                                    <div className="home-icon-holder">
+                                        <a href="#" className="card-text-color icon-margin" id="menuToggle" onClick={toggleMenu}>
+                                            <Icon name="menu" />
+                                        </a>
+                                    </div>
+                                )}
+
+                                <div
+                                    ref={headerRef}
+                                    className={`header-holder truncate-html ${!isNarrowCardRoute ? 'header-padding' : ''} ${smartClass}`}
+                                >
+                                    {title}
+                                </div>
+                                <div className="titlebar-slot-holder">
+                                    {titleBarSlot}
+                                </div>
+
+                            </header>
+
+                            <main style={{ flex: 1 }}>
+                                <Outlet context={{ setTitle, setBanner, setTitleBarSlot, previousPath }} />
+                            </main>
+
+                            {/* BUTTON SLOT HERE */}
+                            <div className={`${isMobile ? 'button-grid-holder-mobile' : 'button-grid-holder-desktop'}`}>
+                                {buttonSlot && <ButtonGrid {...(buttonSlot as any)} />}
                             </div>
-                            <div className="titlebar-slot-holder">
-                                {titleBarSlot}
-                            </div>
 
-                        </header>
-
-                        <main style={{ flex: 1 }}>
-                            <Outlet context={{ setTitle, setBanner, setTitleBarSlot, previousPath }} />
-                        </main>
-
-                        {/* BUTTON SLOT HERE */}
-                        <div className={`${isMobile ? 'button-grid-holder-mobile' : 'button-grid-holder-desktop'}`}>
-                            {buttonSlot && <ButtonGrid {...(buttonSlot as any)} />}
                         </div>
-
                     </div>
                 </div>
 

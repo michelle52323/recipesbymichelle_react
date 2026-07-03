@@ -120,7 +120,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -141,18 +141,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RecipeParser.cs",
-              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\RecipeImport\\Parser\\RecipeParser.cs",
-              "RelativeDocumentMoniker": "RecipeImport\\Parser\\RecipeParser.cs",
-              "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\RecipeImport\\Parser\\RecipeParser.cs",
-              "RelativeToolTip": "RecipeImport\\Parser\\RecipeParser.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAI0AAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T01:18:07.106Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "UrlScraperService.cs",
               "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Service\\UrlScraperService.cs",
@@ -163,6 +151,18 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-23T17:33:21.797Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RecipeParser.cs",
+              "DocumentMoniker": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\RecipeImport\\Parser\\RecipeParser.cs",
+              "RelativeDocumentMoniker": "RecipeImport\\Parser\\RecipeParser.cs",
+              "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\RecipeImport\\Parser\\RecipeParser.cs",
+              "RelativeToolTip": "RecipeImport\\Parser\\RecipeParser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAI0AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-23T01:18:07.106Z"
             },
             {
               "$type": "Document",

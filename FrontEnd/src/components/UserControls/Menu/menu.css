@@ -28,6 +28,33 @@
     color: var(--dropdownContentTextColor) !important;
 }
 
+.menu-header-left {
+    
+}
+
+
+.menu-header-title {
+    font-size: 20px;
+}
+
+.menu-header-right {
+    padding-left: 15px;
+}
+
+.menu-header-close {
+    padding-right: 15px;
+}
+
+.close-x {
+    font-size: 23px;
+    font-weight: 600;
+    color: var(--dropdownContentTextColor);
+    line-height: 1;
+    display: inline-block;
+}
+
+
+
 .menu-divider {
     color: var(--dropdownContentTextColor) !important;
 }
@@ -62,6 +89,7 @@
 /* Shared styling for both <button> and <a> menu links */
 .menu-item .menu-button,
 .menu-item .menu-button-link,
+.menu-header-close .menu-button-link,
 .menu-item a {
     display: flex;
     align-items: center;
@@ -147,9 +175,9 @@
 @supports (-webkit-touch-callout: none) {
 
     .menu-text {
-    flex-grow: 1;
-    font-size: 17px;
-}
+        flex-grow: 1;
+        font-size: 17px;
+    }
 
 
 }
@@ -159,9 +187,9 @@
     @supports not (-webkit-touch-callout: none) {
 
         .menu-text {
-    flex-grow: 1;
-    font-size: 17px;
-}
+            flex-grow: 1;
+            font-size: 17px;
+        }
     }
 }
 
