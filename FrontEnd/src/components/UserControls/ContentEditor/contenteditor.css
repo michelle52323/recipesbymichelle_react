@@ -213,6 +213,7 @@ math-field {
     font-size: 14px;
     border-radius: 4px;
     cursor: pointer;
+    box-shadow: 0 1px 4px var(--buttonDropShadow);
 }
 
 .text-editor-biu {
