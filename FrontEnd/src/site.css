@@ -16,7 +16,8 @@
     --textBoxTextColor: #000000;
     --textBoxBackColor: #A0C2FF;
     --outsideBackColor: #f3f5f7;
-    --textBoxBorderColor: #0000ee;
+    --textBoxBorderColor: rgba(0,0,238,0.75);
+    --textBoxFocusColor: rgba(0,0,238,0.85);
 
     --dropdownBackColorGradient: #3178dd;
     --dropdownHoverBackColorGradient: #0042b8;
@@ -58,6 +59,8 @@
 
     --spinnerButtonThemedBorderColor: rgba(0, 0, 0, 0.4);
     --spinnerButtonThemedTopColor: #4a90e2;
+
+    --colorMix: #000000;
 }
 
 .theme-1 {
