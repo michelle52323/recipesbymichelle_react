@@ -85,8 +85,8 @@
 
 /* Focus state */
 .math-editor-textarea:focus-within {
-    border-color: var(--textBoxBorderColorSelected);
-    box-shadow: 0 0 0 0.2rem var(--textBoxShadowColorRgba);
+    border-color: var(--textBoxFocusColor);
+    box-shadow: 0 0 0 0.1rem var(--textBoxFocusColor);
 }
 
 /* Math editor container */

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useDndContext } from '@dnd-kit/core';
 import Icon from '../../UserControls/Icons/icons';
 
 interface Recipe {
@@ -39,13 +40,17 @@ const SortableRecipeItem: React.FC<Props> = ({
         transition,
     };
 
+    const { active } = useDndContext();
+    const isDragging = active?.id === recipe.id.toString();
+
+    const draggingClass = isDragging ? "drag-item-tint" : "";
 
     return (
         <div
             ref={setNodeRef}
             style={style}
             {...attributes}
-            className="d-flex align-items-start grid-page-row grid-page-row-height-desktop sortable-container"
+            className={`d-flex align-items-start grid-page-row grid-page-row-height-desktop sortable-container ${draggingClass}`}
         >
             <div className="d-flex">
                 <div className="drag-handle drag-handle-width-desktop" {...listeners}>
@@ -120,7 +125,7 @@ const SortableRecipeItem: React.FC<Props> = ({
                         <div className="fixed-button-icon">
                             <button
                                 className="button button-icon"
-                                
+
                                 onClick={() => navigate(`/Recipes/View/${recipe.id}`)}
                             >
                                 <Icon name="eye" marginTop={-2} width={27} height={27} />

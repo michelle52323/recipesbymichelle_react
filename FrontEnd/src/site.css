@@ -596,8 +596,8 @@ label {
 
 .textbox:focus {
     color: var(--textBoxTextColor);
-    border-color: var(--textBoxShadowColorRgba);
-    box-shadow: 0 0 0 0.2rem var(--textBoxShadowColorRgba);
+    border-color: var(--textBoxFocusColor);
+    box-shadow: 0 0 0 0.1rem var(--textBoxFocusColor);
     
 }
 
@@ -671,8 +671,8 @@ label {
 
 .textarea:focus {
     color: var(--textBoxTextColor);
-    border-color: var(--textBoxShadowColorRgba);
-    box-shadow: 0 0 0 0.2rem var(--textBoxShadowColorRgba);
+    border-color: var(--textBoxFocusColor);
+    box-shadow: 0 0 0 0.1rem var(--textBoxFocusColor);
 }
 
 
@@ -718,7 +718,7 @@ input.form-control:-webkit-autofill {
 
 input.form-control:-webkit-autofill:focus {
     outline: none;
-    box-shadow: 0 0 0 1000px var(--textBoxBackColor) inset, 0 0 0 0.2rem var(--textBoxShadowColorRgba);
+    box-shadow: 0 0 0 1000px var(--textBoxBorderColor) inset, 0 0 0 0.2rem var(--textBoxFocusColor);
 }
 
 .lone-button-holder {

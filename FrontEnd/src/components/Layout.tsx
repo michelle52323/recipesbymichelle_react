@@ -121,14 +121,17 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
             // Public user (not authenticated)
 
             // Read the hex value from the root CSS variable
-            const rootStyles = getComputedStyle(document.documentElement);
-            const borderHex = rootStyles.getPropertyValue('--textBoxBorderColor').trim();
+            //const rootStyles = getComputedStyle(document.documentElement);
+            // const borderHex = rootStyles.getPropertyValue('--textBoxBorderColor').trim();
 
-            // Convert hex → rgba
-            const borderRgba = hexToRgba(borderHex, 0.75);
+            // const textBorderRgba = hexToRgba(borderHex, 0.45);
+            // document.documentElement.style.setProperty('--textBoxBorderColorDimRgba', textBorderRgba);
 
-            // Write the rgba value back into a CSS variable
-            document.documentElement.style.setProperty('--textBoxShadowColorRgba', borderRgba);
+            // // Convert hex → rgba
+            // const borderRgba = hexToRgba(borderHex, 0.75);
+
+            // // Write the rgba value back into a CSS variable
+            // document.documentElement.style.setProperty('--textBoxShadowColorRgba', borderRgba);
 
             // Determine theme ID for public user
             const resolvedThemeId1 = getThemeIdFromCookie() ?? 1;
@@ -168,12 +171,17 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
                 document.documentElement.style.setProperty(`--${description}`, color);
             });
 
-            // Compute rgba shadow color
-            const borderHex =
-                data.find((v) => v.description === 'textBoxBorderColor')?.color ?? '#dfdfdf';
+            // // Compute rgba shadow color
+            // const borderHex =
+            //     data.find((v) => v.description === 'textBoxBorderColor')?.color ?? '#dfdfdf';
 
-            const borderRgba = hexToRgba(borderHex, 0.75);
-            document.documentElement.style.setProperty('--textBoxShadowColorRgba', borderRgba);
+            // const textBorderRgba = hexToRgba(borderHex, 0.75);
+            // document.documentElement.style.setProperty('--textBoxBorderColorDimRgba', textBorderRgba);
+
+
+            // // Compute rgba shadow color
+            // const borderRgba = hexToRgba(borderHex, 0.85);
+            // document.documentElement.style.setProperty('--textBoxShadowColorRgba', borderRgba);
 
             setThemeReady(true);
             //console.log(`Theme ${themeId} applied successfully.`);

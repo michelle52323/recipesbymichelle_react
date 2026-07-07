@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSortable } from "@dnd-kit/sortable";
+import { useDndContext } from '@dnd-kit/core';
 import { CSS } from "@dnd-kit/utilities";
 import Icon from "../../UserControls/Icons/icons";
 import type { Ingredient } from "../../../types/Recipe/Recipe";
 import type { MeasurementUnit } from "src/types/Measurement/MeasurementType";
-import { trimQuantity, validateUnitInput, requiresPlural, 
-    renderNumberDisplayBySystem, getAbbreviation } from "../../../helpers/measurementHelper";
+import {
+    trimQuantity, validateUnitInput, requiresPlural,
+    renderNumberDisplayBySystem, getAbbreviation
+} from "../../../helpers/measurementHelper";
 
 
 
@@ -204,6 +207,11 @@ const SortableIngredientItem: React.FC<Props> = ({
         }
     }, [recentlySavedId, isAddRow, ingredient]);
 
+    const { active } = useDndContext();
+    const isDragging = active?.id === ingredient.id.toString();
+
+    const expandedClass = isOpen ? "expanded-content-tint" : "";
+    const draggingClass = isDragging ? "drag-item-tint" : "";
 
     if (deviceType === "mobile") {
         return (
@@ -211,7 +219,8 @@ const SortableIngredientItem: React.FC<Props> = ({
                 <div
                     ref={setNodeRef}
                     style={style}
-                    className="mobile-ingredient-row grid-page-row"
+                    className={`mobile-ingredient-row grid-page-row ${expandedClass}  ${draggingClass}`}
+
                 >
                     {/* COLLAPSED ROW ADD ROW */}
                     {(isAddRow && !isOpen) && (
@@ -489,6 +498,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                                     </div>
                                 </div>
                             </div>
+
                         </>
                     )}
                 </div>
@@ -496,14 +506,14 @@ const SortableIngredientItem: React.FC<Props> = ({
         );
     }
 
-    
+
 
     return (
         <div
             ref={setNodeRef}
             style={style}
             {...(!isAddRow ? attributes : {})}
-            className="d-flex align-items-start grid-page-row grid-page-row-height-desktop sortable-container"
+            className={`d-flex align-items-start grid-page-row grid-page-row-height-desktop sortable-container ${draggingClass}`}
         >
 
 

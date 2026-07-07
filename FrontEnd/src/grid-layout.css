@@ -1,7 +1,24 @@
-﻿.grid-page-row {
+﻿:root {
+    --expandedContentBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 10%);
+    --expandedContentBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 5%);
+
+    --dragItemBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 15%);
+    --dragItemBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 5%);
+}
+
+.expanded-content-tint {
+    background-image: linear-gradient(45deg, var(--expandedContentBackgroundColor), var(--expandedContentBackgroundColorGradient));
+}
+
+.drag-item-tint {
+    background-image: linear-gradient(45deg, var(--dragItemBackgroundColor), var(--dragItemBackgroundColorGradient));
+}
+
+
+.grid-page-row {
     border-radius: 2px;
     padding: 5px;
-    border: 2px solid var(--sortableBorder);
+    border: 1px solid var(--sortableBorder);
 }
 
 .grid-page-add-row {
@@ -285,7 +302,7 @@ a.button-tiny-responsive-mobile {
 }
 
 .gof-editable-short {
-    height: 410px;
+    height: 408px;
 }
 
 .gof-editable-mobile {
@@ -293,7 +310,7 @@ a.button-tiny-responsive-mobile {
 }
 
 .gof-editable-mobile-short {
-    height: 395px;
+    height: 393px;
 }
 
 .gof-view-mobile {

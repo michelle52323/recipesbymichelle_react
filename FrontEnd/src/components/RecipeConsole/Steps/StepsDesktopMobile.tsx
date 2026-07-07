@@ -55,7 +55,6 @@ function StepsListMobile({ controller }: Props) {
         })
     );
 
-
     useEffect(() => {
         if (controller.scrollBoxRef.current) {
             controller.scrollBoxRef.current.scrollTop = controller.scrollBoxRef.current.scrollHeight;

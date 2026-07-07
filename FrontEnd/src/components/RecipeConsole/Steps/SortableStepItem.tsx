@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSortable } from "@dnd-kit/sortable";
+import { useDndContext } from '@dnd-kit/core';
 import { CSS } from "@dnd-kit/utilities";
 import Icon from "../../UserControls/Icons/icons";
 import type { Step } from "../../../types/Recipe/Recipe";
@@ -74,6 +75,7 @@ const SortableStepItem: React.FC<Props> = ({
     openId,
     setOpenId,
     onToggle
+
 }) => {
     //console.log("render lookup:", unitLookupTable);
     //console.log("render measurement system:", measurementSystem);
@@ -229,13 +231,19 @@ const SortableStepItem: React.FC<Props> = ({
 
 
     //if (deviceType === "mobile") {
+    const { active } = useDndContext();
+    const isDragging = active?.id === step.id.toString();
+
+    const expandedClass = isOpen ? "expanded-content-tint" : "";
+    const draggingClass = isDragging ? "drag-item-tint" : "";
 
     return (
         <>
             <div
                 ref={setNodeRef}
                 style={style}
-                className="mobile-step-row grid-page-row"
+                className={`mobile-step-row grid-page-row ${expandedClass} ${draggingClass}`}
+
             >
                 {/* COLLAPSED ROW ADD ROW */}
                 {(isAddRow && !isOpen) && (
