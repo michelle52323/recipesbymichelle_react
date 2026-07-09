@@ -5,10 +5,12 @@
     --mathTextBoxBackground: color-mix(in srgb, var(--textBoxBackColor), black 35%);
     --mathTextBoxText: color-mix(in srgb, var(--textBoxTextColor), white 35%);
     --mathPlaceholderText: color-mix(in srgb, var(--textBoxTextColor), black 55%);
-    --editorButtonBorderColor: var(--sortableBorder);
+    /* --editorButtonBorderColor: var(--sortableBorder); */
+
+    --editorButtonBorderColor: color-mix(in srgb, var(--sortableBorder), var(--editorButtonColorMix) var(--editorButtonColorMixPercent));
 }
 
-.theme-1 {
+/* .theme-1 {
     --mathTextBoxBackground: color-mix(in srgb, var(--textBoxBackColor), black 15%);
     --mathTextBoxText: color-mix(in srgb, var(--textBoxTextColor), black 5%);
     --editorButtonBorderColor: color-mix(in srgb, var(--sortableBorder), darkblue 95%);
@@ -50,7 +52,7 @@
 .theme-8 {
     --mathTextBoxBackground: color-mix(in srgb, var(--textBoxBackColor), black 15%);
     --mathTextBoxText: color-mix(in srgb, var(--textBoxTextColor), black 15%);
-}
+} */
 
 .math-editor-wrapper {
     display: flex;
@@ -264,7 +266,10 @@ math-field {
 }
 
 .text-editor-toolbar button:active {
-    background-color: var(--buttonActiveColor);
+    /* background-color: var(--buttonActiveColor); */
+     background-color: var(--buttonActiveBackground);
+    border: 3px solid var(--buttonActiveBorder);
+    color: var(--buttonActiveText);
 }
 
 .text-editor-toolbar button strong,
@@ -297,7 +302,8 @@ math-field {
 
 .text-editor-text-block.active {
     background: var(--buttonActiveBackground);
-    border-color: var(--buttonActiveBorder);
+    /* border-color: var(--buttonActiveBorder); */
+    border: 3px solid var(--buttonActiveBorder);
     color: var(--buttonActiveText);
 }
 
@@ -314,3 +320,5 @@ math-field {
 .tiptap {
     position: relative;
 }
+
+

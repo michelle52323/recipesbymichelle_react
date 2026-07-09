@@ -7,6 +7,7 @@ import React, {
 
 import { useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
+import ListItem from '@tiptap/extension-list-item'
 import Underline from "@tiptap/extension-underline"
 import { MathfieldElement } from "mathlive"
 import { Toolbar } from "./Toolbar"
@@ -73,6 +74,7 @@ const ContenteditorComponent: React.FC<ContenteditorProps> = ({
                 codeBlock: {},
                 horizontalRule: {},
             }),
+            ListItem,
             Underline,
             InlineMathNode.configure({ editorId }),
         ],

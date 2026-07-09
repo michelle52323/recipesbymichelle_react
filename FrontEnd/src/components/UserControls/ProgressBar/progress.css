@@ -1,13 +1,15 @@
 :root {
     /* Darker version */
     --contentHeaderTextColorDark: color-mix(in srgb, var(--contentHeaderTextColor), black 20%);
-    /* Lighter version */
+    /* Lighter version (used) */
     --contentHeaderTextColorLight: color-mix(in srgb, var(--contentHeaderTextColor), white 50%);
-    /* Darker version */
+
+    /* Darker version (used) */
     --contentHeaderBackColorDark: color-mix(in srgb, var(--contentHeaderBackColor), black 70%);
     /* Lighter version */
     --contentHeaderBackColorLight: color-mix(in srgb, var(--contentHeaderBackColor), white 30%);
-    /* Darker version */
+    
+    /* Darker version (used) */
     --contentHeaderBackColorGradientDark: color-mix(in srgb, var(--contentHeaderBackColorGradient), black 40%);
     /* Lighter version */
     --contentHeaderBackColorGradientLight: color-mix(in srgb, var(--contentHeaderBackColorGradient), white 30%);
