@@ -43,6 +43,7 @@ interface LayoutProps {
 }
 
 function Layout({ buttonSlot, footerSlots }: LayoutProps) {
+
     const [title, setTitle] = useState<string>('');
     const [banner, setBanner] = useState<string | null>(null);
     const [titleBarSlot, setTitleBarSlot] = useState<React.ReactNode | null>(null)
@@ -106,6 +107,11 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
         window.addEventListener('resize', setVH);
         return () => window.removeEventListener('resize', setVH);
     }, []);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [routerLocation.pathname]);
+
 
     useEffect(() => {
         async function hydrateAuth() {
