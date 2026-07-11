@@ -47,50 +47,83 @@ namespace PlatformAPI.Controllers.Users
         [HttpPost("access")]
         public async Task<IActionResult> AccessGuestAccount([FromBody] GuestAccessRequest request)
         {
-            Guid? deviceId = request.DeviceId;
-
-            //
-            // CASE 1: DeviceId was supplied
-            //
-            if (deviceId.HasValue)
+            try
             {
-                var user = await _context.Users
-                    .Include(u => u.UserType)
-                    .Include(u => u.Gender)
-                    .FirstOrDefaultAsync(u => u.UserTypeId == 5 && u.DeviceId == deviceId.Value);
+                Guid? deviceId = request.DeviceId;
 
-                if (user != null)
+                //
+                // CASE 1: DeviceId was supplied
+                //
+                if (deviceId.HasValue)
                 {
-                    var days = (DateTime.UtcNow - user.CreatedAt).TotalDays;
+                    var user = await _context.Users
+                        .Include(u => u.UserType)
+                        .Include(u => u.Gender)
+                        .FirstOrDefaultAsync(u => u.UserTypeId == 5 && u.DeviceId == deviceId.Value);
 
-                    if (days < 10)
+                    if (user != null)
                     {
-                        // Grant access
-                        await _authService.SignInUserAsync(user);
+                        var days = (DateTime.UtcNow - user.CreatedAt).TotalDays;
 
-                        return Ok(new GuestAccessResponse
+                        if (days < 10)
                         {
-                            Success = true,
-                            AccessGranted = true,
-                            DeviceId = null // FE already has it
-                        });
+                            // Grant access
+                            await _authService.SignInUserAsync(user);
+
+                            return Ok(new GuestAccessResponse
+                            {
+                                Success = true,
+                                AccessGranted = true,
+                                DeviceId = null // FE already has it
+                            });
+                        }
+                        else
+                        {
+                            // Deny access
+                            return Ok(new GuestAccessResponse
+                            {
+                                Success = true,
+                                AccessGranted = false,
+                                DeviceId = null
+                            });
+                        }
                     }
-                    else
+
+                    //
+                    // DeviceId supplied but no user found → create new guest user
+                    //
+                    var newUser = new User
                     {
-                        // Deny access
-                        return Ok(new GuestAccessResponse
-                        {
-                            Success = true,
-                            AccessGranted = false,
-                            DeviceId = null
-                        });
-                    }
+                        Username = $"guest-{Guid.NewGuid()}",
+                        FirstName = "Guest",
+                        Password = "",
+                        UserTypeId = 5,
+                        ThemeId = 1,
+                        MeasurementSystem = Enums.MeasurementSystem.Imperial,
+                        HasSelectedMeasurementSystem = true,
+                        DeviceId = deviceId.Value,
+                        CreatedAt = DateTime.UtcNow
+                    };
+
+                    _context.Users.Add(newUser);
+                    await _context.SaveChangesAsync();
+
+                    await _authService.SignInUserAsync(newUser);
+
+                    return Ok(new GuestAccessResponse
+                    {
+                        Success = true,
+                        AccessGranted = true,
+                        DeviceId = null // FE already has it
+                    });
                 }
 
                 //
-                // DeviceId supplied but no user found → create new guest user
+                // CASE 2: DeviceId was NOT supplied → generate new GUID + new guest user
                 //
-                var newUser = new User
+                Guid newDeviceId = Guid.NewGuid();
+
+                var createdUser = new User
                 {
                     Username = $"guest-{Guid.NewGuid()}",
                     FirstName = "Guest",
@@ -99,52 +132,32 @@ namespace PlatformAPI.Controllers.Users
                     ThemeId = 1,
                     MeasurementSystem = Enums.MeasurementSystem.Imperial,
                     HasSelectedMeasurementSystem = true,
-                    DeviceId = deviceId.Value,
+                    DeviceId = newDeviceId,
                     CreatedAt = DateTime.UtcNow
                 };
 
-                _context.Users.Add(newUser);
+                _context.Users.Add(createdUser);
                 await _context.SaveChangesAsync();
 
-                await _authService.SignInUserAsync(newUser);
+                await _authService.SignInUserAsync(createdUser);
 
                 return Ok(new GuestAccessResponse
                 {
                     Success = true,
                     AccessGranted = true,
-                    DeviceId = null // FE already has it
+                    DeviceId = newDeviceId // FE must store this
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Success = false,
+                    Error = ex.Message,
+                    Stack = ex.StackTrace
                 });
             }
 
-            //
-            // CASE 2: DeviceId was NOT supplied → generate new GUID + new guest user
-            //
-            Guid newDeviceId = Guid.NewGuid();
-
-            var createdUser = new User
-            {
-                Username = $"guest-{Guid.NewGuid()}",
-                FirstName = "Guest",
-                Password = "",
-                UserTypeId = 5,
-                ThemeId = 1,
-                MeasurementSystem = Enums.MeasurementSystem.Imperial,
-                HasSelectedMeasurementSystem = true,
-                DeviceId = newDeviceId,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            _context.Users.Add(createdUser);
-            await _context.SaveChangesAsync();
-
-            await _authService.SignInUserAsync(createdUser);
-
-            return Ok(new GuestAccessResponse
-            {
-                Success = true,
-                AccessGranted = true,
-                DeviceId = newDeviceId // FE must store this
-            });
         }
     }
 }

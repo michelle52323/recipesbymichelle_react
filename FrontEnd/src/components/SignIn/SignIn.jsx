@@ -101,6 +101,15 @@ function SignInForm() {
 
             const data = await response.json();
 
+            if (!response.ok) {
+                const text = await response.text(); // <-- raw error
+                console.error("Backend error:", text);
+                setBanner("Guest access failed: " + text);
+                setIsLoadingGuest(false);
+                return;
+            }
+
+
             if (!data.success) {
                 setIsLoadingGuest(false);
                 setBanner("Guest access failed");
@@ -128,7 +137,7 @@ function SignInForm() {
         }
     };
 
-    if (isLoadingGuest){
+    if (isLoadingGuest) {
         return <SignInLoader isGuest={true} />;
     }
 

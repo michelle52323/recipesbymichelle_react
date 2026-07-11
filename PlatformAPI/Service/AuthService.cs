@@ -18,10 +18,12 @@ namespace PlatformAPI.Services
 
         public async Task SignInUserAsync(User user)
         {
-            if (user != null)
+            try
             {
-                // Build claims
-                var claims = new List<Claim>
+                if (user != null)
+                {
+                    // Build claims
+                    var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim("UserId", user.Id.ToString()),
@@ -35,30 +37,36 @@ namespace PlatformAPI.Services
 
                 };
 
-                if (user.Gender != null)
-                {
-                    claims.Add(new Claim(ClaimTypes.Gender, user.Gender.Description));
+                    if (user.Gender != null)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Gender, user.Gender.Description));
+                    }
+
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    await _httpContextAccessor.HttpContext.SignInAsync(
+                       CookieAuthenticationDefaults.AuthenticationScheme,
+                       principal,
+                       new AuthenticationProperties
+                       {
+                           IsPersistent = true,
+                           ExpiresUtc = DateTime.UtcNow.AddHours(1)
+                       });
+
+                    _logger.LogInformation("SignInUserAsync invoked for user: {Username}", user.Username);
+                    _logger.LogInformation("HttpContext is null? {IsNull}", _httpContextAccessor.HttpContext == null);
+                    _logger.LogInformation("Claims count: {Count}", claims.Count);
+                    _logger.LogInformation("Cookie issuance attempted at: {Timestamp}", DateTime.UtcNow);
+
+                    //await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
                 }
-
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-                await _httpContextAccessor.HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal,
-                   new AuthenticationProperties
-                   {
-                       IsPersistent = true,
-                       ExpiresUtc = DateTime.UtcNow.AddHours(1)
-                   });
-
-                _logger.LogInformation("SignInUserAsync invoked for user: {Username}", user.Username);
-                _logger.LogInformation("HttpContext is null? {IsNull}", _httpContextAccessor.HttpContext == null);
-                _logger.LogInformation("Claims count: {Count}", claims.Count);
-                _logger.LogInformation("Cookie issuance attempted at: {Timestamp}", DateTime.UtcNow);
-
-                //await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
             }
+            catch (Exception ex) {
+                throw;
+            }
+
+            
         }
 
         public ClaimsPrincipal GetMockClaimsPrincipal()
