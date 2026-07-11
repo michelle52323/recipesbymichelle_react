@@ -40,6 +40,10 @@ namespace PlatformAPI.Models.Users
         public Enums.MeasurementSystem MeasurementSystem { get; set; }
         public bool HasSelectedMeasurementSystem { get; set; }
 
+        public Guid DeviceId { get; set; } // Unique identifier for device id
+
+        public DateTime CreatedAt { get; set; }
+
 
     }
 }

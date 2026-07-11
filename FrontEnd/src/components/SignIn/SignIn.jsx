@@ -10,6 +10,7 @@ function SignInForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingGuest, setIsLoadingGuest] = useState(false);
     const [hasStarterKit, setHasStarterKit] = useState(null);
     const [errors, setErrors] = useState({});
 
@@ -41,7 +42,7 @@ function SignInForm() {
                         //console.log("SignIn API result:", JSON.stringify(data, null, 2));
 
 
-                        
+
 
                         if (!data.hasMeasurementSystem) {
                             window.location.href = '/account/selectmeasurementsystem';
@@ -82,6 +83,55 @@ function SignInForm() {
 
     const cardClass = isMobileTouchDevice() ? "mobile-card" : "narrow-card";
 
+    const handleGuestAccess = async () => {
+        setIsLoadingGuest(true);
+        let deviceId = localStorage.getItem("deviceId");
+
+        const payload = {
+            deviceId: deviceId ? deviceId : null
+        };
+
+        try {
+            const response = await fetch(API_BASE + "/api/GuestAccount/access", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (!data.success) {
+                setIsLoadingGuest(false);
+                setBanner("Guest access failed");
+                return;
+            }
+
+            if (!data.accessGranted) {
+                setIsLoadingGuest(false);
+                setBanner("Guest access expired. Please register an account to continue using.");
+                return;
+            }
+
+            // If backend created a new guest user, it returns a deviceId
+            if (data.deviceId) {
+                localStorage.setItem("deviceId", data.deviceId);
+            }
+
+            // Auth cookie is already set by SignInUserAsync
+            window.location.href = "/dashboard";
+
+        } catch (err) {
+            setIsLoadingGuest(false);
+            console.error("Guest access error:", err);
+            setBanner("Something went wrong");
+        }
+    };
+
+    if (isLoadingGuest){
+        return <SignInLoader isGuest={true} />;
+    }
+
     if (isLoading && hasStarterKit === null) {
         return <SignInLoader />;
     }
@@ -94,7 +144,7 @@ function SignInForm() {
         <form onSubmit={handleSubmit}>
             <main
                 className={`${cardClass} narrow-card content-holder-narrow`}
-                style={{ height: '284px' }}
+                style={{ height: '324px' }}
             >
 
                 <div className='form-row'>
@@ -129,6 +179,10 @@ function SignInForm() {
                 </div>
                 <div className='form-row d-flex justify-content-center align-items-center'>
                     <button type="submit" className='button'>Sign In</button>
+                </div>
+                <div className='d-flex justify-content-center align-items-center'>
+                    {/* <div>Interested in trying before using?  Try guest mode.</div> */}
+                    <button type="button" className='button' onClick={handleGuestAccess}>Guest Access</button>
                 </div>
 
             </main>

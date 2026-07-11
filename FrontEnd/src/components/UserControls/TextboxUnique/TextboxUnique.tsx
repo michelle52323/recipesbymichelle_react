@@ -10,6 +10,7 @@ interface TextboxUniqueProps {
     className?: string;
     status: 'none' | 'available' | 'taken';
     deviceType?: "desktop" | "mobile";
+    disabled?: boolean | null;
 }
 
 export default function TextboxUnique({
@@ -20,7 +21,8 @@ export default function TextboxUnique({
     placeholder = '',
     className = 'form-control textbox textbox-text textbox-large',
     status,
-    deviceType = "desktop"
+    deviceType = "desktop",
+    disabled = false
 }: TextboxUniqueProps) {
     const successIconSize = deviceType == "desktop" ? 21.5 : 25;
     const errorIconSize = deviceType == "desktop" ? 21.5 : 25;
@@ -34,6 +36,7 @@ export default function TextboxUnique({
                 name={name}
                 placeholder={placeholder}
                 className={className}
+                disabled={disabled}
             />
 
             {status !== 'none' && (

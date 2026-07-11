@@ -131,8 +131,9 @@ namespace PlatformAPI.Data
             modelBuilder.Entity<UserType>().HasData(
                 new UserType { Id = 1, Description = "Super Administrator", Code = "SA" },
                 new UserType { Id = 2, Description = "Administrator", Code = "A" },
-                new UserType { Id = 3, Description = "Educator", Code = "E" },
-                new UserType { Id = 4, Description = "Standard User", Code = "S" }
+                new UserType { Id = 3, Description = "Restaurant", Code = "R" },
+                new UserType { Id = 4, Description = "Standard User", Code = "S" },
+                new UserType { Id = 5, Description = "Guest User", Code = "G" }
             );
 
             modelBuilder.Entity<Theme>().HasData(

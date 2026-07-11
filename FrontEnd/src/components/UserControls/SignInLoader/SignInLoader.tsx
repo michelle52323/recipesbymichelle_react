@@ -3,13 +3,14 @@ import './signinloader.css';
 
 interface SignInLoaderProps {
     hasStarterKit?: boolean | null;
+    isGuest?: boolean | null;
 }
 
-const SignInLoader: React.FC<SignInLoaderProps> = ({ hasStarterKit }) => {
+const SignInLoader: React.FC<SignInLoaderProps> = ({ hasStarterKit, isGuest = false }) => {
     const message =
         hasStarterKit === false
             ? "Preparing your starter kit... This may take 30-60 seconds."
-            : "Signing you in...";
+            : isGuest ? "Signing you in as guest..." : "Signing you in...";
 
     return (
         <div className="signin-loader-container">

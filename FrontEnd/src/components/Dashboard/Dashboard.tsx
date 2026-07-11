@@ -24,6 +24,7 @@ function Dashboard() {
     const { setTitle, setBanner } = useOutletContext<OutletContextType>();
 
     const [auth, setAuth] = useState<AuthResult | null>(null);
+    const [isGuest, setIsGuest] = useState<boolean>(false);
 
     const [showOverview, setShowOverview] = useState<boolean>(false);
 
@@ -56,6 +57,13 @@ function Dashboard() {
             navigate("/signin");
         } else {
             setTitle("Welcome, " + auth.claims.FirstName);
+        }
+
+        if (
+            auth.claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ===
+            "Guest User"
+        ) {
+            setIsGuest(true);
         }
     }, [auth, navigate, setTitle]);
 
@@ -93,6 +101,17 @@ function Dashboard() {
         <div className="page-container w-100 pt-3">
             <div className="content-holder-desktop">
                 <div className="content-inner-desktop">
+                    {isGuest && (
+                        <div className="guest-mode-notice">
+                            You’re currently using <strong>Guest Mode</strong>.
+                            This temporary account gives you full access to explore the app for up to <strong>10 days</strong>.
+                            After that period, your guest access will expire and all guest data will be removed.
+                            To continue using the app beyond the trial window — and to keep your data —
+                            please register a full account.
+                            Some features may be limited while in Guest Mode.
+                        </div>
+                    )}
+
 
                     <div className="dashboard-container row g-3">
 

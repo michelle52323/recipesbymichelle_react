@@ -409,7 +409,7 @@ use-wide-card {
 
 
 .content-holder-narrow {
-    padding: 30px 15px 0px 15px;
+    padding: 15px 15px 0px 15px;
     width: 100%;
 }
 
@@ -477,6 +477,10 @@ use-wide-card {
 .form-row-tall {
     clear: both;
     height: 139px;
+}
+
+.height-40{
+    height: 40px;
 }
 
 .height-65 {

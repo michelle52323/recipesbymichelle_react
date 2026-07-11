@@ -59,7 +59,7 @@ const Profile: React.FC = () => {
     // -----------------------------
     const { setTitle, setBanner } = useOutletContext<LayoutContext>();
     const [auth, setAuth] = useState<AuthResult | null>(null);
-
+    const [isGuest, setIsGuest] = useState<boolean>(false);
 
 
     // const [email, setEmail] = useState('');
@@ -167,6 +167,12 @@ const Profile: React.FC = () => {
             navigate('/signin');
             return;
         }
+        if (
+            auth.claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ===
+            "Guest User"
+        ) {
+            setIsGuest(true);
+        }
 
     }, [auth, navigate]);
 
@@ -188,9 +194,12 @@ const Profile: React.FC = () => {
             : 'Please enter a first name.';
 
         // Email
-        newErrors.email = profile.email.trim()
-            ? ''
-            : 'Please enter an email.';
+        if (!isGuest) {
+            newErrors.email = profile.email.trim()
+                ? ''
+                : 'Please enter an email.';
+        }
+
 
         // Now update the nested state
         setProfileValidationErrors(prev => ({
@@ -418,8 +427,14 @@ const Profile: React.FC = () => {
                             </div>
 
                             <div className="page-item col-12 col-md-6">
-                                <label className="form-label-tight">Email</label>
-                                <span className="required">*</span>
+                                <label className="form-label-tight">
+                                    Email {isGuest && " — Not available in guest mode"}
+                                </label>
+
+                                <span className="required">
+                                    {!isGuest && "*"}
+                                </span>
+
                                 <div className="form-element">
                                     <TextboxUnique
                                         value={profile.email}
@@ -427,6 +442,7 @@ const Profile: React.FC = () => {
                                         onBlur={handleEmailBlur}
                                         status={emailStatus}
                                         deviceType={deviceType}
+                                        disabled={isGuest}
                                     />
                                 </div>
                                 {profileValidationErrors.profile.email ? (

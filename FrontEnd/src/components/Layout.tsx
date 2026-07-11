@@ -328,7 +328,7 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
                 )}
 
 
-                <footer><span className={copyrightClassName}>© {currentYear} Recipes by Michelle</span></footer>
+                <footer><span className={copyrightClassName}>© {currentYear} M Recipes</span></footer>
                 <Menu isOpen={menuOpen} closeMenu={() => setMenuOpen(false)} ref={menuRef} />
             </div>
         </div>
