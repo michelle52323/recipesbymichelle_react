@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using PlatformAPI.Configuration;
 using PlatformAPI.Data;
 using PlatformAPI.Models.Users;
+using PlatformAPI.Security;
 using PlatformAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -51,6 +52,11 @@ namespace PlatformAPI.Controllers.Users
             {
                 Guid? deviceId = request.DeviceId;
 
+                var userType = new UserType();
+                userType.Id = 5;
+                userType.Description = "Guest User";
+                userType.Code = "G";
+
                 //
                 // CASE 1: DeviceId was supplied
                 //
@@ -96,7 +102,7 @@ namespace PlatformAPI.Controllers.Users
                     {
                         Username = $"guest-{Guid.NewGuid()}",
                         FirstName = "Guest",
-                        Password = "",
+                        Password = PasswordHasher.Hash(new Guid().ToString()),
                         UserTypeId = 5,
                         ThemeId = 1,
                         MeasurementSystem = Enums.MeasurementSystem.Imperial,
@@ -108,6 +114,7 @@ namespace PlatformAPI.Controllers.Users
                     _context.Users.Add(newUser);
                     await _context.SaveChangesAsync();
 
+                    newUser.UserType = userType;
                     await _authService.SignInUserAsync(newUser);
 
                     return Ok(new GuestAccessResponse
@@ -127,7 +134,7 @@ namespace PlatformAPI.Controllers.Users
                 {
                     Username = $"guest-{Guid.NewGuid()}",
                     FirstName = "Guest",
-                    Password = "",
+                    Password = PasswordHasher.Hash(new Guid().ToString()),
                     UserTypeId = 5,
                     ThemeId = 1,
                     MeasurementSystem = Enums.MeasurementSystem.Imperial,
@@ -138,6 +145,8 @@ namespace PlatformAPI.Controllers.Users
 
                 _context.Users.Add(createdUser);
                 await _context.SaveChangesAsync();
+
+                createdUser.UserType = userType;
 
                 await _authService.SignInUserAsync(createdUser);
 
