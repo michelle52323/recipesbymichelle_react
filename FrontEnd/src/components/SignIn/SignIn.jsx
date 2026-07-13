@@ -65,7 +65,7 @@ function SignInForm() {
                 } catch (err) {
                     setIsLoading(false);
                     setHasStarterKit(null);
-                    console.error('Login error:', err);
+                    //console.error('Login error:', err);
                     setBanner('Something went wrong');
 
 
@@ -103,8 +103,8 @@ function SignInForm() {
 
             if (!response.ok) {
                 const text = await response.text(); // <-- raw error
-                console.error("Backend error:", text);
-                setBanner("Guest access failed: " + text);
+                //console.error("Backend error:", text);
+                setBanner("Guest access failed: ");
                 setIsLoadingGuest(false);
                 return;
             }
@@ -132,7 +132,7 @@ function SignInForm() {
 
         } catch (err) {
             setIsLoadingGuest(false);
-            console.error("Guest access error:", err);
+            //console.error("Guest access error:", err);
             setBanner("Something went wrong");
         }
     };
@@ -190,7 +190,6 @@ function SignInForm() {
                     <button type="submit" className='button'>Sign In</button>
                 </div>
                 <div className='d-flex justify-content-center align-items-center'>
-                    {/* <div>Interested in trying before using?  Try guest mode.</div> */}
                     <button type="button" className='button' onClick={handleGuestAccess}>Guest Access</button>
                 </div>
 

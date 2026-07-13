@@ -155,15 +155,18 @@ function Dashboard() {
                             </div>
                         </div>
 
-                        <div className="dashboard-item col-12 col-md-4 text-center">
-                            <div
-                                className="dashboard-link-inner"
-                                onClick={() => navigate("/Account/ChangePassword")}
-                                style={{ cursor: "pointer", display: "inline-block" }}
-                            >
-                                <span className="w-100">Change Password</span>
+                        {!isGuest && (
+                            <div className="dashboard-item col-12 col-md-4 text-center">
+                                <div
+                                    className="dashboard-link-inner"
+                                    onClick={() => navigate("/Account/ChangePassword")}
+                                    style={{ cursor: "pointer", display: "inline-block" }}
+                                >
+                                    <span className="w-100">Change Password</span>
+                                </div>
                             </div>
-                        </div>
+                        )}
+
 
                         <div className="dashboard-item col-12 col-md-4 text-center">
                             <div

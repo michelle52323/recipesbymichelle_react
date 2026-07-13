@@ -182,7 +182,7 @@ const FavoritesMobile: React.FC = () => {
             <div className="content-inner-desktop">
 
                 {favorites.length === 0 && !isLoading ? (
-                    <div className="empty-grid">No favorites found. Start by creating one.</div>
+                    <div className="empty-grid">No favorites found.  Start adding your favorite recipes.</div>
                 ) : (
                     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                         <SortableContext items={favorites.map(r => r.id.toString())} strategy={verticalListSortingStrategy}>

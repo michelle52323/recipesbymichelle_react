@@ -33,16 +33,16 @@ namespace PlatformAPI.Models.Users
 
         public int ThemeId { get; set; }
 
-        public UserType UserType { get; set; }
-
-        public Gender? Gender { get; set; }
-
         public Enums.MeasurementSystem MeasurementSystem { get; set; }
         public bool HasSelectedMeasurementSystem { get; set; }
 
         public Guid DeviceId { get; set; } // Unique identifier for device id
 
         public DateTime CreatedAt { get; set; }
+
+        public UserType UserType { get; set; }
+
+        public Gender? Gender { get; set; }
 
 
     }

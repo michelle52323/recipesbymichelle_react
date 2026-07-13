@@ -29,6 +29,7 @@ function ChangePasswordPage() {
     const { setTitle, setBanner } = useOutletContext<LayoutContext>();
     const [auth, setAuth] = useState<AuthResult | null>(null);
     const [isSaving, setIsSaving] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         setTitle('Change Password');
@@ -89,12 +90,22 @@ function ChangePasswordPage() {
             navigate('/signin');
             return;
         }
+        if (
+            auth.claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ===
+            "Guest User"
+        ) {
+            navigate('/dashboard');
+        }
+        else{
+            setIsLoading(false);
+        }
+        
 
 
 
     }, [auth, navigate]);
 
-    if (auth === null) return <div><Loader message="Loading change password panel ..." /></div>;
+    if (auth === null || isLoading) return <div><Loader message="Loading change password panel ..." /></div>;
     if (!auth.auth) return null;
 
     return (

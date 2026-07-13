@@ -175,10 +175,20 @@ function Ingredients() {
     // -----------------------------
 
     useEffect(() => {
-        if (!recipeId) return;
+
+        if (!recipeId || !auth?.claims?.UserId) return;
 
         fetch(`${API_BASE}/api/RecipeInfo/${recipeId}`, { credentials: "include" })
             .then((res) => (res.ok ? res.json() : Promise.reject("Recipe not found")))
+            .then((data) => {
+                if (data.userId !== auth.claims?.UserId) {
+                    navigate("/dashboard");
+                    return null; // stop chain
+                }
+
+                // valid user → return data for next .then
+                return data;
+            })
             .then((data) => {
                 setRecipe({
                     name: data.name,
@@ -186,7 +196,8 @@ function Ingredients() {
                 });
             })
             .catch(() => navigate("/dashboard"));
-    }, [recipeId, navigate]);
+
+    }, [recipeId, auth?.claims?.UserId, navigate]);
 
     // -----------------------------
     // INGREDIENT GRID FETCH

@@ -141,7 +141,7 @@ const RecipeInfo: React.FC = () => {
             .then(res => res.ok ? res.json() : Promise.reject('Recipe not found'))
             .then(data => {
                 if (data.userId !== auth.claims?.UserId) {
-                    console.warn('Unauthorized access attempt');
+                    //console.warn('Unauthorized access attempt');
                     navigate('/dashboard');
                     return;
                 }
