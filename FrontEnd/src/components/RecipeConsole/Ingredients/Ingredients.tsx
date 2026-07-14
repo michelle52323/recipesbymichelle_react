@@ -73,6 +73,7 @@ function Ingredients() {
     const [addRow, setAddRow] = useState<Ingredient>({
         id: 0,
         quantity: "",
+        quantityMax: "",
         unit: "",
         description: "",
         instructions: "",
@@ -235,6 +236,7 @@ function Ingredients() {
 
         // 1. Trim fields
         const cleanedQty = trimQuantity(added.quantity);
+        const cleanedQtyMax = trimQuantity(added.quantityMax);
         const cleanedUnit = added.unit?.trim() ?? "";
         const cleanedDesc = added.description?.trim() ?? "";
         const cleanedInstr = added.instructions?.trim() ?? "";
@@ -244,12 +246,25 @@ function Ingredients() {
         // 2. Numeric validation (Imperial/Metric)
         const errors: string[] = [];
         const qtyResult = validateQuantityNumeric(measurementSystem, cleanedQty);
-        if (!qtyResult.isValid) {
-            errors.push(qtyResult.error!);
+        const qtyMaxResult = validateQuantityNumeric(measurementSystem, cleanedQtyMax);
+        const errorMessages = new Set<string>();
+
+        if (!qtyResult.isValid && qtyResult.error) {
+            errorMessages.add(qtyResult.error);
         }
 
+        if (!qtyMaxResult.isValid && qtyMaxResult.error) {
+            errorMessages.add(qtyMaxResult.error);
+        }
+
+        errors.push(...errorMessages);
+
+
+
+
         // 3. Unit validation 
-        const isPlural = requiresPlural(cleanedQty, measurementSystem);
+        const qtyForPlural = cleanedQtyMax || cleanedQty;
+        const isPlural = requiresPlural(qtyForPlural, measurementSystem);
         const unitResult = validateUnitInput(measurementSystem, cleanedUnit, isPlural, unitLookupTable);
         if (!unitResult.isValid) errors.push(unitResult.error);
 
@@ -281,6 +296,7 @@ function Ingredients() {
         const ingredientToAdd: IngredientAdd = {
             ...added,
             quantity: cleanedQty,
+            quantityMax: cleanedQtyMax,
             unit: cleanedUnit,
             description: cleanedDesc,
             instructions: cleanedInstr,
@@ -314,6 +330,7 @@ function Ingredients() {
             setAddRow({
                 id: 0,
                 quantity: "",
+                quantityMax: "",
                 unit: "",
                 description: "",
                 instructions: "",
@@ -343,6 +360,7 @@ function Ingredients() {
 
         // 1. Trim fields
         const cleanedQty = trimQuantity(updated.quantity);
+        const cleanedQtyMax = trimQuantity(updated.quantityMax);
         const cleanedUnit = updated.unit?.trim() ?? "";
         const cleanedDesc = updated.description?.trim() ?? "";
 
@@ -351,12 +369,22 @@ function Ingredients() {
         const errors: string[] = [];
 
         const qtyResult = validateQuantityNumeric(measurementSystem, cleanedQty);
-        if (!qtyResult.isValid) {
-            errors.push(qtyResult.error!);
+        const qtyMaxResult = validateQuantityNumeric(measurementSystem, cleanedQtyMax);
+        const errorMessages = new Set<string>();
+
+        if (!qtyResult.isValid && qtyResult.error) {
+            errorMessages.add(qtyResult.error);
         }
 
+        if (!qtyMaxResult.isValid && qtyMaxResult.error) {
+            errorMessages.add(qtyMaxResult.error);
+        }
+
+        errors.push(...errorMessages);
+
         // 3. Unit validation 
-        const isPlural = requiresPlural(cleanedQty, measurementSystem);
+        const qtyForPlural = cleanedQtyMax || cleanedQty;
+        const isPlural = requiresPlural(qtyForPlural, measurementSystem);
         const unitResult = validateUnitInput(measurementSystem, cleanedUnit, isPlural, unitLookupTable);
         if (!unitResult.isValid) errors.push(unitResult.error);
 
@@ -373,6 +401,7 @@ function Ingredients() {
                 {
                     ...updated,
                     quantity: cleanedQty,
+                    quantityMax: cleanedQtyMax,
                     unit: cleanedUnit,
                     description: cleanedDesc
                 }

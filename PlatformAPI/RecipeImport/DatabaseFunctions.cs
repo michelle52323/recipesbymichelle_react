@@ -64,9 +64,14 @@ namespace PlatformAPI.RecipeImport
                 {
                     var ingredient = new Ingredient
                     {
-                        Quantity = float.TryParse(ing.Quantity, out var q)
+                        Quantity = float.TryParse(ing.Quantity, out var q) && q != 0
                             ? q
                             : (float?)null,
+
+                        QuantityMax = float.TryParse(ing.QuantityMax, out var q2) && q2 != 0
+                            ? q2
+                            : (float?)null,
+
                         Unit = ing.Unit,
                         Description = ing.Description,
                         Instructions = ing.Instructions,

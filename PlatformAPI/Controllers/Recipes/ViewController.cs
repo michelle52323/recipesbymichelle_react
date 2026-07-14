@@ -75,7 +75,10 @@ namespace PlatformAPI.Controllers.Recipes
                 {
                     Id = i.Id,
                     Quantity = FractionHelper.ConvertQuantityBySystemAsync(measurementSystem, i.Quantity, fractionTable),
-                    Unit = MeasurementHelper.BuildUnitDisplayString(i.Quantity, i.Unit, recipe.ShowAbbreviations, unitTable).ToString(),
+                    QuantityMax = FractionHelper.ConvertQuantityBySystemAsync(measurementSystem, i.QuantityMax, fractionTable),
+
+
+                    Unit = MeasurementHelper.BuildUnitDisplayString(MeasurementHelper.GetLargerQuantity(i.Quantity, i.QuantityMax), i.Unit, recipe.ShowAbbreviations, unitTable).ToString(),
                     Description = i.Description,
                     Instructions = i.Instructions,
                     SortOrder = i.SortOrder ?? 0,

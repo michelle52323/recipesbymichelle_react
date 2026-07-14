@@ -55,3 +55,4 @@ export function mapFractionFontToClass (font: string | null | undefined) {
             return "fraction-font-sansserif";
     }
 };
+

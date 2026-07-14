@@ -2,6 +2,78 @@ import { isIOS, isAndroid, isMobileTouchDevice } from './config';
 import { mapFractionFontToClass } from './displayHelper';
 import type { MeasurementUnit } from 'src/types/Measurement/MeasurementType';
 
+export function renderNumberDisplayRange(
+    quantity: string | null | undefined,
+    quantityMax: string | null | undefined,
+    measurementSystem: "Imperial" | "Metric" | null,
+    recipeFont: "SansSerif" | "Serif" | "Handwritten",
+    useSpace?: boolean | null
+) {
+    // If both are null or empty → return empty string
+    const q1 = quantity?.trim();
+    const q2 = quantityMax?.trim();
+    const separator = useSpace ? " - " : "-";
+
+    if (!q1 && !q2) return "";
+
+    // Render the first quantity (if present)
+    let output = "";
+    if (q1) {
+        output = renderNumberDisplayBySystem(q1, measurementSystem, recipeFont);
+    }
+
+    // Render the second quantity (if present)
+    if (q2) {
+        // include spaces around the hyphen
+        output += separator + renderNumberDisplayBySystem(q2, measurementSystem, recipeFont);
+    }
+
+    return output;
+}
+
+export function renderNumberDisplayRangeFromString(
+    qtyRange: string | null | undefined,
+    measurementSystem: "Imperial" | "Metric" | null,
+    recipeFont: "SansSerif" | "Serif" | "Handwritten",
+    useSpace?: boolean | null
+) {
+    if (!qtyRange) return "";
+
+    // Normalize input
+    const raw = qtyRange.trim();
+
+    // All separators we support:
+    // - "to" (case-insensitive)
+    // - "-" (ASCII hyphen)
+    // - "–" (en dash)
+    // - "—" (em dash)
+    //
+    // Allow optional spaces around the separator.
+    const parts = raw.split(/\s*(?:to|-|–|—)\s*/i);
+
+    let q1 = parts[0]?.trim() || "";
+    let q2 = parts[1]?.trim() || "";
+
+    const separator = useSpace ? " - " : "—";
+
+    if (!q1 && !q2) return "";
+
+    // Render first quantity
+    let output = "";
+    if (q1) {
+        output = renderNumberDisplayBySystem(q1, measurementSystem, recipeFont);
+    }
+
+    // Render second quantity
+    if (q2) {
+        output += separator + renderNumberDisplayBySystem(q2, measurementSystem, recipeFont);
+    }
+
+    return output;
+}
+
+
+
 //Rendering functions
 export function renderNumberDisplayBySystem(
     input: string | null | undefined,
@@ -224,7 +296,7 @@ export function validateQuantityNumeric(
         return {
             isValid: false,
             cleaned,
-            error: "(U.S.) Imperial quantities must be whole numbers, fractions, or mixed numbers."
+            error: "U.S. (Imperial) quantities must be whole numbers, fractions, mixed numbers, or ranges using whole or fractional values."
         };
     }
 
@@ -238,7 +310,7 @@ export function validateQuantityNumeric(
         return {
             isValid: false,
             cleaned,
-            error: "Metric quantities must be whole numbers or decimals."
+            error: "Metric quantities must be whole numbers, decimals, or ranges using whole or decimal values."
         };
     }
 
@@ -484,3 +556,45 @@ export function renderUnit(unit) {
     else
         return unit + " ";
 }
+
+//Numeric range parsing functions
+export function parseQtyInput(text: string) {
+    const normalized = text
+        .replace(" to ", "-")
+        .replace("–", "-")
+        .trim();
+
+    if (normalized.includes("-")) {
+        const [min, max] = normalized.split("-").map(s => s.trim());
+        return { quantity: min, quantityMax: max };
+    }
+
+    return { quantity: normalized, quantityMax: "" };
+}
+
+// export function parseQtyInput(text: string) {
+//     // Allow partial ranges during typing
+//     const parts = text.split("-");
+
+//     if (parts.length === 1) {
+//         return {
+//             quantity: parts[0],      // raw
+//             quantityMax: ""          // raw
+//         };
+//     }
+
+//     if (parts.length === 2) {
+//         return {
+//             quantity: parts[0],      // raw
+//             quantityMax: parts[1]    // raw
+//         };
+//     }
+
+//     // If user typed multiple dashes, keep everything raw
+//     return {
+//         quantity: parts[0],
+//         quantityMax: parts.slice(1).join("-")
+//     };
+// }
+
+

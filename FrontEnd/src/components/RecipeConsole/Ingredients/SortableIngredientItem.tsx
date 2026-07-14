@@ -7,7 +7,8 @@ import type { Ingredient } from "../../../types/Recipe/Recipe";
 import type { MeasurementUnit } from "src/types/Measurement/MeasurementType";
 import {
     trimQuantity, validateUnitInput, requiresPlural,
-    renderNumberDisplayBySystem, getAbbreviation
+    renderNumberDisplayBySystem, renderNumberDisplayRange, renderNumberDisplayRangeFromString, getAbbreviation,
+    parseQtyInput
 } from "../../../helpers/measurementHelper";
 
 
@@ -77,12 +78,40 @@ const SortableIngredientItem: React.FC<Props> = ({
     // For normal rows, keep local state.
     // For Add Row, derive values from parent-controlled ingredient.
     const [localQty, setLocalQty] = useState(ingredient?.quantity ?? "");
+    const [localQtyMax, setLocalQtyMax] = useState(ingredient?.quantityMax ?? "");
     const [localUnit, setLocalUnit] = useState(ingredient?.unit ?? "");
     const [localDesc, setLocalDesc] = useState(ingredient?.description ?? "");
     const [localInstr, setLocalInstr] = useState(ingredient?.instructions ?? "");
 
     // Unified values used by the UI
     const qty = isAddRow ? ingredient?.quantity ?? "" : localQty;
+    //const qty = isAddRow ? ingredient!.quantity : localQty;
+
+    const qtyMax = isAddRow ? ingredient?.quantityMax ?? "" : localQtyMax;
+    //console.log("Qty: " + qty + " to Qty Max: " + qtyMax);
+
+    const [localQtyInput, setLocalQtyInput] = useState(
+        ingredient?.quantityMax
+            ? `${ingredient.quantity}-${ingredient.quantityMax}`
+            : ingredient?.quantity ?? ""
+    );
+
+
+    useEffect(() => {
+        if (isAddRow) {
+            const rebuilt = ingredient?.quantityMax
+                ? `${ingredient.quantity}-${ingredient.quantityMax}`
+                : ingredient?.quantity ?? "";
+
+            setLocalQtyInput(rebuilt);
+        }
+    }, [
+        isAddRow,
+        ingredient?.quantity,
+        ingredient?.quantityMax
+    ]);
+
+
     const unit = isAddRow ? ingredient?.unit ?? "" : localUnit;
     const desc = isAddRow ? ingredient?.description ?? "" : localDesc;
     const instr = isAddRow ? ingredient?.instructions ?? "" : localInstr;
@@ -114,9 +143,12 @@ const SortableIngredientItem: React.FC<Props> = ({
     const onSave = () => {
         // 1. Clean quantity
         const cleanedQty = trimQuantity(qty);
+        const cleanedQtyMax = trimQuantity(qtyMax);
+
+        const qtyForPlural = cleanedQtyMax || cleanedQty;
 
         // 2. Plural logic
-        const isPlural = requiresPlural(cleanedQty, measurementSystem);
+        const isPlural = requiresPlural(qtyForPlural, measurementSystem);
 
         // 3. Validate + clean unit
         const result = validateUnitInput(
@@ -133,6 +165,7 @@ const SortableIngredientItem: React.FC<Props> = ({
 
         // 5. Update local state so UI reflects cleaned values
         setLocalQty(cleanedQty);
+        setLocalQtyMax(cleanedQtyMax);
         setLocalUnit(cleanedUnit);
         setLocalDesc(cleanedDesc);
         setLocalInstr(cleanedInstr);
@@ -141,6 +174,7 @@ const SortableIngredientItem: React.FC<Props> = ({
         handleSave?.({
             ...ingredient!,
             quantity: cleanedQty,
+            quantityMax: cleanedQtyMax,
             unit: cleanedUnit,
             description: cleanedDesc,
             instructions: cleanedInstr
@@ -152,7 +186,10 @@ const SortableIngredientItem: React.FC<Props> = ({
     const onAdd = () => {
         setAddRow(prev => {
             const cleanedQty = trimQuantity(prev.quantity);
-            const isPlural = requiresPlural(cleanedQty, measurementSystem);
+            const cleanedQtyMax = trimQuantity(prev.quantityMax);
+
+            const qtyForPlural = cleanedQtyMax || cleanedQty;
+            const isPlural = requiresPlural(qtyForPlural, measurementSystem);
 
             const result = validateUnitInput(
                 measurementSystem,
@@ -164,6 +201,7 @@ const SortableIngredientItem: React.FC<Props> = ({
             const cleanedIngredient = {
                 ...prev,
                 quantity: cleanedQty,
+                quantityMax: cleanedQtyMax,
                 unit: result.cleaned.trim(),
                 description: prev.description.trim(),
                 instructions: prev.instructions.trim(),
@@ -183,6 +221,7 @@ const SortableIngredientItem: React.FC<Props> = ({
         if (isAddRow) {
             const isBlank =
                 (ingredient?.quantity ?? "") === "" &&
+                (ingredient?.quantityMax ?? "") === "" &&
                 (ingredient?.unit ?? "") === "" &&
                 (ingredient?.description ?? "") === "" &&
                 (ingredient?.instructions ?? "") === "";
@@ -194,6 +233,7 @@ const SortableIngredientItem: React.FC<Props> = ({
     }, [
         isAddRow,
         ingredient?.quantity,
+        ingredient?.quantityMax,
         ingredient?.unit,
         ingredient?.description,
         ingredient?.instructions
@@ -271,10 +311,20 @@ const SortableIngredientItem: React.FC<Props> = ({
                                         <div className="col-4">
                                             <div className="d-flex align-items-baseline flex-wrap text-14 ">
                                                 {/* Plain text for now — formatting helpers later */}
+                                                {/* <span
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: renderNumberDisplayRange(
+                                                            qty.toString(),
+                                                            qtyMax.toString(),
+                                                            measurementSystem,
+                                                            "SansSerif"
+                                                        ),
+                                                    }}
+                                                /> */}
                                                 <span
                                                     dangerouslySetInnerHTML={{
-                                                        __html: renderNumberDisplayBySystem(
-                                                            qty.toString(),
+                                                        __html: renderNumberDisplayRangeFromString(
+                                                            localQtyInput.toString(),
                                                             measurementSystem,
                                                             "SansSerif"
                                                         ),
@@ -322,40 +372,101 @@ const SortableIngredientItem: React.FC<Props> = ({
                                         {/* Qty */}
                                         <div className="fixed-textbox-large qty-input height-65">
                                             <div className="label-mobile">Quantity</div>
-                                            <span className="required">*</span>
                                             <div className="form-element">
                                                 <input
                                                     ref={qtyRef}
                                                     type="text"
                                                     className="form-control textbox textbox-small textbox-text"
                                                     maxLength={20}
-                                                    value={qty}
-                                                    onChange={(e) => {
-                                                        if (isAddRow) {
-                                                            setAddRow?.(prev => ({ ...prev, quantity: e.target.value }));
-                                                        } else {
-                                                            setLocalQty(e.target.value);
-                                                        }
-                                                    }}
+                                                    value={localQtyInput}
+                                                    // onChange={(e) => {
+                                                    //     if (isAddRow) {
+                                                    //         setAddRow?.(prev => ({ ...prev, quantity: e.target.value }));
+                                                    //     } else {
+                                                    //         setLocalQty(e.target.value);
+                                                    //     }
+                                                    // }}
+
+
+                                                    // onBlur={(e) => {
+                                                    //     const cleanedQty = trimQuantity(e.target.value);
+
+                                                    //     // Update DOM
+                                                    //     e.target.value = cleanedQty;
+
+                                                    //     // 1. Update qty state
+                                                    //     if (isAddRow && cleanedQty !== qty) {
+                                                    //         setAddRow(prev => ({ ...prev, quantity: cleanedQty }));
+                                                    //     }
+
+                                                    //     if (!isAddRow && cleanedQty !== localQty) {
+                                                    //         setLocalQty(cleanedQty);
+                                                    //     }
+
+                                                    //     // 2. Recalculate pluralization using the cleaned qty
+                                                    //     const isPlural = requiresPlural(cleanedQty, measurementSystem);
+
+                                                    //     // 3. Re-validate + autocorrect the unit
+                                                    //     const result = validateUnitInput(
+                                                    //         measurementSystem,
+                                                    //         isAddRow ? unit : localUnit,
+                                                    //         isPlural,
+                                                    //         unitLookupTable
+                                                    //     );
+
+                                                    //     const cleanedUnit = result.cleaned.trim();
+
+                                                    //     // 4. Update unit state (so UI reflects the corrected plural form)
+                                                    //     if (isAddRow && cleanedUnit !== unit) {
+                                                    //         setAddRow(prev => ({ ...prev, unit: cleanedUnit }));
+                                                    //     }
+
+                                                    //     if (!isAddRow && cleanedUnit !== localUnit) {
+                                                    //         setLocalUnit(cleanedUnit);
+                                                    //     }
+                                                    // }}
+
                                                     onBlur={(e) => {
-                                                        const cleanedQty = trimQuantity(e.target.value);
+                                                        const text = e.target.value;
+                                                        //const text = e.target.value.replace(/to/gi, "-");
+
+                                                        // Parse raw input into qty + qtyMax
+                                                        const { quantity, quantityMax } = parseQtyInput(text);
+
+                                                        // Clean both sides
+                                                        const cleanedQty = trimQuantity(quantity);
+                                                        const cleanedQtyMax = trimQuantity(quantityMax);
+
+                                                        // Determine pluralization quantity
+                                                        const qtyForPlural = cleanedQtyMax || cleanedQty;
+
+                                                        // Recalculate pluralization using the larger quantity
+                                                        const isPlural = requiresPlural(qtyForPlural, measurementSystem);
+
+                                                        // Rebuild the display string (desktop spacing shown here)
+                                                        const rebuilt = cleanedQtyMax
+                                                            ? `${cleanedQty}-${cleanedQtyMax}`
+                                                            : cleanedQty;
 
                                                         // Update DOM
-                                                        e.target.value = cleanedQty;
+                                                        //e.target.value = rebuilt;
+                                                        setLocalQtyInput(rebuilt);
 
-                                                        // 1. Update qty state
-                                                        if (isAddRow && cleanedQty !== qty) {
-                                                            setAddRow(prev => ({ ...prev, quantity: cleanedQty }));
-                                                        }
-
-                                                        if (!isAddRow && cleanedQty !== localQty) {
+                                                        // Update ingredient state
+                                                        if (isAddRow) {
+                                                            // setAddRow(prev => ({
+                                                            //     ...prev,
+                                                            //     quantity: cleanedQty,
+                                                            //     quantityMax: cleanedQtyMax
+                                                            // }));
+                                                            //setLocalQty(cleanedQty);
+                                                            //setLocalQtyMax(cleanedQtyMax);
+                                                        } else {
                                                             setLocalQty(cleanedQty);
+                                                            setLocalQtyMax(cleanedQtyMax);
                                                         }
 
-                                                        // 2. Recalculate pluralization using the cleaned qty
-                                                        const isPlural = requiresPlural(cleanedQty, measurementSystem);
-
-                                                        // 3. Re-validate + autocorrect the unit
+                                                        // Now update the unit based on pluralization
                                                         const result = validateUnitInput(
                                                             measurementSystem,
                                                             isAddRow ? unit : localUnit,
@@ -365,13 +476,38 @@ const SortableIngredientItem: React.FC<Props> = ({
 
                                                         const cleanedUnit = result.cleaned.trim();
 
-                                                        // 4. Update unit state (so UI reflects the corrected plural form)
-                                                        if (isAddRow && cleanedUnit !== unit) {
-                                                            setAddRow(prev => ({ ...prev, unit: cleanedUnit }));
+                                                        if (isAddRow) {
+                                                            if (cleanedUnit !== unit) {
+                                                                setAddRow(prev => ({ ...prev, unit: cleanedUnit }));
+                                                            }
+                                                        } else {
+                                                            if (cleanedUnit !== localUnit) {
+                                                                setLocalUnit(cleanedUnit);
+                                                            }
                                                         }
+                                                    }}
 
-                                                        if (!isAddRow && cleanedUnit !== localUnit) {
-                                                            setLocalUnit(cleanedUnit);
+
+                                                    onChange={(e) => {
+                                                        const text = e.target.value;
+                                                        //const text = e.target.value.replace(/to/gi, "-");
+                                                        setLocalQtyInput(text);
+
+                                                        const { quantity, quantityMax } = parseQtyInput(text);
+
+                                                        if (isAddRow) {
+                                                            setAddRow(prev => ({
+                                                                ...prev,
+                                                                quantity,
+                                                                quantityMax
+                                                            }));
+
+
+                                                            // setLocalQty(quantity);
+                                                            // setLocalQtyMax(quantityMax);
+                                                        } else {
+                                                            setLocalQty(quantity);
+                                                            setLocalQtyMax(quantityMax);
                                                         }
                                                     }}
                                                 />
@@ -394,14 +530,52 @@ const SortableIngredientItem: React.FC<Props> = ({
                                                             setLocalUnit(e.target.value);
                                                         }
                                                     }}
+                                                    // onBlur={(e) => {
+                                                    //     const raw = e.target.value;
+
+                                                    //     // ⭐ Use the DOM qty, not props
+                                                    //     const qtyValue = qtyRef.current?.value ?? "";
+
+                                                    //     const isPlural = requiresPlural(qtyValue, measurementSystem);
+
+                                                    //     const result = validateUnitInput(
+                                                    //         measurementSystem,
+                                                    //         raw,
+                                                    //         isPlural,
+                                                    //         unitLookupTable
+                                                    //     );
+
+                                                    //     const cleaned = result.isValid ? result.cleaned.trim() : raw.trim();
+
+                                                    //     e.target.value = cleaned;
+
+                                                    //     if (isAddRow && cleaned !== unit) {
+                                                    //         setAddRow(prev => ({ ...prev, unit: cleaned }));
+                                                    //     }
+
+                                                    //     if (!isAddRow && cleaned !== localUnit) {
+                                                    //         setLocalUnit(cleaned);
+                                                    //     }
+                                                    // }}
                                                     onBlur={(e) => {
                                                         const raw = e.target.value;
 
-                                                        // ⭐ Use the DOM qty, not props
+                                                        // ⭐ Get the raw qty text from the DOM
                                                         const qtyValue = qtyRef.current?.value ?? "";
 
-                                                        const isPlural = requiresPlural(qtyValue, measurementSystem);
+                                                        // ⭐ Parse the qty input into min/max
+                                                        const { quantity, quantityMax } = parseQtyInput(qtyValue);
 
+                                                        // ⭐ Clean both sides
+                                                        const cleanedQty = trimQuantity(quantity);
+                                                        const cleanedQtyMax = trimQuantity(quantityMax);
+
+                                                        // ⭐ Use the larger quantity for pluralization
+                                                        const qtyForPlural = cleanedQtyMax || cleanedQty;
+
+                                                        const isPlural = requiresPlural(qtyForPlural, measurementSystem);
+
+                                                        // ⭐ Validate + autocorrect the unit
                                                         const result = validateUnitInput(
                                                             measurementSystem,
                                                             raw,
@@ -411,8 +585,10 @@ const SortableIngredientItem: React.FC<Props> = ({
 
                                                         const cleaned = result.isValid ? result.cleaned.trim() : raw.trim();
 
-                                                        e.target.value = cleaned;
+                                                        // ⭐ Update DOM
+                                                        //e.target.value = cleaned;
 
+                                                        // ⭐ Update state
                                                         if (isAddRow && cleaned !== unit) {
                                                             setAddRow(prev => ({ ...prev, unit: cleaned }));
                                                         }
@@ -449,7 +625,7 @@ const SortableIngredientItem: React.FC<Props> = ({
 
                                         {/* Instructions */}
                                         <div className="fixed-textbox-large inst-input height-65">
-                                            <div className="label-mobile">Instructions (i.e. chopped, ground)</div>
+                                            <div className="label-mobile">Preparation (i.e. chopped, ground)</div>
                                             <div className="form-element">
                                                 <input
                                                     type="text"
@@ -537,27 +713,97 @@ const SortableIngredientItem: React.FC<Props> = ({
                         type="text"
                         className="form-control textbox textbox-small textbox-text"
                         maxLength={20}
-                        value={qty}
+                        value={localQtyInput}
+
+                        // onBlur={(e) => {
+                        //     const cleanedQty = trimQuantity(e.target.value);
+
+                        //     // Update DOM
+                        //     e.target.value = cleanedQty;
+
+                        //     // 1. Update qty state
+                        //     if (isAddRow && cleanedQty !== qty) {
+                        //         setAddRow(prev => ({ ...prev, quantity: cleanedQty }));
+                        //     }
+
+                        //     if (!isAddRow && cleanedQty !== localQty) {
+                        //         setLocalQty(cleanedQty);
+                        //     }
+
+                        //     // 2. Recalculate pluralization using the cleaned qty
+                        //     const isPlural = requiresPlural(cleanedQty, measurementSystem);
+
+                        //     // 3. Re-validate + autocorrect the unit
+                        //     const result = validateUnitInput(
+                        //         measurementSystem,
+                        //         isAddRow ? unit : localUnit,
+                        //         isPlural,
+                        //         unitLookupTable
+                        //     );
+
+                        //     const cleanedUnit = result.cleaned.trim();
+
+                        //     // 4. Update unit state (so UI reflects the corrected plural form)
+                        //     if (isAddRow && cleanedUnit !== unit) {
+                        //         setAddRow(prev => ({ ...prev, unit: cleanedUnit }));
+                        //     }
+
+                        //     if (!isAddRow && cleanedUnit !== localUnit) {
+                        //         setLocalUnit(cleanedUnit);
+                        //     }
+                        // }}
+
+                        // onChange={(e) => {
+                        //     if (isAddRow) {
+                        //         setAddRow?.(prev => ({ ...prev, quantity: e.target.value }));
+                        //     } else {
+                        //         setLocalQty(e.target.value);
+                        //     }
+                        // }}
+
+
 
                         onBlur={(e) => {
-                            const cleanedQty = trimQuantity(e.target.value);
+                            const text = e.target.value;
+                            //const text = e.target.value.replace(/to/gi, "-");
+
+                            // Parse raw input into qty + qtyMax
+                            const { quantity, quantityMax } = parseQtyInput(text);
+
+                            // Clean both sides
+                            const cleanedQty = trimQuantity(quantity);
+                            const cleanedQtyMax = trimQuantity(quantityMax);
+
+                            // Determine pluralization quantity
+                            const qtyForPlural = cleanedQtyMax || cleanedQty;
+
+                            // Recalculate pluralization using the larger quantity
+                            const isPlural = requiresPlural(qtyForPlural, measurementSystem);
+
+                            // Rebuild the display string (desktop spacing shown here)
+                            const rebuilt = cleanedQtyMax
+                                ? `${cleanedQty}-${cleanedQtyMax}`
+                                : cleanedQty;
 
                             // Update DOM
-                            e.target.value = cleanedQty;
+                            //e.target.value = rebuilt;
+                            setLocalQtyInput(rebuilt);
 
-                            // 1. Update qty state
-                            if (isAddRow && cleanedQty !== qty) {
-                                setAddRow(prev => ({ ...prev, quantity: cleanedQty }));
-                            }
-
-                            if (!isAddRow && cleanedQty !== localQty) {
+                            // Update ingredient state
+                            if (isAddRow) {
+                                // setAddRow(prev => ({
+                                //     ...prev,
+                                //     quantity: cleanedQty,
+                                //     quantityMax: cleanedQtyMax
+                                // }));
+                                //setLocalQty(cleanedQty);
+                                //setLocalQtyMax(cleanedQtyMax);
+                            } else {
                                 setLocalQty(cleanedQty);
+                                setLocalQtyMax(cleanedQtyMax);
                             }
 
-                            // 2. Recalculate pluralization using the cleaned qty
-                            const isPlural = requiresPlural(cleanedQty, measurementSystem);
-
-                            // 3. Re-validate + autocorrect the unit
+                            // Now update the unit based on pluralization
                             const result = validateUnitInput(
                                 measurementSystem,
                                 isAddRow ? unit : localUnit,
@@ -567,23 +813,38 @@ const SortableIngredientItem: React.FC<Props> = ({
 
                             const cleanedUnit = result.cleaned.trim();
 
-                            // 4. Update unit state (so UI reflects the corrected plural form)
-                            if (isAddRow && cleanedUnit !== unit) {
-                                setAddRow(prev => ({ ...prev, unit: cleanedUnit }));
-                            }
-
-                            if (!isAddRow && cleanedUnit !== localUnit) {
-                                setLocalUnit(cleanedUnit);
+                            if (isAddRow) {
+                                if (cleanedUnit !== unit) {
+                                    setAddRow(prev => ({ ...prev, unit: cleanedUnit }));
+                                }
+                            } else {
+                                if (cleanedUnit !== localUnit) {
+                                    setLocalUnit(cleanedUnit);
+                                }
                             }
                         }}
 
                         onChange={(e) => {
+                            const text = e.target.value;
+                            //const text = e.target.value.replace(/to/gi, "-");
+                            setLocalQtyInput(text);
+
+                            const { quantity, quantityMax } = parseQtyInput(text);
+
                             if (isAddRow) {
-                                setAddRow?.(prev => ({ ...prev, quantity: e.target.value }));
+                                setAddRow(prev => ({
+                                    ...prev,
+                                    quantity,
+                                    quantityMax
+                                }));
+                                //setLocalQty(quantity);
+                                //setLocalQtyMax(quantityMax);
                             } else {
-                                setLocalQty(e.target.value);
+                                setLocalQty(quantity);
+                                setLocalQtyMax(quantityMax);
                             }
                         }}
+
                     />
                 </div>
 
@@ -594,14 +855,53 @@ const SortableIngredientItem: React.FC<Props> = ({
                         className="form-control textbox textbox-small textbox-text"
                         maxLength={20}
                         value={unit}
+                        // onBlur={(e) => {
+                        //     const raw = e.target.value;
+
+                        //     // ⭐ Use the DOM qty, not props
+                        //     const qtyValue = qtyRef.current?.value ?? "";
+
+                        //     const isPlural = requiresPlural(qtyValue, measurementSystem);
+
+                        //     const result = validateUnitInput(
+                        //         measurementSystem,
+                        //         raw,
+                        //         isPlural,
+                        //         unitLookupTable
+                        //     );
+
+                        //     const cleaned = result.isValid ? result.cleaned.trim() : raw.trim();
+
+                        //     e.target.value = cleaned;
+
+                        //     if (isAddRow && cleaned !== unit) {
+                        //         setAddRow(prev => ({ ...prev, unit: cleaned }));
+                        //     }
+
+                        //     if (!isAddRow && cleaned !== localUnit) {
+                        //         setLocalUnit(cleaned);
+                        //     }
+                        // }}
+
                         onBlur={(e) => {
                             const raw = e.target.value;
 
-                            // ⭐ Use the DOM qty, not props
+                            // ⭐ Get the raw qty text from the DOM
                             const qtyValue = qtyRef.current?.value ?? "";
 
-                            const isPlural = requiresPlural(qtyValue, measurementSystem);
+                            // ⭐ Parse the qty input into min/max
+                            const { quantity, quantityMax } = parseQtyInput(qtyValue);
 
+                            // ⭐ Clean both sides
+                            const cleanedQty = trimQuantity(quantity);
+                            const cleanedQtyMax = trimQuantity(quantityMax);
+
+                            // ⭐ Use the larger quantity for pluralization
+                            const qtyForPlural = cleanedQtyMax || cleanedQty;
+
+                            const isPlural = requiresPlural(qtyForPlural, measurementSystem);
+
+                            // ⭐ Validate + autocorrect the unit
                             const result = validateUnitInput(
                                 measurementSystem,
                                 raw,
@@ -611,8 +911,10 @@ const SortableIngredientItem: React.FC<Props> = ({
 
                             const cleaned = result.isValid ? result.cleaned.trim() : raw.trim();
 
-                            e.target.value = cleaned;
+                            // ⭐ Update DOM
+                            //e.target.value = cleaned;
 
+                            // ⭐ Update state
                             if (isAddRow && cleaned !== unit) {
                                 setAddRow(prev => ({ ...prev, unit: cleaned }));
                             }
@@ -621,6 +923,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                                 setLocalUnit(cleaned);
                             }
                         }}
+
 
                         onChange={(e) => {
                             if (isAddRow) {

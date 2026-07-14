@@ -66,6 +66,7 @@ namespace PlatformAPI.RecipeImport.Parser
                 {
                     OriginalLine = line,
                     Quantity = parsed.Quantity,
+                    QuantityMax = parsed.QuantityMax,
                     Unit = parsed.Unit,
                     Description = parsed.Description,
                     Instructions = parsed.Instructions,

@@ -164,7 +164,8 @@ const ImportRecipeFromUrl: React.FC = () => {
 
             // Optional: other errors
             setBanner('Error importing recipe');
-            console.log("UNEXPECTED ERROR", error);
+            setIsImporting(false);
+            //console.log("UNEXPECTED ERROR", error);
         }
     };
 

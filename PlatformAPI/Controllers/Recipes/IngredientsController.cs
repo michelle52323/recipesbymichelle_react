@@ -96,6 +96,11 @@ namespace PlatformAPI.Controllers.Recipes
                         i.Quantity,
                         fractionTable
                     ),
+                    QuantityMax = FractionHelper.ConvertQuantityBySystemAsync(
+                        measurementSystem,
+                        i.QuantityMax,
+                        fractionTable
+                    ),
                     //Unit = MeasurementHelper.BuildUnitDisplayString(
                     //    i.Quantity,
                     //    i.Unit,
@@ -154,6 +159,7 @@ namespace PlatformAPI.Controllers.Recipes
                 var ingredient = new Ingredient
                 {
                     Quantity = await ConvertQtyToDbFormat(dto.Quantity),
+                    QuantityMax = await ConvertQtyToDbFormat(dto.QuantityMax),
                     Unit = dto.Unit,
                     Description = dto.Description,
                     Instructions = dto.Instructions,
@@ -198,6 +204,7 @@ namespace PlatformAPI.Controllers.Recipes
 
             // Map DTO → Entity
             ingredient.Quantity = await ConvertQtyToDbFormat(dto.Quantity);
+            ingredient.QuantityMax = await ConvertQtyToDbFormat(dto.QuantityMax);
             ingredient.Unit = dto.Unit;
             ingredient.Description = dto.Description;
             ingredient.Instructions = dto.Instructions;

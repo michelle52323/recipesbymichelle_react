@@ -28,6 +28,7 @@ namespace PlatformAPI.DTO.Recipe
     {
         public int Id { get; set; }
         public string? Quantity { get; set; }
+        public string? QuantityMax { get; set; }
         public string? Unit { get; set; }
         public string? Description { get; set; }
         public string? Instructions { get; set; }

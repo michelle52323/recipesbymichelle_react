@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useOutletContext, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getApiBaseUrl, isMobileTouchDevice } from '../../../helpers/config';
-import { renderNumberDisplayBySystem, renderStep, renderUnit } from '../../../helpers/measurementHelper';
+import { renderNumberDisplayRange, renderStep, renderUnit } from '../../../helpers/measurementHelper';
 import { mapFontToClass } from '../../../helpers/displayHelper';
 import CheckAuth from '../../../components/Account/CheckAuth';
 import { Dropdown } from '../../UserControls/Dropdown/Dropdown';
@@ -301,14 +301,19 @@ function View() {
                                                 >
                                                     <span
                                                         dangerouslySetInnerHTML={{
-                                                            __html: renderNumberDisplayBySystem(
+                                                            __html: renderNumberDisplayRange(
                                                                 ingredient.quantity.toString(),
+                                                                ingredient.quantityMax.toString(),
                                                                 measurementSystem,
-                                                                recipe.recipeFont
+                                                                recipe.recipeFont,
+                                                                true
                                                             ),
                                                         }}
                                                     />
                                                     &nbsp;{renderUnit(ingredient.unit)}{ingredient.description}
+                                                    {ingredient.instructions && (
+                                                        ` (${ingredient.instructions})`
+                                                    )}
                                                 </li>
                                             ))}
                                     </ul>

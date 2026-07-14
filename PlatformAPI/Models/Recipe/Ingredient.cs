@@ -8,6 +8,8 @@ namespace PlatformAPI.Models.Recipe
 
         public float? Quantity { get; set; } // Optional quantity value
 
+        public float? QuantityMax { get; set; } // Optional quantity max value, handles ranges
+
         [StringLength(50)]
         public string? Unit { get; set; } // e.g., "cup", "tbsp"
 

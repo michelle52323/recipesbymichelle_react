@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlatformAPI.Data;
 
@@ -11,9 +12,11 @@ using PlatformAPI.Data;
 namespace PlatformAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260714043657_AddInchAndMillimeterToUnitsTable")]
+    partial class AddInchAndMillimeterToUnitsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -618,19 +621,13 @@ namespace PlatformAPI.Migrations
                         new
                         {
                             Id = 24,
-                            Description = "bunch",
-                            Plural = "bunches"
-                        },
-                        new
-                        {
-                            Id = 25,
                             Description = "inch",
                             Plural = "inches",
                             System = 1
                         },
                         new
                         {
-                            Id = 26,
+                            Id = 25,
                             Abbreviation = "mm",
                             Description = "millimeter",
                             Plural = "millimeters",

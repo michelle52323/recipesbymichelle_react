@@ -433,7 +433,7 @@ namespace PlatformAPI.Data
                 new Unit { Id = 9, Description = "teaspoon", Abbreviation = "tsp", System = 1, Plural = "teaspoons" },
                 new Unit { Id = 10, Description = "can", Abbreviation = null, System = null, Plural = "cans" },
                 new Unit { Id = 11, Description = "cup", Abbreviation = null, System = 1, Plural = "cups" },
-                new Unit { Id = 12, Description = "millileter", Abbreviation = "ml", System = 2, Plural = "millileters" },
+                new Unit { Id = 12, Description = "milliliter", Abbreviation = "ml", System = 2, Plural = "milliliters" },
                 new Unit { Id = 13, Description = "liter", Abbreviation = "L", System = 2, Plural = "liters" },
                 new Unit { Id = 14, Description = "gram", Abbreviation = "g", System = 2, Plural = "grams" },
                 new Unit { Id = 15, Description = "kilogram", Abbreviation = "kg", System = 2, Plural = "kilograms" },
@@ -444,7 +444,10 @@ namespace PlatformAPI.Data
                 new Unit { Id = 20, Description = "stick", Abbreviation = null, System = null, Plural = "sticks" },
                 new Unit { Id = 21, Description = "drop", Abbreviation = null, System = null, Plural = "drops" },
                 new Unit { Id = 22, Description = "slice", Abbreviation = null, System = null, Plural = "slices" },
-                new Unit { Id = 23, Description = "dash", Abbreviation = null, System = null, Plural = "dash" }
+                new Unit { Id = 23, Description = "dash", Abbreviation = null, System = null, Plural = "dash" },
+                new Unit { Id = 24, Description = "bunch", Abbreviation = null, System = null, Plural = "bunches" },
+                new Unit { Id = 25, Description = "inch", Abbreviation = null, System = 1, Plural = "inches" },
+                new Unit { Id = 26, Description = "millimeter", Abbreviation = "mm", System = 2, Plural = "millimeters" }
             );
 
             modelBuilder.Entity<FractionDecimal>().HasData(

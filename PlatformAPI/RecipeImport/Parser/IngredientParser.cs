@@ -32,10 +32,29 @@ namespace PlatformAPI.RecipeImport.Parser
             // 3. Extract quantity
             string? quantity = ExtractQuantity(ref line, measurementSystem, fractionDecimalTable);
 
-            // 4. Extract unit
+            // 4.  Range Detection (q1 - q2)
+            string? quantityMax = null;
+
+            // Look for separators: "-", "–" (U+2013), "—" (U+2014), or "to"
+            var rangeMatch = Regex.Match(
+                line,
+                @"^\s*(?:-|–|—|to)\s*",
+                RegexOptions.IgnoreCase
+            );
+
+            if (rangeMatch.Success)
+            {
+                // Remove the separator
+                line = line.Substring(rangeMatch.Length).Trim();
+
+                // Extract second quantity
+                quantityMax = ExtractQuantity(ref line, measurementSystem, fractionDecimalTable);
+            }
+
+            // 5. Extract unit
             string? unit = ExtractUnit(ref line, validUnits);
 
-            // 5. Remaining text = description
+            // 6. Remaining text = description
             string description = ExtractDescription(line);
 
             bool isIngredient = description != null && (unit != null || quantity != null);
@@ -44,6 +63,7 @@ namespace PlatformAPI.RecipeImport.Parser
             {
                 Id = 0,
                 Quantity = quantity,
+                QuantityMax = quantityMax,
                 Unit = unit,
                 Description = description,
                 Instructions = instructions,
@@ -74,6 +94,7 @@ namespace PlatformAPI.RecipeImport.Parser
             foreach (var ing in ingArray.EnumerateArray())
             {
                 string line = ing.GetString() ?? "";
+                line = StringHelper.NormalizeUnicodeCharacters(line);
                 var parsed = parser.ParseIngredientLine(line, measurementSystem, validUnits, fractionDecimalTable);
                 parsed.SortOrder = index++;
                 ingredients.Add(parsed);
@@ -147,7 +168,8 @@ namespace PlatformAPI.RecipeImport.Parser
 
             // 2. Other separators: comma, semicolon, dash, en-dash, em-dash
             // We look for the FIRST occurrence of any separator
-            var separators = new[] { ",", ";", "-", "\u2013", "\u2014" };
+            //var separators = new[] { ",", ";", "-", "\u2013", "\u2014" };
+            var separators = new[] { ",", ";" };
 
             int index = -1;
             string? foundSeparator = null;
@@ -196,88 +218,15 @@ namespace PlatformAPI.RecipeImport.Parser
 
             string? quantity = null;
 
-            //if (measurementSystem == MeasurementSystem.Imperial)
-            //{
-            //    // Mixed fraction
-            //    var mixed = Regex.Match(line, @"^(\d+)\s+(\d+)\s*/\s*(\d+)");
-            //    if (mixed.Success)
-            //    {
-            //        quantity = $"{mixed.Groups[1].Value} {mixed.Groups[2].Value}/{mixed.Groups[3].Value}";
-            //        line = line.Substring(mixed.Length).Trim();
-            //        return FractionHelper.ConvertStringToDbValueBySystem(quantity, fractionDecimalTable, measurementSystem).ToString();
-            //    }
-
-            //    // Simple fraction
-            //    var fraction = Regex.Match(line, @"^(\d+)\s*/\s*(\d+)");
-            //    if (fraction.Success)
-            //    {
-            //        quantity = $"{fraction.Groups[1].Value}/{fraction.Groups[2].Value}";
-            //        line = line.Substring(fraction.Length).Trim();
-            //        return FractionHelper.ConvertStringToDbValueBySystem(quantity, fractionDecimalTable, measurementSystem).ToString();
-            //    }
-
-            //    // Decimal
-            //    var dec = Regex.Match(line, @"^(\d*\.\d+)");
-            //    if (dec.Success)
-            //    {
-
-            //        quantity = dec.Groups[1].Value;
-            //        line = line.Substring(dec.Length).Trim();
-            //        return quantity;
-            //    }
-
-            //    // Whole number
-            //    var whole = Regex.Match(line, @"^(\d+)");
-            //    if (whole.Success)
-            //    {
-            //        quantity = whole.Groups[1].Value;
-            //        line = line.Substring(whole.Length).Trim();
-            //        return quantity;
-            //    }
-            //}
-            //else // METRIC
-            //{
-
-            //    // Mixed fraction
-            //    var mixed = Regex.Match(line, @"^(\d+)\s+(\d+)\s*/\s*(\d+)");
-            //    if (mixed.Success)
-            //    {
-            //        quantity = $"{mixed.Groups[1].Value} {mixed.Groups[2].Value}/{mixed.Groups[3].Value}";
-            //        line = line.Substring(mixed.Length).Trim();
-            //        return FractionHelper.ConvertStringToDbValueBySystem(quantity, fractionDecimalTable, measurementSystem).ToString();
-            //    }
-
-            //    // Simple fraction
-            //    var fraction = Regex.Match(line, @"^(\d+)\s*/\s*(\d+)");
-            //    if (fraction.Success)
-            //    {
-            //        quantity = $"{fraction.Groups[1].Value}/{fraction.Groups[2].Value}";
-            //        line = line.Substring(fraction.Length).Trim();
-            //        return FractionHelper.ConvertStringToDbValueBySystem(quantity, fractionDecimalTable, measurementSystem).ToString();
-            //    }
-
-            //    // Decimal
-            //    var dec = Regex.Match(line, @"^(\d*\.\d+)");
-            //    if (dec.Success)
-            //    {
-            //        quantity = dec.Groups[1].Value;
-            //        line = line.Substring(dec.Length).Trim();
-            //        return quantity;
-            //    }
-
-            //    // Whole number
-            //    var whole = Regex.Match(line, @"^(\d+)");
-            //    if (whole.Success)
-            //    {
-            //        quantity = whole.Groups[1].Value;
-            //        line = line.Substring(whole.Length).Trim();
-            //        return quantity;
-            //    }
-            //}
-
 
             // Mixed fraction
-            var mixed = Regex.Match(line, @"^(\d+)\s+(\d+)\s*/\s*(\d+)");
+            //var mixed = Regex.Match(line, @"^(\d+)\s+(\d+)\s*/\s*(\d+)");
+            // Mixed fraction: whole + (& or + or space) + fraction
+            var mixed = Regex.Match(
+                line,
+                @"^(\d+)\s*(?:[&+]\s*|\s+)(\d+)\s*/\s*(\d+)"
+            );
+
             if (mixed.Success)
             {
                 quantity = $"{mixed.Groups[1].Value} {mixed.Groups[2].Value}/{mixed.Groups[3].Value}";

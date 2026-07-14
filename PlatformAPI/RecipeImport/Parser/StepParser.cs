@@ -3,6 +3,7 @@ using PlatformAPI.Models.Recipe;
 using System.Text.RegularExpressions;
 using PlatformAPI.Enums;
 using System.Text.Json;
+using PlatformAPI.Helpers;
 
 namespace PlatformAPI.RecipeImport.Parser
 {
@@ -34,6 +35,11 @@ namespace PlatformAPI.RecipeImport.Parser
 
                 if (string.IsNullOrWhiteSpace(text))
                     continue;
+
+                text = StringHelper.NormalizeUnicodeFractions(text);
+                text = StringHelper.NormalizeUnicodeCharacters(text);
+                text = StringHelper.NormalizeMixedNumberString(text);
+                
 
                 steps.Add(new ConvertRecipeStepDto
                 {

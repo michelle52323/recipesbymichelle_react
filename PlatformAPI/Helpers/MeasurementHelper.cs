@@ -56,6 +56,21 @@ namespace PlatformAPI.Helpers
             return fullForm;
         }
 
+        public static float GetLargerQuantity(float? q1, float? q2)
+        {
+            // Start with the first quantity (it always exists in your model)
+            float result = q1 ?? 0f;
+
+            // If q2 exists, compare and take the larger
+            if (q2.HasValue)
+            {
+                result = Math.Max(result, q2.Value);
+            }
+
+            return result;
+        }
+
+
 
 
 

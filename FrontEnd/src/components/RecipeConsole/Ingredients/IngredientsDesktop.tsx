@@ -82,7 +82,7 @@ function IngredientsListDesktop({ controller }: Props) {
                                     <div className="col-7 fw-bold">Description<span className="required" style={{ marginLeft: "-15px" }}></span></div>
 
                                     {/* Instructions (col-5) */}
-                                    <div className="col-5 fw-bold">Instructions (optional)</div>
+                                    <div className="col-5 fw-bold">Preparation (optional)</div>
 
                                     {/* Placeholder for alignment (col-1) */}
                                     {/* <div className="col-1"></div> */}

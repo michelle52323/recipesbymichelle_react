@@ -23,6 +23,7 @@ export interface RecipeView extends RecipeBase {
 export interface Ingredient {
     id: number;
     quantity: string | null;
+    quantityMax: string | null;
     unit: string | null;
     description: string | null;
     instructions: string | null;
