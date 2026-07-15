@@ -40,6 +40,10 @@ namespace PlatformAPI.Models.Users
 
         public DateTime CreatedAt { get; set; }
 
+        public bool ShowCategories {  get; set; }
+
+        public Enums.SortBy CategorySortBy { get; set; }
+
         public UserType UserType { get; set; }
 
         public Gender? Gender { get; set; }

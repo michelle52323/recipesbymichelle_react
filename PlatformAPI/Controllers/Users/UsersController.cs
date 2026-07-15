@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PlatformAPI.Configuration;
 using PlatformAPI.Data;
+using PlatformAPI.Enums;
 using PlatformAPI.Models.Users;
 using PlatformAPI.Security;
 using PlatformAPI.Services;
@@ -72,6 +73,11 @@ namespace PlatformAPI.Controllers.Users
         public string MeasurementSystem { get; set; } // "Imperial" or "Metric"
     }
 
+    public class UserSettingsDto
+    {
+        public bool ShowCategories { get; set; }
+        public SortBy CategorySortBy { get; set; }
+    }
 
 
     #endregion
@@ -407,35 +413,6 @@ namespace PlatformAPI.Controllers.Users
         }
 
 
-        //[Authorize]
-        //[HttpPut("set-starter-kit")]
-        //public async Task<IActionResult> SetStarterKit()
-        //{
-        //    // Get authenticated user ID from claims
-        //    var userIdClaim = User.FindFirst("UserId")?.Value;
-        //    if (userIdClaim == null)
-        //        return Unauthorized();
-
-        //    int userId = int.Parse(userIdClaim);
-
-        //    // Load user
-        //    var user = await _context.Users
-        //        .Include(u => u.UserType)
-        //        .Include(u => u.Gender)
-        //        .FirstOrDefaultAsync(u => u.Id == userId);
-        //    if (user == null)
-        //        return NotFound("User not found.");
-
-        //    // Update flag
-        //    user.HasStarterKit = true;
-        //    user.StarterKitCreated = DateTime.Now;
-        //    await _context.SaveChangesAsync();
-
-        //    await _authService.SignInUserAsync(user);
-
-        //    return Ok(new { success = true });
-        //}
-
         [HttpPost("UpdateUserProfile")]
         [Authorize]
         public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileDto dto)
@@ -594,7 +571,50 @@ namespace PlatformAPI.Controllers.Users
             return Ok(new { success = true });
         }
 
+        [Authorize]
+        [HttpGet("settings")]
+        public async Task<IActionResult> GetUserSettings()
+        {
+            int userId = int.TryParse(
+                User?.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value,
+                out var parsedId
+            ) ? parsedId : 0;
 
+            if (userId == 0)
+                return Unauthorized("UserId claim missing or invalid.");
+
+            return await GetUserSettingsInternal(userId);
+        }
+
+        [HttpGet("settingsMock")]
+        public async Task<IActionResult> GetUserSettingsMock()
+        {
+            const int mockUserId = 10;
+            return await GetUserSettingsInternal(mockUserId);
+        }
+
+
+        #endregion
+
+        #region Shared Endpoint Functions
+
+        // ---------------------------------------------------------
+        // ⭐ SHARED INTERNAL METHOD (REAL + MOCK CALL THIS)
+        // ---------------------------------------------------------
+        private async Task<IActionResult> GetUserSettingsInternal(int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+                return NotFound("User not found.");
+
+            var dto = new UserSettingsDto
+            {
+                ShowCategories = user.ShowCategories,
+                CategorySortBy = (SortBy)user.CategorySortBy
+            };
+
+            return Ok(dto);
+        }
 
         #endregion
 

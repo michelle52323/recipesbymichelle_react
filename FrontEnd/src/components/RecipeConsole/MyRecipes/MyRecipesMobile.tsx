@@ -35,7 +35,14 @@ interface Recipe {
     sortOrder: number;
 }
 
-const MyRecipesMobile: React.FC = () => {
+interface MyRecipesMobileProps {
+    showCategoryToolbar: boolean;
+}
+
+
+const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
+    showCategoryToolbar
+}) => {
 
     const navigate = useNavigate();
 
@@ -166,6 +173,8 @@ const MyRecipesMobile: React.FC = () => {
         );
     }
 
+    const gofClassName = showCategoryToolbar ? "gof-editable-mobile-short" : "gof-editable-mobile";
+
     return (
         <div className="page-container w-100 pt-3">
 
@@ -196,7 +205,7 @@ const MyRecipesMobile: React.FC = () => {
                             </div>
 
                             {/* Rows */}
-                            <div className="grid-overflow-box gof-editable-mobile" id="sortable">
+                            <div className={`grid-overflow-box ${gofClassName}`} id="sortable">
                                 {recipes.map((recipe, i) => (
                                     <SortableRecipeItem
                                         key={recipe.id}

@@ -3,7 +3,10 @@
 using PlatformAPI.Models.Themes;
 using PlatformAPI.Models.Users;
 using PlatformAPI.Models.Recipe;
+using PlatformAPI.Models.Categories;
 using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using PlatformAPI.Enums;
 
 namespace PlatformAPI.Data
 {
@@ -51,6 +54,12 @@ namespace PlatformAPI.Data
         public DbSet<ForgotPasswordRequest> ForgotPasswordRequests { get; set; }
 
         public DbSet<LoginAttempt> LoginAttempts { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<RecipeCategory> RecipeCategories { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -115,6 +124,19 @@ namespace PlatformAPI.Data
 
             modelBuilder.Entity<RecipeStep>()
                 .HasKey(rs => new { rs.RecipeId, rs.StepId });
+
+            modelBuilder.Entity<RecipeCategory>()
+                .HasKey(rc => new { rc.RecipeId, rc.CategoryId });
+
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.ShowCategories)
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.CategorySortBy)
+                .HasDefaultValue((Enums.SortBy)SortBy.SortOrder);
+
 
 
 

@@ -33,7 +33,14 @@ interface Recipe {
     sortOrder: number;
 }
 
-const MyRecipesDesktop: React.FC = () => {
+interface MyRecipesDesktopProps {
+    showCategoryToolbar: boolean;
+}
+
+
+const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
+    showCategoryToolbar
+}) => {
 
     const [recipes, setRecipes] = useState<Recipe[]>([]);
 
@@ -143,6 +150,8 @@ const MyRecipesDesktop: React.FC = () => {
         );
     }
 
+    const gofClassName = showCategoryToolbar ? "gof-editable-short" : "gof-editable";
+
     return (
         <div className="page-container w-100 pt-3">
 
@@ -178,7 +187,7 @@ const MyRecipesDesktop: React.FC = () => {
                             </div>
 
                             {/* Rows */}
-                            <div className="grid-overflow-box gof-editable" id="sortable">
+                            <div className={`grid-overflow-box ${gofClassName}`} id="sortable">
                                 {recipes.map((recipe, i) => (
                                     <SortableRecipeItem
                                         key={recipe.id}

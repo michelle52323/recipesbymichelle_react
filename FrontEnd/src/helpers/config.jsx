@@ -24,7 +24,9 @@ export function getApiBaseUrl() {
 
 // Other helpers
 export function isDevUseMockLogin(){
-    const isDev = !isProdMode();
+    //const isDev = !isProdMode();
+    const mode = import.meta.env.VITE_MODE;
+    const isDev = (mode === "dev");
     return isDev && isMobileTouchDeviceDev();
 }
 
