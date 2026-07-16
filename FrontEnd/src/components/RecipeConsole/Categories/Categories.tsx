@@ -102,7 +102,7 @@ function Categories({
                 </div>
                 <div className="dialog-content-holder">
                     <div className="dialog-content modal-body dialog-text">
-                        <label className="form-label-tight">Category Name</label>
+                        <label className="form-label-tight dialog-label">Category Name</label>
                         <div className="form-element">
                             <input
                                 ref={categoryNameRef}

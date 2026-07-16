@@ -1,0 +1,21 @@
+.button-category-toggle {
+    width: 170px;
+    font-size: 14px;
+}
+
+@supports (-webkit-touch-callout: none) {
+    .button-category-toggle {
+        width: 170px;
+        font-size: 12px;
+    }
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        .button-category-toggle {
+            width: 170px;
+            font-size: 14px;
+        }
+    }
+}

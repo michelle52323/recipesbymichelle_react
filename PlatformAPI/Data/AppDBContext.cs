@@ -135,7 +135,7 @@ namespace PlatformAPI.Data
 
             modelBuilder.Entity<User>()
                 .Property(u => u.CategorySortBy)
-                .HasDefaultValue((Enums.SortBy)SortBy.SortOrder);
+                .HasDefaultValue((Enums.SortBy)SortBy.Alphabetical);
 
 
 

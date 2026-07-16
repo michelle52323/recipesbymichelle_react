@@ -10,7 +10,9 @@ import MyRecipesDesktop from './MyRecipesDesktop';
 import AddRecipeActionsMenu from '../../UserControls/SubMenus/MyRecipes/AddRecipeActionsMenu';
 import Categories from '../Categories/Categories';
 import CategoriesToolbar from '../Categories/CategoriesToolbar';
+import CategoryList from '../Categories/CategoryList';
 import type { Category } from '../../../types/Categories/Categories';
+import type { UserSettings } from '../../../types/UserSettings/UserSettings';
 
 const API_BASE = getApiBaseUrl();
 
@@ -33,10 +35,20 @@ function MyRecipes() {
     const [isClosing, setIsClosing] = useState(false);
 
     const [showAddCategory, setShowAddCategory] = useState(false);
+    const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
     const [categoryList, setCategoryList] = useState<Category[] | null>(null);
     const [showCategoriesToolbar, setShowCategoriesToolbar] = useState<boolean>(false);
     const [showCategories, setShowCategories] = useState<boolean>(false);
     const [categorySortBy, setCategorySortBy] = useState<number | null>(1);
+    const [openCategory, setOpenCategory] = useState<Category | null>(null);
+    const [currentView, setCurrentView] = useState<"Recipes" | "Categories" | null>(null);
+    // const [categorySortBy, setCategorySortBy] = useState<number | undefined>(2);
+    //console.log("Open Category : " + JSON.stringify(openCategory));
+    //console.log("Current View: " + currentView);
+
+    const [categoriesIsLoading, setCategoriesIsLoading] = useState<boolean>(true);
+
+    //ENABLE OR DISABLE THE FEATURE
     const categoriesFeatureEnabled = false;
 
     // Cleanup banner on unmount
@@ -82,6 +94,32 @@ function MyRecipes() {
         }
     }, [auth, navigate, setTitle]);
 
+    useEffect(() => {
+        if (auth === null) return;
+
+
+        if (openCategory != null && currentView == "Recipes")
+            setTitle("My Recipes > " + openCategory.name)
+        else
+            setTitle("My Recipes");
+
+
+    }, [currentView]);
+
+    useEffect(() => {
+        if (auth === null) return;
+
+
+        if (!showCategories) {
+            setCurrentView("Recipes");
+            setOpenCategory(null);
+            setTitle("My Recipes");
+        }
+
+
+
+    }, [userSettings, showCategories]);
+
     const getCategories = async (sortBy: number) => {
         const endpoint = `${API_BASE}/api/Categories/list${isDevUseMockLogin() ? "mock" : ""}?sortBy=${sortBy}`;
         const response = await fetch(endpoint, {
@@ -93,31 +131,51 @@ function MyRecipes() {
         });
 
         if (!response.ok) {
+            setCategoriesIsLoading(false);
             throw new Error("Failed to fetch categories");
+
         }
         else {
             const data = await response.json();   // ← THIS is the important part
             setCategoryList(data);                // ← store the actual category array
+            //setCategoriesIsLoading(false);
 
         }
 
     };
 
     useEffect(() => {
+
         if (categoryList && categoryList.length > 0) {
             //console.log(categoryList);
+
             setShowCategoriesToolbar(true);
+            if (userSettings) {
+                setShowCategories(userSettings.showCategories);
+                setCategoriesIsLoading(false);
+                setCurrentView(userSettings.showCategories ? "Categories" : "Recipes");
+            }
+
+        }
+        else {
+            setShowCategories(false);
         }
 
-    }, [categoryList]);
+    }, [categoryList, userSettings]);
 
+    // useEffect(() => {
+    //     const loadCategories = async () => {
+    //         await getCategories(1);
+    //     };
+
+    //     loadCategories();
+    // }, []);
     useEffect(() => {
-        const loadCategories = async () => {
-            await getCategories(1);
-        };
+        if (!userSettings) return;
 
-        loadCategories();
-    }, []);
+        getCategories(userSettings.categorySortBy);
+    }, [userSettings]);
+
 
     const getUserSettings = async () => {
         const endpoint = `${API_BASE}/api/Users/settings${isDevUseMockLogin() ? "mock" : ""}`;
@@ -137,11 +195,37 @@ function MyRecipes() {
         return data; // { showCategories: boolean, categorySortBy: number }
     };
 
+    const updateUserSettings = async (showCategories: boolean, categorySortBy: number) => {
+        const endpoint = `${API_BASE}/api/Users/updateSettings${isDevUseMockLogin() ? "mock" : ""}`;
+
+        try {
+            const response = await fetch(endpoint, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    showCategories,
+                    categorySortBy
+                })
+            });
+
+            if (!response.ok) {
+                console.error("Failed to update user settings");
+            }
+        } catch (err) {
+            console.error("Error updating user settings", err);
+        }
+    };
+
+
     useEffect(() => {
         const loadSettings = async () => {
             try {
                 const settings = await getUserSettings();
-                setShowCategories(settings.showCategories);
+                setUserSettings(settings);
+                setShowCategories(categoryList && categoryList.length > 0 ? settings.showCategories : false);
                 setCategorySortBy(settings.categorySortBy);
             } catch (err) {
                 console.error(err);
@@ -151,7 +235,24 @@ function MyRecipes() {
         loadSettings();
     }, []);
 
+    useEffect(() => {
+        if (!categoryList || categoryList.length === 0) return;
 
+        let sorted = [...categoryList];
+
+        if (categorySortBy === 2) {
+            sorted.sort((a, b) => a.sortOrder - b.sortOrder);
+        } else if (categorySortBy === 1) {
+            sorted.sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        setCategoryList(sorted);
+        //console.log("Sort by: " + categorySortBy);
+    }, [categorySortBy]);
+
+    // if (categoriesIsLoading) {
+    //     return (<Loader message="Loading categories ..." />);
+    // }
 
     if (auth === null) {
         return (
@@ -166,16 +267,60 @@ function MyRecipes() {
     return (
         <div className="page-container w-100">
             <div className={isMobileTouchDevice() ? "content-holder-mobile" : "content-holder-desktop"}>
-                {showCategoriesToolbar && (
-                    <CategoriesToolbar
+                {showCategoriesToolbar &&
+                    userSettings &&
+                    categorySortBy !== null &&
+                    categoryList &&
+                    (
+                        <CategoriesToolbar
+                            key={categorySortBy}
+                            showCategories={showCategories}
+                            setShowCategories={setShowCategories}
+                            categorySortBy={categorySortBy}
+                            setCategorySortBy={setCategorySortBy}
+                            userSettings={userSettings}
+                            setUserSettings={setUserSettings}
+                            updateUserSettings={updateUserSettings}
+                            categoriesIsLoading={categoriesIsLoading}
+                            currentView={currentView}
+                            setCurrentView={setCurrentView}
+                            openCategory={openCategory}
+                            setOpenCategory={setOpenCategory}
+                        />
+                    )}
+                {showCategories && !categoriesIsLoading && currentView == "Categories" && (
+                    <CategoryList
+                        categories={categoryList}
+                        setCategories={setCategoryList}
                         showCategories={showCategories}
                         setShowCategories={setShowCategories}
                         categorySortBy={categorySortBy}
-                        setCategorySortBy={setCategorySortBy} />
+                        setCategorySortBy={setCategorySortBy}
+                        openCategory={openCategory}
+                        setOpenCategory={setOpenCategory}
+                        currentView={currentView}
+                        setCurrentView={setCurrentView}
+                    />
                 )}
-                {isMobileTouchDevice() ? <MyRecipesMobile showCategoryToolbar={showCategoriesToolbar} />
-                    :
-                    <MyRecipesDesktop showCategoryToolbar={showCategoriesToolbar} />}
+
+                {(!showCategories || currentView == "Recipes") && (
+                    isMobileTouchDevice()
+                        ? <MyRecipesMobile
+                            showCategories={showCategories}
+                            showCategoryToolbar={showCategoriesToolbar}
+                            openCategory={openCategory}
+                            setOpenCategory={setOpenCategory}
+                            currentView={currentView}
+                            setCurrentView={setCurrentView} />
+                        : <MyRecipesDesktop
+                            showCategories={showCategories}
+                            showCategoryToolbar={showCategoriesToolbar}
+                            openCategory={openCategory}
+                            setOpenCategory={setOpenCategory}
+                            currentView={currentView}
+                            setCurrentView={setCurrentView} />
+                )}
+
             </div>
 
             <ButtonGrid
@@ -224,7 +369,9 @@ function MyRecipes() {
                 <Categories
                     showAddCategory={showAddCategory}
                     setShowAddCategory={setShowAddCategory}
-                    onCategoryAdded={() => getCategories(1)} />
+                    onCategoryAdded={() => getCategories(userSettings.categorySortBy)
+                    }
+                />
             )
 
             }

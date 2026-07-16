@@ -3,12 +3,12 @@ import { useOutletContext, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import { getApiBaseUrl } from '../../../helpers/config';
 import '../../../grid-layout.css';
-import SortableRecipeItem from './SortableRecipeItem';
+import SortableCategoryItem from './SortableCategoryItem';
 const API_BASE = getApiBaseUrl();
 import { TouchSensor } from '@dnd-kit/core';
-import { isDevUseMockLogin, isMobileTouchDeviceDev, isMobileTouchDevice } from '../../../helpers/config';
-import MobileRecipeActionsMenu from '../../UserControls/SubMenus/MyRecipes/MobileRecipeActionsMenu';
+import { isDevUseMockLogin } from '../../../helpers/config';
 import Loader from '../../UserControls/Loader/Loader';
+import CategoriesActionsMenu from '../../UserControls/SubMenus/Categories/CategoriesActionsMenu';
 import type { Category } from '../../../types/Categories/Categories';
 
 import {
@@ -25,20 +25,18 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 
-Modal.setAppElement('#root'); // for accessibility
+Modal.setAppElement('#root');
 
-interface Recipe {
-    id: number;
-    name: string;
-    description: string;
-    sortOrder: number;
-}
 
-interface MyRecipesMobileProps {
+
+interface CategoryListProps {
+    categories: Category[];
+    setCategories: (value: Category[]) => void;
     showCategories: boolean;
-    showCategoryToolbar: boolean;
+    setShowCategories: (value: boolean) => void;
+    categorySortBy: number;
+    setCategorySortBy: (value: number) => void;
     openCategory: Category;
     setOpenCategory: (value: Category) => void;
     currentView: "Recipes" | "Categories" | null;
@@ -46,35 +44,29 @@ interface MyRecipesMobileProps {
 }
 
 
-const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
+const CategoryList: React.FC<CategoryListProps> = ({
+    categories,
+    setCategories,
     showCategories,
-    showCategoryToolbar,
+    setShowCategories,
+    categorySortBy,
+    setCategorySortBy,
     openCategory,
     setOpenCategory,
     currentView,
-    setCurrentView
-}) => {
+    setCurrentView }) => {
 
     const navigate = useNavigate();
 
-    const [recipes, setRecipes] = useState<Recipe[]>([]);
-
+    //const [categories, setCategories] = useState<Category[]>([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [recipeToDelete, setRecipeToDelete] = useState<{ id: number; name: string } | null>(null);
-
-    const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+    const [categoryToDelete, setCategoryToDelete] = useState<{ id: number; name: string } | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const openDeleteModal = (recipe: { id: number; name: string }) => {
-        setRecipeToDelete(recipe);
-        setModalIsOpen(true);
-    };
-
-    const { setBanner } = useOutletContext<{
-        setBanner: (message: string) => void;
-    }>();
+    const { setBanner } = useOutletContext<{ setBanner: (message: string) => void }>();
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -86,111 +78,102 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
 
     // useEffect(() => {
     //     setIsLoading(true);
-    //     const mode = import.meta.env.VITE_MODE;
-    //     const url = isDevUseMockLogin() && mode == "dev"
-    //         ? `${API_BASE}/api/MyRecipes/getRecipesMock`
-    //         : `${API_BASE}/api/MyRecipes/getRecipes`;
 
-    //     const fetchRecipes = async () => {
-    //         const response = await fetch(url, {
-    //             credentials: 'include',
-    //         });
+    //     const mode = import.meta.env.VITE_MODE;
+    //     const url = isDevUseMockLogin() && mode === "dev"
+    //         ? `${API_BASE}/api/Categories/getCategoriesMock`
+    //         : `${API_BASE}/api/Categories/getCategories`;
+
+    //     const fetchCategories = async () => {
+    //         const response = await fetch(url, { credentials: 'include' });
     //         if (response.ok) {
     //             const data = await response.json();
-    //             setRecipes(data);
+    //             setCategories(data);
     //             setIsLoading(false);
     //         } else {
-    //             console.error('Failed to fetch recipes');
+    //             console.error('Failed to fetch categories');
     //             setIsLoading(false);
     //         }
     //     };
 
-    //     fetchRecipes();
+    //     fetchCategories();
     // }, []);
-    useEffect(() => {
-        const fetchRecipes = async () => {
-            setIsLoading(true);
-            const mode = import.meta.env.VITE_MODE;
-            const url = isDevUseMockLogin() && mode == "dev"
-                ? `${API_BASE}/api/MyRecipes/getRecipesMock`
-                : `${API_BASE}/api/MyRecipes/getRecipes`;
 
-            const response = await fetch(url, {
-                credentials: 'include',
-            });
+    // useEffect(() => {
+    //     if (!categories || categories.length === 0) return;
 
-            if (!response.ok) {
-                console.error('Failed to fetch recipes');
-                setIsLoading(false);
-                return;
-            }
+    //     let sorted = [...categories];
 
-            const data = await response.json();
+    //     if (categorySortBy === 2) {
+    //         sorted.sort((a, b) => a.sortOrder - b.sortOrder);
+    //     } else if (categorySortBy === 1) {
+    //         sorted.sort((a, b) => a.name.localeCompare(b.name));
+    //     }
 
-            // ⭐ Apply filtering logic
-            const filtered = !showCategories
-                ? data
-                : data.filter(r => r.categoryId === openCategory.id);
+    //     setCategories(sorted);
+    // }, [categorySortBy]);
 
-            setRecipes(filtered);
-            setIsLoading(false);
-        };
 
-        fetchRecipes();
-    }, [showCategories, openCategory]);
 
     const handleDragEnd = async (event: any) => {
         setBanner('');
         const { active, over } = event;
+
         if (active.id !== over?.id) {
-            const oldIndex = recipes.findIndex(r => r.id.toString() === active.id);
-            const newIndex = recipes.findIndex(r => r.id.toString() === over?.id);
-            const newOrder = arrayMove(recipes, oldIndex, newIndex).map((recipe, index) => ({
-                ...recipe,
+            const oldIndex = categories.findIndex(c => c.id.toString() === active.id);
+            const newIndex = categories.findIndex(c => c.id.toString() === over?.id);
+
+            const newOrder = arrayMove(categories, oldIndex, newIndex).map((category, index) => ({
+                ...category,
                 sortOrder: index + 1,
             }));
 
-            setRecipes(newOrder);
+            setCategories(newOrder);
 
-            const response = await fetch(API_BASE + `/api/MyRecipes/updateSortOrder`, {
+            const response = await fetch(API_BASE + `/api/Categories/updateSortOrder`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newOrder.map(r => ({
-                    id: r.id,
-                    sortOrder: r.sortOrder,
+                body: JSON.stringify(newOrder.map(c => ({
+                    id: c.id,
+                    sortOrder: c.sortOrder,
                 }))),
             });
 
             const result = await response.json();
 
             if (response.ok && result.success) {
-                setBanner('Recipes successfully re-ordered!');
+                setBanner('Categories successfully re-ordered!');
             } else {
                 setBanner('Error occurred during sorting');
             }
         }
     };
 
+    const openDeleteModal = (recipe: { id: number; name: string }) => {
+        //setRecipeToDelete(recipe);
+        //setModalIsOpen(true);
+    };
+
     const handleDelete = async () => {
         setBanner('');
 
-        const response = await fetch(`${API_BASE}/api/MyRecipes/${recipeToDelete?.id}`, {
+        const response = await fetch(`${API_BASE}/api/Categories/${categoryToDelete?.id}`, {
             method: 'DELETE',
             credentials: 'include',
         });
 
         if (response.ok) {
-            const refreshed = await fetch(`${API_BASE}/api/MyRecipes/getRecipes`, {
+            const refreshed = await fetch(`${API_BASE}/api/Categories/getCategories`, {
                 credentials: 'include',
             });
 
             if (refreshed.ok) {
                 const data = await refreshed.json();
-                setRecipes(data);
-                setBanner('Recipe successfully deleted!');
+                setCategories(data);
+                setBanner('Category successfully deleted!');
             } else {
-                setBanner('Recipe deleted, but failed to reload list.');
+                setBanner('Category deleted, but failed to reload list.');
             }
         } else {
             setBanner('Error occurred during deletion');
@@ -204,62 +187,59 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
 
         setTimeout(() => {
             setIsMenuOpen(false);
-            setSelectedRecipe(null);
+            setSelectedCategory(null);
             setIsClosing(false);
         }, 150);
     };
 
     if (isLoading) {
-        return (
-            <Loader message="Loading recipes ..." />
-        );
+        return <Loader message="Loading categories ..." />;
     }
 
-    const gofClassName = showCategoryToolbar ? "gof-editable-mobile-short" : "gof-editable-mobile";
+    //const gofClassName = showCategoryToolbar ? "gof-editable-mobile-short" : "gof-editable-mobile";
+    const gofClassName = "gof-editable-mobile-short"
 
     return (
         <div className="page-container w-100 pt-3">
-
             <div className="content-inner-desktop">
 
-                {recipes.length === 0 && !isLoading ? (
-                    <div className="empty-grid">No recipes found. Start by creating one.</div>
+                {categories.length === 0 && !isLoading ? (
+                    <div className="empty-grid">No categories found. Start by creating one.</div>
                 ) : (
                     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                        <SortableContext items={recipes.map(r => r.id.toString())} strategy={verticalListSortingStrategy}>
-                            {/* Header */}
-                            <div className="d-flex align-items-start">
+                        <SortableContext items={categories.map(c => c.id.toString())} strategy={verticalListSortingStrategy}>
+
+                            <div className="d-flex align-items-start ">
                                 <div className="d-flex">
                                     <div className="drag-handle-width-desktop"></div>
                                 </div>
 
                                 <div className="flex-grow-1">
-                                    <div className="row">
-                                        {/* <div className="col-6 col-custom-6-12 fw-bold">Name</div>
-                                        <div className="col-6 col-custom-6-0 fw-bold">Description</div> */}
-                                        &nbsp;
-                                    </div>
+                                    <div className="row">&nbsp;</div>
                                 </div>
 
-                                <div className="d-flex ms-3">
-
-                                </div>
+                                <div className="d-flex ms-3"></div>
                             </div>
 
-                            {/* Rows */}
                             <div className={`grid-overflow-box ${gofClassName}`} id="sortable">
-                                {recipes.map((recipe, i) => (
-                                    <SortableRecipeItem
-                                        key={recipe.id}
-                                        recipe={recipe}
+
+                                {categories.map((category, i) => (
+                                    <SortableCategoryItem
+                                        key={category.id}
+                                        category={category}
                                         index={i}
                                         isMobile={true}
-                                        openDeleteModal={() => openDeleteModal(recipe)}
-                                        setSelectedRecipe={setSelectedRecipe}
+                                        openDeleteModal={() => setCategoryToDelete(category)}
+                                        setSelectedCategory={setSelectedCategory}
                                         setIsMenuOpen={setIsMenuOpen}
+                                        openCategory={openCategory}
+                                        setOpenCategory={setOpenCategory}
+                                        currentView={currentView}
+                                        setCurrentView={setCurrentView}
                                     />
                                 ))}
                             </div>
+
                         </SortableContext>
                     </DndContext>
                 )}
@@ -276,29 +256,26 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
                     <h5 className="modal-title">Confirm Delete</h5>
                     <button className="btn-close" onClick={() => setModalIsOpen(false)} ></button>
                 </div>
+
                 <div className="dialog-content-holder">
                     <div className="dialog-content modal-body dialog-text">
-                        Are you sure you want to delete recipe "{recipeToDelete?.name}"?
-                        <input type="hidden" value={recipeToDelete?.id} />
+                        Are you sure you want to delete category "{categoryToDelete?.name}"?
+                        <input type="hidden" value={categoryToDelete?.id} />
                     </div>
 
                     <div className="dialog-footer d-flex justify-content-end gap-2">
-                        <button
-                            className="button button-modal"
-                            onClick={() => {
-                                setBanner(null);
-                                setModalIsOpen(false);
-                            }}
-                        >
+                        <button className="button button-modal" onClick={() => {
+                            setBanner(null);
+                            setModalIsOpen(false);
+                        }}>
                             Cancel
                         </button>
                         <button className="button button-modal" onClick={handleDelete}>Yes, Delete</button>
                     </div>
                 </div>
-
             </Modal>
 
-            {isMenuOpen && selectedRecipe && (
+            {isMenuOpen && selectedCategory && (
                 <>
                     <div
                         className="mobile-menu-backdrop"
@@ -311,8 +288,9 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
                         }}
                     ></div>
 
-                    <MobileRecipeActionsMenu
-                        recipe={selectedRecipe}
+                    {/* You will create MobileCategoryActionsMenu later */}
+                    <CategoriesActionsMenu
+                        recipe={selectedCategory}
                         navigate={(path: string) => navigate(path)}
                         openDeleteModal={() => openDeleteModal(selectedRecipe)}
                         closeMenu={closeMenu}
@@ -320,10 +298,8 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
                     />
                 </>
             )}
-
         </div>
-
     );
 };
 
-export default MyRecipesMobile;
+export default CategoryList;

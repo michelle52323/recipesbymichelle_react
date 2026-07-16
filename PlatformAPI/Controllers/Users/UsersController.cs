@@ -79,6 +79,11 @@ namespace PlatformAPI.Controllers.Users
         public SortBy CategorySortBy { get; set; }
     }
 
+    public class UpdateUserSettingsDto : UserSettingsDto
+    {
+
+    }
+
 
     #endregion
 
@@ -593,6 +598,31 @@ namespace PlatformAPI.Controllers.Users
             return await GetUserSettingsInternal(mockUserId);
         }
 
+        [Authorize]
+        [HttpPost("updateSettings")]
+        public async Task<IActionResult> UpdateUserSettings([FromBody] UpdateUserSettingsDto dto)
+        {
+            int userId = int.TryParse(
+                User?.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value,
+                out var parsedId
+            ) ? parsedId : 0;
+
+            if (userId == 0)
+                return Unauthorized("UserId claim missing or invalid.");
+
+            return await UpdateUserSettingsInternal(userId, dto);
+        }
+
+        // ---------------------------------------------------------
+        // ⭐ MOCK ENDPOINT (No Authorize)
+        // ---------------------------------------------------------
+        [HttpPost("updateSettingsMock")]
+        public async Task<IActionResult> UpdateUserSettingsMock([FromBody] UpdateUserSettingsDto dto)
+        {
+            const int mockUserId = 10;
+            return await UpdateUserSettingsInternal(mockUserId, dto);
+        }
+
 
         #endregion
 
@@ -614,6 +644,25 @@ namespace PlatformAPI.Controllers.Users
             };
 
             return Ok(dto);
+        }
+
+        private async Task<IActionResult> UpdateUserSettingsInternal(int userId, UpdateUserSettingsDto dto)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+                return NotFound("User not found.");
+
+            user.ShowCategories = dto.ShowCategories;
+            user.CategorySortBy = (SortBy)dto.CategorySortBy;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                success = true,
+                showCategories = user.ShowCategories,
+                categorySortBy = user.CategorySortBy
+            });
         }
 
         #endregion

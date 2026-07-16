@@ -1,9 +1,17 @@
 ﻿:root {
+
+    --itemContentBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 8%);
+    --itemContentBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 2%);
+
     --expandedContentBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 10%);
     --expandedContentBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 5%);
 
     --dragItemBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 15%);
     --dragItemBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 5%);
+}
+
+.item-tint{
+    background-image: linear-gradient(45deg, var(--itemContentBackgroundColor), var(--itemContentBackgroundColorGradient));
 }
 
 .expanded-content-tint {
@@ -304,7 +312,7 @@ a.button-tiny-responsive-mobile {
 }
 
 .gof-editable-short {
-    height: 400px;
+    height: 390px;
 }
 
 .gof-editable-mobile {
@@ -312,7 +320,7 @@ a.button-tiny-responsive-mobile {
 }
 
 .gof-editable-mobile-short {
-    height: 393px;
+    height: 385px;
 }
 
 .gof-view-mobile {

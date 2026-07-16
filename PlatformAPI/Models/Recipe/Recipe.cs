@@ -1,4 +1,5 @@
-﻿using PlatformAPI.Enums;
+﻿using PlatformAPI.Models.Categories;
+using PlatformAPI.Enums;
 
 namespace PlatformAPI.Models.Recipe
 {
@@ -21,5 +22,7 @@ namespace PlatformAPI.Models.Recipe
         public RecipeFont RecipeFont { get; set; }
 
         public UserRecipe UserRecipe { get; set; }
+
+        public RecipeCategory? RecipeCategory { get; set; }
     }
 }

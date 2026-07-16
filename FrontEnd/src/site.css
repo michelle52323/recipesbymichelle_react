@@ -1216,6 +1216,11 @@ a.button-tiny-ios {
     font-weight: bold;
 }
 
+.dialog-label{
+    color: var(--dialogContentTextColor);
+    font-weight: bold;
+}
+
 .button-modal {
     min-width: 110px;
     width: 110px;

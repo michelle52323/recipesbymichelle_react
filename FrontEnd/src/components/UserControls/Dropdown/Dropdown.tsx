@@ -60,7 +60,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
 
     return (
-        <div className="dropdown" ref={dropdownRef}>
+        <div className="dropdown" ref={dropdownRef} >
             {/* <div className={`dropdown-value ${selectedId ? 'dropdown-value-populated' : ''}`} style={{width: width ?? 160}}>
                 {selectedText}
             </div> */}

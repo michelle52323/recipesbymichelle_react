@@ -7,6 +7,7 @@ import SortableRecipeItem from './SortableRecipeItem';
 const API_BASE = getApiBaseUrl();
 import { TouchSensor } from '@dnd-kit/core';
 import Loader from '../../UserControls/Loader/Loader';
+import type { Category } from '../../../types/Categories/Categories';
 
 import {
     DndContext,
@@ -34,12 +35,22 @@ interface Recipe {
 }
 
 interface MyRecipesDesktopProps {
+    showCategories: boolean;
     showCategoryToolbar: boolean;
+    openCategory: Category;
+    setOpenCategory: (value: Category) => void;
+    currentView: "Recipes" | "Categories" | null;
+    setCurrentView: (value: "Recipes" | "Categories" | null) => void;
 }
 
 
 const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
-    showCategoryToolbar
+    showCategories,
+    showCategoryToolbar,
+    openCategory,
+    setOpenCategory,
+    currentView,
+    setCurrentView
 }) => {
 
     const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -68,21 +79,31 @@ const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
     useEffect(() => {
         const fetchRecipes = async () => {
             setIsLoading(true);
+
             const response = await fetch(`${API_BASE}/api/MyRecipes/getRecipes`, {
                 credentials: 'include',
             });
-            if (response.ok) {
-                const data = await response.json();
-                setRecipes(data);
-                setIsLoading(false);
-            } else {
+
+            if (!response.ok) {
                 console.error('Failed to fetch recipes');
                 setIsLoading(false);
+                return;
             }
+
+            const data = await response.json();
+
+            // ⭐ Apply filtering logic
+            const filtered = !showCategories || openCategory == null
+                ? data
+                : data.filter(r => r.categoryId === openCategory.id);
+
+            setRecipes(filtered);
+            setIsLoading(false);
         };
 
         fetchRecipes();
-    }, []);
+    }, [showCategories, openCategory]);
+
 
     const handleDragEnd = async (event: any) => {
         setBanner('');
@@ -162,7 +183,7 @@ const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
                 ) : (
                     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                         <SortableContext items={recipes.map(r => r.id.toString())} strategy={verticalListSortingStrategy}>
-                            
+
                             {/* Header */}
                             <div className="d-flex align-items-start">
                                 <div className="d-flex">
@@ -173,7 +194,7 @@ const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
                                     <div className="row">
                                         <div className="col-6 col-custom-6-12 fw-bold">Name</div>
                                         <div className="col-6 col-custom-6-0 fw-bold">Description</div>
-                                        
+
                                     </div>
                                 </div>
 

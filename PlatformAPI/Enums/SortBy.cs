@@ -2,8 +2,8 @@
 {
     public enum SortBy
     {
-        SortOrder = 1,
-        Alphabetical = 2,
+        Alphabetical = 1,
+        SortOrder = 2,
         AlphabeticalDescending = 3,
         DateAscending = 4,
         DateDescending = 5

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformAPI.Models.Users;
 using PlatformAPI.Models.Recipe;
+using PlatformAPI.Models.Categories;
 using PlatformAPI.Data;
 using Microsoft.AspNetCore.Authorization;
 
@@ -17,6 +18,8 @@ namespace PlatformAPI.Controllers.Recipes
         public bool ShowAbbreviations { get; set; }
         public bool IsActive { get; set; }
         public int SortOrder { get; set; }
+
+        public int? CategoryId {  get; set; }
     }
 
     public class RecipeSortOrderDto
@@ -59,6 +62,7 @@ namespace PlatformAPI.Controllers.Recipes
             // Query recipes for this user
             var recipeList = await _context.Recipes
                 .Include(r => r.UserRecipe)
+                .Include(r => r.RecipeCategory)
                 .Where(r => r.UserRecipe.UserId == userId && r.IsActive)
                 .OrderBy(r => r.SortOrder)
                 .ToListAsync();
@@ -71,7 +75,8 @@ namespace PlatformAPI.Controllers.Recipes
                 Description = r.Description,
                 ShowAbbreviations = r.ShowAbbreviations,
                 IsActive = r.IsActive,
-                SortOrder = r.SortOrder
+                SortOrder = r.SortOrder,
+                CategoryId = r.RecipeCategory?.CategoryId
             }).ToList();
 
             return Ok(dto);
@@ -85,6 +90,7 @@ namespace PlatformAPI.Controllers.Recipes
             // Query recipes for this user
             var recipeList = await _context.Recipes
                 .Include(r => r.UserRecipe)
+                .Include(r => r.RecipeCategory)
                 .Where(r => r.UserRecipe.UserId == userId && r.IsActive)
                 .OrderBy(r => r.SortOrder)
                 .ToListAsync();
@@ -97,7 +103,8 @@ namespace PlatformAPI.Controllers.Recipes
                 Description = r.Description,
                 ShowAbbreviations = r.ShowAbbreviations,
                 IsActive = r.IsActive,
-                SortOrder = r.SortOrder
+                SortOrder = r.SortOrder,
+                CategoryId = r.RecipeCategory?.CategoryId
             }).ToList();
 
             return Ok(dto);
