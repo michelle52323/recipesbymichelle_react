@@ -128,10 +128,27 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
 
             const data = await response.json();
 
-            // ⭐ Apply filtering logic
-            const filtered = !showCategories
+            // // ⭐ Apply filtering logic
+            // const filtered = !showCategories
+            //     ? data
+            //     : data.filter(r => r.categoryId === openCategory.id);
+            const filtered = !showCategories || openCategory == null
                 ? data
-                : data.filter(r => r.categoryId === openCategory.id);
+                : data
+                    // Filter recipes that belong to the open category
+                    .filter(r =>
+                        r.categories?.some(c => c.id === openCategory.id)
+                    )
+                    // Sort by the sortOrder inside that category
+                    .sort((a, b) => {
+                        const aCat = a.categories?.find(c => c.id === openCategory.id);
+                        const bCat = b.categories?.find(c => c.id === openCategory.id);
+
+                        const aSort = aCat?.sortOrder ?? 0;
+                        const bSort = bCat?.sortOrder ?? 0;
+
+                        return aSort - bSort;
+                    });
 
             setRecipes(filtered);
             setIsLoading(false);
@@ -224,7 +241,25 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
 
             if (refreshed.ok) {
                 const data = await refreshed.json();
-                setRecipes(data);
+                const filtered = !showCategories || openCategory == null
+                    ? data
+                    : data
+                        // Filter recipes that belong to the open category
+                        .filter(r =>
+                            r.categories?.some(c => c.id === openCategory.id)
+                        )
+                        // Sort by the sortOrder inside that category
+                        .sort((a, b) => {
+                            const aCat = a.categories?.find(c => c.id === openCategory.id);
+                            const bCat = b.categories?.find(c => c.id === openCategory.id);
+
+                            const aSort = aCat?.sortOrder ?? 0;
+                            const bSort = bCat?.sortOrder ?? 0;
+
+                            return aSort - bSort;
+                        });
+
+                setRecipes(filtered);
                 setBanner('Recipe successfully deleted!');
             } else {
                 setBanner('Recipe deleted, but failed to reload list.');
