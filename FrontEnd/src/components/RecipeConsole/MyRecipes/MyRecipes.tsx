@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
+import type { LayoutContext } from '../../Layout';
 import { isDevUseMockLogin, isMobileTouchDevice, getApiBaseUrl } from '../../../helpers/config';
 import CheckAuth from '../../Account/CheckAuth';
 import MyRecipesMobile from './MyRecipesMobile';
@@ -25,11 +26,18 @@ interface AuthResult {
 interface OutletContextType {
     setTitle: (title: string) => void;
     setBanner: (banner: string) => void;
+    openCategory: Category | null;
+    setOpenCategory: (openCategory: Category | null) => void;
+    currentView: "Recipes" | "Categories" | null;
+    setCurrentView: (currentView: "Recipes" | "Categories" | null) => void;
+    previousPath: React.RefObject<string | null>;
 }
 
 function MyRecipes() {
     const navigate = useNavigate();
-    const { setTitle, setBanner } = useOutletContext<OutletContextType>();
+    const { setTitle, setBanner, openCategory, setOpenCategory,
+        currentView, setCurrentView, previousPath } = useOutletContext<OutletContextType>();
+    // const { setTitle, setBanner, setMyRecipesCategoryId } = useOutletContext<LayoutContext>();
     const [auth, setAuth] = useState<AuthResult | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
@@ -38,10 +46,10 @@ function MyRecipes() {
     const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
     const [categoryList, setCategoryList] = useState<Category[] | null>(null);
     const [showCategoriesToolbar, setShowCategoriesToolbar] = useState<boolean>(false);
-    const [showCategories, setShowCategories] = useState<boolean>(false);
+    const [showCategories, setShowCategories] = useState<boolean>(openCategory != null);
     const [categorySortBy, setCategorySortBy] = useState<"Alphabetical" | "SortOrder" | null>("Alphabetical");
-    const [openCategory, setOpenCategory] = useState<Category | null>(null);
-    const [currentView, setCurrentView] = useState<"Recipes" | "Categories" | null>(null);
+    // const [openCategory, setOpenCategory] = useState<Category | null>(null);
+    //const [currentView, setCurrentView] = useState<"Recipes" | "Categories" | null>(null);
     // const [categorySortBy, setCategorySortBy] = useState<number | undefined>(2);
     //console.log("Open Category : " + JSON.stringify(openCategory));
     //console.log("Current View: " + currentView);
@@ -94,6 +102,20 @@ function MyRecipes() {
         }
     }, [auth, navigate, setTitle]);
 
+    // useEffect(() => {
+    //     if (auth === null) return;
+
+
+    //     if (openCategory != null && currentView == "Recipes")
+    //         setMyRecipesCategoryId(openCategory.id)
+    //     //else
+    //     //setMyRecipesCategoryId(null);
+    // //console.log("Nav Category: " + )
+    //     //setTitle(openCategory.id.toString());
+
+
+    // }, [auth, currentView, openCategory]);
+
     useEffect(() => {
         if (auth === null) return;
 
@@ -104,15 +126,15 @@ function MyRecipes() {
             setTitle("My Recipes");
 
 
-    }, [currentView]);
+    }, [auth, openCategory, currentView]);
 
     useEffect(() => {
         if (auth === null) return;
 
 
         if (!showCategories) {
-            setCurrentView("Recipes");
-            setOpenCategory(null);
+            //setCurrentView("Recipes");
+            //setOpenCategory(null);
             setTitle("My Recipes");
         }
 
@@ -148,20 +170,49 @@ function MyRecipes() {
 
         if (categoryList && categoryList.length > 0) {
             //console.log(categoryList);
+            //console.log("previousPath: " + JSON.stringify(previousPath));
 
             setShowCategoriesToolbar(true);
             if (userSettings) {
                 setShowCategories(userSettings.showCategories);
                 setCategoriesIsLoading(false);
-                setCurrentView(userSettings.showCategories ? "Categories" : "Recipes");
+
+                if (previousPath.current == null)
+                    setCurrentView(userSettings.showCategories ? "Categories" : "Recipes");
+                // 
+                // if (
+                //     previousPath.current &&
+                //     !/recipeinfo|ingredients|steps|view/.test(previousPath.current)
+                // ) {
+                //     {
+                //         setCurrentView(userSettings.showCategories ? "Categories" : "Recipes");
+                //     }
+                // }
+                if (
+                    previousPath.current &&
+                    !/recipeinfo|ingredients|steps|view/.test(previousPath.current) &&
+                    currentView === null
+                ) {
+                    setCurrentView(userSettings.showCategories ? "Categories" : "Recipes");
+                }
+
+
+
+
             }
 
         }
         else {
-            setShowCategories(false);
+            setShowCategories(openCategory != null);
         }
 
     }, [categoryList, userSettings]);
+
+    useEffect(() => {
+
+        setShowCategories(openCategory != null);
+
+    }, []);
 
     // useEffect(() => {
     //     const loadCategories = async () => {
@@ -197,7 +248,7 @@ function MyRecipes() {
 
     const updateUserSettings = async (showCategories: boolean, categorySortBy: "Alphabetical" | "SortOrder" | null) => {
         const endpoint = `${API_BASE}/api/Users/updateSettings${isDevUseMockLogin() ? "mock" : ""}`;
-        
+
 
         try {
             const response = await fetch(endpoint, {
@@ -226,7 +277,7 @@ function MyRecipes() {
             try {
                 const settings = await getUserSettings();
                 setUserSettings(settings);
-                setShowCategories(categoryList && categoryList.length > 0 ? settings.showCategories : false);
+                setShowCategories(categoryList && categoryList.length > 0 ? settings.showCategories : openCategory != null);
                 setCategorySortBy(settings.categorySortBy);
             } catch (err) {
                 console.error(err);
@@ -241,9 +292,9 @@ function MyRecipes() {
 
         let sorted = [...categoryList];
 
-        if (categorySortBy === 2) {
+        if (categorySortBy === "SortOrder") {
             sorted.sort((a, b) => a.sortOrder - b.sortOrder);
-        } else if (categorySortBy === 1) {
+        } else if (categorySortBy === "Alphabetical") {
             sorted.sort((a, b) => a.name.localeCompare(b.name));
         }
 
@@ -314,8 +365,8 @@ function MyRecipes() {
                             openCategory={openCategory}
                             setOpenCategory={setOpenCategory}
                             currentView={currentView}
-                            setCurrentView={setCurrentView} 
-                            />
+                            setCurrentView={setCurrentView}
+                        />
                         : <MyRecipesDesktop
                             showCategories={showCategories}
                             showCategoryToolbar={showCategoriesToolbar}
@@ -323,7 +374,7 @@ function MyRecipes() {
                             setOpenCategory={setOpenCategory}
                             currentView={currentView}
                             setCurrentView={setCurrentView}
-                             />
+                        />
                 )}
 
             </div>

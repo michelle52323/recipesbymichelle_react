@@ -80,7 +80,9 @@ function CategoriesToolbar({
                                 onSelect={(id) => {
                                     const newShow = id == "0" ? false : true;
                                     
+                                    
                                     setShowCategories(newShow);
+                                    setCurrentView(newShow ? "Categories" : "Recipes");
                                     setUserSettings(prev => ({
                                         ...prev,
                                         categorySortBy: prev.categorySortBy,
@@ -101,7 +103,8 @@ function CategoriesToolbar({
                                         role="button"
                                         tabIndex={0}
                                     >
-                                        ← Categories
+                                        <div className="d-flex"><Icon name="leftArrow" width={20} height={20} marginTop={-1} /> Categories</div>
+                                        
                                     </div>
                                 </div>
 

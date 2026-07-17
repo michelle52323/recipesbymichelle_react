@@ -80,7 +80,7 @@ function CategoryAssignmentModal({
                     </button>
 
                     <button className="button button-modal" onClick={handleSave}>
-                        Save
+                        Assign
                     </button>
                 </div>
             </div>

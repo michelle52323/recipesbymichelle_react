@@ -10,6 +10,8 @@ import Menu from '../components/UserControls/Menu/Menu';
 import ButtonGrid from './UserControls/ButtonGrid/ButtonGrid';
 import BrandingHeader from './UserControls/BrandingHeader/BrandingHeader';
 
+import type { Category } from '../types/Categories/Categories';
+
 //Layout.tsx
 //This page is a defines the basic layout for all pages
 //Public pages, such as sign in, register, use a "card" on desktop devices
@@ -28,6 +30,10 @@ export interface LayoutContext {
     setBanner: (banner: string | null) => void;
     setTitleBarSlot: (node: React.ReactNode | null) => void;
     previousPath: React.RefObject<string | null>;
+    openCategory: Category | null;
+    setopenCategory: (openCategory: Category | null) => void;
+    currentView: "Recipes" | "Categories" | null;
+    setCurrentVirew: (currentView: "Recipes" | "Categories" | null) => void;
 
 }
 
@@ -47,11 +53,17 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
     const [title, setTitle] = useState<string>('');
     const [banner, setBanner] = useState<string | null>(null);
     const [titleBarSlot, setTitleBarSlot] = useState<React.ReactNode | null>(null)
+    //const [myRecipesCategoryId, setMyRecipesCategoryId] = useState<string | null>(null);
+
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const [auth, setAuth] = useState<AuthResult | null>(null);
     const [actualThemeId, setActualThemeId] = useState<number>(1);
     const [themeReady, setThemeReady] = useState(false);
+
+    //These two states are used for MyRecipes deciding whether to display "Category list" or contents of a specific category
+    const [openCategory, setOpenCategory] = useState<Category | null>(null);
+    const [currentView, setCurrentView] = useState<"Recipes" | "Categories" | null>(null);
 
     const headerRef = useRef<HTMLDivElement>(null);
     const [smartClass, setSmartClass] = useState('');
@@ -83,7 +95,7 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
             : "";
 
     const API_BASE = getApiBaseUrl();
-
+//console.log("DATA:" + JSON.stringify(openCategory));
     //Track previous path
     const previousPath = useRef<string | null>(null);
     const lastPath = useRef<string | null>(routerLocation.pathname);
@@ -305,7 +317,9 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
                             </header>
 
                             <main style={{ flex: 1 }}>
-                                <Outlet context={{ setTitle, setBanner, setTitleBarSlot, previousPath }} />
+                                <Outlet context={{ setTitle, setBanner, setTitleBarSlot, 
+                                    previousPath, openCategory, setOpenCategory,
+                                    currentView, setCurrentView }} />
                             </main>
 
                             {/* BUTTON SLOT HERE */}

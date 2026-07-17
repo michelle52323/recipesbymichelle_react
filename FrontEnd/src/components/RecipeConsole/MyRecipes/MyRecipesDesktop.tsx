@@ -80,7 +80,8 @@ const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
     useEffect(() => {
         const fetchRecipes = async () => {
             setIsLoading(true);
-
+            // console.log("SHow Categories: " + showCategories);
+            // console.log("DATA:" + JSON.stringify(openCategory));
             const response = await fetch(`${API_BASE}/api/MyRecipes/getRecipes`, {
                 credentials: 'include',
             });
