@@ -76,12 +76,13 @@ namespace PlatformAPI.Controllers.Users
     public class UserSettingsDto
     {
         public bool ShowCategories { get; set; }
-        public SortBy CategorySortBy { get; set; }
+        public string CategorySortBy { get; set; }
     }
 
-    public class UpdateUserSettingsDto : UserSettingsDto
+    public class UpdateUserSettingsDto
     {
-
+        public bool ShowCategories { get; set; }
+        public string CategorySortBy { get; set; }
     }
 
 
@@ -640,7 +641,7 @@ namespace PlatformAPI.Controllers.Users
             var dto = new UserSettingsDto
             {
                 ShowCategories = user.ShowCategories,
-                CategorySortBy = (SortBy)user.CategorySortBy
+                CategorySortBy = user.CategorySortBy.ToString()
             };
 
             return Ok(dto);
@@ -653,7 +654,11 @@ namespace PlatformAPI.Controllers.Users
                 return NotFound("User not found.");
 
             user.ShowCategories = dto.ShowCategories;
-            user.CategorySortBy = (SortBy)dto.CategorySortBy;
+            switch (dto.CategorySortBy) {
+                case "Alphabetical": user.CategorySortBy = SortBy.Alphabetical; break;
+                case "SortOrder": user.CategorySortBy = SortBy.SortOrder; break;
+
+            }
 
             await _context.SaveChangesAsync();
 

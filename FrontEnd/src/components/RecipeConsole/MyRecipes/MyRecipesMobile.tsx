@@ -34,6 +34,7 @@ interface Recipe {
     name: string;
     description: string;
     sortOrder: number;
+    categorySortOrder: number;
 }
 
 interface MyRecipesMobileProps {
@@ -141,35 +142,71 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
 
     const handleDragEnd = async (event: any) => {
         setBanner('');
-        const { active, over } = event;
-        if (active.id !== over?.id) {
-            const oldIndex = recipes.findIndex(r => r.id.toString() === active.id);
-            const newIndex = recipes.findIndex(r => r.id.toString() === over?.id);
-            const newOrder = arrayMove(recipes, oldIndex, newIndex).map((recipe, index) => ({
-                ...recipe,
-                sortOrder: index + 1,
-            }));
+        if (openCategory == null) {
+            const { active, over } = event;
+            if (active.id !== over?.id) {
+                const oldIndex = recipes.findIndex(r => r.id.toString() === active.id);
+                const newIndex = recipes.findIndex(r => r.id.toString() === over?.id);
+                const newOrder = arrayMove(recipes, oldIndex, newIndex).map((recipe, index) => ({
+                    ...recipe,
+                    sortOrder: index + 1,
+                }));
 
-            setRecipes(newOrder);
+                setRecipes(newOrder);
 
-            const response = await fetch(API_BASE + `/api/MyRecipes/updateSortOrder`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newOrder.map(r => ({
-                    id: r.id,
-                    sortOrder: r.sortOrder,
-                }))),
-            });
+                const response = await fetch(API_BASE + `/api/MyRecipes/updateSortOrder`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newOrder.map(r => ({
+                        id: r.id,
+                        sortOrder: r.sortOrder,
+                    }))),
+                });
 
-            const result = await response.json();
+                const result = await response.json();
 
-            if (response.ok && result.success) {
-                setBanner('Recipes successfully re-ordered!');
-            } else {
-                setBanner('Error occurred during sorting');
+                if (response.ok && result.success) {
+                    setBanner('Recipes successfully re-ordered!');
+                } else {
+                    setBanner('Error occurred during sorting');
+                }
             }
         }
+        else {
+            const { active, over } = event;
+            if (active.id !== over?.id) {
+                const oldIndex = recipes.findIndex(r => r.id.toString() === active.id);
+                const newIndex = recipes.findIndex(r => r.id.toString() === over?.id);
+
+                const newOrder = arrayMove(recipes, oldIndex, newIndex).map((recipe, index) => ({
+                    ...recipe,
+                    sortOrder: index + 1,
+                }));
+
+                setRecipes(newOrder);
+
+                const response = await fetch(API_BASE + `/api/RecipesCategories/updateSortOrder`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newOrder.map(r => ({
+                        recipeId: r.id,
+                        categoryId: openCategory.id,
+                        sortOrder: r.sortOrder,
+                    }))),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    setBanner('Recipes successfully re-ordered!');
+                } else {
+                    setBanner('Error occurred during recipe sorting');
+                }
+            }
+        }
+
     };
 
     const handleDelete = async () => {

@@ -4,9 +4,38 @@ using Microsoft.EntityFrameworkCore;
 using PlatformAPI.Data;
 using PlatformAPI.Models.Categories;
 using PlatformAPI.Enums;
+using System.Linq;
 
 namespace PlatformAPI.Controllers.Categories
 {
+
+    #region DTOs
+    public class CreateCategoryDto
+    {
+        public string Name { get; set; }
+    }
+
+    public class RenameCategoryDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class CategorySortOrderDto
+    {
+        public int Id { get; set; }
+        public int SortOrder { get; set; }
+    }
+
+
+    public class DeleteCategoryDto
+    {
+        public int Id { get; set; }
+    }
+
+
+    #endregion
+
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
@@ -18,11 +47,7 @@ namespace PlatformAPI.Controllers.Categories
             _context = context;
         }
 
-        // DTO for incoming request
-        public class CreateCategoryDto
-        {
-            public string Name { get; set; }
-        }
+        
 
         #region Shared Endpoint Functions
 
@@ -83,6 +108,22 @@ namespace PlatformAPI.Controllers.Categories
             return Ok(categories);
         }
 
+        private async Task<bool> RenameCategoryInternal(int id, string newName)
+        {
+            if (string.IsNullOrWhiteSpace(newName))
+                return false;
+
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+                return false;
+
+            category.Name = newName.Trim();
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+
         #endregion
 
 
@@ -123,6 +164,91 @@ namespace PlatformAPI.Controllers.Categories
             return await GetCategoriesInternal(userId, sortBy);
         }
 
+        [Authorize]
+        [HttpPost("rename")]
+        public async Task<IActionResult> RenameCategory([FromBody] RenameCategoryDto dto)
+        {
+            var success = await RenameCategoryInternal(dto.Id, dto.Name);
+
+            if (!success)
+                return BadRequest(new { success = false });
+
+            return Ok(new { success = true });
+        }
+
+        [HttpPost("updateSortOrder")]
+        [Authorize]
+        public async Task<IActionResult> UpdateSortOrder([FromBody] List<CategorySortOrderDto> updates)
+        {
+            try
+            {
+                // Extract UserId from auth claim
+                var userId = int.Parse(User.FindFirst("UserId").Value);
+
+                // Extract category IDs from payload
+                var categoryIds = updates.Select(c => c.Id).ToList();
+
+                // Load only the user's active categories
+                var categories = await _context.Categories
+                    .Where(c => categoryIds.Contains(c.Id)
+                                && c.IsActive
+                                && c.UserId == userId)
+                    .ToListAsync();
+
+                // Apply updates
+                foreach (var category in categories)
+                {
+                    var update = updates.FirstOrDefault(u => u.Id == category.Id);
+                    if (update != null)
+                    {
+                        category.SortOrder = update.SortOrder;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.ToString() });
+            }
+        }
+
+
+
+        [Authorize]
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteCategory([FromBody] DeleteCategoryDto dto)
+        {
+            // Extract UserId from auth claim
+            int userId = int.TryParse(
+                User?.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value,
+                out var parsedId
+            ) ? parsedId : 0;
+
+            if (userId == 0)
+                return Unauthorized(new { success = false, message = "Invalid user claim." });
+
+            // Find category
+            var category = await _context.Categories.FindAsync(dto.Id);
+
+            if (category == null)
+                return NotFound(new { success = false, message = "Category not found." });
+
+            // Validate ownership
+            if (category.UserId != userId)
+                return Forbid(); // cannot send an object here
+
+            // Soft delete
+            category.IsActive = false;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true });
+        }
+
+
+
+
         #endregion
 
         #region Mock Endpoints
@@ -144,6 +270,20 @@ namespace PlatformAPI.Controllers.Categories
             const int mockUserId = 10;
             return await GetCategoriesInternal(mockUserId, sortBy);
         }
+
+        [HttpPost("renameMock")]
+        public async Task<IActionResult> RenameCategoryMock([FromBody] RenameCategoryDto dto)
+        {
+            const int mockUserId = 10;
+
+            var success = await RenameCategoryInternal(dto.Id, dto.Name);
+
+            if (!success)
+                return BadRequest(new { success = false });
+
+            return Ok(new { success = true });
+        }
+
 
         #endregion
     }

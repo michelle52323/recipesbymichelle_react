@@ -14,10 +14,10 @@
 
     --contentBackColor: #ffffff;
     --textBoxTextColor: #000000;
-    --textBoxBackColor: #A0C2FF;
+    --textBoxBackColorGradient: #A0C2FF;
     --outsideBackColor: #f3f5f7;
-    --textBoxBorderColor: rgba(0,0,238,0.75);
-    --textBoxFocusColor: rgba(0,0,238,0.85);
+    --textBoxBorderColor: rgba(0, 0, 238, 0.75);
+    --textBoxFocusColor: rgba(0, 0, 238, 0.85);
 
     --dropdownBackColorGradient: #3178dd;
     --dropdownHoverBackColorGradient: #0042b8;
@@ -61,6 +61,28 @@
     --spinnerButtonThemedTopColor: #4a90e2;
 
     --colorMix: #000000;
+
+    --dropdownBorderColor: color-mix(in srgb, var(--dropdownBackColor), var(--colorMix));
+
+
+    /* Base background for both checked + unchecked */
+    --checkboxBackgroundColor: var(--textBoxBackColor);
+
+    --checkboxBackgroundColorGradient: var(--textBoxBackColorGradient);
+
+    /* Border color = color mix of white using your existing --colorMix function */
+    --checkboxBorderColor: color-mix(in srgb, var(--checkboxBackgroundColor), var(--colorMix));
+
+    /* Checked background (same as unchecked for now) */
+    --checkboxCheckedBackgroundColor: var(--textBoxBackColor);
+
+    --checkboxCheckedBackgroundColorGradient: var(--textBoxBackColorGradient);
+
+    /* Checked border (same as unchecked for now) */
+    --checkboxCheckedBorderColor: color-mix(in srgb, var(--checkboxCheckedBackgroundColor), var(--colorMix));
+
+    /* Checkmark color */
+    --checkboxCheckColor: var(--textBoxTextColor);
 }
 
 .theme8 {
@@ -479,7 +501,7 @@ use-wide-card {
     height: 139px;
 }
 
-.height-40{
+.height-40 {
     height: 40px;
 }
 
@@ -557,7 +579,7 @@ label {
     color: var(--textBoxTextColor);
     border-color: var(--textBoxFocusColor);
     box-shadow: 0 0 0 0.1rem var(--textBoxFocusColor);
-    
+
 }
 
 .textbox-small {
@@ -703,7 +725,7 @@ a.button {
     background-image: linear-gradient(45deg, var(--buttonBackgroundColor), var(--buttonBackgroundColorGradient));
 
     box-shadow: 0 2px 8px var(--buttonDropShadow);
-     /* transition:
+    /* transition:
         transform 0.15s ease,
         box-shadow 0.15s ease,
         background-color 0.15s ease; */
@@ -773,6 +795,12 @@ a.button-tiny-ios {
     min-width: 110px;
     width: 110px;
     font-size: 12px;
+}
+
+.button-super-large {
+    min-width: 200px;
+    max-width: 200px;
+    width: 170px;
 }
 
 @media (min-width: 768px) and (max-width: 885px) {
@@ -897,6 +925,8 @@ a.button-tiny-ios {
 
 
 
+
+
 .static-icon-button {
     width: 75px;
 }
@@ -965,10 +995,10 @@ a.button-tiny-ios {
     text-align: center;
     font-size: 15px;
     font-weight: bold;
-    border: none;
     border-radius: 4px;
     cursor: pointer;
     background-image: linear-gradient(45deg, var(--dropdownBackColor), var(--dropdownBackColorGradient));
+    border: 1px solid var(--dropdownBorderColor);
     padding: 7px 0px 7px 0px;
 }
 
@@ -1035,6 +1065,148 @@ a.button-tiny-ios {
 }
 
 /* END DROPDOWN */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
+/* Remove browser default checkbox UI */
+.checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    width: 25px;
+    height: 25px;
+
+    border: 2px solid var(--checkboxBorderColor);
+    border-radius: 4px;
+
+    background-color: var(--checkboxBackgroundColor);
+    background-image: linear-gradient(45deg, var(--checkboxBackgroundColor), var(--checkboxBackgroundColorGradient));
+    /* temporary — you will replace */
+
+    cursor: pointer;
+    position: relative;
+}
+
+/* Checked state */
+.checkbox:checked {
+    background-color: var(--checkboxCheckedBackground);
+    background-image: linear-gradient(45deg, var(--checkboxCheckedBackgroundColor), var(--checkboxCheckedBackgroundColorGradient));
+    border-color: var(--checkboxCheckedBorderColor);
+}
+
+/* Checkmark */
+.checkbox:checked::after {
+    content: "";
+    position: absolute;
+
+    left: 7px;
+    /* centered horizontally for 25px box */
+    top: 3px;
+    /* centered vertically for 25px box */
+
+    width: 8px;
+    /* scaled from 6px */
+    height: 14px;
+    /* scaled from 12px */
+
+    border: solid var(--checkboxCheckColor);
+    border-width: 0 3px 3px 0;
+    /* slightly thicker stroke */
+    transform: rotate(45deg);
+}
+
+/* Layout */
+.checkbox-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+
+.checkbox-label {
+    padding-left: 5px;
+}
+
+
+
+
+@supports (-webkit-touch-callout: none) {
+    .checkbox {
+        width: 42px;
+        height: 42px;
+    }
+
+    .checkbox:checked::after {
+        left: 13px;
+        /* centered horizontally for 42px box */
+        top: 7px;
+        /* centered vertically for 42px box */
+
+        width: 13px;
+        /* proportional to 42px box */
+        height: 24px;
+        /* proportional to 42px box */
+
+        border-width: 0 4px 4px 0;
+        /* same stroke thickness as 40px version */
+    }
+
+
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        .checkbox {
+            width: 42px;
+            height: 42px;
+        }
+
+        .checkbox:checked::after {
+            left: 13px;
+            /* centered horizontally for 42px box */
+            top: 7px;
+            /* centered vertically for 42px box */
+
+            width: 13px;
+            /* proportional to 42px box */
+            height: 24px;
+            /* proportional to 42px box */
+
+            border-width: 0 4px 4px 0;
+            /* same stroke thickness as 40px version */
+        }
+
+
+    }
+}
+
+.dialog-overflow-box {
+    width: 100%;
+    height: 200px;
+    border: none;
+    overflow-y: auto;
+    /* Ensure all content is visible */
+}
+
+@supports (-webkit-touch-callout: none) {
+    .dialog-overflow-box {}
+
+
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        .dialog-overflow-box {}
+
+    }
+}
 
 /* FLEXBOX GRID BEGIN*/
 
@@ -1165,6 +1337,11 @@ a.button-tiny-ios {
 
 }
 
+.ReactModal__Overlay {
+    z-index: 9999;
+}
+
+
 .modal-overlay {
     background-color: rgba(0, 0, 0, 0.75);
     position: fixed;
@@ -1216,7 +1393,7 @@ a.button-tiny-ios {
     font-weight: bold;
 }
 
-.dialog-label{
+.dialog-label {
     color: var(--dialogContentTextColor);
     font-weight: bold;
 }

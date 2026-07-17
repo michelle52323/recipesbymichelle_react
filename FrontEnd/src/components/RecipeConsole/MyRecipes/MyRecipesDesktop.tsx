@@ -32,6 +32,7 @@ interface Recipe {
     name: string;
     description: string;
     sortOrder: number;
+    categories: Category[];
 }
 
 interface MyRecipesDesktopProps {
@@ -93,9 +94,35 @@ const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
             const data = await response.json();
 
             // ⭐ Apply filtering logic
+            // const filtered = !showCategories || openCategory == null
+            //     ? data
+            //     : data.filter(r => r.categoryId === openCategory.id)
+            //         .sort((a, b) => (a.categorySortOrder ?? 0) - (b.categorySortOrder ?? 0));
+
+            // const filtered = !showCategories || openCategory == null
+            //     ? data
+            //     : data.filter(r => r.categories.id === openCategory.id);
+
+
+
             const filtered = !showCategories || openCategory == null
                 ? data
-                : data.filter(r => r.categoryId === openCategory.id);
+                : data
+                    // Filter recipes that belong to the open category
+                    .filter(r =>
+                        r.categories?.some(c => c.id === openCategory.id)
+                    )
+                    // Sort by the sortOrder inside that category
+                    .sort((a, b) => {
+                        const aCat = a.categories?.find(c => c.id === openCategory.id);
+                        const bCat = b.categories?.find(c => c.id === openCategory.id);
+
+                        const aSort = aCat?.sortOrder ?? 0;
+                        const bSort = bCat?.sortOrder ?? 0;
+
+                        return aSort - bSort;
+                    });
+
 
             setRecipes(filtered);
             setIsLoading(false);
@@ -107,35 +134,71 @@ const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
 
     const handleDragEnd = async (event: any) => {
         setBanner('');
-        const { active, over } = event;
-        if (active.id !== over?.id) {
-            const oldIndex = recipes.findIndex(r => r.id.toString() === active.id);
-            const newIndex = recipes.findIndex(r => r.id.toString() === over?.id);
-            const newOrder = arrayMove(recipes, oldIndex, newIndex).map((recipe, index) => ({
-                ...recipe,
-                sortOrder: index + 1,
-            }));
+        if (openCategory == null) {
+            const { active, over } = event;
+            if (active.id !== over?.id) {
+                const oldIndex = recipes.findIndex(r => r.id.toString() === active.id);
+                const newIndex = recipes.findIndex(r => r.id.toString() === over?.id);
+                const newOrder = arrayMove(recipes, oldIndex, newIndex).map((recipe, index) => ({
+                    ...recipe,
+                    sortOrder: index + 1,
+                }));
 
-            setRecipes(newOrder);
+                setRecipes(newOrder);
 
-            const response = await fetch(API_BASE + `/api/MyRecipes/updateSortOrder`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newOrder.map(r => ({
-                    id: r.id,
-                    sortOrder: r.sortOrder,
-                }))),
-            });
+                const response = await fetch(API_BASE + `/api/MyRecipes/updateSortOrder`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newOrder.map(r => ({
+                        id: r.id,
+                        sortOrder: r.sortOrder,
+                    }))),
+                });
 
-            const result = await response.json();
+                const result = await response.json();
 
-            if (response.ok && result.success) {
-                setBanner('Recipes successfully re-ordered!');
-            } else {
-                setBanner('Error occurred during sorting');
+                if (response.ok && result.success) {
+                    setBanner('Recipes successfully re-ordered!');
+                } else {
+                    setBanner('Error occurred during sorting');
+                }
             }
         }
+        else {
+            const { active, over } = event;
+            if (active.id !== over?.id) {
+                const oldIndex = recipes.findIndex(r => r.id.toString() === active.id);
+                const newIndex = recipes.findIndex(r => r.id.toString() === over?.id);
+
+                const newOrder = arrayMove(recipes, oldIndex, newIndex).map((recipe, index) => ({
+                    ...recipe,
+                    sortOrder: index + 1,
+                }));
+
+                setRecipes(newOrder);
+
+                const response = await fetch(API_BASE + `/api/RecipesCategories/updateSortOrder`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newOrder.map(r => ({
+                        recipeId: r.id,
+                        categoryId: openCategory.id,
+                        sortOrder: r.sortOrder,
+                    }))),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    setBanner('Recipes successfully re-ordered!');
+                } else {
+                    setBanner('Error occurred during recipe sorting');
+                }
+            }
+        }
+
     };
 
     const handleDelete = async () => {
@@ -153,7 +216,25 @@ const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
 
             if (refreshed.ok) {
                 const data = await refreshed.json();
-                setRecipes(data);
+                const filtered = !showCategories || openCategory == null
+                    ? data
+                    : data
+                        // Filter recipes that belong to the open category
+                        .filter(r =>
+                            r.categories?.some(c => c.id === openCategory.id)
+                        )
+                        // Sort by the sortOrder inside that category
+                        .sort((a, b) => {
+                            const aCat = a.categories?.find(c => c.id === openCategory.id);
+                            const bCat = b.categories?.find(c => c.id === openCategory.id);
+
+                            const aSort = aCat?.sortOrder ?? 0;
+                            const bSort = bCat?.sortOrder ?? 0;
+
+                            return aSort - bSort;
+                        });
+
+                setRecipes(filtered);
                 setBanner('Recipe successfully deleted!');
             } else {
                 setBanner('Recipe deleted, but failed to reload list.');
@@ -164,6 +245,9 @@ const MyRecipesDesktop: React.FC<MyRecipesDesktopProps> = ({
 
         setModalIsOpen(false);
     };
+
+    //console.log("open Category: " + JSON.stringify(openCategory));
+    //console.log("show Categories: " + showCategories);
 
     if (isLoading) {
         return (

@@ -9,6 +9,7 @@ import { TouchSensor } from '@dnd-kit/core';
 import { isDevUseMockLogin } from '../../../helpers/config';
 import Loader from '../../UserControls/Loader/Loader';
 import CategoriesActionsMenu from '../../UserControls/SubMenus/Categories/CategoriesActionsMenu';
+import Categories from './Categories';
 import type { Category } from '../../../types/Categories/Categories';
 
 import {
@@ -35,12 +36,14 @@ interface CategoryListProps {
     setCategories: (value: Category[]) => void;
     showCategories: boolean;
     setShowCategories: (value: boolean) => void;
-    categorySortBy: number;
-    setCategorySortBy: (value: number) => void;
+    categorySortBy: "Alphabetical" | "SortOrder" | null;
+    setCategorySortBy: (value: "Alphabetical" | "SortOrder" | null) => void;
     openCategory: Category;
     setOpenCategory: (value: Category) => void;
     currentView: "Recipes" | "Categories" | null;
     setCurrentView: (value: "Recipes" | "Categories" | null) => void;
+    onCategorySaved: () => void;
+    onCategoryDeleted: () => void;
 }
 
 
@@ -54,7 +57,10 @@ const CategoryList: React.FC<CategoryListProps> = ({
     openCategory,
     setOpenCategory,
     currentView,
-    setCurrentView }) => {
+    setCurrentView,
+    onCategorySaved,
+    onCategoryDeleted
+}) => {
 
     const navigate = useNavigate();
 
@@ -63,6 +69,8 @@ const CategoryList: React.FC<CategoryListProps> = ({
     const [categoryToDelete, setCategoryToDelete] = useState<{ id: number; name: string } | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
+    const [isRenaming, setIsRenaming] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -150,7 +158,9 @@ const CategoryList: React.FC<CategoryListProps> = ({
         }
     };
 
-    const openDeleteModal = (recipe: { id: number; name: string }) => {
+    const openDeleteModal = (category: Category) => {
+        setCategoryToDelete(category);
+        setModalIsOpen(true);
         //setRecipeToDelete(recipe);
         //setModalIsOpen(true);
     };
@@ -158,38 +168,42 @@ const CategoryList: React.FC<CategoryListProps> = ({
     const handleDelete = async () => {
         setBanner('');
 
-        const response = await fetch(`${API_BASE}/api/Categories/${categoryToDelete?.id}`, {
-            method: 'DELETE',
-            credentials: 'include',
+        var id = categoryToDelete?.id
+        const endpoint = `${API_BASE}/api/Categories/delete`;
+
+        const response = await fetch(endpoint, {
+            method: "DELETE",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id })
         });
 
-        if (response.ok) {
-            const refreshed = await fetch(`${API_BASE}/api/Categories/getCategories`, {
-                credentials: 'include',
-            });
-
-            if (refreshed.ok) {
-                const data = await refreshed.json();
-                setCategories(data);
-                setBanner('Category successfully deleted!');
-            } else {
-                setBanner('Category deleted, but failed to reload list.');
-            }
-        } else {
-            setBanner('Error occurred during deletion');
+        if (!response.ok) {
+            setBanner("Error deleting category");
+            throw new Error("Failed to delete category");
         }
 
+        onCategoryDeleted();
         setModalIsOpen(false);
+        setBanner("Category deleted successfully!");
+        return await response.json();
+
     };
 
     const closeMenu = () => {
-        setIsClosing(true);
-
         setTimeout(() => {
             setIsMenuOpen(false);
-            setSelectedCategory(null);
+
+            setIsRenaming(prev => {
+                if (!prev) {
+                    setSelectedCategory(null);
+                }
+                return prev;
+            });
+
             setIsClosing(false);
         }, 150);
+
     };
 
     if (isLoading) {
@@ -198,10 +212,26 @@ const CategoryList: React.FC<CategoryListProps> = ({
 
     //const gofClassName = showCategoryToolbar ? "gof-editable-mobile-short" : "gof-editable-mobile";
     const gofClassName = "gof-editable-mobile-short"
-
+    //console.log("Edit Category: " + showCategoryModal)
+    //console.log("Selected Category: " + selectedCategory)
     return (
         <div className="page-container w-100 pt-3">
             <div className="content-inner-desktop">
+
+                {showCategoryModal && !isMenuOpen && (
+                    <Categories
+                        showCategoryModal={showCategoryModal}
+                        setShowCategoryModal={setShowCategoryModal}
+                        mode="edit"
+                        categoryToEdit={selectedCategory}
+                        isRenaming={isRenaming}
+                        setIsRenaming={setIsRenaming}
+                        setSelectedCategory={setSelectedCategory}
+                        onCategorySaved={() => onCategorySaved()}
+                    />
+
+
+                )}
 
                 {categories.length === 0 && !isLoading ? (
                     <div className="empty-grid">No categories found. Start by creating one.</div>
@@ -236,6 +266,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
                                         setOpenCategory={setOpenCategory}
                                         currentView={currentView}
                                         setCurrentView={setCurrentView}
+                                        categorySortBy={categorySortBy}
                                     />
                                 ))}
                             </div>
@@ -246,34 +277,37 @@ const CategoryList: React.FC<CategoryListProps> = ({
 
             </div>
 
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={() => setModalIsOpen(false)}
-                contentLabel="Confirm Delete"
-                className="dialog-wrapper"
-            >
-                <div className="modal-header dialog-header">
-                    <h5 className="modal-title">Confirm Delete</h5>
-                    <button className="btn-close" onClick={() => setModalIsOpen(false)} ></button>
-                </div>
-
-                <div className="dialog-content-holder">
-                    <div className="dialog-content modal-body dialog-text">
-                        Are you sure you want to delete category "{categoryToDelete?.name}"?
-                        <input type="hidden" value={categoryToDelete?.id} />
+            {!isMenuOpen && (
+                <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={() => setModalIsOpen(false)}
+                    contentLabel="Confirm Delete"
+                    className="dialog-wrapper"
+                >
+                    <div className="modal-header dialog-header">
+                        <h5 className="modal-title">Confirm Delete</h5>
+                        <button className="btn-close" onClick={() => setModalIsOpen(false)} ></button>
                     </div>
 
-                    <div className="dialog-footer d-flex justify-content-end gap-2">
-                        <button className="button button-modal" onClick={() => {
-                            setBanner(null);
-                            setModalIsOpen(false);
-                        }}>
-                            Cancel
-                        </button>
-                        <button className="button button-modal" onClick={handleDelete}>Yes, Delete</button>
+                    <div className="dialog-content-holder">
+                        <div className="dialog-content modal-body dialog-text">
+                            Are you sure you want to delete category "{categoryToDelete?.name}"?
+                            <input type="hidden" value={categoryToDelete?.id} />
+                        </div>
+
+                        <div className="dialog-footer d-flex justify-content-end gap-2">
+                            <button className="button button-modal" onClick={() => {
+                                setBanner(null);
+                                setModalIsOpen(false);
+                            }}>
+                                Cancel
+                            </button>
+                            <button className="button button-modal" onClick={handleDelete}>Yes, Delete</button>
+                        </div>
                     </div>
-                </div>
-            </Modal>
+                </Modal>
+            )}
+
 
             {isMenuOpen && selectedCategory && (
                 <>
@@ -290,11 +324,15 @@ const CategoryList: React.FC<CategoryListProps> = ({
 
                     {/* You will create MobileCategoryActionsMenu later */}
                     <CategoriesActionsMenu
-                        recipe={selectedCategory}
+                        category={selectedCategory}
                         navigate={(path: string) => navigate(path)}
-                        openDeleteModal={() => openDeleteModal(selectedRecipe)}
+                        openDeleteModal={() => openDeleteModal(selectedCategory)}
                         closeMenu={closeMenu}
                         isClosing={isClosing}
+                        showCategoryModal={showCategoryModal}
+                        setShowCategoryModal={setShowCategoryModal}
+                        isRenaming={isRenaming}
+                        setIsRenaming={setIsRenaming}
                     />
                 </>
             )}

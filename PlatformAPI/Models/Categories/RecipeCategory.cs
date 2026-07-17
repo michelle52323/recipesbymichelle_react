@@ -8,5 +8,7 @@
         public bool IsMine { get; set; }
         public int SortOrder { get; set; }
 
+        public Category? Category { get; set; }
+
     }
 }

@@ -85,8 +85,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
                                 }}
                             >
                                 <span className="ps-3">{selectedText}</span>
-                                <span className="pe-2">
-                                    <Icon name="chevronDown" />
+                                <span className="pe-2">▼
+                                    {/* <Icon name="chevronDown" /> */}
                                 </span>
                             </div>
 

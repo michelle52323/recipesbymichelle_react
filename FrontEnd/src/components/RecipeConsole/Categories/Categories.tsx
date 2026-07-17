@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { isDevUseMockLogin, isMobileTouchDevice, getApiBaseUrl } from '../../../helpers/config';
+import type { Category } from '../../../types/Categories/Categories';
 
 import CheckAuth from '../../Account/CheckAuth';
 import Icon from '../../UserControls/Icons/icons';
@@ -10,13 +11,24 @@ import Modal from 'react-modal';
 const API_BASE = getApiBaseUrl();
 
 function Categories({
-    showAddCategory,
-    setShowAddCategory,
-    onCategoryAdded
+    showCategoryModal,
+    setShowCategoryModal,
+    onCategorySaved,
+    mode = "add",
+    categoryToEdit = null,
+    isRenaming = false,
+    setIsRenaming,
+    setSelectedCategory
 }: {
-    showAddCategory: boolean;
-    setShowAddCategory: (value: boolean) => void;
-    onCategoryAdded: () => void;
+    showCategoryModal: boolean;
+    setShowCategoryModal: (value: boolean) => void;
+    onCategorySaved: () => void;
+    mode?: "add" | "edit" | null;
+    categoryToEdit?: Category | null;
+    isRenaming?: boolean;
+    setIsRenaming?: (value: boolean) => void;
+    setSelectedCategory?: (value: Category | null) => void;
+
 }) {
 
     const { setBanner } = useOutletContext<{
@@ -29,36 +41,40 @@ function Categories({
     const categoryNameRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (showAddCategory) {
+        if (showCategoryModal) {
             setTimeout(() => {
                 categoryNameRef.current?.focus();
             }, 0);
-        }
-    }, [showAddCategory]);
 
-    const handleAdd = async () => {
-        // Validate
+            if (mode === "edit" && categoryToEdit) {
+                setCategoryName(categoryToEdit.name);
+            } else {
+                setCategoryName("");
+            }
+        }
+    }, [showCategoryModal, mode, categoryToEdit]);
+
+    const handleSave = async () => {
         if (!categoryName || categoryName.trim().length === 0) {
             setErrorMessage("Please enter a category name.");
             return;
         }
 
         try {
-            setErrorMessage(null); // clear previous errors
+            setErrorMessage(null);
 
-            const result = await addCategory(categoryName.trim());
+            if (mode === "add") {
+                await addCategory(categoryName.trim());
+            } else if (mode === "edit" && categoryToEdit) {
+                await renameCategory(categoryToEdit.id, categoryName.trim());
+            }
 
-            onCategoryAdded(); 
-            // Close modal
-            setShowAddCategory(false);
-
-            // Optionally clear input
+            onCategorySaved();
+            setShowCategoryModal(false);
             setCategoryName(null);
 
-            // TODO: refresh categories list here if needed
-
         } catch (err) {
-            setErrorMessage("Unable to add category. Please try again.");
+            setErrorMessage("Unable to save category. Please try again.");
             console.error(err);
         }
     };
@@ -78,27 +94,64 @@ function Categories({
         if (!response.ok) {
             throw new Error("Failed to add category");
             setBanner('Error adding category');
-        }else{
+        } else {
             setBanner('Category added successfully!');
         }
 
         return await response.json();
     };
 
+    const renameCategory = async (id: number, name: string) => {
+        const endpoint = `${API_BASE}/api/Categories/rename${isDevUseMockLogin() ? "mock" : ""}`;
+        const response = await fetch(endpoint, {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id, name })
+        });
+
+        if (!response.ok) {
+            setBanner("Error renaming category");
+            throw new Error("Failed to rename category");
+        } else {
+            setSelectedCategory(null);
+            setIsRenaming(false);
+            setBanner("Category renamed successfully!");
+        }
+
+
+        return await response.json();
+    };
+
+
 
 
     return (
         <>
             <Modal
-                isOpen={showAddCategory}
-                onRequestClose={() => setShowAddCategory(false)}
+                isOpen={showCategoryModal}
+                onRequestClose={() => {
+                    if (mode == "edit") {
+                        setSelectedCategory(null);
+                        setIsRenaming(false);
+                    }
+
+                    setShowCategoryModal(false);
+                }}
 
                 contentLabel="Confirm Delete"
                 className="dialog-wrapper"
             >
                 <div className="modal-header dialog-header">
-                    <h5 className="modal-title">New Category</h5>
-                    <button className="btn-close" onClick={() => setShowAddCategory(false)} ></button>
+                    <h5 className="modal-title">{mode == "add" ? "New Category" : "Rename Category"}</h5>
+                    <button className="btn-close" onClick={() => {
+                        if (mode == "edit") {
+                            setSelectedCategory(null);
+                            setIsRenaming(false);
+                        }
+
+                        setShowCategoryModal(false);
+                    }} ></button>
                 </div>
                 <div className="dialog-content-holder">
                     <div className="dialog-content modal-body dialog-text">
@@ -108,6 +161,7 @@ function Categories({
                                 ref={categoryNameRef}
                                 type="text"
                                 className="form-control textbox textbox-large textbox-text"
+                                value={categoryName}
                                 onChange={e => setCategoryName(e.target.value)}
                             // value={profile.middleName}
                             // onChange={e => setProfile(prev => ({ ...prev, middleName: e.target.value }))}
@@ -129,12 +183,17 @@ function Categories({
                             className="button button-modal"
                             onClick={() => {
                                 //setBanner(null);
-                                setShowAddCategory(false);
+                                if (mode == "edit") {
+                                    setSelectedCategory(null);
+                                    setIsRenaming(false);
+                                }
+
+                                setShowCategoryModal(false);
                             }}
                         >
                             Cancel
                         </button>
-                        <button className="button button-modal" onClick={handleAdd} >Add</button>
+                        <button className="button button-modal" onClick={handleSave} >Add</button>
                     </div>
                 </div>
 

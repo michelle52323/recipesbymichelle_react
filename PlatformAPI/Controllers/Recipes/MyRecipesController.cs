@@ -10,6 +10,12 @@ namespace PlatformAPI.Controllers.Recipes
 {
 
     #region DTOs
+
+    public class MyRecipesCategoriesDto
+    {
+        public int Id {  get; set; }
+        public int SortOrder { get; set; }
+    }
     public class MyRecipesDto
     {
         public int Id { get; set; }
@@ -19,7 +25,9 @@ namespace PlatformAPI.Controllers.Recipes
         public bool IsActive { get; set; }
         public int SortOrder { get; set; }
 
-        public int? CategoryId {  get; set; }
+        //public int? CategoryId {  get; set; }
+        //public int? CategorySortOrder { get; set; }
+        public List<MyRecipesCategoriesDto>? Categories { get; set; }
     }
 
     public class RecipeSortOrderDto
@@ -62,7 +70,7 @@ namespace PlatformAPI.Controllers.Recipes
             // Query recipes for this user
             var recipeList = await _context.Recipes
                 .Include(r => r.UserRecipe)
-                .Include(r => r.RecipeCategory)
+                .Include(r => r.RecipeCategories)
                 .Where(r => r.UserRecipe.UserId == userId && r.IsActive)
                 .OrderBy(r => r.SortOrder)
                 .ToListAsync();
@@ -75,8 +83,18 @@ namespace PlatformAPI.Controllers.Recipes
                 Description = r.Description,
                 ShowAbbreviations = r.ShowAbbreviations,
                 IsActive = r.IsActive,
+
+                // ⭐ Master list sort order
                 SortOrder = r.SortOrder,
-                CategoryId = r.RecipeCategory?.CategoryId
+
+                // ⭐ NEW: Multi-category list
+                Categories = r.RecipeCategories?
+                    .Select(rc => new MyRecipesCategoriesDto
+                    {
+                        Id = rc.CategoryId,
+                        SortOrder = rc.SortOrder
+                    })
+                    .ToList()
             }).ToList();
 
             return Ok(dto);
@@ -88,9 +106,10 @@ namespace PlatformAPI.Controllers.Recipes
             int userId = 10;
 
             // Query recipes for this user
+            // Query recipes for this user
             var recipeList = await _context.Recipes
                 .Include(r => r.UserRecipe)
-                .Include(r => r.RecipeCategory)
+                .Include(r => r.RecipeCategories)
                 .Where(r => r.UserRecipe.UserId == userId && r.IsActive)
                 .OrderBy(r => r.SortOrder)
                 .ToListAsync();
@@ -103,8 +122,18 @@ namespace PlatformAPI.Controllers.Recipes
                 Description = r.Description,
                 ShowAbbreviations = r.ShowAbbreviations,
                 IsActive = r.IsActive,
+
+                // ⭐ Master list sort order
                 SortOrder = r.SortOrder,
-                CategoryId = r.RecipeCategory?.CategoryId
+
+                // ⭐ NEW: Multi-category list
+                Categories = r.RecipeCategories?
+                    .Select(rc => new MyRecipesCategoriesDto
+                    {
+                        Id = rc.CategoryId,
+                        SortOrder = rc.SortOrder
+                    })
+                    .ToList()
             }).ToList();
 
             return Ok(dto);

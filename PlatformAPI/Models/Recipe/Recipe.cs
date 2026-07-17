@@ -23,6 +23,6 @@ namespace PlatformAPI.Models.Recipe
 
         public UserRecipe UserRecipe { get; set; }
 
-        public RecipeCategory? RecipeCategory { get; set; }
+        public List<RecipeCategory?> RecipeCategories { get; set; }
     }
 }

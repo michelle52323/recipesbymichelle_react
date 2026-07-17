@@ -8,11 +8,11 @@ import './categoriesToolbar.css';
 interface CategoriesToolbarProps {
     showCategories: boolean;
     setShowCategories: (value: boolean) => void;
-    categorySortBy: number;
-    setCategorySortBy: (value: number) => void;
+    categorySortBy: "Alphabetical" | "SortOrder" | null;
+    setCategorySortBy: (value: "Alphabetical" | "SortOrder" | null) => void;
     userSettings: UserSettings;
     setUserSettings: (value: UserSettings) => void;
-    updateUserSettings: (showCategories: boolean, sortBy: number) => void;
+    updateUserSettings: (showCategories: boolean, sortBy: "Alphabetical" | "SortOrder" | null) => void;
     categoriesIsLoading: boolean;
     currentView: "Recipes" | "Categories" | null;
     setCurrentView: (value: "Recipes" | "Categories" | null) => void;
@@ -64,7 +64,6 @@ function CategoriesToolbar({
             ? 140
             : 140;
 
-
     if (categoriesIsLoading)
         return (<></>);
 
@@ -80,7 +79,7 @@ function CategoriesToolbar({
                                 selectedId={String(userSettings.showCategories ? 1 : 0)}
                                 onSelect={(id) => {
                                     const newShow = id == "0" ? false : true;
-                                    console.log("Current Show: " + userSettings.showCategories ? 1 : 0);
+                                    
                                     setShowCategories(newShow);
                                     setUserSettings(prev => ({
                                         ...prev,
@@ -118,9 +117,10 @@ function CategoriesToolbar({
                             <label className="form-label-tight">Sort By</label>
                             <Dropdown
                                 options={sortOptions}
-                                selectedId={String(userSettings.categorySortBy)}
+                                selectedId={userSettings.categorySortBy == "Alphabetical" ? "1" : "2"}
                                 onSelect={(id) => {
-                                    const newSort = Number(id);
+                                    //const newSort = Number(id);
+                                    const newSort = id == "1" ? "Alphabetical" : "SortOrder";
 
                                     setCategorySortBy(newSort);
                                     setUserSettings(prev => ({

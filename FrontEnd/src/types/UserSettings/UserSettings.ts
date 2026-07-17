@@ -1,5 +1,5 @@
 export interface UserSettings {
     showCategories: boolean;
-    categorySortBy: number;
+    categorySortBy: "Alphabetical" | "SortOrder" | null;
 
 }

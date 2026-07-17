@@ -34,12 +34,12 @@ function MyRecipes() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
 
-    const [showAddCategory, setShowAddCategory] = useState(false);
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
     const [categoryList, setCategoryList] = useState<Category[] | null>(null);
     const [showCategoriesToolbar, setShowCategoriesToolbar] = useState<boolean>(false);
     const [showCategories, setShowCategories] = useState<boolean>(false);
-    const [categorySortBy, setCategorySortBy] = useState<number | null>(1);
+    const [categorySortBy, setCategorySortBy] = useState<"Alphabetical" | "SortOrder" | null>("Alphabetical");
     const [openCategory, setOpenCategory] = useState<Category | null>(null);
     const [currentView, setCurrentView] = useState<"Recipes" | "Categories" | null>(null);
     // const [categorySortBy, setCategorySortBy] = useState<number | undefined>(2);
@@ -49,7 +49,7 @@ function MyRecipes() {
     const [categoriesIsLoading, setCategoriesIsLoading] = useState<boolean>(true);
 
     //ENABLE OR DISABLE THE FEATURE
-    const categoriesFeatureEnabled = false;
+    const categoriesFeatureEnabled = true;
 
     // Cleanup banner on unmount
     useEffect(() => {
@@ -120,7 +120,7 @@ function MyRecipes() {
 
     }, [userSettings, showCategories]);
 
-    const getCategories = async (sortBy: number) => {
+    const getCategories = async (sortBy: "Alphabetical" | "SortOrder" | null) => {
         const endpoint = `${API_BASE}/api/Categories/list${isDevUseMockLogin() ? "mock" : ""}?sortBy=${sortBy}`;
         const response = await fetch(endpoint, {
             method: "GET",
@@ -192,11 +192,12 @@ function MyRecipes() {
         }
 
         const data = await response.json();
-        return data; // { showCategories: boolean, categorySortBy: number }
+        return data; // { showCategories: boolean, categorySortBy: "Alphabetical" | "SortOrder" | null }
     };
 
-    const updateUserSettings = async (showCategories: boolean, categorySortBy: number) => {
+    const updateUserSettings = async (showCategories: boolean, categorySortBy: "Alphabetical" | "SortOrder" | null) => {
         const endpoint = `${API_BASE}/api/Users/updateSettings${isDevUseMockLogin() ? "mock" : ""}`;
+        
 
         try {
             const response = await fetch(endpoint, {
@@ -300,6 +301,8 @@ function MyRecipes() {
                         setOpenCategory={setOpenCategory}
                         currentView={currentView}
                         setCurrentView={setCurrentView}
+                        onCategorySaved={() => getCategories(userSettings.categorySortBy)}
+                        onCategoryDeleted={() => getCategories(userSettings.categorySortBy)}
                     />
                 )}
 
@@ -311,14 +314,16 @@ function MyRecipes() {
                             openCategory={openCategory}
                             setOpenCategory={setOpenCategory}
                             currentView={currentView}
-                            setCurrentView={setCurrentView} />
+                            setCurrentView={setCurrentView} 
+                            />
                         : <MyRecipesDesktop
                             showCategories={showCategories}
                             showCategoryToolbar={showCategoriesToolbar}
                             openCategory={openCategory}
                             setOpenCategory={setOpenCategory}
                             currentView={currentView}
-                            setCurrentView={setCurrentView} />
+                            setCurrentView={setCurrentView}
+                             />
                 )}
 
             </div>
@@ -327,7 +332,7 @@ function MyRecipes() {
                 buttons={[
                     categoriesFeatureEnabled && {
                         text: "Category",
-                        onClick: () => setShowAddCategory(true),
+                        onClick: () => setShowCategoryModal(true),
                         icon: <Icon name="add" />,
                         type: "button",
                         mobileSlot: 2,
@@ -365,11 +370,11 @@ function MyRecipes() {
                 </>
             )}
 
-            {showAddCategory && (
+            {showCategoryModal && (
                 <Categories
-                    showAddCategory={showAddCategory}
-                    setShowAddCategory={setShowAddCategory}
-                    onCategoryAdded={() => getCategories(userSettings.categorySortBy)
+                    showCategoryModal={showCategoryModal}
+                    setShowCategoryModal={setShowCategoryModal}
+                    onCategorySaved={() => getCategories(userSettings.categorySortBy)
                     }
                 />
             )

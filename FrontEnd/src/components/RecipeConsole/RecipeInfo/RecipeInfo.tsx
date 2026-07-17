@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useOutletContext, useParams, useNavigate, useLocation } from 'react-router-dom';
-import { getApiBaseUrl } from '../../../helpers/config';
+import { getApiBaseUrl, isDevUseMockLogin } from '../../../helpers/config';
 import CheckAuth from '../../../components/Account/CheckAuth';
 import { Dropdown } from '../../UserControls/Dropdown/Dropdown';
 import type { LayoutContext } from '../../Layout';
@@ -12,7 +12,11 @@ import Loader from '../../UserControls/Loader/Loader';
 import FavoritesStar from '../../../components/UserControls/Favorites/FavoriteStar';
 import { RecipeFont } from '../../../types/Recipe/Recipe';
 import ImportRecipeReminder from '../ImportRecipe/ImportRecipeReminder';
+import CategoriesActionsMenu from '../../UserControls/SubMenus/Categories/CategoriesActionsMenu';
 import '../../../radio.css';
+import './recipeInfo.css';
+import CategoryAssignmentModal from '../Categories/CategoryAssignmentModal';
+import type { Category } from '../../../types/Categories/Categories';
 
 const API_BASE = getApiBaseUrl();
 
@@ -22,6 +26,7 @@ interface RecipeForm {
     showAbbreviations: boolean;
     recipeVisibility: "MeOnly" | "AllUsers" | null;
     recipeFont: "SansSerif" | "Serif" | "Handwritten";
+    categories: Category[];
 }
 
 interface RecipeValidationErrors {
@@ -54,6 +59,10 @@ const RecipeInfo: React.FC = () => {
     const navigate = useNavigate();
     const { setTitle, setBanner, setTitleBarSlot } = useOutletContext<LayoutContext>();
     const location = useLocation();
+
+    const [assignCategoriesModalIsOpen, setAssignCategoriesModalIsOpen] = useState(false);
+    const [allCategories, setAllCategories] = useState<Category[]>([]);
+    const [recipeCategories, setRecipeCategories] = useState<Category[]>([]);
 
     useEffect(() => {
 
@@ -94,12 +103,15 @@ const RecipeInfo: React.FC = () => {
 
     const [auth, setAuth] = useState<AuthResult | null>(null);
 
+
+
     const [recipe, setRecipe] = useState<RecipeForm>({
         name: '',
         description: '',
         showAbbreviations: true,
         recipeVisibility: 'MeOnly',
-        recipeFont: "SansSerif"
+        recipeFont: "SansSerif",
+        categories: []
 
     });
     const [errors, setErrors] = useState<{ recipe: Partial<Record<keyof RecipeForm, string>> }>({ recipe: {} });
@@ -151,10 +163,12 @@ const RecipeInfo: React.FC = () => {
                     description: data.description,
                     showAbbreviations: data.showAbbreviations,
                     recipeVisibility: data.recipeVisibility,
-                    recipeFont: data.recipeFont
+                    recipeFont: data.recipeFont,
+                    categories: data.categories
 
                 };
                 setRecipe(hydratedRecipe);
+                setRecipeCategories(data.categories);
 
 
             })
@@ -193,14 +207,21 @@ const RecipeInfo: React.FC = () => {
 
         setErrors({ recipe: {} });
 
+
+
         try {
             const dto = {
                 Name: formData.name,
                 Description: formData.description,
                 ShowAbbreviations: formData.showAbbreviations,
                 RecipeVisibility: formData.recipeVisibility,
-                RecipeFont: formData.recipeFont
+                RecipeFont: formData.recipeFont,
+                Categories: recipeCategories
             };
+
+            //console.log("DATA", dto);
+
+
             const response = await axios.post(`${API_BASE}/api/RecipeInfo/create-recipe`, dto, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
@@ -238,7 +259,8 @@ const RecipeInfo: React.FC = () => {
                 Description: formData.description,
                 ShowAbbreviations: formData.showAbbreviations,
                 RecipeVisibility: formData.recipeVisibility,
-                RecipeFont: formData.recipeFont
+                RecipeFont: formData.recipeFont,
+                Categories: recipeCategories
             };
 
             const response = await axios.put(
@@ -309,6 +331,59 @@ const RecipeInfo: React.FC = () => {
         }
     };
 
+    useEffect(() => {
+
+
+        getCategories("Alphabetical");
+    }, []);
+
+    const getCategories = async (sortBy: "Alphabetical" | "SortOrder" | null) => {
+        const endpoint = `${API_BASE}/api/Categories/list${isDevUseMockLogin() ? "mock" : ""}?sortBy=${sortBy}`;
+        const response = await fetch(endpoint, {
+            method: "GET",
+            credentials: "include", // ← always include credentials
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            //setCategoriesIsLoading(false);
+            throw new Error("Failed to fetch categories");
+
+        }
+        else {
+            const data = await response.json();   // ← THIS is the important part
+            setAllCategories(data);                // ← store the actual category array
+            //setCategoriesIsLoading(false);
+
+        }
+
+    };
+
+    const handleCloseAssignCategories = () => {
+        setAssignCategoriesModalIsOpen(false);
+    };
+
+    const handleSaveAssignedCategories = async (selectedCategoryIds: number[]) => {
+        try {
+            // TODO: call backend API to save category assignments
+            // Example payload:
+            // { recipeId, categoryIds: selectedCategoryIds }
+
+            // After saving, refresh recipe categories locally:
+            const updated = allCategories.filter(c => selectedCategoryIds.includes(c.id));
+            setRecipeCategories(updated);
+
+            setAssignCategoriesModalIsOpen(false);
+
+        } catch (err) {
+            console.error("Error saving categories", err);
+        }
+    };
+
+
+
     if (auth === null) return <div><Loader message="Loading recipe info ..." /></div>;
     if (!auth.auth) return null;
 
@@ -318,6 +393,8 @@ const RecipeInfo: React.FC = () => {
             {showImportReminder && (
                 <ImportRecipeReminder onClose={() => setShowImportReminder(false)} />
             )}
+
+
 
             <form id="page-form">
                 <div className="content-holder-desktop" >
@@ -494,10 +571,62 @@ const RecipeInfo: React.FC = () => {
                                 </div>
                             </div>
 
+                            <div className="page-item col-12 col-md-6">
+                                <div className="row">
+
+                                    <div className="form-element pt-3 pb-3 col-12 col-md-6">
+                                        <button
+                                            type="button"
+                                            onClick={() => { setAssignCategoriesModalIsOpen(true); }}
+                                            className="button button-super-large"
+                                        >
+                                            Assign to Categories
+                                        </button>
+                                    </div>
+
+                                    <div className="col-12 col-md-6">
+                                        <div className="categories-overflow-box panel-tint panel-border">
+                                            {(!recipeCategories || recipeCategories.length === 0) ? (
+                                                <div className="no-categories">
+                                                    Not assigned to any categories
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div className="categories-header">
+                                                        Assigned to these categories:
+                                                    </div>
+
+                                                    <div className="categories-list ps-3">
+                                                        {recipeCategories.map(c => (
+                                                            <div key={c.id} className="category-pill">
+                                                                {c.name}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
             </form>
+
+            {assignCategoriesModalIsOpen && (
+                <CategoryAssignmentModal
+                    show={assignCategoriesModalIsOpen}
+                    onClose={handleCloseAssignCategories}
+                    onSave={handleSaveAssignedCategories}
+                    allCategories={allCategories}
+                    recipeCategories={recipeCategories}
+                />
+
+            )}
 
             {/* BUTTON SLOT FEATURE */}
             <ButtonGrid

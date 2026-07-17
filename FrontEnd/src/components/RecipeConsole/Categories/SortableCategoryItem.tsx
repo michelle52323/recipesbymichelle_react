@@ -18,6 +18,7 @@ interface Props {
     setIsMenuOpen?: (open: boolean) => void;
     currentView: "Recipes" | "Categories" | null;
     setCurrentView: (value: "Recipes" | "Categories" | null) => void;
+    categorySortBy: "Alphabetical" | "SortOrder" | null;
 }
 
 const SortableCategoryItem: React.FC<Props> = ({
@@ -30,7 +31,8 @@ const SortableCategoryItem: React.FC<Props> = ({
     setOpenCategory,
     setIsMenuOpen,
     currentView,
-    setCurrentView
+    setCurrentView,
+    categorySortBy
 }) => {
 
     const navigate = useNavigate();
@@ -61,9 +63,23 @@ const SortableCategoryItem: React.FC<Props> = ({
             className={`d-flex align-items-start grid-page-row grid-page-row-height-desktop sortable-container item-tint ${draggingClass}`}
         >
             <div className="d-flex">
-                <div className="drag-handle drag-handle-width-desktop" {...listeners}>
-                    <Icon name="drag" />
-                </div>
+                {categorySortBy == "SortOrder" && (
+                    <div className="drag-handle drag-handle-width-desktop" {...listeners}>
+                        <Icon name="drag" />
+                    </div>
+                )}
+                {categorySortBy == "Alphabetical" && (
+                    <div className="drag-handle-width-desktop" style={{ height: 50 }}
+                        role="button"
+                        onClick={() => onCategoryClick(category)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') onCategoryClick(category);
+                        }}
+                    >
+
+                    </div>
+                )}
+
             </div>
 
             <div className="flex-grow-1">
@@ -73,7 +89,7 @@ const SortableCategoryItem: React.FC<Props> = ({
 
                     <div
                         className="category-row d-flex align-items-start"
-                        style={{height:50}}
+                        style={{ height: 50 }}
                         role="button"
                         tabIndex={0}
                         onClick={() => onCategoryClick(category)}
@@ -111,7 +127,7 @@ const SortableCategoryItem: React.FC<Props> = ({
                     <div style={{ width: 25 }}><Icon name="moreOptions" /></div>
 
                 </div>
-                
+
 
             </div>
 
