@@ -69,6 +69,7 @@ export default function SearchOthers() {
         }
 
         setIsLoading(false);
+
     };
 
     return (
@@ -92,7 +93,7 @@ export default function SearchOthers() {
                             onClick={performSearch}
                         >
                             <span className="btn-text">
-                                
+
                                 {isMobile ? (
                                     <Icon name="search" marginLeft={3} />
                                 ) : (
@@ -112,28 +113,33 @@ export default function SearchOthers() {
                     <div className="empty-grid">No recipes found.</div>
                 )}
 
-                {/* Results */}
-                {/* <div className={isMobileTouchDevice() ? "content-holder-mobile" : "content-holder-desktop"}> */}
-                <div className="">
-                    <div className="grid-overflow-box gof-search">
-                        {results.map((r) => (
-                            <SearchRow
-                                key={r.recipeId}
-                                recipe={r}
-                                navigate={navigate}
-                                query={query}
-                                onFavoriteRemoved={(id) => {
-                                    setResults((prev) =>
-                                        prev.map((x) =>
-                                            x.recipeId === id ? { ...x, isFavorite: false } : x
-                                        )
-                                    );
-                                }}
-                            />
-                        ))}
-                    </div>
+                {hasSearched && !isLoading && results.length > 0 && (
+                    <>
+                        {/* Results */}
+                        {/* <div className={isMobileTouchDevice() ? "content-holder-mobile" : "content-holder-desktop"}> */}
+                        <div className="">
+                            <div className="grid-overflow-box gof-search">
+                                {results.map((r) => (
+                                    <SearchRow
+                                        key={r.recipeId}
+                                        recipe={r}
+                                        navigate={navigate}
+                                        query={query}
+                                        onFavoriteRemoved={(id) => {
+                                            setResults((prev) =>
+                                                prev.map((x) =>
+                                                    x.recipeId === id ? { ...x, isFavorite: false } : x
+                                                )
+                                            );
+                                        }}
+                                    />
+                                ))}
+                            </div>
 
-                </div>
+                        </div>
+                    </>
+                )}
+
             </div>
         </div>
 
@@ -152,7 +158,7 @@ const SearchRow: React.FC<RowProps> = ({ recipe, navigate, onFavoriteRemoved, qu
     const isMobile = isMobileTouchDevice();
 
     return (
-        <div className="grid-page-row grid-page-row-height-desktop d-flex align-items-start mb-2 p-2 sortable-border">
+        <div className="grid-page-row grid-page-row-height-desktop d-flex align-items-start mb-2 p-2 sortable-border item-tint">
 
             {/* Name + Description */}
             <div className="flex-grow-1">

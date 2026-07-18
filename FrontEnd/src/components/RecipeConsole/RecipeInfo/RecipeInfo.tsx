@@ -649,11 +649,10 @@ const RecipeInfo: React.FC = () => {
                         desktopSlot: 4
                     },
                     {
-                        text: "Next",
+                        text: "Save & Continue",
                         onClick: handleSaveAndContinue,
                         type: "button",
                         value: "SaveContinue",
-                        icon: <Icon name="rightArrow" />,
                         mobileSlot: 3,
                         desktopSlot: 5
                     }

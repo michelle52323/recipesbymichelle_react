@@ -193,7 +193,7 @@ function Categories({
                         >
                             Cancel
                         </button>
-                        <button className="button button-modal" onClick={handleSave} >Add</button>
+                        <button className="button button-modal" onClick={handleSave} >{mode == "add" ? "Add" : "Save"}</button>
                     </div>
                 </div>
 
