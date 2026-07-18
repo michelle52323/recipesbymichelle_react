@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from '../../Icons/icons';
+import type { Category } from '../../../../types/Categories/Categories';
 import '../../Menu/menu.css';
 
 interface Recipe {
@@ -7,10 +8,7 @@ interface Recipe {
     name: string;
     description: string;
     sortOrder: number;
-    subject: {
-        id: number;
-        description: string;
-    };
+    categories?: Category[];
 }
 
 interface Props {
@@ -19,6 +17,7 @@ interface Props {
     openDeleteModal: () => void;
     closeMenu: () => void;
     isClosing: boolean;
+    handleOpenAssignCategories: () => void;
 }
 
 const MobileRecipeActionsMenu: React.FC<Props> = ({
@@ -26,15 +25,15 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
     navigate,
     openDeleteModal,
     closeMenu,
-    isClosing
+    isClosing,
+    handleOpenAssignCategories
 }) => {
 
     return (
         <div
-            className={`mobile-bottom-sheet menu-background ${isClosing ? "closing" : "opening"}`}
+            className={`mobile-bottom-sheet menu-background menu-size ${isClosing ? "closing" : "opening"}`}
             style={{
                 position: 'fixed',
-                left: 0,
                 right: 0,
                 bottom: 0,
                 borderTopLeftRadius: '16px',
@@ -54,7 +53,7 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
             <div style={{ paddingLeft: '16px', paddingRight: '16px' }}>
 
                 {/* Edit Basic Info */}
-                <div className="menu-item">
+                <div className="menu-item menu-item-wide">
                     <button
                         className="menu-button-link"
                         onClick={() => {
@@ -70,7 +69,7 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
                 </div>
 
                 {/* Ingredients */}
-                <div className="menu-item">
+                <div className="menu-item menu-item-wide">
                     <button
                         className="menu-button-link"
                         onClick={() => {
@@ -84,7 +83,7 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
                 </div>
 
                 {/* Steps */}
-                <div className="menu-item">
+                <div className="menu-item menu-item-wide">
                     <button
                         className="menu-button-link"
                         onClick={() => {
@@ -97,24 +96,24 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
                     </button>
                 </div>
 
-                {/* Review */}
-                <div className="menu-item">
+                {/* Assign Categories */}
+                <div className="menu-item menu-item-wide">
                     <button
                         className="menu-button-link"
                         onClick={() => {
-                            navigate(`/Recipes/View/${recipe.id}`);
+                            handleOpenAssignCategories();
                             closeMenu();
                         }}
                     >
                         <div className="menu-icon">
-                            <Icon name="eye" marginTop={2} width={28} height={28} />
+                            <Icon marginTop={-5} name="folder" width={21} height={21} />
                         </div>
-                        <div className="menu-text">View</div>
+                        <div className="menu-text">Assign Categories</div>
                     </button>
                 </div>
 
                 {/* Delete */}
-                <div className="menu-item">
+                <div className="menu-item menu-item-wide">
                     <button
                         className="menu-button-link"
                         onClick={() => {

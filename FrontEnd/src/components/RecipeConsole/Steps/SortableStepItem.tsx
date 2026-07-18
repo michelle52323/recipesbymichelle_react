@@ -242,7 +242,7 @@ const SortableStepItem: React.FC<Props> = ({
             <div
                 ref={setNodeRef}
                 style={style}
-                className={`mobile-step-row grid-page-row ${expandedClass} ${draggingClass}`}
+                className={`mobile-step-row grid-page-row item-tint ${expandedClass} ${draggingClass}`}
 
             >
                 {/* COLLAPSED ROW ADD ROW */}

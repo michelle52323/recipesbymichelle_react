@@ -367,7 +367,7 @@ function MyRecipes() {
                             currentView={currentView}
                             setCurrentView={setCurrentView}
                         />
-                        : <MyRecipesDesktop
+                        : <MyRecipesMobile
                             showCategories={showCategories}
                             showCategoryToolbar={showCategoriesToolbar}
                             openCategory={openCategory}

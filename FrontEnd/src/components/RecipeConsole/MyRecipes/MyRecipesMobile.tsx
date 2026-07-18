@@ -7,6 +7,7 @@ import SortableRecipeItem from './SortableRecipeItem';
 const API_BASE = getApiBaseUrl();
 import { TouchSensor } from '@dnd-kit/core';
 import { isDevUseMockLogin, isMobileTouchDeviceDev, isMobileTouchDevice } from '../../../helpers/config';
+import CategoryAssignmentModal from '../Categories/CategoryAssignmentModal';
 import MobileRecipeActionsMenu from '../../UserControls/SubMenus/MyRecipes/MobileRecipeActionsMenu';
 import Loader from '../../UserControls/Loader/Loader';
 import type { Category } from '../../../types/Categories/Categories';
@@ -34,7 +35,8 @@ interface Recipe {
     name: string;
     description: string;
     sortOrder: number;
-    categorySortOrder: number;
+    //categorySortOrder: number;
+    categories?: Category[];
 }
 
 interface MyRecipesMobileProps {
@@ -68,6 +70,11 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
     const [isClosing, setIsClosing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    const [assignCategoriesModalIsOpen, setAssignCategoriesModalIsOpen] = useState(false);
+    const [allCategories, setAllCategories] = useState<Category[]>([]);
+    const [recipeCategories, setRecipeCategories] = useState<Category[]>([]);
+    const [recipeToAssign, setRecipeToAssign] = useState<{ id: number; name: string; categories?: Category[] } | null>(null);
+
     const openDeleteModal = (recipe: { id: number; name: string }) => {
         setRecipeToDelete(recipe);
         setModalIsOpen(true);
@@ -85,29 +92,7 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
         })
     );
 
-    // useEffect(() => {
-    //     setIsLoading(true);
-    //     const mode = import.meta.env.VITE_MODE;
-    //     const url = isDevUseMockLogin() && mode == "dev"
-    //         ? `${API_BASE}/api/MyRecipes/getRecipesMock`
-    //         : `${API_BASE}/api/MyRecipes/getRecipes`;
 
-    //     const fetchRecipes = async () => {
-    //         const response = await fetch(url, {
-    //             credentials: 'include',
-    //         });
-    //         if (response.ok) {
-    //             const data = await response.json();
-    //             setRecipes(data);
-    //             setIsLoading(false);
-    //         } else {
-    //             console.error('Failed to fetch recipes');
-    //             setIsLoading(false);
-    //         }
-    //     };
-
-    //     fetchRecipes();
-    // }, []);
     useEffect(() => {
         const fetchRecipes = async () => {
             setIsLoading(true);
@@ -156,6 +141,7 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
 
         fetchRecipes();
     }, [showCategories, openCategory]);
+
 
     const handleDragEnd = async (event: any) => {
         setBanner('');
@@ -271,6 +257,120 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
         setModalIsOpen(false);
     };
 
+    // BEGIN Category Assignment
+    useEffect(() => {
+
+
+        getCategories("Alphabetical");
+    }, []);
+
+    const getCategories = async (sortBy: "Alphabetical" | "SortOrder" | null) => {
+        const endpoint = `${API_BASE}/api/Categories/list${isDevUseMockLogin() ? "mock" : ""}?sortBy=${sortBy}`;
+        const response = await fetch(endpoint, {
+            method: "GET",
+            credentials: "include", // ← always include credentials
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            //setCategoriesIsLoading(false);
+            throw new Error("Failed to fetch categories");
+
+        }
+        else {
+            const data = await response.json();   // ← THIS is the important part
+            setAllCategories(data);                // ← store the actual category array
+            //setCategoriesIsLoading(false);
+
+        }
+
+    };
+
+    const handleOpenAssignCategories = (recipe: { id: number; name: string; categories?: Category[] }) => {
+        setRecipeToAssign(recipe);
+        setRecipeCategories(recipe.categories);
+        setAssignCategoriesModalIsOpen(true);
+    };
+
+    const handleCloseAssignCategories = () => {
+        setAssignCategoriesModalIsOpen(false);
+    };
+
+    const handleSaveAssignedCategories = async (selectedCategoryIds: number[]) => {
+        setBanner('');
+        try {
+            // Build DTO payload from selected categories
+            const updated = allCategories
+                .filter(c => selectedCategoryIds.includes(c.id))
+                .map(c => ({
+                    id: c.id,
+                    name: c.name,       // backend ignores this, but DTO requires it
+                    sortOrder: c.sortOrder ?? 0
+                }));
+
+            // console.log("RecipeId: " + recipeToAssign.id);
+            // console.log("DATA:" + JSON.stringify(updated));
+
+
+            // Call backend API
+            const response = await fetch(
+                `${API_BASE}/api/RecipesCategories/update-recipe-categories/${recipeToAssign.id}`,
+                {
+                    method: "PUT",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updated)
+                }
+            );
+
+            if (!response.ok) {
+                setRecipeCategories(
+                    allCategories.filter(c => selectedCategoryIds.includes(c.id))
+                );
+
+                throw new Error("Failed to update recipe categories");
+            }
+            else {
+                // Update local UI state
+                setRecipeCategories(null);
+
+                // ⭐ Update the main recipes list so the UI reflects the new categories
+                setRecipes(prev =>
+                    prev.map(r =>
+                        r.id === recipeToAssign.id
+                            ? { ...r, categories: updated }
+                            : r
+                    )
+                );
+
+                // Remove recipe from display if it no longer belongs to the open category
+                if (showCategories && openCategory) {
+                    const stillInCategory = updated.some(c => c.id === openCategory.id);
+
+                    if (!stillInCategory) {
+                        setRecipes(prev => prev.filter(r => r.id !== recipeToAssign.id));
+                    }
+                }
+
+                setBanner('Category assignment successful!');
+
+
+                setAssignCategoriesModalIsOpen(false);
+            }
+
+
+
+        } catch (err) {
+            console.error("Error saving categories", err);
+        }
+    };
+
+    // END Category Assignment
+
     const closeMenu = () => {
         setIsClosing(true);
 
@@ -338,6 +438,18 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
 
             </div>
 
+            {assignCategoriesModalIsOpen && (
+                <CategoryAssignmentModal
+                    show={assignCategoriesModalIsOpen}
+                    onClose={handleCloseAssignCategories}
+                    onSave={handleSaveAssignedCategories}
+                    allCategories={allCategories}
+                    recipeCategories={recipeCategories}
+                    recipe={recipeToAssign}
+                />
+
+            )}
+
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={() => setModalIsOpen(false)}
@@ -389,6 +501,8 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
                         openDeleteModal={() => openDeleteModal(selectedRecipe)}
                         closeMenu={closeMenu}
                         isClosing={isClosing}
+                        handleOpenAssignCategories={() => handleOpenAssignCategories(selectedRecipe)}
+
                     />
                 </>
             )}

@@ -27,6 +27,7 @@ import searchIcon from '../../../assets/icons/search-svgrepo-com.svg?raw';
 import linkIcon from '../../../assets/icons/link-horizontal-svgrepo-com.svg?raw';
 import clearIcon from '../../../assets/icons/clear-svgrepo-com.svg?raw';
 import infoIcon from '../../../assets/icons/info-circle-svgrepo-com.svg?raw';
+import folderIcon from '../../../assets/icons/folders-svgrepo-com.svg?raw';
 
 
 
@@ -57,7 +58,8 @@ const iconMap: Record<string, string> = {
   search: searchIcon,
   link: linkIcon,
   clear: clearIcon,
-  info: infoIcon
+  info: infoIcon,
+  folder: folderIcon
 };
 
 const defaultClassMap: Partial<Record<keyof typeof iconMap, string>> = {

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useOutletContext, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getApiBaseUrl, isMobileTouchDevice } from '../../../helpers/config';
 import { renderNumberDisplayRange, renderStep, renderUnit } from '../../../helpers/measurementHelper';
@@ -52,8 +52,15 @@ function View() {
     const [previousPageNavigation, setPreviousPathNavigation] = useState<PreviousPageNavigation | null>(null);
     const [isMyRecipe, setIsMyRecipe] = useState<boolean>(false);
 
+    const [descExpanded, setDescExpanded] = useState(false);
+    const [descNeedsToggle, setDescNeedsToggle] = useState(false);
+    const descRef = useRef<HTMLDivElement>(null);
+    const descMeasureRef = useRef<HTMLDivElement>(null);
 
-    const layoutClass = isMobileTouchDevice() ? "gof-view-mobile" : "gof-tall";
+
+
+
+    const layoutClass = isMobileTouchDevice() ? "gof-view-mobile" : "gof-view-desktop";
     const innerlayoutClass = isMobileTouchDevice() ? "grid-page-row-height-mobile" : "grid-page-row-height-desktop";
     const isMobile = isMobileTouchDevice();
     //console.log("Previous location:", previousPath.current);
@@ -209,7 +216,7 @@ function View() {
     useEffect(() => {
         if (recipe?.recipeFont) {
             setFontClass(mapFontToClass(recipe.recipeFont));
-            setBackgroundCardClass(recipe.recipeFont == "Handwritten" ? "recipe-card-handwritten-font" : "hello");
+            setBackgroundCardClass(recipe.recipeFont == "Handwritten" ? "recipe-card-handwritten-font" : "panel");
         }
     }, [recipe?.recipeFont]);
 
@@ -242,6 +249,26 @@ function View() {
         }
     ], [previousPageNavigation, restoredSearchTerm]);
 
+    // useEffect(() => {
+    //     if (!recipe || !descMeasureRef.current) return;
+
+    //     const measureEl = descMeasureRef.current;
+
+    //     // Height of two lines — you can refine this later
+    //     const twoLineHeight = 2.8 * 16 / 16;
+
+    //     if (measureEl.scrollHeight > twoLineHeight) {
+    //         setDescNeedsToggle(true);
+    //     } else {
+    //         setDescNeedsToggle(false);
+    //         setDescExpanded(false);
+    //     }
+    // }, [recipe]);
+
+
+
+
+
 
 
 
@@ -257,124 +284,186 @@ function View() {
 
             <div className="content-holder-desktop" >
                 {/* <div className="content-inner-desktop "> */}
-                <div className={`content-inner-desktop ${backgroundCardClass}`}>
+                <div className={`content-inner-desktop `}>
+                    <div className="d-print-none" style={{ height: 50 }}>
+                        <div className="d-flex align-items-center pb-3 fw-bold">
 
-                    {/*INSERT CONTENT HERE */}
+                            {isMyRecipe && (
+                                <div className="d-flex align-items-center ms-auto pt-1 d-print-none">
+                                    <span className="me-2">Edit Details</span>
 
-                    <div className={`pt-4 grid-overflow-box gof-row  ${layoutClass} ${fontClass} `}>
-                        <div className={`d-flex row align-items-start ${innerlayoutClass}`}>
-                            <div className="col-md-6 col-12 pt-2">
-                                <div className="d-flex align-items-center pb-3 fw-bold">
-                                    <span className="me-2">Ingredients</span>
-
-                                    {isMyRecipe && (
-                                        <div className="d-print-none">
-                                            <button
-                                                type="button"
-                                                className="button button-icon"
-                                                onClick={() => navigate(`/recipes/ingredients/${recipe.id}`)}
-                                            >
-                                                {isMobile ? (
-                                                    <Icon name="pencil" marginLeft={4} />
-                                                ) : (
-                                                    <Icon name="pencil" marginLeft={1} marginTop={-2} />
-                                                )}
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Forces vertical block flow and resets padding for bullet indents */}
-
-                                {recipe?.ingredients && recipe.ingredients.length > 0 ? (
-                                    <ul
-                                        style={{ display: "block", paddingLeft: "20px", listStyleType: "disc" }}
-                                        className="m-0"
+                                    <button
+                                        type="button"
+                                        className="button button-icon"
+                                        onClick={() => navigate(`/recipes/recipeinfo/${recipe.id}`)}
                                     >
-                                        {recipe.ingredients
-                                            .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-                                            .map((ingredient) => (
-                                                <li
-                                                    key={ingredient.id}
-                                                    style={{ display: "list-item", width: "100%" }}
-                                                    className="pb-2 text-specified"
-                                                >
-                                                    <span
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: renderNumberDisplayRange(
-                                                                ingredient.quantity.toString(),
-                                                                ingredient.quantityMax.toString(),
-                                                                measurementSystem,
-                                                                recipe.recipeFont,
-                                                                true
-                                                            ),
-                                                        }}
-                                                    />
-                                                    &nbsp;{renderUnit(ingredient.unit)}{ingredient.description}
-                                                    {ingredient.instructions && (
-                                                        ` (${ingredient.instructions})`
-                                                    )}
-                                                </li>
-                                            ))}
-                                    </ul>
-                                ) : (
-                                    <div className="text-start">
-                                        No ingredients found.  Start adding some.
-                                    </div>
-                                )}
+                                        {isMobile ? (
+                                            <Icon name="pencil" marginLeft={4} />
+                                        ) : (
+                                            <Icon name="pencil" marginLeft={1} marginTop={-2} />
+                                        )}
+                                    </button>
+                                </div>
+                            )}
 
+                        </div>
 
+                    </div>
+                    <div className={`${backgroundCardClass}`}>
+                        {/*INSERT CONTENT HERE */}
+
+                        <div className={`pt-4 grid-overflow-box gof-row  ${layoutClass} ${fontClass} `}>
+                            <div className={`recipe-description ${descExpanded ? "expanded" : "collapsed"}`}>
+                                {recipe.description}
                             </div>
 
-                            {/* Steps Column */}
-                            <div className="col-md-6 col-12 pt-2">
-                                <div className="d-flex align-items-center pb-2 fw-bold">
-                                    <span className="me-2">Steps</span>
+                            {recipe.description && recipe.description.length > 0 && (
+                                <button
+                                    className="desc-toggle-btn"
+                                    onClick={() => setDescExpanded(prev => !prev)}
+                                >
+                                    {descExpanded ? "Show less" : "Show more"}
+                                </button>
+                            )}
+                            {/* Measurement element — NEVER collapsed/expanded */}
+                            {/* Measurement element — NEVER collapsed/expanded */}
+                            {/* <div
+                                ref={descMeasureRef}
+                                className="recipe-description measure"
+                            >
+                                {recipe.description}
+                            </div>
 
-                                    {isMyRecipe && (
-                                        <div className="d-print-none">
-                                            <button
-                                                type="button"
-                                                className="button button-icon"
-                                                onClick={() => navigate(`/recipes/steps/${recipe.id}`)}
-                                            >
-                                                {isMobile ? (
-                                                    <Icon name="pencil" marginLeft={4} />
-                                                ) : (
-                                                    <Icon name="pencil" marginLeft={1} marginTop={-2} />
-                                                )}
-                                            </button>
+                            
+                            <div
+                                ref={descRef}
+                                className={`recipe-description ${descExpanded ? "expanded" : "collapsed"}`}
+                            >
+                                {recipe.description}
+                            </div>
+
+                            {descNeedsToggle && (
+                                <button
+                                    className="desc-toggle-btn"
+                                    onClick={() => setDescExpanded(prev => !prev)}
+                                >
+                                    {descExpanded ? "Show less" : "Show more"}
+                                </button>
+                            )} */}
+
+
+
+                            <div className={`d-flex row align-items-start ${innerlayoutClass}`}>
+                                <div className="col-md-6 col-12 pt-2">
+                                    <div className="d-flex align-items-center pb-3 fw-bold">
+                                        <span className="me-2">Ingredients</span>
+
+                                        {isMyRecipe && (
+                                            <div className="d-print-none">
+                                                <button
+                                                    type="button"
+                                                    className="button button-icon"
+                                                    onClick={() => navigate(`/recipes/ingredients/${recipe.id}`)}
+                                                >
+                                                    {isMobile ? (
+                                                        <Icon name="pencil" marginLeft={4} />
+                                                    ) : (
+                                                        <Icon name="pencil" marginLeft={1} marginTop={-2} />
+                                                    )}
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Forces vertical block flow and resets padding for bullet indents */}
+
+                                    {recipe?.ingredients && recipe.ingredients.length > 0 ? (
+                                        <ul
+                                            style={{ display: "block", paddingLeft: "20px", listStyleType: "disc" }}
+                                            className="m-0"
+                                        >
+                                            {recipe.ingredients
+                                                .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+                                                .map((ingredient) => (
+                                                    <li
+                                                        key={ingredient.id}
+                                                        style={{ display: "list-item", width: "100%" }}
+                                                        className="pb-2 text-specified"
+                                                    >
+                                                        <span
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: renderNumberDisplayRange(
+                                                                    ingredient.quantity.toString(),
+                                                                    ingredient.quantityMax.toString(),
+                                                                    measurementSystem,
+                                                                    recipe.recipeFont,
+                                                                    true
+                                                                ),
+                                                            }}
+                                                        />
+                                                        &nbsp;{renderUnit(ingredient.unit)}{ingredient.description}
+                                                        {ingredient.instructions && (
+                                                            ` (${ingredient.instructions})`
+                                                        )}
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    ) : (
+                                        <div className="text-start">
+                                            No ingredients found.  Start adding some.
                                         </div>
                                     )}
+
+
                                 </div>
 
-                                {recipe?.steps && recipe.steps.length > 0 ? (
-                                    <ol>
-                                        {recipe.steps
-                                            .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-                                            .map((step) => (
-                                                <li
-                                                    key={step.id}
-                                                    className="pb-2 text-specified"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: renderStep(step.description, recipe.recipeFont)
-                                                    }}
-                                                />
-                                            ))}
-                                    </ol>
-                                ) : (
-                                    <div className="text-start">
-                                        No steps found. Start adding some.
+                                {/* Steps Column */}
+                                <div className="col-md-6 col-12 pt-2">
+                                    <div className="d-flex align-items-center pb-2 fw-bold">
+                                        <span className="me-2">Steps</span>
+
+                                        {isMyRecipe && (
+                                            <div className="d-print-none">
+                                                <button
+                                                    type="button"
+                                                    className="button button-icon"
+                                                    onClick={() => navigate(`/recipes/steps/${recipe.id}`)}
+                                                >
+                                                    {isMobile ? (
+                                                        <Icon name="pencil" marginLeft={4} />
+                                                    ) : (
+                                                        <Icon name="pencil" marginLeft={1} marginTop={-2} />
+                                                    )}
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
-                                )}
+
+                                    {recipe?.steps && recipe.steps.length > 0 ? (
+                                        <ol>
+                                            {recipe.steps
+                                                .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+                                                .map((step) => (
+                                                    <li
+                                                        key={step.id}
+                                                        className="pb-2 text-specified"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: renderStep(step.description, recipe.recipeFont)
+                                                        }}
+                                                    />
+                                                ))}
+                                        </ol>
+                                    ) : (
+                                        <div className="text-start">
+                                            No steps found. Start adding some.
+                                        </div>
+                                    )}
 
 
+                                </div>
                             </div>
                         </div>
                     </div>
-
-
-
 
                 </div>
             </div>

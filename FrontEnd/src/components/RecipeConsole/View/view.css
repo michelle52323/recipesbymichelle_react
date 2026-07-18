@@ -3,7 +3,7 @@
 }
 
 .recipe-card-handwritten-font::before {
-    background-color: var(--paperBackgroundColor); 
+    background-color: var(--paperBackgroundColor);
     content: "";
     position: absolute;
     inset: 0;
@@ -11,18 +11,71 @@
     background-size: cover;
     background-repeat: repeat;
     background-blend-mode: multiply;
-    opacity: var(--paperBackgroundOpacity); 
+    opacity: var(--paperBackgroundOpacity);
     pointer-events: none;
     z-index: 0;
 }
 
-.recipe-card-handwritten-font > * {
+.recipe-card-handwritten-font>* {
     position: relative;
     z-index: 1;
 }
 
+.recipe-description {
+    /* font-size: 0.95rem;
+    line-height: 1.35rem; */
+    margin-bottom: 8px;
+    transition: max-height 0.25s ease;
+    overflow: hidden;
+}
+
+/* collapsed = two lines */
+.recipe-description.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-height: 3.4rem;
+    /* roughly 2 lines */
+}
+
+/* expanded = full height */
+.recipe-description.expanded {
+    max-height: 999px;
+    /* effectively unlimited */
+}
+
+.desc-toggle-btn {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background: none;
+    border: none;
+    color: var(--accentColor);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 12px;
+}
+
+.recipe-description.measure {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+
+    /* OVERRIDES — these are critical */
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    -webkit-box-orient: unset !important;
+}
+
+
+
+
 
 @media print {
+
     /* ✅ Preserve title text, remove background styling */
     .card-title,
     .card-title-mobile {
@@ -30,6 +83,7 @@
         box-shadow: none !important;
         border: none !important;
     }
+
     .page-title-name {
         max-width: none !important;
         white-space: normal !important;
@@ -37,6 +91,7 @@
         text-overflow: clip !important;
         color: black;
     }
+
     /* ❌ Hide non-print elements */
     .home-icon-holder,
     .signout-holder,
@@ -59,15 +114,19 @@
         display: none;
     }
 
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+
+    /* Firefox */
     .grid-overflow-box {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         align-items: flex-start !important;
         overflow: visible !important;
-        overflow-y: auto; /* Ensure all content is visible */
+        overflow-y: auto;
+        /* Ensure all content is visible */
         width: 100% !important;
         height: auto !important;
         max-height: none !important;
@@ -90,7 +149,8 @@
         height: auto !important;
         max-height: none !important;
         overflow: visible !important;
-        overflow-y: auto; /* Ensure all content is visible */
+        overflow-y: auto;
+        /* Ensure all content is visible */
     }
 
     /* ✅ Ensure columns print side-by-side */
@@ -102,14 +162,15 @@
         padding: 0 1rem;
     }
 
-    ul li, ol li {
+    ul li,
+    ol li {
         page-break-inside: avoid;
         background: #fff !important;
         color: #000 !important;
-        
+
     }
 
-    .text-specified{
+    .text-specified {
         background: #fff !important;
         color: #000 !important;
     }
@@ -148,7 +209,7 @@
         display: block !important;
     }
 
-    
+
 
     body {
         font-size: 12pt;
@@ -156,19 +217,53 @@
         color: #000 !important;
     }
 
-    .header-holder, view-recipe-content{
+    .panel {
+        background-image: none;
+        border: none;
+        box-shadow: none;
+    }
+
+    .header-holder,
+    view-recipe-content {
         background: #fff !important;
         color: #000 !important;
     }
 
-    .recipe-card-handwritten-font{
+    .recipe-card-handwritten-font {
         background-color: #FFF;
     }
-    .print-button, .button-icon-responsive {
+
+    .print-button,
+    .button-icon-responsive {
         display: none;
     }
 
-    footer{
+    @media print {
+
+        /* Always show full description */
+        .recipe-description {
+            max-height: none !important;
+            overflow: visible !important;
+            display: block !important;
+            -webkit-line-clamp: unset !important;
+            -webkit-box-orient: unset !important;
+        }
+
+        .recipe-description.collapsed,
+        .recipe-description.expanded {
+            max-height: none !important;
+        }
+
+        /* Hide toggle button */
+        .desc-toggle-btn {
+            display: none !important;
+        }
+    }
+
+
+    footer {
         display: none;
     }
+
+
 }

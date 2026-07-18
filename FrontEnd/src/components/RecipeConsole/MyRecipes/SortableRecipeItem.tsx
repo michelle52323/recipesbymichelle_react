@@ -40,6 +40,10 @@ const SortableRecipeItem: React.FC<Props> = ({
         transition,
     };
 
+    const onRecipeClick = (recipe: Recipe) => {
+        navigate(`/Recipes/View/${recipe.id}`);
+    }
+
     const { active } = useDndContext();
     const isDragging = active?.id === recipe.id.toString();
 
@@ -50,7 +54,7 @@ const SortableRecipeItem: React.FC<Props> = ({
             ref={setNodeRef}
             style={style}
             {...attributes}
-            className={`d-flex align-items-start grid-page-row grid-page-row-height-desktop sortable-container ${draggingClass}`}
+            className={`d-flex align-items-start grid-page-row grid-page-row-height-desktop sortable-container item-tint ${draggingClass}`}
         >
             <div className="d-flex">
                 <div className="drag-handle drag-handle-width-desktop" {...listeners}>
@@ -62,27 +66,45 @@ const SortableRecipeItem: React.FC<Props> = ({
                 <div className="row">
                     <input type="hidden" name={`MyRecipesDto[${index}].Id`} value={recipe.id} />
                     <input type="hidden" name={`MyRecipesDto[${index}].SortOrder`} value={recipe.sortOrder} />
+                    <div
+                        className="category-row align-items-start"
+                        style={{ height: 50 }}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => onRecipeClick(recipe)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') onRecipeClick(recipe);
+                        }}
+                    >
+                        <div className="col-12 fw-bold truncate-one-line">
+                            {recipe.name}
+                        </div>
+                        <div className="col-12 truncate-one-line">
+                            {recipe.description}
+                        </div>
+                        {/* {isMobile ? (
+                            <>
+                                <div className="col-12 fw-bold truncate-one-line">
+                                    {recipe.name}
+                                </div>
+                                <div className="col-12 truncate-one-line">
+                                    {recipe.description}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="col-6 col-custom-6-12 fw-bold truncate-responsive">
+                                    {recipe.name}
+                                </div>
 
-                    {isMobile ? (
-                        <>
-                            <div className="col-12 fw-bold truncate-one-line">
-                                {recipe.name}
-                            </div>
-                            <div className="col-12 truncate-one-line">
-                                {recipe.description}
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className="col-6 col-custom-6-12 fw-bold truncate-responsive">
-                                {recipe.name}
-                            </div>
+                                <div className="col-6 col-custom-6-12 truncate-responsive">
+                                    {recipe.description}
+                                </div>
+                            </>
+                        )} */}
 
-                            <div className="col-6 col-custom-6-12 truncate-responsive">
-                                {recipe.description}
-                            </div>
-                        </>
-                    )}
+                    </div>
+
 
                 </div>
             </div>
@@ -150,12 +172,15 @@ const SortableRecipeItem: React.FC<Props> = ({
 
                 {isMobile && (
                     <div
+                        className="d-flex align-items-center justify-content-center"
+                        style={{ width: 50, height: 50 }}
                         onClick={() => {
                             setSelectedRecipe?.(recipe);
                             setIsMenuOpen?.(true);
                         }}
                     >
-                        <Icon name="moreOptions" />
+                        <div style={{ width: 25 }}></div>
+                        <div style={{ width: 25, marginBottom: 25 }}><Icon name="moreOptions" /></div>
                     </div>
                 )}
 

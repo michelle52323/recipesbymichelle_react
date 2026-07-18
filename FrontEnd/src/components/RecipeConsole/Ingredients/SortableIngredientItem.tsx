@@ -259,7 +259,7 @@ const SortableIngredientItem: React.FC<Props> = ({
                 <div
                     ref={setNodeRef}
                     style={style}
-                    className={`mobile-ingredient-row grid-page-row ${expandedClass}  ${draggingClass}`}
+                    className={`mobile-ingredient-row grid-page-row item-tint ${expandedClass}  ${draggingClass}`}
 
                 >
                     {/* COLLAPSED ROW ADD ROW */}
@@ -689,7 +689,7 @@ const SortableIngredientItem: React.FC<Props> = ({
             ref={setNodeRef}
             style={style}
             {...(!isAddRow ? attributes : {})}
-            className={`d-flex align-items-start grid-page-row grid-page-row-height-desktop sortable-container ${draggingClass}`}
+            className={`d-flex align-items-start grid-page-row grid-page-row-height-desktop sortable-container item-tint ${draggingClass}`}
         >
 
 

@@ -367,9 +367,6 @@ const RecipeInfo: React.FC = () => {
 
     const handleSaveAssignedCategories = async (selectedCategoryIds: number[]) => {
         try {
-            // TODO: call backend API to save category assignments
-            // Example payload:
-            // { recipeId, categoryIds: selectedCategoryIds }
 
             // After saving, refresh recipe categories locally:
             const updated = allCategories.filter(c => selectedCategoryIds.includes(c.id));
@@ -585,7 +582,7 @@ const RecipeInfo: React.FC = () => {
                                     </div>
 
                                     <div className="col-12 col-md-6">
-                                        <div className="categories-overflow-box panel-tint panel-border">
+                                        <div className="categories-overflow-box panel">
                                             {(!recipeCategories || recipeCategories.length === 0) ? (
                                                 <div className="no-categories">
                                                     Not assigned to any categories
@@ -597,11 +594,16 @@ const RecipeInfo: React.FC = () => {
                                                     </div>
 
                                                     <div className="categories-list ps-3">
-                                                        {recipeCategories.map(c => (
-                                                            <div key={c.id} className="category-pill">
-                                                                {c.name}
-                                                            </div>
-                                                        ))}
+                                                        {recipeCategories
+                                                            .slice() // ← avoid mutating state
+                                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                                            .map(c => (
+                                                                <div key={c.id} className="category-pill">
+                                                                    {c.name}
+                                                                </div>
+                                                            ))
+                                                        }
+
                                                     </div>
                                                 </>
                                             )}

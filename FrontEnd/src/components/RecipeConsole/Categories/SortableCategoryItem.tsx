@@ -117,14 +117,14 @@ const SortableCategoryItem: React.FC<Props> = ({
 
                 <div
                     className="d-flex align-items-center justify-content-center"
-                    style={{ width: 50, height: '100%' }}
+                    style={{ width: 50, height: 50 }}
                     onClick={() => {
                         setSelectedCategory?.(category);
                         setIsMenuOpen?.(true);
                     }}
                 >
                     <div style={{ width: 25 }}></div>
-                    <div style={{ width: 25 }}><Icon name="moreOptions" /></div>
+                    <div style={{ width: 25, marginBottom: 25 }}><Icon name="moreOptions" /></div>
 
                 </div>
 

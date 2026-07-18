@@ -1,4 +1,4 @@
-
+import type { Category } from "../Categories/Categories";
 export interface RecipeBase {
     id: number;
     name: string | null;
@@ -8,7 +8,12 @@ export interface RecipeBase {
     sortOrder: number;
     recipeVisibility: "MeOnly" | "AllUsers";
     recipeFont: "SansSerif" | "Serif" | "Handwritten";
+    categories?: Category[];
 
+}
+
+export interface RecipeMyRecipes extends RecipeBase{
+    
 }
 
 export interface RecipeView extends RecipeBase {

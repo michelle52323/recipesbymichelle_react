@@ -18,6 +18,14 @@ namespace PlatformAPI.Controllers.Categories
         public int SortOrder { get; set; }
     }
 
+    public class RecipeCategoriesDto
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+        public int SortOrder { get; set; }
+    }
+
 
     #endregion
 
@@ -92,6 +100,49 @@ namespace PlatformAPI.Controllers.Categories
                 return BadRequest(new { success = false, message = ex.ToString() });
             }
         }
+
+        [HttpPut("update-recipe-categories/{id}")]
+        public async Task<IActionResult> UpdateRecipeCategories(int id, [FromBody] List<RecipeCategoriesDto> dto)
+        {
+            try
+            {
+                // Load recipe + its existing category assignments
+                var recipe = await _context.Recipes
+                    .Include(r => r.RecipeCategories)
+                    .FirstOrDefaultAsync(r => r.Id == id);
+
+                if (recipe == null)
+                {
+                    return NotFound("Recipe not found.");
+                }
+
+                // Clear existing category assignments
+                recipe.RecipeCategories.Clear();
+
+                // Add new category assignments
+                if (dto != null)
+                {
+                    foreach (var c in dto)
+                    {
+                        recipe.RecipeCategories.Add(new RecipeCategory
+                        {
+                            RecipeId = recipe.Id,
+                            CategoryId = c.Id,
+                            SortOrder = c.SortOrder
+                        });
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.ToString() });
+            }
+        }
+
 
     }
 }

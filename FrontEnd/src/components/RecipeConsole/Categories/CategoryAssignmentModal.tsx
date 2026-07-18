@@ -2,18 +2,26 @@ import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import type { Category } from '../../../types/Categories/Categories';
 
+interface Recipe {
+    id: number;
+    name: string
+    categories?: Category[];
+}
+
 function CategoryAssignmentModal({
     show,
     onClose,
     onSave,
     allCategories,
-    recipeCategories
+    recipeCategories,
+    recipe = null
 }: {
     show: boolean;
     onClose: () => void;
     onSave: (selectedCategoryIds: number[]) => void;
     allCategories: Category[];
     recipeCategories: Category[]; // categories the recipe already belongs to
+    recipe?: Recipe;
 }) {
 
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -38,7 +46,7 @@ function CategoryAssignmentModal({
         onSave(selectedIds);
         onClose();
     };
-
+console.log("DATA:",recipe);
     return (
         <Modal
             isOpen={show}
@@ -57,6 +65,16 @@ function CategoryAssignmentModal({
                     <label className="form-label-tight dialog-label pb-2">
                         Select categories for this recipe
                     </label>
+
+                    {recipe && (
+                        <label
+                            className="form-label-tight dialog-label pb-2"
+                            style={{ width: "100%" }}
+                        >
+                            <span className="ps-3">{recipe.name}</span>
+                        </label>
+                    )}
+
 
                     <div className="form-element dialog-overflow-box" >
                         {allCategories.map(cat => (

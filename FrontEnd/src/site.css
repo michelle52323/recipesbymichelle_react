@@ -83,6 +83,9 @@
 
     /* Checkmark color */
     --checkboxCheckColor: var(--textBoxTextColor);
+
+    --sortableBorderSubtle: color-mix(in srgb, var(--sortableBorder) 70%, var(--colorMix2));
+    /* --sortableBorderNew: var(--sortableBorder); */
 }
 
 .theme8 {
