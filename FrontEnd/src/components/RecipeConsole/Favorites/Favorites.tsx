@@ -66,7 +66,7 @@ function Favorites() {
     return (
         <div className="page-container w-100">
             <div className={isMobileTouchDevice() ? "content-holder-mobile" : "content-holder-desktop"}>
-                {isMobileTouchDevice() ? <FavoritesMobile /> : <FavoritesDesktop />}
+                {isMobileTouchDevice() ? <FavoritesMobile /> : <FavoritesMobile />}
             </div>
 
             {/* <ButtonGrid

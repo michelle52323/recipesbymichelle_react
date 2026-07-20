@@ -41,6 +41,11 @@ const SortableFavoriteItem: React.FC<Props> = ({
         transform: CSS.Transform.toString(transform),
         transition,
     };
+
+    const onFavoriteClick = (favorite: Favorite) => {
+        navigate(`/Recipes/View/${favorite.recipe.id}`);
+    }
+
     const { active } = useDndContext();
     const isDragging = active?.id === favorite.id.toString();
 
@@ -64,7 +69,16 @@ const SortableFavoriteItem: React.FC<Props> = ({
                     <input type="hidden" name={`FavoritesDto[${index}].Id`} value={favorite.id} />
                     <input type="hidden" name={`FavoritesDto[${index}].SortOrder`} value={favorite.sortOrder} />
 
-                    {isMobile ? (
+                    <div
+                        className="category-row align-items-start"
+                        style={{ height: 50 }}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => onFavoriteClick(favorite)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') onFavoriteClick(favorite);
+                        }}
+                    >
                         <>
                             <div className="col-12 fw-bold truncate-one-line">
                                 {favorite.recipe.name}
@@ -73,17 +87,29 @@ const SortableFavoriteItem: React.FC<Props> = ({
                                 {favorite.recipe.description}
                             </div>
                         </>
-                    ) : (
-                        <>
-                            <div className="col-6 col-custom-6-12 fw-bold truncate-responsive">
-                                {favorite.recipe.name}
-                            </div>
+                        {/* {isMobile ? (
+                            <>
+                                <div className="col-12 fw-bold truncate-one-line">
+                                    {favorite.recipe.name}
+                                </div>
+                                <div className="col-12 truncate-one-line">
+                                    {favorite.recipe.description}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="col-6 col-custom-6-12 fw-bold truncate-responsive">
+                                    {favorite.recipe.name}
+                                </div>
 
-                            <div className="col-6 col-custom-6-12 truncate-responsive">
-                                {favorite.recipe.description}
-                            </div>
-                        </>
-                    )}
+                                <div className="col-6 col-custom-6-12 truncate-responsive">
+                                    {favorite.recipe.description}
+                                </div>
+                            </>
+                        )} */}
+                    </div>
+
+
 
                 </div>
             </div>

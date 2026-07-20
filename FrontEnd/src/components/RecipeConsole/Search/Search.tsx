@@ -162,15 +162,36 @@ const SearchRow: React.FC<RowProps> = ({ recipe, navigate, onFavoriteRemoved, qu
 
             {/* Name + Description */}
             <div className="flex-grow-1">
-                <div className="fw-bold truncate-one-line">{recipe.name}</div>
-                <div className="truncate-one-line">{recipe.description}</div>
+
+                <div
+                    className="category-row align-items-start"
+                    style={{ height: 50 }}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => navigate(`/Recipes/View/${recipe.recipeId}`, {
+                        state: { searchTerm: query }
+                    })}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            navigate(`/Recipes/View/${recipe.recipeId}`, {
+                                state: { searchTerm: query }
+                            });
+                        }
+                    }}
+
+                >
+                    <div className="fw-bold truncate-one-line">{recipe.name}</div>
+                    <div className="truncate-one-line">{recipe.description}</div>
+                </div>
+
+
             </div>
 
             {/* Actions */}
             <div className="d-flex align-items-center ms-2">
 
                 {/* View */}
-                <button
+                {/* <button
                     onClick={() => navigate(`/Recipes/View/${recipe.recipeId}`, {
                         state: { searchTerm: query }
                     })}
@@ -181,7 +202,7 @@ const SearchRow: React.FC<RowProps> = ({ recipe, navigate, onFavoriteRemoved, qu
                     ) : (
                         <Icon name="eye" marginTop={-2} width={27} height={27} />
                     )}
-                </button>
+                </button> */}
 
 
                 {/* Favorite Star (fixed width wrapper) */}

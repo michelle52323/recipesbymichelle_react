@@ -577,7 +577,7 @@ const RecipeInfo: React.FC = () => {
                                             onClick={() => { setAssignCategoriesModalIsOpen(true); }}
                                             className="button button-super-large"
                                         >
-                                            Assign to Categories
+                                            Assign Categories
                                         </button>
                                     </div>
 
