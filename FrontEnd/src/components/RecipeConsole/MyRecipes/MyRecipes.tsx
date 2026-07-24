@@ -48,6 +48,7 @@ function MyRecipes() {
     const [showCategoriesToolbar, setShowCategoriesToolbar] = useState<boolean>(false);
     const [showCategories, setShowCategories] = useState<boolean>(openCategory != null);
     const [categorySortBy, setCategorySortBy] = useState<"Alphabetical" | "SortOrder" | null>("Alphabetical");
+
     // const [openCategory, setOpenCategory] = useState<Category | null>(null);
     //const [currentView, setCurrentView] = useState<"Recipes" | "Categories" | null>(null);
     // const [categorySortBy, setCategorySortBy] = useState<number | undefined>(2);
@@ -160,6 +161,9 @@ function MyRecipes() {
         else {
             const data = await response.json();   // ← THIS is the important part
             setCategoryList(data);                // ← store the actual category array
+            // if (data == null)
+            //     setCategoryList(null);
+            
             //setCategoriesIsLoading(false);
 
         }
@@ -366,6 +370,9 @@ function MyRecipes() {
                             setOpenCategory={setOpenCategory}
                             currentView={currentView}
                             setCurrentView={setCurrentView}
+                            userSettings={userSettings}
+                            allCategories={categoryList}
+                            setAllCategories={setCategoryList}
                         />
                         : <MyRecipesMobile
                             showCategories={showCategories}
@@ -374,6 +381,9 @@ function MyRecipes() {
                             setOpenCategory={setOpenCategory}
                             currentView={currentView}
                             setCurrentView={setCurrentView}
+                            userSettings={userSettings}
+                            allCategories={categoryList}
+                            setAllCategories={setCategoryList}
                         />
                 )}
 

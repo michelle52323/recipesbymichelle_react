@@ -15,8 +15,10 @@ import ImportRecipeReminder from '../ImportRecipe/ImportRecipeReminder';
 import CategoriesActionsMenu from '../../UserControls/SubMenus/Categories/CategoriesActionsMenu';
 import '../../../radio.css';
 import './recipeInfo.css';
+import Categories from '../../RecipeConsole/Categories/Categories'
 import CategoryAssignmentModal from '../Categories/CategoryAssignmentModal';
 import type { Category } from '../../../types/Categories/Categories';
+import type { UserSettings } from '../../../types/UserSettings/UserSettings';
 
 const API_BASE = getApiBaseUrl();
 
@@ -60,7 +62,12 @@ const RecipeInfo: React.FC = () => {
     const { setTitle, setBanner, setTitleBarSlot } = useOutletContext<LayoutContext>();
     const location = useLocation();
 
+    const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
+    const [openModal, setOpenModal] = useState<"AddCategory" | "AssignCategory" | null>(null);
+
     const [assignCategoriesModalIsOpen, setAssignCategoriesModalIsOpen] = useState(false);
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
+    const [newlyAddedCategory, setNewlyAddedCategory] = useState<Category | null>(null);
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [recipeCategories, setRecipeCategories] = useState<Category[]>([]);
 
@@ -97,6 +104,36 @@ const RecipeInfo: React.FC = () => {
     }, [location.state?.banner, setBanner, navigate, location.pathname]);
 
 
+    useEffect(() => {
+        const loadSettings = async () => {
+            try {
+                const settings = await getUserSettings();
+                setUserSettings(settings);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        loadSettings();
+    }, []);
+
+    const getUserSettings = async () => {
+        const endpoint = `${API_BASE}/api/Users/settings${isDevUseMockLogin() ? "mock" : ""}`;
+        const response = await fetch(endpoint, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch user settings");
+        }
+
+        const data = await response.json();
+        return data; // { showCategories: boolean, categorySortBy: "Alphabetical" | "SortOrder" | null }
+    };
 
 
 
@@ -362,7 +399,10 @@ const RecipeInfo: React.FC = () => {
     };
 
     const handleCloseAssignCategories = () => {
+        setBanner('');
         setAssignCategoriesModalIsOpen(false);
+        setOpenModal(null);
+        setNewlyAddedCategory(null);
     };
 
     const handleSaveAssignedCategories = async (selectedCategoryIds: number[]) => {
@@ -378,6 +418,25 @@ const RecipeInfo: React.FC = () => {
             console.error("Error saving categories", err);
         }
     };
+
+    useEffect(() => {
+
+
+        if (openModal == "AddCategory") {
+            setShowCategoryModal(true);
+            setAssignCategoriesModalIsOpen(false);
+        }
+        else if (openModal == "AssignCategory") {
+            setShowCategoryModal(false);
+            setAssignCategoriesModalIsOpen(true);
+        }
+        else {
+            setShowCategoryModal(false);
+            setAssignCategoriesModalIsOpen(false);
+        }
+
+        console.log("Open Modal: " + openModal)
+    }, [openModal]);
 
 
 
@@ -626,9 +685,24 @@ const RecipeInfo: React.FC = () => {
                     onSave={handleSaveAssignedCategories}
                     allCategories={allCategories}
                     recipeCategories={recipeCategories}
+                    openModal={openModal}
+                    setOpenModal={setOpenModal}
+                    newlyAddedCategory={newlyAddedCategory}
+                    setNewlyAddedCategory={setNewlyAddedCategory}
                 />
 
             )}
+
+            <Categories
+                showCategoryModal={showCategoryModal}
+                setShowCategoryModal={setShowCategoryModal}
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                onCategorySaved={() => getCategories(userSettings.categorySortBy)
+                }
+                newlyAddedCategory={newlyAddedCategory}
+                setNewlyAddedCategory={setNewlyAddedCategory}
+            />
 
             {/* BUTTON SLOT FEATURE */}
             <ButtonGrid

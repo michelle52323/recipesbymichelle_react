@@ -7,10 +7,12 @@ import SortableRecipeItem from './SortableRecipeItem';
 const API_BASE = getApiBaseUrl();
 import { TouchSensor } from '@dnd-kit/core';
 import { isDevUseMockLogin, isMobileTouchDeviceDev, isMobileTouchDevice } from '../../../helpers/config';
+import Categories from '../Categories/Categories';
 import CategoryAssignmentModal from '../Categories/CategoryAssignmentModal';
 import MobileRecipeActionsMenu from '../../UserControls/SubMenus/MyRecipes/MobileRecipeActionsMenu';
 import Loader from '../../UserControls/Loader/Loader';
 import type { Category } from '../../../types/Categories/Categories';
+import type { UserSettings } from '../../../types/UserSettings/UserSettings';
 
 import {
     DndContext,
@@ -46,6 +48,9 @@ interface MyRecipesMobileProps {
     setOpenCategory: (value: Category) => void;
     currentView: "Recipes" | "Categories" | null;
     setCurrentView: (value: "Recipes" | "Categories" | null) => void;
+    userSettings: UserSettings;
+    allCategories: Category[];
+    setAllCategories: (value: Category[]) => void;
 }
 
 
@@ -55,7 +60,10 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
     openCategory,
     setOpenCategory,
     currentView,
-    setCurrentView
+    setCurrentView,
+    userSettings,
+    allCategories,
+    setAllCategories
 }) => {
 
     const navigate = useNavigate();
@@ -71,9 +79,15 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
     const [isLoading, setIsLoading] = useState(true);
 
     const [assignCategoriesModalIsOpen, setAssignCategoriesModalIsOpen] = useState(false);
-    const [allCategories, setAllCategories] = useState<Category[]>([]);
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
+    const [openModal, setOpenModal] = useState<"AddCategory" | "AssignCategory" | null>(null);
+    const [newlyAddedCategory, setNewlyAddedCategory] = useState<Category | null>(null);
+
+    //const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [recipeCategories, setRecipeCategories] = useState<Category[]>([]);
     const [recipeToAssign, setRecipeToAssign] = useState<{ id: number; name: string; categories?: Category[] } | null>(null);
+
+    
 
     const openDeleteModal = (recipe: { id: number; name: string }) => {
         setRecipeToDelete(recipe);
@@ -91,7 +105,6 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
             coordinateGetter: sortableKeyboardCoordinates,
         })
     );
-
 
     useEffect(() => {
         const fetchRecipes = async () => {
@@ -261,8 +274,27 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
     useEffect(() => {
 
 
-        getCategories("Alphabetical");
+        //getCategories("Alphabetical");
     }, []);
+
+    useEffect(() => {
+
+
+        if (openModal == "AddCategory"){
+            setShowCategoryModal(true);
+            setAssignCategoriesModalIsOpen(false);
+        }
+        else if (openModal == "AssignCategory"){
+            setShowCategoryModal(false);
+            setAssignCategoriesModalIsOpen(true);
+        }
+        else{
+            setShowCategoryModal(false);
+            setAssignCategoriesModalIsOpen(false);
+        }
+            
+        //console.log("Open Modal: " + openModal)
+    }, [openModal]);
 
     const getCategories = async (sortBy: "Alphabetical" | "SortOrder" | null) => {
         const endpoint = `${API_BASE}/api/Categories/list${isDevUseMockLogin() ? "mock" : ""}?sortBy=${sortBy}`;
@@ -295,7 +327,10 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
     };
 
     const handleCloseAssignCategories = () => {
+        setBanner('');
         setAssignCategoriesModalIsOpen(false);
+        setOpenModal(null);
+        setNewlyAddedCategory(null);
     };
 
     const handleSaveAssignedCategories = async (selectedCategoryIds: number[]) => {
@@ -446,6 +481,10 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
                     allCategories={allCategories}
                     recipeCategories={recipeCategories}
                     recipe={recipeToAssign}
+                    openModal={openModal}
+                    setOpenModal={setOpenModal}
+                    newlyAddedCategory={newlyAddedCategory}
+                    setNewlyAddedCategory={setNewlyAddedCategory}
                 />
 
             )}
@@ -506,6 +545,17 @@ const MyRecipesMobile: React.FC<MyRecipesMobileProps> = ({
                     />
                 </>
             )}
+
+            <Categories
+                    showCategoryModal={showCategoryModal}
+                    setShowCategoryModal={setShowCategoryModal}
+                    openModal={openModal}
+                    setOpenModal={setOpenModal}
+                    onCategorySaved={() => getCategories(userSettings.categorySortBy)
+                     }
+                    newlyAddedCategory={newlyAddedCategory}
+                    setNewlyAddedCategory={setNewlyAddedCategory}
+                />
 
         </div>
 

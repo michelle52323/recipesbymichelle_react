@@ -18,7 +18,11 @@ function Categories({
     categoryToEdit = null,
     isRenaming = false,
     setIsRenaming,
-    setSelectedCategory
+    setSelectedCategory,
+    openModal = null,
+    setOpenModal,
+    newlyAddedCategory = null,
+    setNewlyAddedCategory
 }: {
     showCategoryModal: boolean;
     setShowCategoryModal: (value: boolean) => void;
@@ -28,6 +32,10 @@ function Categories({
     isRenaming?: boolean;
     setIsRenaming?: (value: boolean) => void;
     setSelectedCategory?: (value: Category | null) => void;
+    openModal?: "AddCategory" | "AssignCategory" | null;
+    setOpenModal?: (value: "AddCategory" | "AssignCategory" | null) => void;
+    newlyAddedCategory?: Category;
+    setNewlyAddedCategory?: (value: Category) => void;
 
 }) {
 
@@ -35,7 +43,9 @@ function Categories({
         setBanner: (message: string) => void;
     }>();
 
-    const [categoryName, setCategoryName] = useState<string | null>(null);
+
+    const [categoryName, setCategoryName] = useState<string>("");
+    //const [categoryName, setCategoryName] = useState<string | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const categoryNameRef = useRef<HTMLInputElement>(null);
@@ -64,17 +74,43 @@ function Categories({
             setErrorMessage(null);
 
             if (mode === "add") {
-                await addCategory(categoryName.trim());
+                const response = await addCategory(categoryName.trim());
+
+                //console.log(response.categoryId + " " + response.name);
+
+                //Pass back category
+                if (openModal != null) {
+                    const newCat: Category = {
+                        id: response.categoryId,
+                        name: response.name,
+                        sortOrder: response.sortOrder,
+                        userId: null,
+                        isActive: true
+                    };
+                    setNewlyAddedCategory(newCat);
+                    //console.log(newCat);
+
+                }
             } else if (mode === "edit" && categoryToEdit) {
                 await renameCategory(categoryToEdit.id, categoryName.trim());
             }
 
             onCategorySaved();
             setShowCategoryModal(false);
-            setCategoryName(null);
+            setCategoryName("");
+
+
+
+            if (openModal == "AddCategory")
+                setOpenModal("AssignCategory");
 
         } catch (err) {
             setErrorMessage("Unable to save category. Please try again.");
+            if (openModal) {
+                setOpenModal(null);
+                setBanner('');
+            }
+
             console.error(err);
         }
     };
@@ -95,7 +131,9 @@ function Categories({
             throw new Error("Failed to add category");
             setBanner('Error adding category');
         } else {
-            setBanner('Category added successfully!');
+
+            if (openModal == null)
+                setBanner('Category added successfully!');
         }
 
         return await response.json();
@@ -137,6 +175,10 @@ function Categories({
                     }
 
                     setShowCategoryModal(false);
+                    if (openModal) {
+                        setOpenModal(null);
+                        setBanner('');
+                    }
                 }}
 
                 contentLabel="Confirm Delete"
@@ -151,6 +193,10 @@ function Categories({
                         }
 
                         setShowCategoryModal(false);
+                        if (openModal) {
+                            setOpenModal(null);
+                            setBanner('');
+                        }
                     }} ></button>
                 </div>
                 <div className="dialog-content-holder">
@@ -189,6 +235,10 @@ function Categories({
                                 }
 
                                 setShowCategoryModal(false);
+                                if (openModal) {
+                                    setOpenModal(null);
+                                    setBanner('');
+                                }
                             }}
                         >
                             Cancel
