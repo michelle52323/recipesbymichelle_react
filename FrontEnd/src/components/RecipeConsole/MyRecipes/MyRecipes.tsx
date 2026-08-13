@@ -207,6 +207,7 @@ function MyRecipes() {
 
         }
         else {
+            setShowCategoriesToolbar(false);
             setShowCategories(openCategory != null);
         }
 

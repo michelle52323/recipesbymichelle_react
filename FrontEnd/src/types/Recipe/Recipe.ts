@@ -22,6 +22,7 @@ export interface RecipeView extends RecipeBase {
     steps?: Step[];
     isMyRecipe?: boolean;
     measurementSystem?: "Imperial" | "Metric" | null;
+    categoryNames?: string[];
 }
 
 

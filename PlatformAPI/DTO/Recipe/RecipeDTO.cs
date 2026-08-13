@@ -22,6 +22,8 @@ namespace PlatformAPI.DTO.Recipe
         public List<IngredientDto> Ingredients { get; set; }
         public List<StepDto> Steps { get; set; }
         public string MeasurementSystem { get; set; }
+
+        public List<string> CategoryNames { get; set; }
     }
 
     public class IngredientDto

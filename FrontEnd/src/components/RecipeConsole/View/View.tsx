@@ -13,10 +13,12 @@ import type { RecipeView } from '../../../types/Recipe/Recipe';
 import type { PreviousPageNavigation } from '../../../types/Navigation/Navigation';
 import Loader from '../../UserControls/Loader/Loader';
 import FavoritesStar from '../../../components/UserControls/Favorites/FavoriteStar';
+import BadgeList from '../../../components/UserControls/Badges/BadgeList';
 import '../../../grid-layout.css';
 import './view.css';
 
 const API_BASE = getApiBaseUrl();
+
 
 
 interface Claims {
@@ -56,9 +58,6 @@ function View() {
     const [descNeedsToggle, setDescNeedsToggle] = useState(false);
     const descRef = useRef<HTMLDivElement>(null);
     const descMeasureRef = useRef<HTMLDivElement>(null);
-
-
-
 
     const layoutClass = isMobileTouchDevice() ? "gof-view-mobile" : "gof-view-desktop";
     const innerlayoutClass = isMobileTouchDevice() ? "grid-page-row-height-mobile" : "grid-page-row-height-desktop";
@@ -287,7 +286,7 @@ function View() {
                 <div className={`content-inner-desktop `}>
                     <div className="d-print-none" style={{ height: 50 }}>
                         <div className="d-flex align-items-center pb-3 fw-bold">
-
+                            <BadgeList badges={recipe.categoryNames} />
                             {isMyRecipe && (
                                 <div className="d-flex align-items-center ms-auto pt-1 d-print-none">
                                     <span className="me-2">Edit Details</span>

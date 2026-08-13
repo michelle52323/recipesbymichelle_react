@@ -239,6 +239,12 @@ namespace PlatformAPI.Controllers.Categories
             if (category.UserId != userId)
                 return Forbid(); // cannot send an object here
 
+            // Remove all recipe-category assignments for this category
+            var recipeCategories = _context.RecipeCategories
+                .Where(rc => rc.CategoryId == dto.Id);
+
+            _context.RecipeCategories.RemoveRange(recipeCategories);
+
             // Soft delete
             category.IsActive = false;
             await _context.SaveChangesAsync();
