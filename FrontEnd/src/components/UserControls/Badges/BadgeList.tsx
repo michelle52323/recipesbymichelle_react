@@ -3,9 +3,11 @@ import "./badgelist.css";
 
 interface BadgeListProps {
     badges: string[];
+    badgeRowHeight: number;
+    setBadgeRowHeight: (height: number) => void
 }
 
-function BadgeList({ badges }: BadgeListProps) {
+function BadgeList({ badges, badgeRowHeight, setBadgeRowHeight }: BadgeListProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [visibleCount, setVisibleCount] = useState(badges.length);
     const [expanded, setExpanded] = useState(false);
@@ -13,19 +15,19 @@ function BadgeList({ badges }: BadgeListProps) {
     useEffect(() => {
         if (!containerRef.current) return;
 
-        const containerWidth = containerRef.current.offsetWidth;
-        let usedWidth = 0;
-        let count = 0;
+        // Calculate usable width
+        const usableWidth = window.innerWidth * 0.92 - 140;
 
-        // Hidden measurement container
+        // Create hidden measurement container
         const measurement = document.createElement("div");
         measurement.style.visibility = "hidden";
         measurement.style.position = "absolute";
         measurement.style.left = "-9999px";
         measurement.style.top = "-9999px";
-        measurement.style.display = "flex";
-        measurement.style.flexWrap = "nowrap";
         document.body.appendChild(measurement);
+
+        // Measure total width of all badges
+        let totalWidth = 0;
 
         for (let badge of badges) {
             const badgeEl = document.createElement("span");
@@ -33,34 +35,48 @@ function BadgeList({ badges }: BadgeListProps) {
             badgeEl.innerText = badge;
             measurement.appendChild(badgeEl);
 
-            const width = badgeEl.offsetWidth + 8;
-
-            if (usedWidth + width > containerWidth) break;
-
-            usedWidth += width;
-            count++;
+            const textWidth = badgeEl.offsetWidth;
+            const badgeWidth = textWidth + 22; // 16px padding + 6px gap
+            totalWidth += badgeWidth;
         }
 
         document.body.removeChild(measurement);
 
-        // ⭐ FIXED LOGIC ⭐
-
-        // If only one badge exists, always show it
-        if (badges.length === 1) {
+        // Apply your rule:
+        // If all badges fit → show all
+        // Else → show only 1 badge
+        if (totalWidth <= usableWidth) {
+            setVisibleCount(badges.length);
+        } else {
             setVisibleCount(1);
-            return;
         }
 
-        // If none fit, show at least the first one
-        if (count === 0) {
-            setVisibleCount(1);
-            return;
+        // ⭐ NEW: Calculate number of rows needed when expanded
+        if (expanded) {
+            // Include "Show less" badge in total width
+            const measurement2 = document.createElement("span");
+            measurement2.className = "badge-item";
+            measurement2.innerText = "Show less";
+            document.body.appendChild(measurement2);
+
+            const showLessWidth = measurement2.offsetWidth + 22;
+            document.body.removeChild(measurement2);
+
+            const expandedTotalWidth = totalWidth + showLessWidth;
+
+            const rowsNeeded = Math.ceil(expandedTotalWidth / usableWidth);
+
+            setBadgeRowHeight(15 + rowsNeeded * 35);
+        } else {
+            // Collapsed mode is always one row
+            setBadgeRowHeight(50);
         }
 
-        setVisibleCount(count);
-    }, [badges]);
+    }, [badges, expanded]);
 
     const overflow = badges.length - visibleCount;
+
+
 
     return (
         <div className="badge-list-container" ref={containerRef}>
@@ -70,8 +86,7 @@ function BadgeList({ badges }: BadgeListProps) {
                 </span>
             ))}
 
-            {/* Only show +X more if at least one badge is visible */}
-            {overflow > 0 && !expanded && visibleCount > 0 && (
+            {!expanded && overflow > 0 && (
                 <span
                     className="badge-item badge-more"
                     onClick={() => setExpanded(true)}

@@ -146,7 +146,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -162,6 +162,10 @@
               "IsPinned": true
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "RecipeDTO.cs",
@@ -171,8 +175,7 @@
               "RelativeToolTip": "DTO\\Recipe\\RecipeDTO.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAYwBkAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-13T00:57:42.686Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-13T00:57:42.686Z"
             },
             {
               "$type": "Document",
@@ -182,7 +185,7 @@
               "RelativeDocumentMoniker": "Controllers\\Recipes\\ViewController.cs",
               "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Recipes\\ViewController.cs",
               "RelativeToolTip": "Controllers\\Recipes\\ViewController.cs",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAuwH0AAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-08-13T00:56:46.998Z",
               "EditorCaption": ""
@@ -197,12 +200,7 @@
               "RelativeToolTip": "Models\\Categories\\RecipeCategory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-12T23:18:51.361Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+              "WhenOpened": "2026-08-12T23:18:51.361Z"
             },
             {
               "$type": "Document",
@@ -214,8 +212,7 @@
               "RelativeToolTip": "Controllers\\Recipes\\MyRecipesController.cs",
               "ViewState": "AgIAADEAAAAAAAAAAAAuwEgAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-16T23:18:01.414Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-16T23:18:01.414Z"
             },
             {
               "$type": "Document",
@@ -227,8 +224,7 @@
               "RelativeToolTip": "Controllers\\Categories\\CategoriesController.cs",
               "ViewState": "AgIAAN4AAAAAAAAAAAAAwPEAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-15T00:44:19.082Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-15T00:44:19.082Z"
             },
             {
               "$type": "Document",

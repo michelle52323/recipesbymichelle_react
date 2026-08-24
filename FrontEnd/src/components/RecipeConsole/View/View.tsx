@@ -54,12 +54,15 @@ function View() {
     const [previousPageNavigation, setPreviousPathNavigation] = useState<PreviousPageNavigation | null>(null);
     const [isMyRecipe, setIsMyRecipe] = useState<boolean>(false);
 
+    const [badgeRowHeight, setBadgeRowHeight] = useState<number>(50);
+
     const [descExpanded, setDescExpanded] = useState(false);
     const [descNeedsToggle, setDescNeedsToggle] = useState(false);
     const descRef = useRef<HTMLDivElement>(null);
     const descMeasureRef = useRef<HTMLDivElement>(null);
 
     const layoutClass = isMobileTouchDevice() ? "gof-view-mobile" : "gof-view-desktop";
+    const gofHeight = 490 - badgeRowHeight;
     const innerlayoutClass = isMobileTouchDevice() ? "grid-page-row-height-mobile" : "grid-page-row-height-desktop";
     const isMobile = isMobileTouchDevice();
     //console.log("Previous location:", previousPath.current);
@@ -284,9 +287,9 @@ function View() {
             <div className="content-holder-desktop" >
                 {/* <div className="content-inner-desktop "> */}
                 <div className={`content-inner-desktop `}>
-                    <div className="d-print-none" style={{ height: 50 }}>
+                    <div className="d-print-none" style={{ height: badgeRowHeight }}>
                         <div className="d-flex align-items-center pb-3 fw-bold">
-                            <BadgeList badges={recipe.categoryNames} />
+                            <BadgeList badges={recipe.categoryNames} badgeRowHeight={badgeRowHeight} setBadgeRowHeight={setBadgeRowHeight} />
                             {isMyRecipe && (
                                 <div className="d-flex align-items-center ms-auto pt-1 d-print-none">
                                     <span className="me-2">Edit Details</span>
@@ -311,7 +314,7 @@ function View() {
                     <div className={`${backgroundCardClass}`}>
                         {/*INSERT CONTENT HERE */}
 
-                        <div className={`pt-4 grid-overflow-box gof-row  ${layoutClass} ${fontClass} `}>
+                        <div className={`pt-4 grid-overflow-box gof-row ${fontClass} `} style={{height: gofHeight}}>
                             <div className={`recipe-description ${descExpanded ? "expanded" : "collapsed"}`}>
                                 {recipe.description}
                             </div>
