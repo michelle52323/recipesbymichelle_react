@@ -1,6 +1,6 @@
 # Project Description
 
-This project is the second‑generation version of my original .NET Razor Pages recipe app. The first version (source available at https://github.com/michelle52323/recipesbymichelle_razor) proved the concept, but this release is a full SPA rebuild using React + RESTful APIs for a faster, smoother, more modern experience. All core features were carried forward, and many were redesigned or expanded for better usability, consistency, and long‑term maintainability.
+This project is the second‑generation version of my original .NET Razor Pages recipe app. The first version (source available at https://github.com/michelle52323/recipesbymichelle_razor) proved the concept.  A clean, mobile‑friendly recipe manager that lets you store, edit, and view your own recipes - with ingredients, steps, recipe categories, search other's recipes, and distraction‑free cooking.  This release is a full SPA rebuild using React + RESTful APIs for a faster, smoother, more modern experience. All core features were carried forward, and many were redesigned or expanded for better usability, consistency, and long‑term maintainability.  Several new features were added to enhance your experience.
 
 ## Live URL
 
@@ -38,6 +38,9 @@ https://www.recipesbymichelle.app/
 - Recipe font choice — Choose between a clean sans‑serif style or a handwritten aesthetic (Google Caveat) for a more personal, cookbook‑like feel.
 - Ingredient auto‑correction — Quantities and units auto‑correct on blur based on the selected measurement system, reducing errors and improving consistency.
 - Enhanced steps editor — Supports basic formatting (bold, italic, underline) for clearer, more readable cooking instructions.
+- Recipe Import — Import recipes directly from any supported URL, automatically extracting ingredients, instructions, and metadata for a seamless onboarding experience.
+- Category Management — Organize your entire recipe collection with flexible multi‑category support, custom sort orders, and intuitive tools for adding, moving, or removing categories.
+- Modernized UI — Enjoy a fully upgraded interface featuring improved layout geometry, refined spacing, and a smoother, more accessible user experience across desktop and mobile.
 
 ## Screenshots ##
 
@@ -56,5 +59,11 @@ https://www.recipesbymichelle.app/
 - ![Search Recipes - Dark Teal](./screenshots/05-Search-Recipes.png)
 *Search recipes by keyword and browse results with a simple, responsive grid.*
 
-- ![Theme selector - Spring Garden](./screenshots/06-Theme-Selector.png)
+- ![Category List - Dark Teal](./screenshots/06-Category-List.png)
+Browse your recipes in a clean, modern layout. Use the **View By** menu to switch between viewing **Categories** or **All Recipes**, making it easy to see both organized and uncategorized recipes. Adjust the ordering with the **Sort By** menu, choosing between alphabetical or custom sorting to organize your collection exactly the way you prefer.
+
+- ![Category Expanded - Dark Teal](./screenshots/07-Category-Expanded.png)
+*Open any category to view all recipes assigned to it. Each category displays its recipes in a simple, readable format, making it easy to explore dishes within a specific group.*
+
+- ![Theme selector - Spring Garden](./screenshots/08-Theme-Selector.png)
 *Seven predefined themes allow users to personalize the appearance of the app.*
