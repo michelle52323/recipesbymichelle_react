@@ -69,6 +69,8 @@ namespace PlatformAPI.Controllers.Recipes
                 .OrderBy(s => s.SortOrder)
                 .ToListAsync();
 
+            var isMyRecipe = Convert.ToInt32(userId) == recipe.UserRecipe.UserId;
+
             // Load categories for this recipe
             var recipeCategories = await _context.RecipeCategories
                 .Include(rc => rc.Category)
@@ -76,11 +78,27 @@ namespace PlatformAPI.Controllers.Recipes
                 .OrderBy(rc => rc.SortOrder)
                 .ToListAsync();
 
-            // Extract category names
-            var categoryNames = recipeCategories
-                .Where(rc => rc.Category != null)
-                .Select(rc => rc.Category.Name)
-                .ToList();
+            //// Extract category names
+            //var categoryNames = recipeCategories
+            //    .Where(rc => rc.Category != null)
+            //    .Select(rc => rc.Category.Name)
+            //    .ToList();
+            List<string>? categoryNames;
+
+            if (isMyRecipe)
+            {
+                // Extract category names for your own recipes
+                categoryNames = recipeCategories
+                    .Where(rc => rc.Category != null)
+                    .Select(rc => rc.Category.Name)
+                    .ToList();
+            }
+            else
+            {
+                // For now, hide category tags for other users' recipes
+                categoryNames = new List<string>();
+            }
+
 
 
             // Map ingredients to DTOs
@@ -121,7 +139,7 @@ namespace PlatformAPI.Controllers.Recipes
                 ShowAbbreviations = recipe.ShowAbbreviations,
                 IsActive = recipe.IsActive,
                 SortOrder = recipe.SortOrder,
-                IsMyRecipe = Convert.ToInt32(userId) == recipe.UserRecipe.UserId,
+                IsMyRecipe = isMyRecipe,
                 RecipeVisibility = recipe.RecipeVisibility.ToString(),
                 RecipeFont = recipe.RecipeFont.ToString(),
                 Ingredients = ingredientDtos,
