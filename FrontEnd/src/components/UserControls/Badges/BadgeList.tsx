@@ -42,7 +42,7 @@ function BadgeList({ badges, badgeRowHeight, setBadgeRowHeight }: BadgeListProps
 
         document.body.removeChild(measurement);
 
-        // Apply your rule:
+        // Apply rule:
         // If all badges fit → show all
         // Else → show only 1 badge
         if (totalWidth <= usableWidth) {
@@ -51,7 +51,7 @@ function BadgeList({ badges, badgeRowHeight, setBadgeRowHeight }: BadgeListProps
             setVisibleCount(1);
         }
 
-        // ⭐ NEW: Calculate number of rows needed when expanded
+        // Calculate number of rows needed when expanded
         if (expanded) {
             // Include "Show less" badge in total width
             const measurement2 = document.createElement("span");
@@ -79,31 +79,47 @@ function BadgeList({ badges, badgeRowHeight, setBadgeRowHeight }: BadgeListProps
 
 
     return (
-        <div className="badge-list-container" ref={containerRef}>
-            {(expanded ? badges : badges.slice(0, visibleCount)).map((b, i) => (
-                <span key={i} className="badge-item">
-                    {b}
-                </span>
-            ))}
+        <>
+            {badges.length > 0 && (
+                <div className="badge-list-print-container">
+                    <span className="category-badge-label">
+                        Categories:&nbsp;
+                    </span>
 
-            {!expanded && overflow > 0 && (
-                <span
-                    className="badge-item badge-more"
-                    onClick={() => setExpanded(true)}
-                >
-                    +{overflow} more
-                </span>
+                    <span className="category-badge-pipe">
+                        {badges.join(" | ")}
+                    </span>
+                </div>
             )}
 
-            {expanded && overflow > 0 && (
-                <span
-                    className="badge-item badge-less"
-                    onClick={() => setExpanded(false)}
-                >
-                    Show less
-                </span>
-            )}
-        </div>
+
+            <div className="badge-list-container" ref={containerRef}>
+                {(expanded ? badges : badges.slice(0, visibleCount)).map((b, i) => (
+                    <span key={i} className="badge-item">
+                        {b}
+                    </span>
+                ))}
+
+                {!expanded && overflow > 0 && (
+                    <span
+                        className="badge-item badge-more"
+                        onClick={() => setExpanded(true)}
+                    >
+                        +{overflow} more
+                    </span>
+                )}
+
+                {expanded && overflow > 0 && (
+                    <span
+                        className="badge-item badge-less"
+                        onClick={() => setExpanded(false)}
+                    >
+                        Show less
+                    </span>
+                )}
+            </div>
+        </>
+
     );
 }
 

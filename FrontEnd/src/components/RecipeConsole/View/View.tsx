@@ -251,6 +251,49 @@ function View() {
         }
     ], [previousPageNavigation, restoredSearchTerm]);
 
+    
+    // Calculate usable width
+    const [usableWidth, setUsableWidth] = useState<number>(window.innerWidth * 0.92);
+
+    const scrollbarWidth = isMobileTouchDevice() ? 0 : 20;
+    const pixelsPerCharacter = [8, 8];
+
+    useEffect(() => {
+        if (!recipe || !recipe.description) return;
+
+        // Determine px per character based on font
+        const pixelsPerCharacterFinal =
+            recipe.recipeFont === "Handwritten"
+                ? pixelsPerCharacter[1]
+                : pixelsPerCharacter[0];
+
+        // Calculate how many characters fit on one line
+        const charsPerLine = usableWidth / pixelsPerCharacterFinal;
+
+        const scrollbarAdjustment = scrollbarWidth * 8 / charsPerLine;
+
+        // Determine if toggle is needed
+        if (recipe.description.length + scrollbarAdjustment  < charsPerLine * 2) {
+            setDescNeedsToggle(false);
+            setDescExpanded(false);
+        } else {
+            setDescNeedsToggle(true);
+        }
+    }, [recipe, usableWidth]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setUsableWidth(window.innerWidth * 0.92);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+
     // useEffect(() => {
     //     if (!recipe || !descMeasureRef.current) return;
 
@@ -287,8 +330,8 @@ function View() {
             <div className="content-holder-desktop" >
                 {/* <div className="content-inner-desktop "> */}
                 <div className={`content-inner-desktop `}>
-                    <div className="d-print-none" style={{ height: badgeRowHeight }}>
-                        <div className="d-flex align-items-center pb-3 fw-bold">
+                    <div style={{ height: badgeRowHeight }}>
+                        <div className="d-flex align-items-center pb-3 fw-bold ">
                             <BadgeList badges={recipe.categoryNames} badgeRowHeight={badgeRowHeight} setBadgeRowHeight={setBadgeRowHeight} />
                             {isMyRecipe && (
                                 <div className="d-flex align-items-center ms-auto pt-1 d-print-none">
@@ -296,7 +339,7 @@ function View() {
 
                                     <button
                                         type="button"
-                                        className="button button-icon"
+                                        className="button button-icon d-print-none"
                                         onClick={() => navigate(`/recipes/recipeinfo/${recipe.id}`)}
                                     >
                                         {isMobile ? (
@@ -314,12 +357,12 @@ function View() {
                     <div className={`${backgroundCardClass}`}>
                         {/*INSERT CONTENT HERE */}
 
-                        <div className={`pt-4 grid-overflow-box gof-row ${fontClass} `} style={{height: gofHeight}}>
+                        <div className={`pt-4 grid-overflow-box gof-row ${fontClass} `} style={{ height: gofHeight }}>
                             <div className={`recipe-description ${descExpanded ? "expanded" : "collapsed"}`}>
                                 {recipe.description}
                             </div>
 
-                            {recipe.description && recipe.description.length > 0 && (
+                            {recipe.description && recipe.description.length > 0 && descNeedsToggle && (
                                 <button
                                     className="desc-toggle-btn"
                                     onClick={() => setDescExpanded(prev => !prev)}
@@ -327,6 +370,20 @@ function View() {
                                     {descExpanded ? "Show less" : "Show more"}
                                 </button>
                             )}
+
+
+                            {/* {recipe.description && recipe.description.length > 0 && (
+                                <button
+                                    className="desc-toggle-btn"
+                                    onClick={() => setDescExpanded(prev => !prev)}
+                                >
+                                    {descExpanded ? "Show less" : "Show more"}
+                                </button>
+                            )} */}
+
+
+
+
                             {/* Measurement element — NEVER collapsed/expanded */}
                             {/* Measurement element — NEVER collapsed/expanded */}
                             {/* <div
