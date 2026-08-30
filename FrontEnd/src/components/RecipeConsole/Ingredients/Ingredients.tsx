@@ -731,7 +731,7 @@ function Ingredients() {
                 buttons={[
                     {
                         text: "Back",
-                        url: `/recipes/recipeInfo/${recipeId}`,
+                        url: `/recipes/recipesettings/${recipeId}`,
                         icon: <Icon name="leftArrow" />,
                         type: "button",
                         mobileSlot: 1,

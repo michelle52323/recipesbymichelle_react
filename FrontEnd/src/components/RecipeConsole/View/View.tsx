@@ -335,12 +335,12 @@ function View() {
                             <BadgeList badges={recipe.categoryNames} badgeRowHeight={badgeRowHeight} setBadgeRowHeight={setBadgeRowHeight} />
                             {isMyRecipe && (
                                 <div className="d-flex align-items-center ms-auto pt-1 d-print-none">
-                                    <span className="me-2">Edit Details</span>
+                                    <span className="me-2">Recipe Settings</span>
 
                                     <button
                                         type="button"
                                         className="button button-icon d-print-none"
-                                        onClick={() => navigate(`/recipes/recipeinfo/${recipe.id}`)}
+                                        onClick={() => navigate(`/recipes/recipesettings/${recipe.id}`)}
                                     >
                                         {isMobile ? (
                                             <Icon name="pencil" marginLeft={4} />

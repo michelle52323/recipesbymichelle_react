@@ -12,8 +12,8 @@ function ProgressBar() {
 
     return (
         <div className="quiz-progress-bar d-flex">
-            <div className={`col-4 progress-panel ${getClass("/recipes/recipeinfo")}`}>
-                1 | Basic Info
+            <div className={`col-4 progress-panel ${getClass("/recipes/recipesettings")}`}>
+                1 | Recipe Settings
             </div>
             <div
                 className={`col-4 progress-panel ${path.includes("/recipes/ingredients/")

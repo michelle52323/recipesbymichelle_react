@@ -52,19 +52,19 @@ const MobileRecipeActionsMenu: React.FC<Props> = ({
 
             <div style={{ paddingLeft: '16px', paddingRight: '16px' }}>
 
-                {/* Edit Basic Info */}
+                {/* Recipe Settings*/}
                 <div className="menu-item menu-item-wide">
                     <button
                         className="menu-button-link"
                         onClick={() => {
-                            navigate(`/Recipes/RecipeInfo/${recipe.id}`);
+                            navigate(`/Recipes/RecipeSettings/${recipe.id}`);
                             closeMenu();
                         }}
                     >
                         <div className="menu-icon">
                             <Icon name="pencil" />
                         </div>
-                        <div className="menu-text">Edit Basic Info</div>
+                        <div className="menu-text">Recipe Settings</div>
                     </button>
                 </div>
 

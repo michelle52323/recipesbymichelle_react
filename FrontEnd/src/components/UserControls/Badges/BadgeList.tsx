@@ -16,7 +16,7 @@ function BadgeList({ badges, badgeRowHeight, setBadgeRowHeight }: BadgeListProps
         if (!containerRef.current) return;
 
         // Calculate usable width
-        const usableWidth = window.innerWidth * 0.92 - 140;
+        const usableWidth = window.innerWidth * 0.92 - 170;
 
         // Create hidden measurement container
         const measurement = document.createElement("div");

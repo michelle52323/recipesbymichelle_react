@@ -120,8 +120,8 @@ function App() {
 
                 <Route path="recipes/myrecipes" element={<MyRecipes />} />
 
-                <Route path="recipes/recipeinfo" element={<RecipeInfo />} />
-                <Route path="recipes/recipeinfo/:id" element={<RecipeInfo />} />
+                <Route path="recipes/recipesettings" element={<RecipeInfo />} />
+                <Route path="recipes/recipesettings/:id" element={<RecipeInfo />} />
 
                 <Route path="recipes/import/url" element={<ImportRecipeFromUrl />} />
 
