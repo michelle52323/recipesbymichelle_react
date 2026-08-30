@@ -91,7 +91,7 @@ const Menu = React.forwardRef<HTMLDivElement, MenuProps>(({ isOpen, closeMenu },
             </div>
 
             <div className="menu-item">
-                <button className="menu-button-link" onClick={() => handleNavigate("/recipes/recipeInfo")}>
+                <button className="menu-button-link" onClick={() => handleNavigate("/recipes/recipeSettings")}>
                     <div className="menu-icon">➕</div>
                     <div className="menu-text">Create Recipe</div>
                 </button>

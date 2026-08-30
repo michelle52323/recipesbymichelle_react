@@ -43,7 +43,7 @@ const AddRecipeActionsMenu: React.FC<Props> = ({
                     <button
                         className="menu-button-link"
                         onClick={() => {
-                            navigate(`/Recipes/RecipeInfo`);
+                            navigate(`/Recipes/recipeSettings`);
                             closeMenu();
                         }}
                     >
