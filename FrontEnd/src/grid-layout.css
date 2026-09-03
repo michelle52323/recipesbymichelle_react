@@ -1,5 +1,9 @@
 ﻿:root {
 
+    --panelItemContentBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 3%);
+    --panelItemContentBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 7%);
+    --panelItemContentBorderColor: color-mix(in srgb, var(--itemContentBackgroundColor), var(--colorMix) 8%);
+
     --itemContentBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 4%);
     --itemContentBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 2%);
     --itemContentBorderColor: color-mix(in srgb, var(--itemContentBackgroundColor), var(--colorMix) 8%);
@@ -11,15 +15,15 @@
     --dragItemBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 5%);
 }
 
-.item-tint{
+.item-tint {
     background-image: linear-gradient(45deg, var(--itemContentBackgroundColor), var(--itemContentBackgroundColorGradient));
 }
 
-.panel{
-    background-image: linear-gradient(45deg, var(--itemContentBackgroundColor), var(--itemContentBackgroundColorGradient));
-    border: 1px solid var(--itemContentBorderColor);
+.panel {
+    background-image: linear-gradient(45deg, var(--panelItemContentBackgroundColor), var(--panelItemContentBackgroundColorGradient));
+    border: 1px solid var(--panelItemContentBorderColor);
     box-shadow: 0 1px 3px var(--buttonDropShadow),
-                0 0 0 1px rgba(0, 0, 0, 0.06);
+        0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 
 
@@ -333,8 +337,8 @@ a.button-tiny-responsive-mobile {
     height: 385px;
 }
 
-.gof-view-desktop{
-    height:440px;
+.gof-view-desktop {
+    height: 440px;
 }
 
 .gof-view-mobile {

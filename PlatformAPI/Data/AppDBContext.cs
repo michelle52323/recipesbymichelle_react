@@ -7,6 +7,7 @@ using PlatformAPI.Models.Categories;
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using PlatformAPI.Enums;
+using PlatformAPI.Models.Content;
 
 namespace PlatformAPI.Data
 {
@@ -59,6 +60,8 @@ namespace PlatformAPI.Data
 
         public DbSet<RecipeCategory> RecipeCategories { get; set; }
 
+        public DbSet<CookingTip> CookingTips { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -108,6 +111,11 @@ namespace PlatformAPI.Data
 
             // Override for Step.Description
             modelBuilder.Entity<Step>()
+                .Property(s => s.Description)
+                .HasColumnType("nvarchar(max)");
+
+            // Override for CookingTip.Description
+            modelBuilder.Entity<CookingTip>()
                 .Property(s => s.Description)
                 .HasColumnType("nvarchar(max)");
 
@@ -506,6 +514,36 @@ namespace PlatformAPI.Data
                 new FractionDecimal { Id = 31, Fraction = "3/5", Decimal = 0.6f, Primary = true },
                 new FractionDecimal { Id = 32, Fraction = "4/5", Decimal = 0.8f, Primary = true }
             );
+
+            //Cooking Tips
+            modelBuilder.Entity<CookingTip>().HasData(
+            new CookingTip { Id = 1, Description = "Salt your pasta water until it tastes like the sea; it’s your only chance to season the noodles.", IsActive = true },
+            new CookingTip { Id = 2, Description = "Let meat rest after cooking so the juices redistribute and the texture stays tender.", IsActive = true },
+            new CookingTip { Id = 3, Description = "Toast spices in a dry pan for 30 seconds to unlock deeper aroma and flavor.", IsActive = true },
+            new CookingTip { Id = 4, Description = "Add a splash of acid (lemon or vinegar) when a dish tastes flat — it brightens everything.", IsActive = true },
+            new CookingTip { Id = 5, Description = "Preheat your pan fully before adding oil to prevent sticking and ensure even browning.", IsActive = true },
+            new CookingTip { Id = 6, Description = "Cut ingredients to similar sizes so they cook evenly and finish at the same time.", IsActive = true },
+            new CookingTip { Id = 7, Description = "Reserve some pasta water to adjust sauce consistency and help it cling to noodles.", IsActive = true },
+            new CookingTip { Id = 8, Description = "Use room‑temperature butter and eggs for smoother baking batters and better rise.", IsActive = true },
+            new CookingTip { Id = 9, Description = "Sear meat without moving it for the first minute — that’s how you get a proper crust.", IsActive = true },
+            new CookingTip { Id = 10, Description = "Taste as you cook; seasoning gradually creates better balance than adding salt at the end.", IsActive = true },
+            new CookingTip { Id = 11, Description = "Add aromatics (garlic, ginger, onions) after your oil heats to avoid burning and bitterness.", IsActive = true },
+            new CookingTip { Id = 12, Description = "Chill cookie dough before baking to prevent spreading and deepen flavor.", IsActive = true },
+            new CookingTip { Id = 13, Description = "Use a thermometer for meat and baked goods — guessing leads to overcooking.", IsActive = true },
+            new CookingTip { Id = 14, Description = "Bloom cocoa powder in hot water or coffee to intensify chocolate flavor in desserts.", IsActive = true },
+            new CookingTip { Id = 15, Description = "Deglaze your pan with wine, broth, or vinegar to create instant sauce and add depth.", IsActive = true },
+            new CookingTip { Id = 16, Description = "Dry proteins with a paper towel before cooking — moisture prevents browning.", IsActive = true },
+            new CookingTip { Id = 17, Description = "Add herbs at the right time: woody herbs early, delicate herbs at the end.", IsActive = true },
+            new CookingTip { Id = 18, Description = "Don’t overcrowd the pan; steam builds and prevents proper browning.", IsActive = true },
+            new CookingTip { Id = 19, Description = "Use unsalted butter in baking so you control the salt level precisely.", IsActive = true },
+            new CookingTip { Id = 20, Description = "Warm tortillas before serving — heat improves texture and prevents cracking.", IsActive = true },
+            new CookingTip { Id = 21, Description = "Add a pinch of sugar to tomato sauces to balance acidity without making it sweet.", IsActive = true },
+            new CookingTip { Id = 22, Description = "Let rice rest for 5–10 minutes after cooking to finish steaming and improve fluffiness.", IsActive = true },
+            new CookingTip { Id = 23, Description = "Use a microplane for garlic to create smoother sauces and dressings.", IsActive = true },
+            new CookingTip { Id = 24, Description = "Stir‑fry ingredients in batches so each cooks properly and stays crisp.", IsActive = true },
+            new CookingTip { Id = 25, Description = "Add cold butter at the end of pan sauces for a glossy finish and richer flavor.", IsActive = true }
+        );
+
         }
     }
 }

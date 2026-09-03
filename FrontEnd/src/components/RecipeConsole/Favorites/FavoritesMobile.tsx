@@ -106,7 +106,7 @@ const FavoritesMobile: React.FC = () => {
 
             setFavorites(newOrder);
 
-            const response = await fetch(API_BASE + `/api/Favorites/updateSortOrder`, {
+            const response = await fetch(API_BASE + `/api/Favorites/update-sort-order`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },

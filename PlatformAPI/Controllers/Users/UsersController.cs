@@ -9,6 +9,7 @@ using PlatformAPI.Enums;
 using PlatformAPI.Models.Users;
 using PlatformAPI.Security;
 using PlatformAPI.Services;
+using System.Security.Claims;
 
 namespace PlatformAPI.Controllers.Users
 {
@@ -251,6 +252,44 @@ namespace PlatformAPI.Controllers.Users
                     error = ex.Message
                 });
             }
+        }
+
+
+        #endregion
+
+        #region Login Attempts Checks
+        [HttpGet("should-show-theme-toast")]
+        public async Task<IActionResult> ShouldShowThemeToast()
+        {
+            var username = User.FindFirst(ClaimTypes.Name)?.Value;
+            var userIdClaim = User.FindFirst("UserId")?.Value;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            if (!int.TryParse(userIdClaim, out int userId))
+                return Unauthorized();
+
+            // Query successful login attempts matching BOTH username and userId
+            var successfulAttempts = await _context.LoginAttempts
+                .Where(a => a.UserId == userId &&
+                            a.UserName == username &&
+                            a.WasSuccessful)
+                .OrderByDescending(a => a.Timestamp)
+                .ToListAsync();
+
+            // Condition 1: all successful logins are within last 7 days
+            var sevenDaysAgo = DateTime.UtcNow.AddDays(-7);
+            bool allWithinSevenDays = successfulAttempts.Count > 0 &&
+                                      successfulAttempts.All(a => a.Timestamp >= sevenDaysAgo);
+
+            // Condition 2: first five successful login attempts (<= 5)
+            bool firstFiveLogins = successfulAttempts.Count <= 5;
+
+            if (allWithinSevenDays || firstFiveLogins)
+                return Ok(true);
+
+            return Ok(false);
         }
 
 
