@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, useOutletContext } from 'react-router-dom';
-import { getApiBaseUrl} from '../../helpers/config';
+import { getApiBaseUrl } from '../../helpers/config';
 import Icon from '../UserControls/Icons/icons';
 import AddRecipeActionsMenu from '../UserControls/SubMenus/MyRecipes/AddRecipeActionsMenu';
 
 import CookingTips from '../../../src/components/Dashboard/Widgets/CookingTips';
 import FavoritesPreview from '../../../src/components/Dashboard/Widgets/FavoritesPreview';
+import CategoriesChart from '../../../src/components/Dashboard/Widgets/CategoriesChart/CategoriesChart';
 
 import CheckAuth from '../../components/Account/CheckAuth';
 import Loader from '../UserControls/Loader/Loader';
@@ -156,76 +157,18 @@ function DashboardNew() {
                         )}
 
 
-                        <div className="dashboard-container row g-3">
-
-                            <div className="dashboard-item col-12 col-md-4 text-center">
-                                <div
-
-                                >
-                                    <CookingTips />
-                                </div>
-                            </div>
-                            <div className="dashboard-item col-12 col-md-4 text-center">
-                                <div
-
-                                >
-                                    <FavoritesPreview />
-                                </div>
+                        <div className="dashboard-container">
+                            <div className="dashboard-item text-center">
+                                <CookingTips />
                             </div>
 
-                            {/* <div className="dashboard-item col-12 col-md-4 text-center">
-                            <div
-                                className="dashboard-link-inner"
-                                onClick={() => setIsMenuOpen(true)}
-                                style={{ cursor: "pointer", display: "inline-block" }}
-                            >
-                                <span className="w-100">Add New Recipe</span>
+                            <div className="dashboard-item text-center">
+                                <FavoritesPreview />
                             </div>
-                        </div>
 
-                        <div className="dashboard-item col-12 col-md-4 text-center">
-                            <div
-                                className="dashboard-link-inner"
-                                onClick={() => navigate("/Recipes/Search")}
-                                style={{ cursor: "pointer", display: "inline-block" }}
-                            >
-                                <span className="w-100">Search Recipes</span>
+                            <div className="dashboard-item text-center">
+                                <CategoriesChart />
                             </div>
-                        </div>
-
-                        <div className="dashboard-item col-12 col-md-4 text-center">
-                            <div
-                                className="dashboard-link-inner"
-                                onClick={() => navigate("/Account/Profile")}
-                                style={{ cursor: "pointer", display: "inline-block" }}
-                            >
-                                <span className="w-100">Profile</span>
-                            </div>
-                        </div>
-
-                        {!isGuest && (
-                            <div className="dashboard-item col-12 col-md-4 text-center">
-                                <div
-                                    className="dashboard-link-inner"
-                                    onClick={() => navigate("/Account/ChangePassword")}
-                                    style={{ cursor: "pointer", display: "inline-block" }}
-                                >
-                                    <span className="w-100">Change Password</span>
-                                </div>
-                            </div>
-                        )}
-
-
-                        <div className="dashboard-item col-12 col-md-4 text-center">
-                            <div
-                                className="dashboard-link-inner"
-                                onClick={() => navigate("/Account/Themes")}
-                                style={{ cursor: "pointer", display: "inline-block" }}
-                            >
-                                <span className="w-100">Themes</span>
-                            </div>
-                        </div> */}
-
                         </div>
 
                         {isMenuOpen && (

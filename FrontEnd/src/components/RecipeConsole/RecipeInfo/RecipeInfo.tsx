@@ -326,7 +326,7 @@ const RecipeInfo: React.FC = () => {
         if (typeof result === "number") {
             // navigate to the newly created recipe
             if (result) {
-                navigate(`/Recipes/RecipeInfo/${result}`, {
+                navigate(`/Recipes/recipesettings/${result}`, {
                     state: { banner: "Recipe successfully created!" },
                 });
             }
@@ -334,7 +334,7 @@ const RecipeInfo: React.FC = () => {
         else if (typeof result === "boolean") {
             // navigate back to the same recipe using the existing id
             if (result) {
-                navigate(`/Recipes/RecipeInfo/${id}`, {
+                navigate(`/Recipes/recipesettings/${id}`, {
                     state: { banner: "Recipe updated successfully!" },
                 });
             }

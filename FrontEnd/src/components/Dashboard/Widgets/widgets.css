@@ -1,7 +1,15 @@
-:root{
+:root {
     --widgetItemContentBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 4%);
     --widgetItemContentBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 11%);
     --widgetItemContentBorderColor: color-mix(in srgb, var(--itemContentBackgroundColor), var(--colorMix) 8%);
+
+    --chartTooltipBackgroundColor: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 100%);
+    --chartTooltipTextColor: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 0%);
+    --chartHighlightColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 80%);
+    --chartHighlightColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 11%);
+
+    --subtleBadgeBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 15%);
+    --subtleBadgeBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 25%);
 }
 
 .widget-container {
@@ -27,9 +35,45 @@
     margin: 0;
 }
 
-.widget-text-bold{
+.widget-text-bold {
     font-weight: 500;
 }
+
+
+
+.chart-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+}
+
+.chart-highlight {
+    /* background-image: linear-gradient(45deg, var(--chartHighlightColor), var(--chartHighlightColorGradient)); */
+    /* background-color: red; */
+    fill: red !important;
+}
+
+.subtle-badge {
+    background-image: linear-gradient(45deg, var(--subtleBadgeBackgroundColor), var(--subtleBadgeBackgroundColorGradient));
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+
+
+.recharts-wrapper:focus,
+.recharts-surface:focus,
+.recharts-pie:focus,
+.recharts-pie-sector:focus {
+    outline: none !important;
+}
+
+.no-focus * {
+    outline: none !important;
+}
+
 
 /* iOS */
 @supports (-webkit-touch-callout: none) {
@@ -47,14 +91,14 @@
     }
 }
 
-@media (min-width: 768px) {
-    .widget-container{
-        height: 250px;
+@media (min-width: 650px) {
+    .widget-container {
+        height: 270px;
     }
 }
 
-@media (max-width: 767.99px) {
-    .widget-container{
+@media (max-width: 649.99px) {
+    .widget-container {
         min-height: 150px;
     }
 }

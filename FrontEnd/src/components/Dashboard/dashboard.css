@@ -1,12 +1,15 @@
-.dashboard-item {
-    
-    align-items: center;
-    justify-content: center;
-    min-height: 48px; /* Mobile baseline */
+.dashboard-container {
+    display: grid;
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.dashboard-container{
-    padding-bottom: 30px;
+.dashboard-item {
+    padding: 0;
+    margin: 0;
+    min-height: 48px;
+    box-sizing: border-box;
 }
 
 /* Wider screens get more breathing room */
@@ -14,8 +17,25 @@
     .dashboard-item {
         min-height: 248px;
     }
+}
 
+/* 3 columns: Split space evenly minus the gaps */
+@media (min-width: 1150px) {
     .dashboard-container {
-        padding: 0px;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 2 columns: Split space evenly minus the gap */
+@media (min-width: 650px) and (max-width: 1149.99px) {
+    .dashboard-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 1 column: Full width */
+@media (max-width: 649.99px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
     }
 }

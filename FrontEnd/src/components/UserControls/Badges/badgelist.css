@@ -1,6 +1,6 @@
 :root {
-    --badgeItemBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 24%);
-    --badgeItemBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 22%);
+    --badgeItemBackgroundColor: color-mix(in srgb, var(--contentBackColor), var(--colorMix) 15%);
+    --badgeItemBackgroundColorGradient: color-mix(in srgb, var(--contentBackColorGradient), var(--colorMix) 25%);
     --badgeItemBorderColor: color-mix(in srgb, var(--itemContentBackgroundColor), var(--colorMix) 8%);
 }
 
