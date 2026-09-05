@@ -12,7 +12,7 @@ function CategoriesChart() {
 
     return (
         <div className="widget-container">
-            <h3 className="widget-title">You're Cooking Profile</h3>
+            <h3 className="widget-title">Your Cooking Profile</h3>
             <div className="widget-text widget-text-bold"><BarChartTopFive/></div>
         </div>
     );
