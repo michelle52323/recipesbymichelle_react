@@ -167,7 +167,12 @@ function DashboardNew() {
                             </div>
 
                             <div className="dashboard-item text-center">
-                                <CategoriesChart />
+                                <CategoriesChart
+                                    closeMenu={closeMenu}
+                                    isClosing={isClosing}
+                                    setIsClosing={setIsClosing}
+                                    isMenuOpen={isMenuOpen}
+                                    setIsMenuOpen={setIsMenuOpen} />
                             </div>
                         </div>
 

@@ -3,9 +3,20 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import type { RecipeCategoryChartItem, RecipeCategoryChartResponse } from '../../../../types/RecipeCategoryChart/RecipeCategoryChart';
 import { isDevUseMockLogin, isMobileTouchDevice, getApiBaseUrl } from '../../../../helpers/config';
+import type { Category } from '../../../../types/Categories/Categories';
 import "../widgets.css";
 
 const API_BASE = getApiBaseUrl();
+
+interface OutletContextType {
+    //setTitle: (title: string) => void;
+    //setBanner: (banner: string) => void;
+    //openCategory: Category | null;
+    setOpenCategory: (openCategory: Category | null) => void;
+    //currentView: "Recipes" | "Categories" | null;
+    setCurrentView: (currentView: "Recipes" | "Categories" | null) => void;
+    //previousPath: React.RefObject<string | null>;
+}
 
 const data = [
     { name: "Dinner", value: 7 },
@@ -32,14 +43,25 @@ const ActiveBar = (props) => {
     return <Rectangle {...props} className="chart-highlight" />;
 };
 
+type BarChartTopFiveProps = {
+    closeMenu: () => void;
+    isClosing: boolean;
+    setIsClosing: React.Dispatch<React.SetStateAction<boolean>>;
+    isMenuOpen: boolean;
+    setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-
-
-
-function BarChartTopFive() {
+function BarChartTopFive({
+    closeMenu,
+    isClosing,
+    setIsClosing,
+    isMenuOpen,
+    setIsMenuOpen
+}: BarChartTopFiveProps) {
 
     const [categoryChart, setCategoryChart] = useState<RecipeCategoryChartResponse | null>(null);
     const navigate = useNavigate();
+    const longPressTimer = useRef<number | null>(null);
 
 
     const topFive = categoryChart
@@ -54,6 +76,8 @@ function BarChartTopFive() {
     let categoriesCount = 0;
     let uncategorizedCount = 0;
     let totalRecipes = 0;
+
+    const { setOpenCategory, setCurrentView } = useOutletContext<OutletContextType>();
 
     if (categoryChart) {
         categoriesCount = categoryChart.categories.reduce((sum, c) => sum + c.count, 0);
@@ -103,6 +127,25 @@ function BarChartTopFive() {
 
     }, [categoryChart]);
 
+    const handleDesktopClick = (categoryId: number) => {
+        GoToCategory(categoryId);
+    };
+
+    const handleTouchStart = (categoryId: number) => {
+        longPressTimer.current = window.setTimeout(() => {
+            GoToCategory(categoryId);
+        }, 650);
+    };
+
+    const handleTouchEnd = () => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+            longPressTimer.current = null;
+            // short tap → tooltip (Recharts handles this automatically)
+        }
+    };
+
+
     const CustomLegend = () => (
         <div
             style={{
@@ -135,12 +178,34 @@ function BarChartTopFive() {
     );
 
     const onCreateNewRecipe = () => {
-        navigate("/recipes/recipeSettings");
+        //navigate("/recipes/recipeSettings");
+        setIsMenuOpen(true);
     }
 
     const onCategorize = () => {
         navigate("/recipes/myRecipes");
     }
+
+    // function GoToCategory(categoryId: number) {
+    //     if (isClosing) return; // optional safety
+    //     closeMenu();           // optional: close menu before navigating
+    //     navigate('/recipes/myrecipes');
+    // }
+
+    const GoToCategory = (categoryId: number) => {
+        if (!categoryId) return;       // ← prevents undefined navigation
+        if (isClosing) return;
+
+        closeMenu();
+
+        // Store only the ID
+        setOpenCategory({ id: categoryId } as Category);
+
+        setCurrentView("Recipes");
+
+        navigate("/recipes/myrecipes");
+    };
+
 
     const CustomToolTip = ({ active, payload }) => {
         if (active && payload && payload.length) {
@@ -229,11 +294,41 @@ function BarChartTopFive() {
                         opacity={0.3}
                     />
                 } />
-                <Bar dataKey="value" >
-                    {topFive.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                    ))}
+                <Bar dataKey="value">
+                    {topFive.map((entry, index) => {
+                        const category = categoryChart?.categories.find(
+                            c => c.categoryName === entry.name
+                        );
+
+                        const categoryId = category?.categoryId;
+
+                        return (
+                            <Cell
+                                key={`cell-${index}`}
+                                fill={COLORS[index]}
+                                style={{ cursor: "pointer" }}
+                                onClick={
+                                    !isMobileTouchDevice() && categoryId
+                                        ? () => handleDesktopClick(categoryId)
+                                        : undefined
+                                }
+                                onTouchStart={
+                                    isMobileTouchDevice() && categoryId
+                                        ? () => handleTouchStart(categoryId)
+                                        : undefined
+                                }
+                                onTouchEnd={
+                                    isMobileTouchDevice()
+                                        ? handleTouchEnd
+                                        : undefined
+                                }
+                            />
+                        );
+                    })}
                 </Bar>
+
+
+
             </BarChart>
 
             <CustomLegend />

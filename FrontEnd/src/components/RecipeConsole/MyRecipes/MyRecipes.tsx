@@ -103,31 +103,38 @@ function MyRecipes() {
         }
     }, [auth, navigate, setTitle]);
 
+
+
     // useEffect(() => {
     //     if (auth === null) return;
 
-
     //     if (openCategory != null && currentView == "Recipes")
-    //         setMyRecipesCategoryId(openCategory.id)
-    //     //else
-    //     //setMyRecipesCategoryId(null);
-    // //console.log("Nav Category: " + )
-    //     //setTitle(openCategory.id.toString());
+    //         setTitle("My Recipes > " + openCategory.name)
+    //     else
+    //         setTitle("My Recipes");
 
-
-    // }, [auth, currentView, openCategory]);
-
+    // }, [auth, openCategory, currentView]);
     useEffect(() => {
         if (auth === null) return;
 
-
-        if (openCategory != null && currentView == "Recipes")
-            setTitle("My Recipes > " + openCategory.name)
-        else
+        if (openCategory && openCategory.name && currentView === "Recipes") {
+            setTitle("My Recipes > " + openCategory.name);
+        } else {
             setTitle("My Recipes");
-
-
+        }
     }, [auth, openCategory, currentView]);
+
+    useEffect(() => {
+        if (!categoryList || !openCategory) return;
+
+        if (!openCategory.name) {
+            const fullCategory = categoryList.find(c => c.id === openCategory.id);
+            if (fullCategory) {
+                setOpenCategory(fullCategory);
+            }
+        }
+    }, [categoryList, openCategory]);
+
 
     useEffect(() => {
         if (auth === null) return;
@@ -163,7 +170,7 @@ function MyRecipes() {
             setCategoryList(data);                // ← store the actual category array
             // if (data == null)
             //     setCategoryList(null);
-            
+
             //setCategoriesIsLoading(false);
 
         }

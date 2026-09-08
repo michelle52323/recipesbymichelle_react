@@ -57,7 +57,7 @@
 
 .subtle-badge {
     background-image: linear-gradient(45deg, var(--subtleBadgeBackgroundColor), var(--subtleBadgeBackgroundColorGradient));
-    padding: 2px 5px;
+    padding: 2px 9px;
     border-radius: 4px;
 }
 

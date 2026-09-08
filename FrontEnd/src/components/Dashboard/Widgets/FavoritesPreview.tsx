@@ -43,7 +43,7 @@ function FavoritesPreview() {
     };
 
     const goToFavoritesPage = () => {
-        navigate('/Recipes/Favorites');
+        favorites.length === 0 ? navigate('/Recipes/MyRecipes') : navigate('/Recipes/Favorites');
     };
 
     return (
@@ -102,7 +102,9 @@ function FavoritesPreview() {
                     onClick={goToFavoritesPage}
                     style={{ cursor: "pointer" }}
                 >
-                    <span>View All Favorites →</span>
+                    {!isLoading && favorites.length === 0 && (<span>Start Adding Favorites →</span>) }
+                    {!isLoading && favorites.length > 0 && (<span>View All Favorites →</span>) }
+                    
                 </div>
             </div>
         </div>
