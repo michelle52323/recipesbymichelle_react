@@ -6,6 +6,7 @@ import { getApiBaseUrl, isMobileTouchDevice, isAndroid, isIOS } from '../../../h
 import { Dropdown } from "../../UserControls/Dropdown/Dropdown";
 import ButtonGrid from "../../UserControls/ButtonGrid/ButtonGrid";
 import Loader from '../../UserControls/Loader/Loader';
+import type {ThemeCacheEntry} from '../../../types/Themes/Theme';
 
 const hexToRgba = (hex: string, alpha = 1): string => {
     const r = parseInt(hex.slice(1, 3), 16);
@@ -38,7 +39,7 @@ const ThemeSelectorPage: React.FC = () => {
     const dropdownWidth = ios ? 190 : 175;
 
     //const { setTitle, setBanner } = useOutletContext();
-    const { setTitle, setBanner }  =useOutletContext<LayoutContext>()
+    const { setTitle, setBanner } = useOutletContext<LayoutContext>()
 
     useEffect(() => {
         setTitle('Themes');
@@ -226,6 +227,10 @@ const ThemeSelectorPage: React.FC = () => {
 
             applyThemeVariables(selectedTheme);
 
+            // Update theme cache so next load uses this theme instantly
+            await updateThemeCache(parseInt(selectedTheme, 10));
+
+
             //console.log("FIRST");
             setSaveDisabled(true);
 
@@ -235,6 +240,30 @@ const ThemeSelectorPage: React.FC = () => {
         }
     };
 
+    async function updateThemeCache(themeId: number) {
+        try {
+            const response = await fetch(`${API_BASE}/api/theme/${themeId}/variables`, {
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!response.ok) {
+                console.error("Failed to fetch theme variables for caching");
+                return;
+            }
+
+            const variables = await response.json();
+
+            const cacheEntry: ThemeCacheEntry = {
+                themeId,
+                variables
+            };
+
+            localStorage.setItem("themeCache", JSON.stringify(cacheEntry));
+        } catch (err) {
+            console.error("Error updating theme cache:", err);
+        }
+    }
 
     useEffect(() => {
 

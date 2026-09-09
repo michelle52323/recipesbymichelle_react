@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import SignIn from './components/SignIn/SignIn.jsx';
+import SignIn from './components/SignIn/SignIn.tsx';
 import Register from './components/Account/Register/Register';
 import ThemeSelectorPage from './components/Account/Themes/Themes';
 import Profile from './components/Account/Profile/Profile';

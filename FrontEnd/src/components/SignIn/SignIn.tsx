@@ -2,8 +2,34 @@ import { useOutletContext } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getApiBaseUrl, isMobileTouchDevice } from '../../helpers/config';
-import PasswordInput from '../../components/UserControls/PasswordToggle/PasswordToggle';
+import type { ThemeCacheEntry } from '../../types/Themes/Theme';
+import PasswordInput from '../UserControls/PasswordToggle/PasswordToggle';
 import SignInLoader from '../UserControls/SignInLoader/SignInLoader';
+
+interface SignInResponse {
+    success: boolean;
+    token?: string;
+    hasMeasurementSystem?: boolean;
+    status?: number;
+    failureReason?: string;
+    themeId: string;
+}
+
+interface GuestAccessResponse {
+    success: boolean;
+    accessGranted: boolean;
+    deviceId?: string;
+}
+interface SignInErrors {
+    username?: string;
+    password?: string;
+}
+
+export interface LayoutContext {
+    setTitle: (title: string) => void;
+    setBanner: (banner: string | null) => void;
+}
+
 
 
 function SignInForm() {
@@ -11,15 +37,18 @@ function SignInForm() {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingGuest, setIsLoadingGuest] = useState(false);
-    const [hasStarterKit, setHasStarterKit] = useState(null);
-    const [errors, setErrors] = useState({});
+    const [hasStarterKit, setHasStarterKit] = useState<boolean | null>(null);
+    const [errors, setErrors] = useState<SignInErrors>({});
+
 
     const API_BASE = getApiBaseUrl();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
         setBanner('');
         e.preventDefault();
-        const newErrors = {};
+        const newErrors: SignInErrors = {};
+
         if (!username.trim()) newErrors.username = 'Username is required';
         if (!password.trim()) newErrors.password = 'Password is required';
         setErrors(newErrors);
@@ -36,7 +65,7 @@ function SignInForm() {
                         body: JSON.stringify({ username, password })
                     });
 
-                    const data = await response.json();
+                    const data: SignInResponse = await response.json();
 
                     if (data.success) {
                         //console.log("SignIn API result:", JSON.stringify(data, null, 2));
@@ -48,6 +77,11 @@ function SignInForm() {
                             window.location.href = '/account/selectmeasurementsystem';
                             return;
                         }
+
+                        // Fetch themeId from claims cookie after sign-in
+                        const themeId = parseInt(data.themeId ?? "1", 10);
+
+                        await updateThemeCache(themeId);
 
                         localStorage.setItem('authToken', data.token); // optional
                         window.location.href = '/dashboard';
@@ -74,7 +108,7 @@ function SignInForm() {
         }
     };
 
-    const { setTitle, setBanner } = useOutletContext();
+    const { setTitle, setBanner } = useOutletContext<LayoutContext>();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -128,7 +162,14 @@ function SignInForm() {
             }
 
             // Auth cookie is already set by SignInUserAsync
-            window.location.href = "/dashboard";
+            if (data.accessGranted) {
+
+                // Guest users always use theme 1 (or whatever your default is)
+                await updateThemeCache(1);
+
+                window.location.href = "/dashboard";
+            }
+
 
         } catch (err) {
             setIsLoadingGuest(false);
@@ -136,6 +177,32 @@ function SignInForm() {
             setBanner("Something went wrong");
         }
     };
+
+    async function updateThemeCache(themeId: number) {
+        try {
+            const response = await fetch(`${API_BASE}/api/theme/${themeId}/variables`, {
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!response.ok) {
+                console.error("Failed to fetch theme variables for caching");
+                return;
+            }
+
+            const variables = await response.json();
+
+            const cacheEntry: ThemeCacheEntry = {
+                themeId,
+                variables
+            };
+
+            localStorage.setItem("themeCache", JSON.stringify(cacheEntry));
+        } catch (err) {
+            console.error("Error updating theme cache:", err);
+        }
+    }
+
 
     if (isLoadingGuest) {
         return <SignInLoader isGuest={true} />;

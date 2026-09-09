@@ -9,6 +9,7 @@ import Icon from '../components/UserControls/Icons/icons';
 import Menu from '../components/UserControls/Menu/Menu';
 import ButtonGrid from './UserControls/ButtonGrid/ButtonGrid';
 import BrandingHeader from './UserControls/BrandingHeader/BrandingHeader';
+import type { ThemeCacheEntry } from '../types/Themes/Theme';
 
 import type { Category } from '../types/Categories/Categories';
 
@@ -95,7 +96,7 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
             : "";
 
     const API_BASE = getApiBaseUrl();
-//console.log("DATA:" + JSON.stringify(openCategory));
+    //console.log("DATA:" + JSON.stringify(openCategory));
     //Track previous path
     const previousPath = useRef<string | null>(null);
     const lastPath = useRef<string | null>(routerLocation.pathname);
@@ -208,7 +209,37 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
         }
     }
 
+    //Get Cached Theme
 
+    const getCachedTheme = (): ThemeCacheEntry | null => {
+        try {
+            const raw = localStorage.getItem("themeCache");
+            if (!raw) return null;
+
+            return JSON.parse(raw) as ThemeCacheEntry;
+        } catch {
+            return null;
+        }
+    };
+
+    useEffect((): void => {
+        const cached = getCachedTheme();
+        if (!cached) return;
+
+        // Apply cached CSS variables immediately
+        cached.variables.forEach(v => {
+            document.documentElement.style.setProperty(`--${v.description}`, v.color);
+        });
+
+        // Update Layout state so React knows which theme is active
+        setActualThemeId(cached.themeId);
+
+        // Mark theme as ready so the rest of the layout can render
+        setThemeReady(true);
+    }, []);
+
+
+    //Ensure page always loads at top of page
 
     useEffect(() => {
         if (banner) {
@@ -317,9 +348,11 @@ function Layout({ buttonSlot, footerSlots }: LayoutProps) {
                             </header>
 
                             <main style={{ flex: 1 }}>
-                                <Outlet context={{ setTitle, setBanner, setTitleBarSlot, 
+                                <Outlet context={{
+                                    setTitle, setBanner, setTitleBarSlot,
                                     previousPath, openCategory, setOpenCategory,
-                                    currentView, setCurrentView }} />
+                                    currentView, setCurrentView
+                                }} />
                             </main>
 
                             {/* BUTTON SLOT HERE */}
