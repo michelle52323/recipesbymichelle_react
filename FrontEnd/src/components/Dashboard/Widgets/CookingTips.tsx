@@ -1,17 +1,16 @@
-import { useEffect, useState, useRef } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
-import { isDevUseMockLogin, isMobileTouchDevice, getApiBaseUrl } from '../../../helpers/config';
+import { useEffect, useState } from 'react';
+import { isDevUseMockLogin, getApiBaseUrl } from '../../../helpers/config';
 
 import "./widgets.css";
 
 function CookingTips() {
 
     const LOCAL_STORAGE_KEY = "cookingTipCache";
-    const HOURS_24 = 24 * 60 * 60 * 1000;
-
-    const [tip, setTip] = useState(null);
     const API_BASE = getApiBaseUrl();
 
+    const [tip, setTip] = useState(null);
+
+    // Load cache
     const loadCache = () => {
         try {
             const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -21,9 +20,8 @@ function CookingTips() {
         }
     };
 
-    const saveCache = (tipId, tipText) => {
-        const now = new Date().toISOString();
-
+    // Save cache with new daily fields
+    const saveCache = (tipId, tipText, tipDay) => {
         const existing = loadCache();
         const recent = existing?.recentTipIds || [];
 
@@ -33,18 +31,28 @@ function CookingTips() {
         }
 
         const updated = {
-            lastTipDateTime: now,
-            recentTipIds: recent,
-            lastTipText: tipText
+            lastTipCalendarDate: tipDay,   // NEW FIELD
+            lastTipText: tipText,
+            recentTipIds: recent
         };
 
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
     };
 
+    // Determine the "tip day" based on 4 AM cutoff
+    const getTipDay = () => {
+        const now = new Date();
+        const local = new Date(now);
 
+        // Before 4 AM → treat as previous day
+        if (local.getHours() < 4) {
+            local.setDate(local.getDate() - 1);
+        }
 
+        return local.toISOString().split("T")[0]; // "YYYY-MM-DD"
+    };
 
-    // Embedded API call
+    // API call
     const fetchCookingTip = async (excludeIds) => {
         const endpoint = `${API_BASE}/api/CookingTips/getTip${isDevUseMockLogin() ? "Mock" : ""}`;
 
@@ -66,8 +74,7 @@ function CookingTips() {
                 throw new Error("Failed to fetch cooking tip");
             }
 
-            const data = await response.json();
-            return data; // { tipId, tipText }
+            return await response.json(); // { tipId, tipText }
         }
         catch (error) {
             console.error("Error fetching cooking tip:", error);
@@ -75,40 +82,30 @@ function CookingTips() {
         }
     };
 
-
-    // Load tip on mount
+    // Load tip on mount — DAILY RESET VERSION
     useEffect(() => {
-        async function loadTip() {
+        const loadTip = async () => {
             const cache = loadCache();
-            const now = Date.now();
+            const todayTipDay = getTipDay();
 
-            // If cache exists and is < 24 hours old, use cached tip
-            if (cache?.lastTipDateTime) {
-                const last = new Date(cache.lastTipDateTime).getTime();
-                const diff = now - last;
-
-                if (diff < HOURS_24 && cache.lastTipText) {
-                    setTip(cache.lastTipText);
-                    return;
-                }
+            // If cache matches today's tip day → reuse cached tip
+            if (cache?.lastTipCalendarDate === todayTipDay && cache.lastTipText) {
+                setTip(cache.lastTipText);
+                return;
             }
 
-
-
-            // Cache expired or missing → fetch new tip
+            // Otherwise → fetch new tip
             const excludeIds = cache?.recentTipIds || [];
             const result = await fetchCookingTip(excludeIds);
 
             if (result) {
                 setTip(result.tipText);
-                saveCache(result.tipId, result.tipText);
-
+                saveCache(result.tipId, result.tipText, todayTipDay);
             }
-        }
+        };
 
         loadTip();
     }, []);
-
 
     return (
         <div className="widget-container">
