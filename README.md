@@ -25,7 +25,7 @@ https://www.recipesbymichelle.app/
 - Back-end: Azure Web App Service
 - Database: Self‑hosted VPS
 
-## Features ##
+## Original Features (From Razor Build) ##
 - Add and edit recipes including ingredients and steps
 - View recipes on your phone while cooking
 - Search other's recipes
@@ -34,7 +34,7 @@ https://www.recipesbymichelle.app/
 - Theme selector with seven predefined themes, allowing users to customize the appearance of the app
 - Print friendly recipe pages
 
-## New Features ##
+## Features Introduced in the React Rebuild ##
 - Recipe font choice — Choose between a clean sans‑serif style or a handwritten aesthetic (Google Caveat) for a more personal, cookbook‑like feel.
 - Ingredient auto‑correction — Quantities and units auto‑correct on blur based on the selected measurement system, reducing errors and improving consistency.
 - Enhanced steps editor — Supports basic formatting (bold, italic, underline) for clearer, more readable cooking instructions.
@@ -42,7 +42,13 @@ https://www.recipesbymichelle.app/
 - Category Management — Organize your entire recipe collection with flexible multi‑category support, custom sort orders, and intuitive tools for adding, moving, or removing categories.
 - Modernized UI — Enjoy a fully upgraded interface featuring improved layout geometry, refined spacing, and a smoother, more accessible user experience across desktop and mobile.
 
+## New Features (Brand‑New Additions) ##
+- The dashboard has been fully rebuilt into a real “home base” for the app. It now shows your Cooking Tip of the Day (rotating daily with a 4 AM cutoff), a Favorites Preview for quick access to your top recipes, and a Cooking Profile — a clean bar chart of your top 5 categories, each slice clickable so you can jump straight into that category. It’s fast, readable, and finally feels like a proper landing page.
+
 ## Screenshots ##
+
+- ![Dashboard - Dark Teal](./screenshots/00-Dashboard.png)
+*A look at the new dashboard with the daily cooking tip, favorites preview, and your top‑5 cooking profile.*
 
 - ![Recipe Ingredients - Dark Teal](./screenshots/01-Ingredients.png)
 *Edit recipe ingredients with a clean, structured interface designed for fast, error‑free entry.*
@@ -67,3 +73,6 @@ Browse your recipes in a clean, modern layout. Use the **View By** menu to switc
 
 - ![Theme selector - Spring Garden](./screenshots/08-Theme-Selector.png)
 *Seven predefined themes allow users to personalize the appearance of the app.*
+
+- ![Dashboard - Winter Grove](./screenshots/09-Dashboard-Winter-Grove.png)
+*The dashboard shown in Winter Grove theme — blending the new layout with the seasonal look*
