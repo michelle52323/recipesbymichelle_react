@@ -42,15 +42,30 @@ function CookingTips() {
     // Determine the "tip day" based on 4 AM cutoff
     const getTipDay = () => {
         const now = new Date();
-        const local = new Date(now);
+
+        // Clone local date
+        const local = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+            now.getHours(),
+            now.getMinutes(),
+            now.getSeconds()
+        );
 
         // Before 4 AM → treat as previous day
         if (local.getHours() < 4) {
             local.setDate(local.getDate() - 1);
         }
 
-        return local.toISOString().split("T")[0]; // "YYYY-MM-DD"
+        // Return YYYY-MM-DD using local date, NOT UTC
+        const year = local.getFullYear();
+        const month = String(local.getMonth() + 1).padStart(2, "0");
+        const day = String(local.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
     };
+
 
     // API call
     const fetchCookingTip = async (excludeIds) => {

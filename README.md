@@ -9,7 +9,7 @@ https://www.recipesbymichelle.app/
 ## Tech Stack
 
 **Front-end**
-- React.js
+- React
 - TypeScript
 - Bootstrap
 
@@ -23,7 +23,7 @@ https://www.recipesbymichelle.app/
 
 - Front-end: Azure Static Web Apps
 - Back-end: Azure Web App Service
-- Database: Self‑hosted VPS
+- Database: Azure SQL Database
 
 ## Original Features (From Razor Build) ##
 - Add and edit recipes including ingredients and steps
