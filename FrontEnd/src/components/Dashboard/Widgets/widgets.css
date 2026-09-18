@@ -55,6 +55,24 @@
     fill: red !important;
 }
 
+.legend-zero {
+    opacity: 0.45;
+    /* 45% opacity = perfect midpoint */
+    stroke: var(--contentTextColor);
+    stroke-width: 1.5px;
+    /* thin line look */
+    fill: transparent;
+    /* hollow bar */
+}
+
+.chart-bar-zero {
+    opacity: 0.45;
+    /* stroke: var(--contentTextColor); */
+    stroke-width: 1.5px;
+}
+
+
+
 .subtle-badge {
     background-image: linear-gradient(45deg, var(--subtleBadgeBackgroundColor), var(--subtleBadgeBackgroundColorGradient));
     padding: 2px 9px;

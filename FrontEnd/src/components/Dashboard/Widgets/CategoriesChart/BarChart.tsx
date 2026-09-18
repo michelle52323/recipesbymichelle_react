@@ -146,36 +146,80 @@ function BarChartTopFive({
     };
 
 
+    // const CustomLegend = () => (
+    //     <div
+    //         style={{
+    //             display: "flex",
+    //             flexWrap: "wrap",
+    //             rowGap: "0px",       // tighter spacing between legend lines
+    //             columnGap: "6px",    // keep spacing between items
+    //             justifyContent: "center",
+    //             marginTop: "-23px",
+    //             width: "300px",        // <-- match chart width
+    //             marginLeft: "auto",
+    //             marginRight: "auto"
+    //         }}
+    //     >
+
+    //         {topFive.map((entry, index) => (
+    //             <div key={entry.name} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+    //                 <div
+    //                     style={{
+    //                         width: "12px",
+    //                         height: "12px",
+    //                         backgroundColor: COLORS[index],
+    //                         borderRadius: "3px"
+    //                     }}
+    //                 />
+    //                 <span>{entry.name}</span>
+    //             </div>
+    //         ))}
+    //     </div>
+    // );
+
     const CustomLegend = () => (
         <div
             style={{
                 display: "flex",
                 flexWrap: "wrap",
-                rowGap: "0px",       // tighter spacing between legend lines
-                columnGap: "6px",    // keep spacing between items
+                rowGap: "0px",
+                columnGap: "6px",
                 justifyContent: "center",
                 marginTop: "-23px",
-                width: "300px",        // <-- match chart width
+                width: "300px",
                 marginLeft: "auto",
                 marginRight: "auto"
             }}
         >
+            {topFive.map((entry, index) => {
+                const isZero = Number(entry.value) === 0;
 
-            {topFive.map((entry, index) => (
-                <div key={entry.name} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                return (
                     <div
+                        key={entry.name}
+                        className={isZero ? "legend-zero" : ""}
                         style={{
-                            width: "12px",
-                            height: "12px",
-                            backgroundColor: COLORS[index],
-                            borderRadius: "3px"
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px"
                         }}
-                    />
-                    <span>{entry.name}</span>
-                </div>
-            ))}
+                    >
+                        <div
+                            style={{
+                                width: "12px",
+                                height: "12px",
+                                backgroundColor: COLORS[index],
+                                borderRadius: "3px"
+                            }}
+                        />
+                        <span>{entry.name}</span>
+                    </div>
+                );
+            })}
         </div>
     );
+
+
 
     const onCreateNewRecipe = () => {
         //navigate("/recipes/recipeSettings");
@@ -205,6 +249,76 @@ function BarChartTopFive({
 
         navigate("/recipes/myrecipes");
     };
+
+    const renderCustomBar = (props) => {
+        const { x, y, width, height, value, fill, payload } = props;
+
+        const isZero = Number(value) === 0;
+
+        // find categoryId from payload
+        const categoryName = payload?.name;
+        const category = categoryChart?.categories.find(c => c.categoryName === categoryName);
+        const categoryId = category?.categoryId;
+
+        // desktop click → navigate
+        const handleClick = () => {
+            if (!isMobileTouchDevice() && categoryId) {
+                handleDesktopClick(categoryId);
+            }
+        };
+
+        // mobile long‑press → navigate
+        const handleTouchStartLocal = () => {
+            if (isMobileTouchDevice() && categoryId) {
+                handleTouchStart(categoryId);
+            }
+        };
+
+        // mobile short tap → tooltip (Recharts handles tooltip)
+        const handleTouchEndLocal = () => {
+            if (isMobileTouchDevice()) {
+                handleTouchEnd();
+            }
+        };
+
+        if (!isZero) {
+            // normal bar
+            return (
+                <rect
+                    x={x}
+                    y={y}
+                    width={width}
+                    height={height}
+                    fill={fill}
+                    style={{ cursor: "pointer" }}
+                    onClick={handleClick}
+                    onTouchStart={handleTouchStartLocal}
+                    onTouchEnd={handleTouchEndLocal}
+                />
+            );
+        }
+
+        // zero bar logic
+        const zeroHeightPx = Math.min(3, 0.03 * 160);
+        const zeroY = y - zeroHeightPx;
+
+        return (
+            <rect
+                x={x}
+                y={zeroY}
+                width={width}
+                height={zeroHeightPx}
+                fill={fill}
+                className="chart-bar-zero"
+                style={{ cursor: "pointer" }}
+                onClick={handleClick}
+                onTouchStart={handleTouchStartLocal}
+                onTouchEnd={handleTouchEndLocal}
+            />
+        );
+    };
+
+
 
 
     const CustomToolTip = ({ active, payload }) => {
@@ -294,7 +408,8 @@ function BarChartTopFive({
                         opacity={0.3}
                     />
                 } />
-                <Bar dataKey="value">
+                <Bar dataKey="value" shape={renderCustomBar}>
+
                     {topFive.map((entry, index) => {
                         const category = categoryChart?.categories.find(
                             c => c.categoryName === entry.name
@@ -306,21 +421,8 @@ function BarChartTopFive({
                             <Cell
                                 key={`cell-${index}`}
                                 fill={COLORS[index]}
-                                style={{ cursor: "pointer" }}
-                                onClick={
-                                    !isMobileTouchDevice() && categoryId
-                                        ? () => handleDesktopClick(categoryId)
-                                        : undefined
-                                }
-                                onTouchStart={
-                                    isMobileTouchDevice() && categoryId
-                                        ? () => handleTouchStart(categoryId)
-                                        : undefined
-                                }
-                                onTouchEnd={
-                                    isMobileTouchDevice()
-                                        ? handleTouchEnd
-                                        : undefined
+                                style={
+                                    { cursor: "pointer" }
                                 }
                             />
                         );
