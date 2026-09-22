@@ -27,6 +27,7 @@ const hexToRgba = (hex: string, alpha = 1): string => {
 };
 
 export interface LayoutContext {
+    
     setTitle: (title: string) => void;
     setBanner: (banner: string | null) => void;
     setTitleBarSlot: (node: React.ReactNode | null) => void;

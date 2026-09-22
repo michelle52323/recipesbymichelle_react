@@ -51,6 +51,7 @@ function View() {
 
     const [fontClass, setFontClass] = useState<string | null>(null);
     const [backgroundCardClass, setBackgroundCardClass] = useState<string | null>(null);
+    
     const [previousPageNavigation, setPreviousPathNavigation] = useState<PreviousPageNavigation | null>(null);
     const [isMyRecipe, setIsMyRecipe] = useState<boolean>(false);
 
@@ -219,9 +220,10 @@ function View() {
         if (recipe?.recipeFont) {
             setFontClass(mapFontToClass(recipe.recipeFont));
             setBackgroundCardClass(recipe.recipeFont == "Handwritten" ? "recipe-card-handwritten-font" : "panel");
+
+
         }
     }, [recipe?.recipeFont]);
-
 
     //const fontClass = getFontClass(recipe?.recipeFont);
     //console.log("Font class: " + fontClass);
@@ -251,7 +253,7 @@ function View() {
         }
     ], [previousPageNavigation, restoredSearchTerm]);
 
-    
+
     // Calculate usable width
     const [usableWidth, setUsableWidth] = useState<number>(window.innerWidth * 0.92);
 
@@ -273,7 +275,7 @@ function View() {
         const scrollbarAdjustment = scrollbarWidth * 8 / charsPerLine;
 
         // Determine if toggle is needed
-        if (recipe.description.length + scrollbarAdjustment  < charsPerLine * 2) {
+        if (recipe.description.length + scrollbarAdjustment < charsPerLine * 2) {
             setDescNeedsToggle(false);
             setDescExpanded(false);
         } else {
@@ -309,12 +311,6 @@ function View() {
     //         setDescExpanded(false);
     //     }
     // }, [recipe]);
-
-
-
-
-
-
 
 
     if (measurementSystem === null || fontClass === null) return <div><Loader message="Loading recipe ..." /></div>;
@@ -370,46 +366,6 @@ function View() {
                                     {descExpanded ? "Show less" : "Show more"}
                                 </button>
                             )}
-
-
-                            {/* {recipe.description && recipe.description.length > 0 && (
-                                <button
-                                    className="desc-toggle-btn"
-                                    onClick={() => setDescExpanded(prev => !prev)}
-                                >
-                                    {descExpanded ? "Show less" : "Show more"}
-                                </button>
-                            )} */}
-
-
-
-
-                            {/* Measurement element — NEVER collapsed/expanded */}
-                            {/* Measurement element — NEVER collapsed/expanded */}
-                            {/* <div
-                                ref={descMeasureRef}
-                                className="recipe-description measure"
-                            >
-                                {recipe.description}
-                            </div>
-
-                            
-                            <div
-                                ref={descRef}
-                                className={`recipe-description ${descExpanded ? "expanded" : "collapsed"}`}
-                            >
-                                {recipe.description}
-                            </div>
-
-                            {descNeedsToggle && (
-                                <button
-                                    className="desc-toggle-btn"
-                                    onClick={() => setDescExpanded(prev => !prev)}
-                                >
-                                    {descExpanded ? "Show less" : "Show more"}
-                                </button>
-                            )} */}
-
 
 
                             <div className={`d-flex row align-items-start ${innerlayoutClass}`}>

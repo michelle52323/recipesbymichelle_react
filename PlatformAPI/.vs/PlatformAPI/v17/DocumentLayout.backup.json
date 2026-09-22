@@ -100,7 +100,8 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-09-14T21:07:06.651Z"
+              "WhenOpened": "2026-09-14T21:07:06.651Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -110,10 +111,9 @@
               "RelativeDocumentMoniker": "Controllers\\Users\\SignInController.cs",
               "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Controllers\\Users\\SignInController.cs",
               "RelativeToolTip": "Controllers\\Users\\SignInController.cs",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAAwGoAAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAAwGoAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-09T22:44:28.795Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-09T22:44:28.795Z"
             },
             {
               "$type": "Document",

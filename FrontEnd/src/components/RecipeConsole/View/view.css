@@ -1,25 +1,27 @@
-﻿.recipe-card-handwritten-font {
+﻿/* Clean up the pseudo-element entirely and apply everything to the scroll container */
+.recipe-card-handwritten-font .grid-overflow-box {
     position: relative;
-}
 
-.recipe-card-handwritten-font::before {
-    background-color: var(--paperBackgroundColor);
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("/src/assets/images/paper-texture.png");
-    background-size: cover;
-    background-repeat: repeat;
+    /* Combine the image layers */
+    background-image: var(--paperBackgroundImageUrl);
+    /* 100% width forces it to span horizontally, 'auto' lets height scale naturally */
+    background-size: 100% auto;
+
+    /* Tells the browser to only repeat downward */
+    background-repeat: repeat-y;
     background-blend-mode: multiply;
-    opacity: var(--paperBackgroundOpacity);
-    pointer-events: none;
-    z-index: 0;
+
+    /* 🌟 THE CRITICAL FIX: Forces background to scroll with internal content text */
+    background-attachment: local;
+    
 }
 
-.recipe-card-handwritten-font>* {
+/* Ensure child text containers stack correctly and stay readable */
+.recipe-card-handwritten-font .grid-overflow-box>* {
     position: relative;
     z-index: 1;
 }
+
 
 .recipe-description {
     /* font-size: 0.95rem;
@@ -34,7 +36,8 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    max-height: 4.1rem;     /* ORIGINAL was 3.4 rem */
+    max-height: 4.1rem;
+    /* ORIGINAL was 3.4 rem */
     /* roughly 2 lines */
 }
 
