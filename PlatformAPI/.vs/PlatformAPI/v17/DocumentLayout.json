@@ -110,7 +110,7 @@
               "RelativeDocumentMoniker": "Data\\AppDBContext.cs",
               "ToolTip": "C:\\Users\\miche\\Documents\\Websites\\React.js\\Recipes\\PlatformAPI\\Data\\AppDBContext.cs",
               "RelativeToolTip": "Data\\AppDBContext.cs",
-              "ViewState": "AgIAADcCAAAAAAAAAAAqwK4DAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAI4DAAAAAAAAAAAAAKUDAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-09T20:49:36.606Z",
               "EditorCaption": ""
@@ -125,8 +125,7 @@
               "RelativeToolTip": "Models\\UnitConversion\\IngredientUnit.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-09T20:49:28.029Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-09T20:49:28.029Z"
             },
             {
               "$type": "Document",
@@ -138,8 +137,7 @@
               "RelativeToolTip": "Models\\UnitConversion\\UnitConversionException.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-09T20:49:03.37Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-09T20:49:03.37Z"
             },
             {
               "$type": "Document",
@@ -151,8 +149,7 @@
               "RelativeToolTip": "Models\\UnitConversion\\UnitConversion.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-09T20:48:42.672Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-09T20:48:42.672Z"
             },
             {
               "$type": "Document",
@@ -164,8 +161,7 @@
               "RelativeToolTip": "Controllers\\Users\\SignInController.cs",
               "ViewState": "AgIAAGcAAAAAAAAAAAAAwGoAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-09T22:44:28.795Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-09T22:44:28.795Z"
             },
             {
               "$type": "Document",

@@ -881,7 +881,6 @@ namespace PlatformAPI.Data
                 new UnitConversionException { Id = 298, Ingredient = "lentils", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Cup", Quantity = 0.005208f },
                 new UnitConversionException { Id = 299, Ingredient = "lentils", BaseSystem = 1, BaseUnit = "Tablespoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 12f },
                 new UnitConversionException { Id = 300, Ingredient = "lentils", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Tablespoon", Quantity = 0.083333f },
-                new UnitConversionException { Id = 300, Ingredient = "lentils", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Tablespoon", Quantity = 0.083333f },
                 new UnitConversionException { Id = 301, Ingredient = "lentils", BaseSystem = 1, BaseUnit = "Teaspoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 4f },
                 new UnitConversionException { Id = 302, Ingredient = "lentils", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Teaspoon", Quantity = 0.25f },
                 new UnitConversionException { Id = 303, Ingredient = "lentils", BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 2, TargetUnit = "Gram", Quantity = 0.81f },
