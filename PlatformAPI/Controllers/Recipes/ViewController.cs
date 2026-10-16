@@ -99,7 +99,10 @@ namespace PlatformAPI.Controllers.Recipes
                 categoryNames = new List<string>();
             }
 
-
+            //Unit conversion code
+            //STILL IN DEVELOPMENT
+            //UnitConversion unitConversion = new UnitConversion(_context);
+            //ingredients = await unitConversion.GetConvertedUnit(ingredients, measurementSystem);
 
             // Map ingredients to DTOs
             var ingredientDtos = ingredients
@@ -118,6 +121,7 @@ namespace PlatformAPI.Controllers.Recipes
                 })
                 .ToList();
 
+            
 
             // Map steps to DTOs
             var stepDtos = steps
