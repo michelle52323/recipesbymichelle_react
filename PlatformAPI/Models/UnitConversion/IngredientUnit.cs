@@ -13,5 +13,7 @@
         public string MetricUnit { get; set; } = string.Empty;
 
         public int Pass { get; set; }
+
+        public bool IsLiquid { get; set; }
     }
 }

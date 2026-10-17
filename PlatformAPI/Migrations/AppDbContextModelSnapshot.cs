@@ -2595,6 +2595,9 @@ namespace PlatformAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsLiquid")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LargeImperialUnit")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -2622,6 +2625,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 1,
                             Ingredient = "salt",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2631,6 +2635,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 2,
                             Ingredient = "black pepper",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2640,6 +2645,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 3,
                             Ingredient = "white pepper",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2649,6 +2655,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 4,
                             Ingredient = "cayenne pepper",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2658,6 +2665,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 5,
                             Ingredient = "paprika",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2667,6 +2675,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 6,
                             Ingredient = "smoked paprika",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2676,6 +2685,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 7,
                             Ingredient = "chili powder",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2685,6 +2695,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 8,
                             Ingredient = "cumin",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2694,6 +2705,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 9,
                             Ingredient = "coriander",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2703,6 +2715,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 10,
                             Ingredient = "cumin seeds",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2712,6 +2725,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 11,
                             Ingredient = "mustard seeds",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2721,6 +2735,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 12,
                             Ingredient = "fennel seeds",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2730,6 +2745,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 13,
                             Ingredient = "caraway seeds",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2739,6 +2755,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 14,
                             Ingredient = "turmeric",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2748,6 +2765,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 15,
                             Ingredient = "cinnamon",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2757,6 +2775,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 16,
                             Ingredient = "nutmeg",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2766,6 +2785,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 17,
                             Ingredient = "clove",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2775,6 +2795,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 18,
                             Ingredient = "allspice",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2784,6 +2805,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 19,
                             Ingredient = "cardamom",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2793,6 +2815,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 20,
                             Ingredient = "garam masala",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2802,6 +2825,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 21,
                             Ingredient = "oregano",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2811,6 +2835,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 22,
                             Ingredient = "basil",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2820,6 +2845,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 23,
                             Ingredient = "thyme",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2829,6 +2855,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 24,
                             Ingredient = "rosemary",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2838,6 +2865,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 25,
                             Ingredient = "sage",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2847,6 +2875,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 26,
                             Ingredient = "parsley",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2856,6 +2885,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 27,
                             Ingredient = "dill",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2865,6 +2895,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 28,
                             Ingredient = "bay leaf",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2874,6 +2905,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 29,
                             Ingredient = "mint",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2883,6 +2915,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 30,
                             Ingredient = "vanilla extract",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2892,6 +2925,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 31,
                             Ingredient = "almond extract",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2901,6 +2935,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 32,
                             Ingredient = "lemon juice",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2910,6 +2945,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 33,
                             Ingredient = "lime juice",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2919,6 +2955,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 34,
                             Ingredient = "vinegar",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2928,6 +2965,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 35,
                             Ingredient = "olive oil",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2937,6 +2975,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 36,
                             Ingredient = "canola oil",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2946,6 +2985,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 37,
                             Ingredient = "vegetable oil",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2955,6 +2995,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 38,
                             Ingredient = "sesame oil",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2964,6 +3005,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 39,
                             Ingredient = "coconut oil",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -2973,6 +3015,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 40,
                             Ingredient = "butter",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -2982,6 +3025,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 41,
                             Ingredient = "flour",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 2,
@@ -2991,6 +3035,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 42,
                             Ingredient = "all purpose flour",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3000,6 +3045,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 43,
                             Ingredient = "bread flour",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3009,6 +3055,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 44,
                             Ingredient = "cake flour",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3018,6 +3065,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 45,
                             Ingredient = "whole wheat flour",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3027,6 +3075,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 46,
                             Ingredient = "cornmeal",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3036,6 +3085,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 47,
                             Ingredient = "oatmeal",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3045,6 +3095,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 48,
                             Ingredient = "rolled oats",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3054,6 +3105,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 49,
                             Ingredient = "oats",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 2,
@@ -3063,6 +3115,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 50,
                             Ingredient = "rice",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 2,
@@ -3072,6 +3125,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 51,
                             Ingredient = "brown rice",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3081,6 +3135,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 52,
                             Ingredient = "jasmine rice",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3090,6 +3145,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 53,
                             Ingredient = "basmati rice",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3099,6 +3155,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 54,
                             Ingredient = "quinoa",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3108,6 +3165,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 55,
                             Ingredient = "barley",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3117,6 +3175,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 56,
                             Ingredient = "lentils",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3126,6 +3185,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 57,
                             Ingredient = "chickpeas",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3135,60 +3195,67 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 58,
                             Ingredient = "black beans",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 59,
                             Ingredient = "pinto beans",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 60,
                             Ingredient = "kidney beans",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 61,
                             Ingredient = "great northern beans",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 62,
                             Ingredient = "navy beans",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 63,
                             Ingredient = "beans",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 64,
                             Ingredient = "sugar",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 2,
@@ -3198,6 +3265,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 65,
                             Ingredient = "brown sugar",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3207,6 +3275,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 66,
                             Ingredient = "powdered sugar",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3216,6 +3285,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 67,
                             Ingredient = "honey",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3225,6 +3295,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 68,
                             Ingredient = "maple syrup",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3234,6 +3305,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 69,
                             Ingredient = "molasses",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3243,6 +3315,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 70,
                             Ingredient = "corn syrup",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3252,6 +3325,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 71,
                             Ingredient = "milk",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 2,
@@ -3261,6 +3335,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 72,
                             Ingredient = "whole milk",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3270,6 +3345,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 73,
                             Ingredient = "skim milk",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3279,6 +3355,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 74,
                             Ingredient = "heavy cream",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3288,6 +3365,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 75,
                             Ingredient = "half and half",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3297,6 +3375,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 76,
                             Ingredient = "buttermilk",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3306,6 +3385,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 77,
                             Ingredient = "sour cream",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3315,6 +3395,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 78,
                             Ingredient = "yogurt",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 2,
@@ -3324,6 +3405,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 79,
                             Ingredient = "greek yogurt",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3333,6 +3415,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 80,
                             Ingredient = "cream cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3342,6 +3425,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 81,
                             Ingredient = "cottage cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3351,6 +3435,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 82,
                             Ingredient = "ricotta cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3360,6 +3445,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 83,
                             Ingredient = "parmesan cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3369,6 +3455,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 84,
                             Ingredient = "cheddar cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3378,6 +3465,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 85,
                             Ingredient = "mozzarella cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3387,6 +3475,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 86,
                             Ingredient = "swiss cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3396,6 +3485,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 87,
                             Ingredient = "provolone cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3405,6 +3495,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 88,
                             Ingredient = "feta cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3414,6 +3505,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 89,
                             Ingredient = "egg",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 2,
@@ -3423,6 +3515,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 90,
                             Ingredient = "egg white",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3432,6 +3525,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 91,
                             Ingredient = "egg yolk",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -3441,6 +3535,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 92,
                             Ingredient = "chicken breast",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3450,6 +3545,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 93,
                             Ingredient = "chicken thigh",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3459,6 +3555,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 94,
                             Ingredient = "ground chicken",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3468,6 +3565,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 95,
                             Ingredient = "chicken",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 2,
@@ -3477,6 +3575,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 96,
                             Ingredient = "turkey",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 2,
@@ -3486,6 +3585,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 97,
                             Ingredient = "ground turkey",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3495,6 +3595,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 98,
                             Ingredient = "ground beef",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3504,6 +3605,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 99,
                             Ingredient = "beef chuck",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3513,6 +3615,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 100,
                             Ingredient = "beef roast",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3522,6 +3625,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 101,
                             Ingredient = "beef",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 2,
@@ -3531,6 +3635,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 102,
                             Ingredient = "steak",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3540,6 +3645,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 103,
                             Ingredient = "pork chop",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3549,6 +3655,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 104,
                             Ingredient = "ground pork",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3558,6 +3665,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 105,
                             Ingredient = "pork",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 2,
@@ -3567,6 +3675,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 106,
                             Ingredient = "bacon",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3576,6 +3685,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 107,
                             Ingredient = "sausage",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3585,6 +3695,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 108,
                             Ingredient = "ham",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3594,6 +3705,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 109,
                             Ingredient = "lamb",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3603,6 +3715,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 110,
                             Ingredient = "salmon",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3612,6 +3725,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 111,
                             Ingredient = "tuna",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3621,6 +3735,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 112,
                             Ingredient = "cod",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3630,6 +3745,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 113,
                             Ingredient = "halibut",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3639,6 +3755,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 114,
                             Ingredient = "shrimp",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3648,6 +3765,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 115,
                             Ingredient = "crab",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3657,6 +3775,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 116,
                             Ingredient = "lobster",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3666,6 +3785,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 117,
                             Ingredient = "scallop",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3675,6 +3795,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 118,
                             Ingredient = "potato",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 2,
@@ -3684,6 +3805,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 119,
                             Ingredient = "sweet potato",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3693,6 +3815,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 120,
                             Ingredient = "onion",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 2,
@@ -3702,6 +3825,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 121,
                             Ingredient = "red onion",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3711,6 +3835,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 122,
                             Ingredient = "green onion",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3720,6 +3845,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 123,
                             Ingredient = "shallot",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3729,6 +3855,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 124,
                             Ingredient = "garlic",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3738,6 +3865,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 125,
                             Ingredient = "ginger",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3747,6 +3875,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 126,
                             Ingredient = "carrot",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3756,6 +3885,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 127,
                             Ingredient = "celery",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3765,6 +3895,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 128,
                             Ingredient = "broccoli",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3774,6 +3905,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 129,
                             Ingredient = "cauliflower",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3783,6 +3915,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 130,
                             Ingredient = "cabbage",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3792,6 +3925,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 131,
                             Ingredient = "spinach",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3801,6 +3935,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 132,
                             Ingredient = "kale",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3810,6 +3945,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 133,
                             Ingredient = "lettuce",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3819,6 +3955,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 134,
                             Ingredient = "zucchini",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3828,6 +3965,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 135,
                             Ingredient = "cucumber",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3837,6 +3975,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 136,
                             Ingredient = "eggplant",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3846,6 +3985,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 137,
                             Ingredient = "bell pepper",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3855,6 +3995,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 138,
                             Ingredient = "jalapeno",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3864,6 +4005,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 139,
                             Ingredient = "serrano pepper",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3873,6 +4015,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 140,
                             Ingredient = "mushroom",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3882,6 +4025,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 141,
                             Ingredient = "tomato",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 2,
@@ -3891,6 +4035,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 142,
                             Ingredient = "cherry tomato",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3900,6 +4045,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 143,
                             Ingredient = "apple",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3909,6 +4055,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 144,
                             Ingredient = "banana",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3918,6 +4065,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 145,
                             Ingredient = "orange",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3927,6 +4075,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 146,
                             Ingredient = "lemon",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3936,6 +4085,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 147,
                             Ingredient = "lime",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3945,6 +4095,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 148,
                             Ingredient = "strawberry",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3954,6 +4105,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 149,
                             Ingredient = "blueberry",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3963,6 +4115,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 150,
                             Ingredient = "raspberry",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3972,6 +4125,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 151,
                             Ingredient = "blackberry",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -3981,6 +4135,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 152,
                             Ingredient = "berry",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 2,
@@ -3990,6 +4145,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 153,
                             Ingredient = "grape",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -3999,6 +4155,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 154,
                             Ingredient = "peach",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4008,6 +4165,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 155,
                             Ingredient = "pear",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4017,6 +4175,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 156,
                             Ingredient = "avocado",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4026,6 +4185,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 157,
                             Ingredient = "pineapple",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4035,6 +4195,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 158,
                             Ingredient = "mango",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4044,6 +4205,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 159,
                             Ingredient = "papaya",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4053,6 +4215,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 160,
                             Ingredient = "cantaloupe",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4062,6 +4225,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 161,
                             Ingredient = "watermelon",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4071,6 +4235,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 162,
                             Ingredient = "honeydew",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4080,6 +4245,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 163,
                             Ingredient = "kiwi",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4089,6 +4255,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 164,
                             Ingredient = "pomegranate",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4098,6 +4265,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 165,
                             Ingredient = "coconut",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4107,6 +4275,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 166,
                             Ingredient = "cranberry",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4116,6 +4285,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 167,
                             Ingredient = "cherry",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4125,6 +4295,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 168,
                             Ingredient = "apricot",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4134,6 +4305,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 169,
                             Ingredient = "plum",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "kg",
                             Pass = 1,
@@ -4143,6 +4315,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 170,
                             Ingredient = "fig",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4152,6 +4325,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 171,
                             Ingredient = "date",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4161,6 +4335,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 172,
                             Ingredient = "raisin",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4170,6 +4345,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 173,
                             Ingredient = "walnut",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4179,6 +4355,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 174,
                             Ingredient = "pecan",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4188,6 +4365,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 175,
                             Ingredient = "almond",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4197,6 +4375,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 176,
                             Ingredient = "cashew",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4206,6 +4385,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 177,
                             Ingredient = "pistachio",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4215,6 +4395,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 178,
                             Ingredient = "peanut",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4224,6 +4405,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 179,
                             Ingredient = "pine nut",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4233,6 +4415,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 180,
                             Ingredient = "hazelnut",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4242,6 +4425,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 181,
                             Ingredient = "macadamia nut",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4251,6 +4435,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 182,
                             Ingredient = "nut",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 2,
@@ -4260,6 +4445,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 183,
                             Ingredient = "chia seed",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4269,6 +4455,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 184,
                             Ingredient = "flax seed",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4278,6 +4465,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 185,
                             Ingredient = "sunflower seed",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4287,6 +4475,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 186,
                             Ingredient = "pumpkin seed",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4296,6 +4485,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 187,
                             Ingredient = "sesame seed",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4305,6 +4495,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 188,
                             Ingredient = "seed",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 2,
@@ -4314,6 +4505,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 189,
                             Ingredient = "cocoa powder",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4323,6 +4515,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 190,
                             Ingredient = "chocolate chip",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4332,6 +4525,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 191,
                             Ingredient = "dark chocolate",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4341,6 +4535,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 192,
                             Ingredient = "milk chocolate",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4350,6 +4545,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 193,
                             Ingredient = "white chocolate",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4359,6 +4555,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 194,
                             Ingredient = "chocolate",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 2,
@@ -4368,6 +4565,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 195,
                             Ingredient = "baking soda",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4377,6 +4575,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 196,
                             Ingredient = "baking powder",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4386,6 +4585,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 197,
                             Ingredient = "yeast",
+                            IsLiquid = false,
                             LargeImperialUnit = "tbsp",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4395,6 +4595,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 198,
                             Ingredient = "cornstarch",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4404,6 +4605,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 199,
                             Ingredient = "corn starch",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4413,6 +4615,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 200,
                             Ingredient = "cocoa nib",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4422,6 +4625,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 201,
                             Ingredient = "peanut butter",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4431,6 +4635,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 202,
                             Ingredient = "almond butter",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4440,6 +4645,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 203,
                             Ingredient = "jam",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4449,6 +4655,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 204,
                             Ingredient = "jelly",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4458,6 +4665,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 205,
                             Ingredient = "pumpkin puree",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4467,6 +4675,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 206,
                             Ingredient = "pumpkin",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 2,
@@ -4476,6 +4685,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 207,
                             Ingredient = "crushed tomato",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4485,6 +4695,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 208,
                             Ingredient = "tomato sauce",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -4494,6 +4705,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 209,
                             Ingredient = "tomato paste",
+                            IsLiquid = false,
                             LargeImperialUnit = "cup",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4503,6 +4715,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 210,
                             Ingredient = "chicken broth",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -4512,6 +4725,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 211,
                             Ingredient = "beef broth",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 1,
@@ -4521,6 +4735,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 212,
                             Ingredient = "broth",
+                            IsLiquid = true,
                             LargeImperialUnit = "cup",
                             MetricUnit = "ml",
                             Pass = 2,
@@ -4530,6 +4745,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 213,
                             Ingredient = "vegan cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 1,
@@ -4539,6 +4755,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 214,
                             Ingredient = "cheese",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 2,
@@ -4548,6 +4765,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 215,
                             Ingredient = "parmesan",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 2,
@@ -4557,6 +4775,7 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 216,
                             Ingredient = "mozzarella",
+                            IsLiquid = false,
                             LargeImperialUnit = "lb",
                             MetricUnit = "g",
                             Pass = 2,
@@ -4566,10 +4785,71 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 217,
                             Ingredient = "water",
+                            IsLiquid = false,
                             LargeImperialUnit = "gallon",
                             MetricUnit = "ml",
                             Pass = 2,
                             SmallImperialUnit = "cup"
+                        },
+                        new
+                        {
+                            Id = 218,
+                            Ingredient = "syrup",
+                            IsLiquid = false,
+                            LargeImperialUnit = "cup",
+                            MetricUnit = "ml",
+                            Pass = 2,
+                            SmallImperialUnit = "tbsp"
+                        },
+                        new
+                        {
+                            Id = 219,
+                            Ingredient = "oil",
+                            IsLiquid = true,
+                            LargeImperialUnit = "cup",
+                            MetricUnit = "ml",
+                            Pass = 2,
+                            SmallImperialUnit = "tbsp"
+                        },
+                        new
+                        {
+                            Id = 220,
+                            Ingredient = "sauce",
+                            IsLiquid = true,
+                            LargeImperialUnit = "cup",
+                            MetricUnit = "ml",
+                            Pass = 2,
+                            SmallImperialUnit = "tbsp"
+                        },
+                        new
+                        {
+                            Id = 221,
+                            Ingredient = "puree",
+                            IsLiquid = true,
+                            LargeImperialUnit = "cup",
+                            MetricUnit = "ml",
+                            Pass = 2,
+                            SmallImperialUnit = "tbsp"
+                        },
+                        new
+                        {
+                            Id = 222,
+                            Ingredient = "butter",
+                            IsLiquid = true,
+                            LargeImperialUnit = "cup",
+                            MetricUnit = "ml",
+                            Pass = 2,
+                            SmallImperialUnit = "tbsp"
+                        },
+                        new
+                        {
+                            Id = 223,
+                            Ingredient = "soup",
+                            IsLiquid = true,
+                            LargeImperialUnit = "cup",
+                            MetricUnit = "ml",
+                            Pass = 1,
+                            SmallImperialUnit = "oz"
                         });
                 });
 
@@ -4675,7 +4955,7 @@ namespace PlatformAPI.Migrations
                             BaseUnit = "Milliliter",
                             Quantity = 0.033814f,
                             TargetSystem = 1,
-                            TargetUnit = "Fluid Ounce"
+                            TargetUnit = "Teaspoon"
                         },
                         new
                         {
@@ -7986,9 +8266,9 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 315,
                             BaseSystem = 1,
-                            BaseUnit = "Tablespoon",
+                            BaseUnit = "Ounce",
                             Ingredient = "black beans",
-                            Quantity = 12.13f,
+                            Quantity = 24.25f,
                             TargetSystem = 2,
                             TargetUnit = "Gram"
                         },
@@ -7998,9 +8278,9 @@ namespace PlatformAPI.Migrations
                             BaseSystem = 2,
                             BaseUnit = "Gram",
                             Ingredient = "black beans",
-                            Quantity = 0.08244f,
+                            Quantity = 0.041237f,
                             TargetSystem = 1,
-                            TargetUnit = "Tablespoon"
+                            TargetUnit = "Ounce"
                         },
                         new
                         {
@@ -8066,9 +8346,9 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 323,
                             BaseSystem = 1,
-                            BaseUnit = "Tablespoon",
+                            BaseUnit = "Ounce",
                             Ingredient = "pinto beans",
-                            Quantity = 12.06f,
+                            Quantity = 24.12f,
                             TargetSystem = 2,
                             TargetUnit = "Gram"
                         },
@@ -8078,9 +8358,9 @@ namespace PlatformAPI.Migrations
                             BaseSystem = 2,
                             BaseUnit = "Gram",
                             Ingredient = "pinto beans",
-                            Quantity = 0.082919f,
+                            Quantity = 0.041451f,
                             TargetSystem = 1,
-                            TargetUnit = "Tablespoon"
+                            TargetUnit = "Ounce"
                         },
                         new
                         {
@@ -8146,9 +8426,9 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 331,
                             BaseSystem = 1,
-                            BaseUnit = "Tablespoon",
+                            BaseUnit = "Ounce",
                             Ingredient = "kidney beans",
-                            Quantity = 11.5f,
+                            Quantity = 23f,
                             TargetSystem = 2,
                             TargetUnit = "Gram"
                         },
@@ -8158,9 +8438,9 @@ namespace PlatformAPI.Migrations
                             BaseSystem = 2,
                             BaseUnit = "Gram",
                             Ingredient = "kidney beans",
-                            Quantity = 0.086957f,
+                            Quantity = 0.043478f,
                             TargetSystem = 1,
-                            TargetUnit = "Tablespoon"
+                            TargetUnit = "Ounce"
                         },
                         new
                         {
@@ -8226,9 +8506,9 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 339,
                             BaseSystem = 1,
-                            BaseUnit = "Tablespoon",
+                            BaseUnit = "Ounce",
                             Ingredient = "great northern beans",
-                            Quantity = 11.38f,
+                            Quantity = 22.75f,
                             TargetSystem = 2,
                             TargetUnit = "Gram"
                         },
@@ -8238,9 +8518,9 @@ namespace PlatformAPI.Migrations
                             BaseSystem = 2,
                             BaseUnit = "Gram",
                             Ingredient = "great northern beans",
-                            Quantity = 0.087873f,
+                            Quantity = 0.043956f,
                             TargetSystem = 1,
-                            TargetUnit = "Tablespoon"
+                            TargetUnit = "Ounce"
                         },
                         new
                         {
@@ -8306,9 +8586,9 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 347,
                             BaseSystem = 1,
-                            BaseUnit = "Tablespoon",
+                            BaseUnit = "Ounce",
                             Ingredient = "navy beans",
-                            Quantity = 11.88f,
+                            Quantity = 23.75f,
                             TargetSystem = 2,
                             TargetUnit = "Gram"
                         },
@@ -8318,9 +8598,9 @@ namespace PlatformAPI.Migrations
                             BaseSystem = 2,
                             BaseUnit = "Gram",
                             Ingredient = "navy beans",
-                            Quantity = 0.084175f,
+                            Quantity = 0.042105f,
                             TargetSystem = 1,
-                            TargetUnit = "Tablespoon"
+                            TargetUnit = "Ounce"
                         },
                         new
                         {

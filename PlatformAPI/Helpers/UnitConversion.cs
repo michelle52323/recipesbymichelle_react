@@ -60,115 +60,42 @@ namespace PlatformAPI.Helpers
                 var abbreviatedUnit = SearchAlgorithmHelper.GetUnitAbbreviation(unitTable, i.Unit);
 
                 //INSERT CODE HERE
+
                 IngredientUnitList? subIngredient = null;
 
-                List<IngredientUnit> ingredientUnitTable = await LoadIngredientUnitTableAsync(); ;
+                List<IngredientUnit> ingredientUnitTable =
+                    await LoadIngredientUnitTableAsync();
 
-                // PASS 1
-                if (measurementSystem == MeasurementSystem.Imperial)
+                var passes = new[]
                 {
-                    var entryA = ingredientUnitTable.FirstOrDefault(x =>
-                        x.Pass == 1 &&
-                        desc.Contains(x.Ingredient, StringComparison.OrdinalIgnoreCase) &&
-                        (
-                            string.Equals(abbreviatedUnit, x.LargeImperialUnit, StringComparison.OrdinalIgnoreCase) ||
-                            string.Equals(abbreviatedUnit, x.SmallImperialUnit, StringComparison.OrdinalIgnoreCase)
-                        ));
+                    (Pass: 1, IsLiquid: true),
+                    (Pass: 2, IsLiquid: true),
+                    (Pass: 1, IsLiquid: false),
+                    (Pass: 2, IsLiquid: false)
+                };
 
-                    if (entryA != null)
-                    {
-                        subIngredient = new IngredientUnitList
-                        {
-                            Ingredient = desc,
-                            BaseUnit = fullUnit,
-                            TargetUnit = entryA.MetricUnit,
-                            TargetUnitAlternative = null,
-                            Quantity = i.Quantity,
-                            QuantityMax = i.QuantityMax,
-                            TargetSystem = MeasurementSystem.Metric
-                        };
-                    }
-                }
-                else if (measurementSystem == MeasurementSystem.Metric)
+                int passCount = 1;
+                int? passFound = null;
+
+                foreach (var passInfo in passes)
                 {
-                    var entryB = ingredientUnitTable.FirstOrDefault(x =>
-                        x.Pass == 1 &&
-                        desc.Contains(x.Ingredient, StringComparison.OrdinalIgnoreCase) &&
-                        string.Equals(abbreviatedUnit, x.MetricUnit, StringComparison.OrdinalIgnoreCase));
-
-                    if (entryB != null)
-                    {
-                        subIngredient = new IngredientUnitList
-                        {
-                            Ingredient = desc,
-                            BaseUnit = fullUnit,
-                            TargetUnit = entryB.LargeImperialUnit,
-                            TargetUnitAlternative = entryB.SmallImperialUnit,
-                            Quantity = i.Quantity,
-                            QuantityMax = i.QuantityMax,
-                            TargetSystem = MeasurementSystem.Imperial
-                        };
-                    }
-                }
-
-                // If found in pass 1, skip pass 2
-                if (subIngredient != null)
-                {
-                    subList.Add(subIngredient);
-                }
-                else
-                {
-                    // PASS 2
-                    if (measurementSystem == MeasurementSystem.Imperial)
-                    {
-                        var entryA = ingredientUnitTable.FirstOrDefault(x =>
-                            x.Pass == 2 &&
-                            desc.Contains(x.Ingredient, StringComparison.OrdinalIgnoreCase) &&
-                            (
-                                string.Equals(abbreviatedUnit, x.LargeImperialUnit, StringComparison.OrdinalIgnoreCase) ||
-                                string.Equals(abbreviatedUnit, x.SmallImperialUnit, StringComparison.OrdinalIgnoreCase)
-                            ));
-
-                        if (entryA != null)
-                        {
-                            subIngredient = new IngredientUnitList
-                            {
-                                Ingredient = desc,
-                                BaseUnit = fullUnit,
-                                TargetUnit = entryA.MetricUnit,
-                                TargetUnitAlternative = null,
-                                Quantity = i.Quantity,
-                                QuantityMax = i.QuantityMax,
-                                TargetSystem = MeasurementSystem.Metric
-                            };
-                        }
-                    }
-                    else if (measurementSystem == MeasurementSystem.Metric)
-                    {
-                        var entryB = ingredientUnitTable.FirstOrDefault(x =>
-                            x.Pass == 2 &&
-                            desc.Contains(x.Ingredient, StringComparison.OrdinalIgnoreCase) &&
-                            string.Equals(abbreviatedUnit, x.MetricUnit, StringComparison.OrdinalIgnoreCase));
-
-                        if (entryB != null)
-                        {
-                            subIngredient = new IngredientUnitList
-                            {
-                                Ingredient = desc,
-                                BaseUnit = fullUnit,
-                                TargetUnit = entryB.LargeImperialUnit,
-                                TargetUnitAlternative = entryB.SmallImperialUnit,
-                                Quantity = i.Quantity,
-                                QuantityMax = i.QuantityMax,
-                                TargetSystem = MeasurementSystem.Imperial
-                            };
-                        }
-                    }
+                    subIngredient = RunPass(
+                        ingredientUnitTable,
+                        desc,
+                        fullUnit,
+                        abbreviatedUnit,
+                        i,
+                        measurementSystem,
+                        passInfo.Pass,
+                        passInfo.IsLiquid);
 
                     if (subIngredient != null)
                     {
                         subList.Add(subIngredient);
+                        passFound = passCount;
+                        break;
                     }
+                    passCount++;
                 }
 
                 var newIngredient = new Ingredient();
@@ -181,6 +108,69 @@ namespace PlatformAPI.Helpers
 
 
             return newList;
+        }
+
+
+
+        private IngredientUnitList? RunPass(
+            List<IngredientUnit> ingredientUnitTable,
+            string desc,
+            string fullUnit,
+            string abbreviatedUnit,
+            Ingredient ingredient,
+            MeasurementSystem measurementSystem,
+            int pass,
+            bool isLiquid)
+        {
+            if (measurementSystem == MeasurementSystem.Imperial)
+            {
+                var entry = ingredientUnitTable.FirstOrDefault(x =>
+                    x.Pass == pass &&
+                    x.IsLiquid == isLiquid &&
+                    desc.Contains(x.Ingredient, StringComparison.OrdinalIgnoreCase) &&
+                    (
+                        string.Equals(abbreviatedUnit, x.LargeImperialUnit, StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(abbreviatedUnit, x.SmallImperialUnit, StringComparison.OrdinalIgnoreCase)
+                    ));
+
+                if (entry != null)
+                {
+                    return new IngredientUnitList
+                    {
+                        Ingredient = desc,
+                        BaseUnit = fullUnit,
+                        TargetUnit = entry.MetricUnit,
+                        TargetUnitAlternative = null,
+                        Quantity = ingredient.Quantity,
+                        QuantityMax = ingredient.QuantityMax,
+                        TargetSystem = MeasurementSystem.Metric
+                    };
+                }
+            }
+            else if (measurementSystem == MeasurementSystem.Metric)
+            {
+                var entry = ingredientUnitTable.FirstOrDefault(x =>
+                    x.Pass == pass &&
+                    x.IsLiquid == isLiquid &&
+                    desc.Contains(x.Ingredient, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(abbreviatedUnit, x.MetricUnit, StringComparison.OrdinalIgnoreCase));
+
+                if (entry != null)
+                {
+                    return new IngredientUnitList
+                    {
+                        Ingredient = desc,
+                        BaseUnit = fullUnit,
+                        TargetUnit = entry.LargeImperialUnit,
+                        TargetUnitAlternative = entry.SmallImperialUnit,
+                        Quantity = ingredient.Quantity,
+                        QuantityMax = ingredient.QuantityMax,
+                        TargetSystem = MeasurementSystem.Imperial
+                    };
+                }
+            }
+
+            return null;
         }
     }
 }
