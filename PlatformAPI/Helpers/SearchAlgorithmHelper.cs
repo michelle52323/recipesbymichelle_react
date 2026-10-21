@@ -124,6 +124,20 @@ namespace PlatformAPI.Helpers
             return normalizedWord.Trim();
         }
 
+        public static string NormalizePhraseSingular(string phrase)
+        {
+            var words = phrase.Split(' ');
+            var newWord = string.Empty;
+
+            foreach (var word in words)
+            {
+                var normalizedWord = NormalizeWordSingular(word);
+                newWord = newWord + ' ' + normalizedWord;
+            }
+
+            return newWord;
+        }
+
         public static(bool isFragile, string normalized) NormalizeFragileWord(string token)
         {
             var fragileMap = new Dictionary<string, string>

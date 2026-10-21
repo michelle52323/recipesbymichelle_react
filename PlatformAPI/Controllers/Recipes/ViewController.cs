@@ -101,8 +101,8 @@ namespace PlatformAPI.Controllers.Recipes
 
             //Unit conversion code
             //STILL IN DEVELOPMENT
-            //UnitConversion unitConversion = new UnitConversion(_context);
-            //ingredients = await unitConversion.GetConvertedUnit(ingredients, measurementSystem);
+            //UnitConversionHelper unitConversionHelper = new UnitConversionHelper(_context);
+            //ingredients = await unitConversionHelper.GetConvertedUnit(ingredients, measurementSystem);
 
             // Map ingredients to DTOs
             var ingredientDtos = ingredients
