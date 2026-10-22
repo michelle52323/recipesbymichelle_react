@@ -27,6 +27,12 @@ namespace PlatformAPI.Helpers
 
         public MeasurementSystem TargetSystem { get; set; }
 
+        public float ConversionFactor { get; set; }
+
+        public float? TargetQuantity { get; set; }
+
+        public float? TargetQuantityMax {  get; set; }
+
         public bool Convert {  get; set; }
     }
     public class UnitConversionHelper
@@ -72,9 +78,8 @@ namespace PlatformAPI.Helpers
                     
                 await LoadUnitConversionExceptionTableAsync();
 
-            //Traverse IngredientUnits table.  Find all ingredients and map to 
+            //Step 1.  Traverse IngredientUnits table.  Find all ingredients and map to 
             // base unit and target unit.
-
             foreach (Ingredient i in Ingredients)
             {
                 //we need to take the ingredient name, normalize it
@@ -134,7 +139,9 @@ namespace PlatformAPI.Helpers
 
             }
 
-            //Account for missing ingredients
+            //Step 2.  Account for missing ingredients
+            //Either system agnostic
+            //or ingredient is not on the IngredientUnitList, so use standard conversion
             foreach (var ingredient in Ingredients)
             {
                 // Normalize the original ingredient description to ensure an accurate match comparison
@@ -204,8 +211,60 @@ namespace PlatformAPI.Helpers
                     }
                     var placeholder = 0;
                 }
+
+
             }
 
+            //Step 3.  Check Exception list (UnitConversionExceptions), and get proper conversion rate
+            //          If not on exception list, get UnitConversion table
+            foreach (var ingredient in subList)
+            {
+                var baseUnit = ingredient.BaseUnit;
+                var targetUnit = ingredient.TargetUnit;
+
+                string comparisonBaseUnit =
+                    GetUnitSingular(ingredient.BaseUnit, unitTable);
+
+                string comparisonTargetUnit =
+                    GetUnitSingular(ingredient.TargetUnit, unitTable);
+
+                string normalizedIngredient = ingredient.NormalizedIngredient;
+
+                float conversionFactor = 1.0f;
+
+                // Step 3a - Check UnitConversionExceptions first
+                var exceptionEntry = unitConversionExceptionTable.FirstOrDefault(x =>
+                !string.IsNullOrEmpty(x.Ingredient) && normalizedIngredient.Contains(x.Ingredient, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(x.BaseUnit, comparisonBaseUnit, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(x.TargetUnit, comparisonTargetUnit, StringComparison.OrdinalIgnoreCase) &&
+                x.BaseSystem == (int)measurementSystem);
+
+
+                if (exceptionEntry != null)
+                {
+                    ingredient.ConversionFactor = exceptionEntry.Quantity;
+                }
+                else
+                {
+                    // Step 3b - Fallback to UnitConversion table
+                    var conversionEntry = unitConversionTable.FirstOrDefault(x =>
+                        string.Equals(x.BaseUnit, comparisonBaseUnit, StringComparison.OrdinalIgnoreCase) &&
+                        string.Equals(x.TargetUnit, comparisonTargetUnit, StringComparison.OrdinalIgnoreCase) &&
+                        x.BaseSystem == (int)measurementSystem);
+
+                    if (conversionEntry != null)
+                    {
+                        ingredient.ConversionFactor = conversionEntry.Quantity;
+                    }
+                    else
+                    {
+                        // If found nowhere, conversionFactor remains 1.0
+                        ingredient.ConversionFactor = 1.0f;
+                    }
+                }
+
+                
+            }
             return newList;
         }
 
@@ -274,5 +333,39 @@ namespace PlatformAPI.Helpers
 
             return null;
         }
+
+        #region Helper Functions
+        public static string GetUnitSingular(string unit, List<Unit> unitTable)
+        {
+            if (string.IsNullOrWhiteSpace(unit))
+                return unit;
+
+            var match = unitTable.FirstOrDefault(u =>
+                string.Equals(u.Description, unit, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(u.Plural, unit, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(u.Abbreviation, unit, StringComparison.OrdinalIgnoreCase));
+
+            return match?.Description ?? unit;
+        }
+
+        public static string GetUnitAbbreviationOrSingular(string unit, List<Unit> unitTable)
+        {
+            if (string.IsNullOrWhiteSpace(unit))
+                return unit;
+
+            var match = unitTable.FirstOrDefault(u =>
+                string.Equals(u.Description, unit, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(u.Plural, unit, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(u.Abbreviation, unit, StringComparison.OrdinalIgnoreCase));
+
+            if (match == null)
+                return unit;
+
+            return !string.IsNullOrWhiteSpace(match.Abbreviation)
+                ? match.Abbreviation
+                : match.Description ?? unit;
+        }
+
+        #endregion
     }
 }

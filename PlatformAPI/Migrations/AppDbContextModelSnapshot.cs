@@ -5082,6 +5082,24 @@ namespace PlatformAPI.Migrations
                             Quantity = 0.0393701f,
                             TargetSystem = 1,
                             TargetUnit = "Inch"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            BaseSystem = 1,
+                            BaseUnit = "Ounce",
+                            Quantity = 29.5735f,
+                            TargetSystem = 2,
+                            TargetUnit = "Milliliter"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            BaseSystem = 2,
+                            BaseUnit = "Milliliter",
+                            Quantity = 0.0338f,
+                            TargetSystem = 1,
+                            TargetUnit = "Ounce"
                         });
                 });
 

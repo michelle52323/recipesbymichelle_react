@@ -574,8 +574,9 @@ namespace PlatformAPI.Data
                 new UnitConversion { Id = 19, BaseSystem = 1, BaseUnit = "Pound", TargetSystem = 2, TargetUnit = "Kilogram", Quantity = 0.453592f },
                 new UnitConversion { Id = 20, BaseSystem = 2, BaseUnit = "Kilogram", TargetSystem = 1, TargetUnit = "Pound", Quantity = 2.20462f },
                 new UnitConversion { Id = 21, BaseSystem = 1, BaseUnit = "Inch", TargetSystem = 2, TargetUnit = "Millimeter", Quantity = 25.4f },
-                new UnitConversion { Id = 22, BaseSystem = 2, BaseUnit = "Millimeter", TargetSystem = 1, TargetUnit = "Inch", Quantity = 0.0393701f }
-            );
+                new UnitConversion { Id = 22, BaseSystem = 2, BaseUnit = "Millimeter", TargetSystem = 1, TargetUnit = "Inch", Quantity = 0.0393701f },
+                new UnitConversion { Id = 23, BaseSystem = 1, BaseUnit = "Ounce", TargetSystem = 2, TargetUnit = "Milliliter", Quantity = 29.5735f },
+                new UnitConversion { Id = 24, BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 1, TargetUnit = "Ounce", Quantity = 0.0338f }            );
 
 
 
