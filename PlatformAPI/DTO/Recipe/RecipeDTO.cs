@@ -80,6 +80,52 @@ namespace PlatformAPI.DTO.Recipe
         public List<string> BottomLines {  get; set; }
     }
 
+    public class IngredientUnitListTestDTO
+    {
+        public string Ingredient { get; set; }
+
+        public string NormalizedIngredient { get; set; }
+
+        public string BaseUnit { get; set; }
+
+        public string TargetUnit { get; set; }
+
+        public string TargetUnitAlternative { get; set; }
+
+        public float? Quantity { get; set; }
+
+        public float? QuantityMax { get; set; }
+
+        public MeasurementSystem TargetSystem { get; set; }
+
+        public float ConversionFactor { get; set; }
+
+        public float? TargetQuantity { get; set; }
+
+        public float? TargetQuantityMax { get; set; }
+
+        public string? FinalQuantity {  get; set; }
+
+        public string? FinalQuantityMax { get; set; }
+
+        public bool Convert { get; set; }
+    }
+
+    public class IngredientConversionTestList
+    {
+        public string Ingredient {  set; get; }
+        public float? TargetQuantity { get; set; }
+        public float? TargetQuantityMax { get; set; }
+
+        public string? FinalQuantity { get; set; }
+
+        public string? FinalQuantityMax { get; set; }
+        public string TargetUnit { get; set; }
+        
+        public string TargetUnitAlternative { get; set; }
+        
+    }
+
 
 
 }

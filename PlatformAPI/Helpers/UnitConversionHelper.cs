@@ -33,6 +33,10 @@ namespace PlatformAPI.Helpers
 
         public float? TargetQuantityMax {  get; set; }
 
+        public string? FinalQuantity { get; set; }
+
+        public string? FinalQuantityMax { get; set; }
+
         public bool Convert {  get; set; }
     }
     public class UnitConversionHelper
@@ -60,7 +64,17 @@ namespace PlatformAPI.Helpers
             return await _context.Set<UnitConversionException>().ToListAsync();
         }
 
-        public async Task<List<Ingredient>> GetConvertedUnit(List<Ingredient> Ingredients, MeasurementSystem measurementSystem)
+        public async Task<List<UnitPrecisionRule>> LoadUnitPrecisionRuleTableAsync()
+        {
+            return await _context.Set<UnitPrecisionRule>().ToListAsync();
+        }
+
+        public async Task<List<ImperialRoundingRule>> LoadImperialRoundingRuleTableAsync()
+        {
+            return await _context.Set<ImperialRoundingRule>().ToListAsync();
+        }
+
+        public async Task<List<IngredientUnitList>> GetConvertedUnit(List<Ingredient> Ingredients, MeasurementSystem measurementSystem)
         {
             List<IngredientUnitList> subList = new List<IngredientUnitList>();
             List<Ingredient> newList = new List<Ingredient>();
@@ -75,8 +89,13 @@ namespace PlatformAPI.Helpers
                     await LoadUnitConversionTableAsync();
 
             List<UnitConversionException> unitConversionExceptionTable =
-                    
                 await LoadUnitConversionExceptionTableAsync();
+
+            List<UnitPrecisionRule> unitPrecisionRuleTable =
+                await LoadUnitPrecisionRuleTableAsync();
+
+            List<ImperialRoundingRule> imperialRoundingRuleTable =
+                await LoadImperialRoundingRuleTableAsync();
 
             //Step 1.  Traverse IngredientUnits table.  Find all ingredients and map to 
             // base unit and target unit.
@@ -265,7 +284,241 @@ namespace PlatformAPI.Helpers
 
                 
             }
-            return newList;
+
+
+            foreach (var ingredient in subList)
+            {
+                //Step 4.  Perform initial conversion
+                if (ingredient.Convert)
+                {
+                    ingredient.TargetQuantity = ingredient.Quantity * ingredient.ConversionFactor;
+                    ingredient.TargetQuantityMax = ingredient.QuantityMax * ingredient.ConversionFactor;
+                }
+                else
+                {
+                    ingredient.TargetQuantity = ingredient.Quantity;
+                    ingredient.TargetQuantityMax = ingredient.QuantityMax;
+                }
+
+                //Step 5.  Get better unit
+                string canonicalUnit = GetUnitAbbreviationOrSingular(ingredient.TargetUnit, unitTable);
+
+                // Find all matching precision rules for the current canonical unit
+                var matchingRules = unitPrecisionRuleTable
+                    .Where(r => r.Unit == canonicalUnit)
+                    .OrderBy(r => r.Id) // Keeps processing sequential based on ID order
+                    .ToList();
+
+                foreach (var rule in matchingRules)
+                {
+                    // If Comparison or Threshold = null, skip everything else
+                    if (string.IsNullOrEmpty(rule.Comparison) || !rule.Threshold.HasValue)
+                    {
+                        continue;
+                    }
+
+                    bool evaluationResult = false;
+
+                    // Perform comparison dynamically based on the Comparison string operator
+                    if (rule.Comparison == ">=")
+                    {
+                        evaluationResult = ingredient.TargetQuantity >= rule.Threshold.Value;
+                    }
+                    else if (rule.Comparison == "<")
+                    {
+                        evaluationResult = ingredient.TargetQuantity < rule.Threshold.Value;
+                    }
+
+                    // If the comparison matches, update the unit and short-circuit out of the loop
+                    if (evaluationResult)
+                    {
+                        ingredient.TargetUnit = rule.NewUnit;
+                        ingredient.TargetQuantity = ingredient.TargetQuantity * rule.ConversionFactor;
+                        ingredient.TargetQuantityMax = ingredient.TargetQuantityMax * rule.ConversionFactor;
+                        break; // Stop and skip performing any remaining comparisons
+                    }
+                }
+
+                //Step 6.  Round to user-friendly number, and set final values
+
+                string canonicalBetterUnit = GetUnitAbbreviationOrSingular(ingredient.TargetUnit, unitTable);
+
+                // Guard Clause: If the ingredient does not need conversion, keep original values and skip rounding
+                if (!ingredient.Convert)
+                {
+                    ingredient.FinalQuantity = ingredient.Quantity?.ToString() ?? "";
+                    ingredient.FinalQuantityMax = ingredient.QuantityMax?.ToString() ?? "";
+                    continue; // Skip the metric/imperial rounding logic entirely
+                }
+
+                // Define or determine if the current target unit is metric
+                // (You can swap this with your own metric tracking array/logic if needed)
+                bool isMetric = ingredient.TargetSystem == MeasurementSystem.Metric;
+
+                if (isMetric)
+                {
+                    // ---------------- METRIC ROUNDING LOGIC ----------------
+                    // Find the rule for the NEW/CURRENT target unit to determine how to round it
+                    var metricRule = unitPrecisionRuleTable.FirstOrDefault(r => r.Unit == canonicalBetterUnit);
+
+                    if (metricRule != null)
+                    {
+                        // Process TargetQuantity
+                        if (ingredient.TargetQuantity.HasValue)
+                        {
+                            float roundedQty;
+
+                            // Exception case: if unit is g or ml and the quantity is less than 1, round to the nearest 0.05
+                            if ((canonicalBetterUnit == "g" || canonicalBetterUnit == "ml") && ingredient.TargetQuantity.Value < 1f)
+                            {
+                                roundedQty = (float)Math.Round(ingredient.TargetQuantity.Value / 0.05f) * 0.05f;
+                            }
+                            else
+                            {
+                                float roundToValue;
+                                if (!metricRule.Condition.HasValue)
+                                {
+                                    roundToValue = metricRule.RoundToElse ?? 1f;
+                                }
+                                else
+                                {
+                                    roundToValue = (ingredient.TargetQuantity.Value <= metricRule.Condition.Value)
+                                        ? (metricRule.RoundToConditional ?? 1f)
+                                        : (metricRule.RoundToElse ?? 1f);
+                                }
+
+                                // Round to the nearest chosen increment
+                                roundedQty = (float)Math.Round(ingredient.TargetQuantity.Value / roundToValue) * roundToValue;
+                            }
+
+                            ingredient.FinalQuantity = roundedQty.ToString();
+                        }
+
+                        // Process TargetQuantityMax (Repeat all logic for QtyMax)
+                        if (ingredient.TargetQuantityMax.HasValue)
+                        {
+                            float roundedQtyMax;
+
+                            // Exception case: if unit is g or ml and the quantity max is less than 1, round to the nearest 0.05
+                            if ((canonicalBetterUnit == "g" || canonicalBetterUnit == "ml") && ingredient.TargetQuantityMax.Value < 1f)
+                            {
+                                roundedQtyMax = (float)Math.Round(ingredient.TargetQuantityMax.Value / 0.05f) * 0.05f;
+                            }
+                            else
+                            {
+                                float roundToValueMax;
+                                if (!metricRule.Condition.HasValue)
+                                {
+                                    roundToValueMax = metricRule.RoundToElse ?? 1f;
+                                }
+                                else
+                                {
+                                    // Evaluate criteria using TargetQuantityMax independently
+                                    roundToValueMax = (ingredient.TargetQuantityMax.Value <= metricRule.Condition.Value)
+                                        ? (metricRule.RoundToConditional ?? 1f)
+                                        : (metricRule.RoundToElse ?? 1f);
+                                }
+
+                                // Round to the nearest chosen increment
+                                roundedQtyMax = (float)Math.Round(ingredient.TargetQuantityMax.Value / roundToValueMax) * roundToValueMax;
+                            }
+
+                            ingredient.FinalQuantityMax = roundedQtyMax.ToString();
+                        }
+                    }
+                }
+                else
+                {
+                    // ---------------- IMPERIAL ROUNDING LOGIC ----------------
+                    // Process TargetQuantity
+                    if (ingredient.TargetQuantity.HasValue)
+                    {
+                        float totalValue = ingredient.TargetQuantity.Value;
+                        int wholePart = (int)Math.Truncate(totalValue);
+                        float decimalPart = totalValue - wholePart;
+
+                        // Handle edge case if floating precision gives a tiny negative remainder
+                        if (decimalPart < 0) decimalPart = 0;
+
+                        // Find matching row in imperialRoundingRuleTable
+                        var matchingFractionRule = imperialRoundingRuleTable.FirstOrDefault(r =>
+                            decimalPart >= r.Lower && decimalPart < r.Upper);
+
+                        if (matchingFractionRule != null)
+                        {
+                            if (matchingFractionRule.MapToFraction.Contains("/"))
+                            {
+                                // Format as a mixed fraction if whole part exists, otherwise just the fraction
+                                ingredient.FinalQuantity = wholePart > 0
+                                    ? $"{wholePart} {matchingFractionRule.MapToFraction}"
+                                    : matchingFractionRule.MapToFraction;
+                            }
+                            else
+                            {
+                                // MapToFraction is a whole number string (e.g. "0" or "1")
+                                if (int.TryParse(matchingFractionRule.MapToFraction, out int fractionAsInt))
+                                {
+                                    int finalWholeNumber = wholePart + fractionAsInt;
+                                    ingredient.FinalQuantity = finalWholeNumber.ToString();
+                                }
+                                else
+                                {
+                                    ingredient.FinalQuantity = wholePart.ToString();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ingredient.FinalQuantity = totalValue.ToString();
+                        }
+                    }
+
+                    // Process TargetQuantityMax (Repeat identical logic for QtyMax)
+                    if (ingredient.TargetQuantityMax.HasValue)
+                    {
+                        float totalValueMax = ingredient.TargetQuantityMax.Value;
+                        int wholePartMax = (int)Math.Truncate(totalValueMax);
+                        float decimalPartMax = totalValueMax - wholePartMax;
+
+                        if (decimalPartMax < 0) decimalPartMax = 0;
+
+                        var matchingFractionRuleMax = imperialRoundingRuleTable.FirstOrDefault(r =>
+                            decimalPartMax >= r.Lower && decimalPartMax < r.Upper);
+
+                        if (matchingFractionRuleMax != null)
+                        {
+                            if (matchingFractionRuleMax.MapToFraction.Contains("/"))
+                            {
+                                ingredient.FinalQuantityMax = wholePartMax > 0
+                                    ? $"{wholePartMax} {matchingFractionRuleMax.MapToFraction}"
+                                    : matchingFractionRuleMax.MapToFraction;
+                            }
+                            else
+                            {
+                                if (int.TryParse(matchingFractionRuleMax.MapToFraction, out int fractionAsIntMax))
+                                {
+                                    int finalWholeNumberMax = wholePartMax + fractionAsIntMax;
+                                    ingredient.FinalQuantityMax = finalWholeNumberMax.ToString();
+                                }
+                                else
+                                {
+                                    ingredient.FinalQuantityMax = wholePartMax.ToString();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ingredient.FinalQuantityMax = totalValueMax.ToString();
+                        }
+                    }
+                }
+                // --- END OF STEP 6 ---
+
+            }
+
+
+
+            return subList;
         }
 
 

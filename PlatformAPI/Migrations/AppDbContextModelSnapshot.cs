@@ -2582,6 +2582,125 @@ namespace PlatformAPI.Migrations
                         });
                 });
 
+            modelBuilder.Entity("PlatformAPI.Models.UnitConversion.ImperialRoundingRule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DisplayOutput")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<float>("Lower")
+                        .HasColumnType("real");
+
+                    b.Property<string>("MapToFraction")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<float>("Upper")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImperialRoundingRules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DisplayOutput = "(blank)",
+                            Lower = 0f,
+                            MapToFraction = "0",
+                            Upper = 0.06f
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DisplayOutput = "1/8",
+                            Lower = 0.06f,
+                            MapToFraction = "1/8",
+                            Upper = 0.19f
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DisplayOutput = "1/4",
+                            Lower = 0.19f,
+                            MapToFraction = "1/4",
+                            Upper = 0.29f
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DisplayOutput = "1/3",
+                            Lower = 0.29f,
+                            MapToFraction = "1/3",
+                            Upper = 0.35f
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DisplayOutput = "3/8",
+                            Lower = 0.35f,
+                            MapToFraction = "3/8",
+                            Upper = 0.44f
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DisplayOutput = "1/2",
+                            Lower = 0.44f,
+                            MapToFraction = "1/2",
+                            Upper = 0.56f
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DisplayOutput = "5/8",
+                            Lower = 0.56f,
+                            MapToFraction = "5/8",
+                            Upper = 0.65f
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DisplayOutput = "2/3",
+                            Lower = 0.65f,
+                            MapToFraction = "2/3",
+                            Upper = 0.71f
+                        },
+                        new
+                        {
+                            Id = 9,
+                            DisplayOutput = "3/4",
+                            Lower = 0.71f,
+                            MapToFraction = "3/4",
+                            Upper = 0.88f
+                        },
+                        new
+                        {
+                            Id = 10,
+                            DisplayOutput = "7/8",
+                            Lower = 0.88f,
+                            MapToFraction = "7/8",
+                            Upper = 0.94f
+                        },
+                        new
+                        {
+                            Id = 11,
+                            DisplayOutput = "(add 1 to whole number)",
+                            Lower = 0.94f,
+                            MapToFraction = "1",
+                            Upper = 1f
+                        });
+                });
+
             modelBuilder.Entity("PlatformAPI.Models.UnitConversion.IngredientUnit", b =>
                 {
                     b.Property<int>("Id")
@@ -8649,6 +8768,236 @@ namespace PlatformAPI.Migrations
                             Quantity = 0.8f,
                             TargetSystem = 2,
                             TargetUnit = "Gram"
+                        });
+                });
+
+            modelBuilder.Entity("PlatformAPI.Models.UnitConversion.UnitPrecisionRule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comparison")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("Condition")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("ConversionFactor")
+                        .HasColumnType("real");
+
+                    b.Property<string>("NewUnit")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<float?>("RoundToConditional")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("RoundToElse")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("Threshold")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UnitPrecisionRules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Comparison = ">=",
+                            Condition = 100,
+                            ConversionFactor = 0.001f,
+                            NewUnit = "kg",
+                            RoundToConditional = 1f,
+                            RoundToElse = 10f,
+                            Threshold = 1000f,
+                            Unit = "g"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Comparison = "<",
+                            ConversionFactor = 1000f,
+                            NewUnit = "g",
+                            RoundToElse = 0.05f,
+                            Threshold = 1f,
+                            Unit = "kg"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Comparison = ">=",
+                            Condition = 100,
+                            ConversionFactor = 0.001f,
+                            NewUnit = "l",
+                            RoundToConditional = 1f,
+                            RoundToElse = 10f,
+                            Threshold = 1000f,
+                            Unit = "ml"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Comparison = "<",
+                            ConversionFactor = 1000f,
+                            NewUnit = "ml",
+                            RoundToElse = 0.05f,
+                            Threshold = 1f,
+                            Unit = "l"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            RoundToElse = 0.5f,
+                            Unit = "cm"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            RoundToElse = 1f,
+                            Unit = "mm"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Comparison = ">=",
+                            ConversionFactor = 0.33333334f,
+                            NewUnit = "Tbsp",
+                            Threshold = 3f,
+                            Unit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Comparison = "<",
+                            ConversionFactor = 3f,
+                            NewUnit = "tsp",
+                            Threshold = 1f,
+                            Unit = "Tbsp"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Comparison = ">=",
+                            ConversionFactor = 0.0625f,
+                            NewUnit = "cup",
+                            Threshold = 4f,
+                            Unit = "Tbsp"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Comparison = "<",
+                            ConversionFactor = 16f,
+                            NewUnit = "Tbsp",
+                            Threshold = 0.25f,
+                            Unit = "cup"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Comparison = ">=",
+                            ConversionFactor = 0.25f,
+                            NewUnit = "qt",
+                            Threshold = 4f,
+                            Unit = "cup"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Comparison = "<",
+                            ConversionFactor = 2f,
+                            NewUnit = "Tbsp",
+                            Threshold = 1f,
+                            Unit = "fl oz"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Comparison = ">=",
+                            ConversionFactor = 0.125f,
+                            NewUnit = "cup",
+                            Threshold = 8f,
+                            Unit = "fl oz"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Comparison = "<",
+                            ConversionFactor = 2f,
+                            NewUnit = "cup",
+                            Threshold = 1f,
+                            Unit = "pt"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Comparison = ">=",
+                            ConversionFactor = 0.5f,
+                            NewUnit = "qt",
+                            Threshold = 2f,
+                            Unit = "pt"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Comparison = "<",
+                            ConversionFactor = 2f,
+                            NewUnit = "pt",
+                            Threshold = 1f,
+                            Unit = "qt"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Comparison = ">=",
+                            ConversionFactor = 0.25f,
+                            NewUnit = "gal",
+                            Threshold = 4f,
+                            Unit = "qt"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Comparison = "<",
+                            ConversionFactor = 4f,
+                            NewUnit = "qt",
+                            Threshold = 1f,
+                            Unit = "gal"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Comparison = ">=",
+                            ConversionFactor = 0.0625f,
+                            NewUnit = "lb",
+                            Threshold = 16f,
+                            Unit = "oz"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Comparison = "<",
+                            ConversionFactor = 16f,
+                            NewUnit = "oz",
+                            Threshold = 1f,
+                            Unit = "lb"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Unit = "inch"
                         });
                 });
 

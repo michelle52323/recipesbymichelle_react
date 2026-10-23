@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using PlatformAPI.Enums;
 using PlatformAPI.Models.Content;
 using PlatformAPI.Models.UnitConversion;
+using System.Data.Common;
 
 namespace PlatformAPI.Data
 {
@@ -68,6 +69,10 @@ namespace PlatformAPI.Data
         public DbSet<UnitConversionException> UnitConversionExceptions { get; set; }
 
         public DbSet<IngredientUnit> IngredientUnits { get; set; }
+
+        public DbSet<UnitPrecisionRule> UnitPrecisionRules { get; set; }
+
+        public DbSet<ImperialRoundingRule> ImperialRoundingRules { get; set; }
 
 
 
@@ -1163,6 +1168,46 @@ namespace PlatformAPI.Data
                 new IngredientUnit { Id = 222, Ingredient = "butter", LargeImperialUnit = "cup", SmallImperialUnit = "tbsp", MetricUnit = "ml", Pass = 2, IsLiquid = true },
                 new IngredientUnit { Id = 223, Ingredient = "soup", LargeImperialUnit = "cup", SmallImperialUnit = "oz", MetricUnit = "ml", Pass = 1, IsLiquid = true }
             );
+
+            modelBuilder.Entity<UnitPrecisionRule>().HasData(
+                new UnitPrecisionRule { Id = 1, Unit = "g", Comparison = ">=", Threshold = 1000f, ConversionFactor = 0.001f, NewUnit = "kg", Condition = 100, RoundToConditional = 1f, RoundToElse = 10f },
+                new UnitPrecisionRule { Id = 2, Unit = "kg", Comparison = "<", Threshold = 1f, ConversionFactor = 1000f, NewUnit = "g", Condition = null, RoundToConditional = null, RoundToElse = 0.05f },
+                new UnitPrecisionRule { Id = 3, Unit = "ml", Comparison = ">=", Threshold = 1000f, ConversionFactor = 0.001f, NewUnit = "l", Condition = 100, RoundToConditional = 1f, RoundToElse = 10f },
+                new UnitPrecisionRule { Id = 4, Unit = "l", Comparison = "<", Threshold = 1f, ConversionFactor = 1000f, NewUnit = "ml", Condition = null, RoundToConditional = null, RoundToElse = 0.05f },
+                new UnitPrecisionRule { Id = 5, Unit = "cm", Comparison = null, Threshold = null, ConversionFactor = null, NewUnit = null, Condition = null, RoundToConditional = null, RoundToElse = 0.5f },
+                new UnitPrecisionRule { Id = 6, Unit = "mm", Comparison = null, Threshold = null, ConversionFactor = null, NewUnit = null, Condition = null, RoundToConditional = null, RoundToElse = 1f },
+                new UnitPrecisionRule { Id = 7, Unit = "tsp", Comparison = ">=", Threshold = 3f, ConversionFactor = 0.33333334f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 8, Unit = "Tbsp", Comparison = "<", Threshold = 1f, ConversionFactor = 3f, NewUnit = "tsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 9, Unit = "Tbsp", Comparison = ">=", Threshold = 4f, ConversionFactor = 0.0625f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 10, Unit = "cup", Comparison = "<", Threshold = 0.25f, ConversionFactor = 16f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 11, Unit = "cup", Comparison = ">=", Threshold = 4f, ConversionFactor = 0.25f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 12, Unit = "fl oz", Comparison = "<", Threshold = 1f, ConversionFactor = 2f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 13, Unit = "fl oz", Comparison = ">=", Threshold = 8f, ConversionFactor = 0.125f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 14, Unit = "pt", Comparison = "<", Threshold = 1f, ConversionFactor = 2f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 15, Unit = "pt", Comparison = ">=", Threshold = 2f, ConversionFactor = 0.5f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 16, Unit = "qt", Comparison = "<", Threshold = 1f, ConversionFactor = 2f, NewUnit = "pt", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 17, Unit = "qt", Comparison = ">=", Threshold = 4f, ConversionFactor = 0.25f, NewUnit = "gal", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 18, Unit = "gal", Comparison = "<", Threshold = 1f, ConversionFactor = 4f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 19, Unit = "oz", Comparison = ">=", Threshold = 16f, ConversionFactor = 0.0625f, NewUnit = "lb", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 20, Unit = "lb", Comparison = "<", Threshold = 1f, ConversionFactor = 16f, NewUnit = "oz", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 21, Unit = "inch", Comparison = null, Threshold = null, ConversionFactor = null, NewUnit = null, Condition = null, RoundToConditional = null, RoundToElse = null }
+            );
+
+
+            modelBuilder.Entity<ImperialRoundingRule>().HasData(
+                new ImperialRoundingRule { Id = 1, Lower = 0f, Upper = 0.06f, MapToFraction = "0", DisplayOutput = "(blank)" },
+                new ImperialRoundingRule { Id = 2, Lower = 0.06f, Upper = 0.19f, MapToFraction = "1/8", DisplayOutput = "1/8" },
+                new ImperialRoundingRule { Id = 3, Lower = 0.19f, Upper = 0.29f, MapToFraction = "1/4", DisplayOutput = "1/4" },
+                new ImperialRoundingRule { Id = 4, Lower = 0.29f, Upper = 0.35f, MapToFraction = "1/3", DisplayOutput = "1/3" },
+                new ImperialRoundingRule { Id = 5, Lower = 0.35f, Upper = 0.44f, MapToFraction = "3/8", DisplayOutput = "3/8" },
+                new ImperialRoundingRule { Id = 6, Lower = 0.44f, Upper = 0.56f, MapToFraction = "1/2", DisplayOutput = "1/2" },
+                new ImperialRoundingRule { Id = 7, Lower = 0.56f, Upper = 0.65f, MapToFraction = "5/8", DisplayOutput = "5/8" },
+                new ImperialRoundingRule { Id = 8, Lower = 0.65f, Upper = 0.71f, MapToFraction = "2/3", DisplayOutput = "2/3" },
+                new ImperialRoundingRule { Id = 9, Lower = 0.71f, Upper = 0.88f, MapToFraction = "3/4", DisplayOutput = "3/4" },
+                new ImperialRoundingRule { Id = 10, Lower = 0.88f, Upper = 0.94f, MapToFraction = "7/8", DisplayOutput = "7/8" },
+                new ImperialRoundingRule { Id = 11, Lower = 0.94f, Upper = 1f, MapToFraction = "1", DisplayOutput = "(add 1 to whole number)" }
+            );
+
 
 
 
