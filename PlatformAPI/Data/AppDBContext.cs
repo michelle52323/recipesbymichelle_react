@@ -1166,8 +1166,36 @@ namespace PlatformAPI.Data
                 new IngredientUnit { Id = 220, Ingredient = "sauce", LargeImperialUnit = "cup", SmallImperialUnit = "tbsp", MetricUnit = "ml", Pass = 2, IsLiquid = true },
                 new IngredientUnit { Id = 221, Ingredient = "puree", LargeImperialUnit = "cup", SmallImperialUnit = "tbsp", MetricUnit = "ml", Pass = 2, IsLiquid = true },
                 new IngredientUnit { Id = 222, Ingredient = "butter", LargeImperialUnit = "cup", SmallImperialUnit = "tbsp", MetricUnit = "ml", Pass = 2, IsLiquid = true },
-                new IngredientUnit { Id = 223, Ingredient = "soup", LargeImperialUnit = "cup", SmallImperialUnit = "oz", MetricUnit = "ml", Pass = 1, IsLiquid = true }
+                new IngredientUnit { Id = 223, Ingredient = "soup", LargeImperialUnit = "cup", SmallImperialUnit = "oz", MetricUnit = "ml", Pass = 1, IsLiquid = true },
+                new IngredientUnit { Id = 224, Ingredient = "ground pepper", LargeImperialUnit = "tbsp", SmallImperialUnit = "tsp", MetricUnit = "g", Pass = 1 },
+                new IngredientUnit { Id = 225, Ingredient = "crushed pepper", LargeImperialUnit = "tbsp", SmallImperialUnit = "tsp", MetricUnit = "g", Pass = 1 },
+                new IngredientUnit { Id = 226, Ingredient = "garlic powder", LargeImperialUnit = "tbsp", SmallImperialUnit = "tsp", MetricUnit = "g", Pass = 1 },
+                new IngredientUnit { Id = 227, Ingredient = "ginger powder", LargeImperialUnit = "tbsp", SmallImperialUnit = "tsp", MetricUnit = "g", Pass = 1 }
             );
+
+            //modelBuilder.Entity<UnitPrecisionRule>().HasData(
+            //    new UnitPrecisionRule { Id = 1, Unit = "g", Comparison = ">=", Threshold = 1000f, ConversionFactor = 0.001f, NewUnit = "kg", Condition = 100, RoundToConditional = 1f, RoundToElse = 10f },
+            //    new UnitPrecisionRule { Id = 2, Unit = "kg", Comparison = "<", Threshold = 1f, ConversionFactor = 1000f, NewUnit = "g", Condition = null, RoundToConditional = null, RoundToElse = 0.05f },
+            //    new UnitPrecisionRule { Id = 3, Unit = "ml", Comparison = ">=", Threshold = 1000f, ConversionFactor = 0.001f, NewUnit = "l", Condition = 100, RoundToConditional = 1f, RoundToElse = 10f },
+            //    new UnitPrecisionRule { Id = 4, Unit = "l", Comparison = "<", Threshold = 1f, ConversionFactor = 1000f, NewUnit = "ml", Condition = null, RoundToConditional = null, RoundToElse = 0.05f },
+            //    new UnitPrecisionRule { Id = 5, Unit = "cm", Comparison = null, Threshold = null, ConversionFactor = null, NewUnit = null, Condition = null, RoundToConditional = null, RoundToElse = 0.5f },
+            //    new UnitPrecisionRule { Id = 6, Unit = "mm", Comparison = null, Threshold = null, ConversionFactor = null, NewUnit = null, Condition = null, RoundToConditional = null, RoundToElse = 1f },
+            //    new UnitPrecisionRule { Id = 7, Unit = "tsp", Comparison = ">=", Threshold = 3f, ConversionFactor = 0.33333334f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 8, Unit = "Tbsp", Comparison = "<", Threshold = 1f, ConversionFactor = 3f, NewUnit = "tsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 9, Unit = "Tbsp", Comparison = ">=", Threshold = 4f, ConversionFactor = 0.0625f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 10, Unit = "cup", Comparison = "<", Threshold = 0.25f, ConversionFactor = 16f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 11, Unit = "cup", Comparison = ">=", Threshold = 4f, ConversionFactor = 0.25f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 12, Unit = "fl oz", Comparison = "<", Threshold = 1f, ConversionFactor = 2f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 13, Unit = "fl oz", Comparison = ">=", Threshold = 8f, ConversionFactor = 0.125f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 14, Unit = "pt", Comparison = "<", Threshold = 1f, ConversionFactor = 2f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 15, Unit = "pt", Comparison = ">=", Threshold = 2f, ConversionFactor = 0.5f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 16, Unit = "qt", Comparison = "<", Threshold = 1f, ConversionFactor = 2f, NewUnit = "pt", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 17, Unit = "qt", Comparison = ">=", Threshold = 4f, ConversionFactor = 0.25f, NewUnit = "gal", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 18, Unit = "gal", Comparison = "<", Threshold = 1f, ConversionFactor = 4f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 19, Unit = "oz", Comparison = ">=", Threshold = 16f, ConversionFactor = 0.0625f, NewUnit = "lb", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 20, Unit = "lb", Comparison = "<", Threshold = 1f, ConversionFactor = 16f, NewUnit = "oz", Condition = null, RoundToConditional = null, RoundToElse = null },
+            //    new UnitPrecisionRule { Id = 21, Unit = "inch", Comparison = null, Threshold = null, ConversionFactor = null, NewUnit = null, Condition = null, RoundToConditional = null, RoundToElse = null }
+            //);
 
             modelBuilder.Entity<UnitPrecisionRule>().HasData(
                 new UnitPrecisionRule { Id = 1, Unit = "g", Comparison = ">=", Threshold = 1000f, ConversionFactor = 0.001f, NewUnit = "kg", Condition = 100, RoundToConditional = 1f, RoundToElse = 10f },
@@ -1176,22 +1204,23 @@ namespace PlatformAPI.Data
                 new UnitPrecisionRule { Id = 4, Unit = "l", Comparison = "<", Threshold = 1f, ConversionFactor = 1000f, NewUnit = "ml", Condition = null, RoundToConditional = null, RoundToElse = 0.05f },
                 new UnitPrecisionRule { Id = 5, Unit = "cm", Comparison = null, Threshold = null, ConversionFactor = null, NewUnit = null, Condition = null, RoundToConditional = null, RoundToElse = 0.5f },
                 new UnitPrecisionRule { Id = 6, Unit = "mm", Comparison = null, Threshold = null, ConversionFactor = null, NewUnit = null, Condition = null, RoundToConditional = null, RoundToElse = 1f },
-                new UnitPrecisionRule { Id = 7, Unit = "tsp", Comparison = ">=", Threshold = 3f, ConversionFactor = 0.33333334f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 8, Unit = "Tbsp", Comparison = "<", Threshold = 1f, ConversionFactor = 3f, NewUnit = "tsp", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 9, Unit = "Tbsp", Comparison = ">=", Threshold = 4f, ConversionFactor = 0.0625f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 10, Unit = "cup", Comparison = "<", Threshold = 0.25f, ConversionFactor = 16f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 11, Unit = "cup", Comparison = ">=", Threshold = 4f, ConversionFactor = 0.25f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 12, Unit = "fl oz", Comparison = "<", Threshold = 1f, ConversionFactor = 2f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 13, Unit = "fl oz", Comparison = ">=", Threshold = 8f, ConversionFactor = 0.125f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 14, Unit = "pt", Comparison = "<", Threshold = 1f, ConversionFactor = 2f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 15, Unit = "pt", Comparison = ">=", Threshold = 2f, ConversionFactor = 0.5f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 16, Unit = "qt", Comparison = "<", Threshold = 1f, ConversionFactor = 2f, NewUnit = "pt", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 17, Unit = "qt", Comparison = ">=", Threshold = 4f, ConversionFactor = 0.25f, NewUnit = "gal", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 18, Unit = "gal", Comparison = "<", Threshold = 1f, ConversionFactor = 4f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 19, Unit = "oz", Comparison = ">=", Threshold = 16f, ConversionFactor = 0.0625f, NewUnit = "lb", Condition = null, RoundToConditional = null, RoundToElse = null },
-                new UnitPrecisionRule { Id = 20, Unit = "lb", Comparison = "<", Threshold = 1f, ConversionFactor = 16f, NewUnit = "oz", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 7, Unit = "tsp", Comparison = ">=", Threshold = 2.875f, ConversionFactor = 0.33333334f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 8, Unit = "Tbsp", Comparison = "<", Threshold = 0.958f, ConversionFactor = 3f, NewUnit = "tsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 9, Unit = "Tbsp", Comparison = ">=", Threshold = 15.875f, ConversionFactor = 0.0625f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 10, Unit = "cup", Comparison = "<", Threshold = 0.9921f, ConversionFactor = 16f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 11, Unit = "cup", Comparison = ">=", Threshold = 3.875f, ConversionFactor = 0.25f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 12, Unit = "fl oz", Comparison = "<", Threshold = 0.968f, ConversionFactor = 2f, NewUnit = "Tbsp", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 13, Unit = "fl oz", Comparison = ">=", Threshold = 7.875f, ConversionFactor = 0.125f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 14, Unit = "pt", Comparison = "<", Threshold = 0.972f, ConversionFactor = 2.4019f, NewUnit = "cup", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 15, Unit = "pt", Comparison = ">=", Threshold = 1.556f, ConversionFactor = 0.6f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 16, Unit = "qt", Comparison = "<", Threshold = 1.124f, ConversionFactor = 1.66f, NewUnit = "pt", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 17, Unit = "qt", Comparison = ">=", Threshold = 3.875f, ConversionFactor = 0.25f, NewUnit = "gal", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 18, Unit = "gal", Comparison = "<", Threshold = 0.968f, ConversionFactor = 4f, NewUnit = "qt", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 19, Unit = "oz", Comparison = ">=", Threshold = 15.875f, ConversionFactor = 0.0625f, NewUnit = "lb", Condition = null, RoundToConditional = null, RoundToElse = null },
+                new UnitPrecisionRule { Id = 20, Unit = "lb", Comparison = "<", Threshold = 0.9921f, ConversionFactor = 16f, NewUnit = "oz", Condition = null, RoundToConditional = null, RoundToElse = null },
                 new UnitPrecisionRule { Id = 21, Unit = "inch", Comparison = null, Threshold = null, ConversionFactor = null, NewUnit = null, Condition = null, RoundToConditional = null, RoundToElse = null }
             );
+
 
 
             modelBuilder.Entity<ImperialRoundingRule>().HasData(

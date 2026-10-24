@@ -41,12 +41,20 @@ namespace PlatformAPI.Controllers.Recipes
 
             //Load the measurement system that belongs to the user 
             //who created the recipe
-            MeasurementSystem measurementSystem = await GetMeasurementSystemByUser(recipe.UserRecipe.UserId);
+            MeasurementSystem measurementSystemRecipe = await GetMeasurementSystemByUser(recipe.UserRecipe.UserId);
+            string measurementSystemClaim = User?.Claims
+            .FirstOrDefault(c => c.Type == "MeasurementSystem")
+            ?.Value;
+
+
+            MeasurementSystem measurementSystemUser = Enum.TryParse<MeasurementSystem>(measurementSystemClaim, out var parsedSystem)
+                ? parsedSystem
+                : MeasurementSystem.Imperial;
 
             //Load fraction lookup table
             List<FractionDecimal>? fractionTable = null;
 
-            if (measurementSystem == MeasurementSystem.Imperial)
+            if (measurementSystemUser == MeasurementSystem.Imperial)
             {
                 var fractionDb = new FractionHelperDB(_context);
                 fractionTable = await fractionDb.LoadFractionTableAsync();
@@ -102,16 +110,21 @@ namespace PlatformAPI.Controllers.Recipes
 
             //Unit conversion code
             //STILL IN DEVELOPMENT
-            //UnitConversionHelper unitConversionHelper = new UnitConversionHelper(_context);
-            //ingredients = await unitConversionHelper.GetConvertedUnit(ingredients, measurementSystem);
+            UnitConversionHelper unitConversionHelper = new UnitConversionHelper(_context);
+            if (!isMyRecipe) {
+                if (measurementSystemRecipe != measurementSystemUser)
+                    ingredients = await unitConversionHelper.GetConvertedUnit(ingredients, measurementSystemRecipe);
+            }
+            
+
 
             // Map ingredients to DTOs
             var ingredientDtos = ingredients
                 .Select(i => new IngredientDto
                 {
                     Id = i.Id,
-                    Quantity = FractionHelper.ConvertQuantityBySystemAsync(measurementSystem, i.Quantity, fractionTable),
-                    QuantityMax = FractionHelper.ConvertQuantityBySystemAsync(measurementSystem, i.QuantityMax, fractionTable),
+                    Quantity = FractionHelper.ConvertQuantityBySystemAsync(measurementSystemUser, i.Quantity, fractionTable),
+                    QuantityMax = FractionHelper.ConvertQuantityBySystemAsync(measurementSystemUser, i.QuantityMax, fractionTable),
 
 
                     Unit = MeasurementHelper.BuildUnitDisplayString(MeasurementHelper.GetLargerQuantity(i.Quantity, i.QuantityMax), i.Unit, recipe.ShowAbbreviations, unitTable).ToString(),
@@ -149,7 +162,7 @@ namespace PlatformAPI.Controllers.Recipes
                 RecipeFont = recipe.RecipeFont.ToString(),
                 Ingredients = ingredientDtos,
                 Steps = stepDtos,
-                MeasurementSystem = measurementSystem.ToString(),
+                MeasurementSystem = measurementSystemUser.ToString(),
                 CategoryNames = categoryNames
 
             };
@@ -262,11 +275,7 @@ namespace PlatformAPI.Controllers.Recipes
                 .OrderBy(rc => rc.SortOrder)
                 .ToListAsync();
 
-            //// Extract category names
-            //var categoryNames = recipeCategories
-            //    .Where(rc => rc.Category != null)
-            //    .Select(rc => rc.Category.Name)
-            //    .ToList();
+            
             List<string>? categoryNames;
 
             if (isMyRecipe)
@@ -288,96 +297,32 @@ namespace PlatformAPI.Controllers.Recipes
             UnitConversionHelper unitConversion = new UnitConversionHelper(_context);
             var subList = await unitConversion.GetConvertedUnit(ingredients, measurementSystem);
 
-            //List<IngredientUnitListTestDTO> dto = new List<IngredientUnitListTestDTO>();
+            
+
+            List<IngredientConversionTestList> dto = new List<IngredientConversionTestList>();
 
             //foreach (var sub in subList)
             //{
-            //    dto.Add(new IngredientUnitListTestDTO
+            //    dto.Add(new IngredientConversionTestList
             //    {
             //        Ingredient = sub.Ingredient,
-            //        NormalizedIngredient = sub.NormalizedIngredient,
-            //        BaseUnit = sub.BaseUnit,
             //        TargetUnit = sub.TargetUnit,
             //        TargetUnitAlternative = sub.TargetUnitAlternative,
-            //        Quantity = sub.Quantity,
-            //        QuantityMax = sub.QuantityMax,
-            //        TargetSystem = sub.TargetSystem,
-            //        ConversionFactor = sub.ConversionFactor,
             //        TargetQuantity = sub.TargetQuantity,
             //        TargetQuantityMax = sub.TargetQuantityMax,
             //        FinalQuantity = sub.FinalQuantity,
-            //        FinalQuantityMax = sub.FinalQuantityMax,
-            //        Convert = sub.Convert
+            //        FinalQuantityMax = sub.FinalQuantityMax
             //    });
 
             //}
 
-            List<IngredientConversionTestList> dto = new List<IngredientConversionTestList>();
-
-            foreach (var sub in subList)
-            {
-                dto.Add(new IngredientConversionTestList
-                {
-                    Ingredient = sub.Ingredient,
-                    TargetUnit = sub.TargetUnit,
-                    TargetUnitAlternative = sub.TargetUnitAlternative,
-                    TargetQuantity = sub.TargetQuantity,
-                    TargetQuantityMax = sub.TargetQuantityMax,
-                    FinalQuantity = sub.FinalQuantity,
-                    FinalQuantityMax = sub.FinalQuantityMax
-                });
-
-            }
-
-
-            //// Map ingredients to DTOs
-            //var ingredientDtos = ingredients
-            //    .Select(i => new IngredientDto
-            //    {
-            //        Id = i.Id,
-            //        Quantity = FractionHelper.ConvertQuantityBySystemAsync(measurementSystem, i.Quantity, fractionTable),
-            //        QuantityMax = FractionHelper.ConvertQuantityBySystemAsync(measurementSystem, i.QuantityMax, fractionTable),
-
-
-            //        Unit = MeasurementHelper.BuildUnitDisplayString(MeasurementHelper.GetLargerQuantity(i.Quantity, i.QuantityMax), i.Unit, recipe.ShowAbbreviations, unitTable).ToString(),
-            //        Description = i.Description,
-            //        Instructions = i.Instructions,
-            //        SortOrder = i.SortOrder ?? 0,
-            //        IsActive = i.IsActive
-            //    })
-            //    .ToList();
 
 
 
-            //// Map steps to DTOs
-            //var stepDtos = steps
-            //    .Select(s => new StepDto
-            //    {
-            //        Id = s.Id,
-            //        Description = s.Description,
-            //        SortOrder = s.SortOrder,
-            //        IsActive = s.IsActive
-            //    })
-            //    .ToList();
 
-            //// Build recipe DTO
-            //var dto = new PlatformAPI.DTO.Recipe.ViewRecipeDTO
-            //{
-            //    Id = recipe.Id,
-            //    Name = recipe.Name,
-            //    Description = recipe.Description,
-            //    ShowAbbreviations = recipe.ShowAbbreviations,
-            //    IsActive = recipe.IsActive,
-            //    SortOrder = recipe.SortOrder,
-            //    IsMyRecipe = isMyRecipe,
-            //    RecipeVisibility = recipe.RecipeVisibility.ToString(),
-            //    RecipeFont = recipe.RecipeFont.ToString(),
-            //    Ingredients = ingredientDtos,
-            //    Steps = stepDtos,
-            //    MeasurementSystem = measurementSystem.ToString(),
-            //    CategoryNames = categoryNames
 
-            //};
+
+
 
             return Ok(dto);
         }

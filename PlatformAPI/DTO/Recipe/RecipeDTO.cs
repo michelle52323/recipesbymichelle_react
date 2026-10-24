@@ -108,7 +108,11 @@ namespace PlatformAPI.DTO.Recipe
 
         public string? FinalQuantityMax { get; set; }
 
+        public int? SortOrder { get; set; }
+
         public bool Convert { get; set; }
+
+        public bool IsActive { get; set; }
     }
 
     public class IngredientConversionTestList
@@ -123,7 +127,11 @@ namespace PlatformAPI.DTO.Recipe
         public string TargetUnit { get; set; }
         
         public string TargetUnitAlternative { get; set; }
-        
+
+        //public int? SortOrder { get; set; }
+
+        //public bool IsActive { get; set; }
+
     }
 
 

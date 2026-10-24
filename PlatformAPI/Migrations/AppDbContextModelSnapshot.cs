@@ -4969,6 +4969,46 @@ namespace PlatformAPI.Migrations
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "oz"
+                        },
+                        new
+                        {
+                            Id = 224,
+                            Ingredient = "ground pepper",
+                            IsLiquid = false,
+                            LargeImperialUnit = "tbsp",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 225,
+                            Ingredient = "crushed pepper",
+                            IsLiquid = false,
+                            LargeImperialUnit = "tbsp",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 226,
+                            Ingredient = "garlic powder",
+                            IsLiquid = false,
+                            LargeImperialUnit = "tbsp",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 227,
+                            Ingredient = "ginger powder",
+                            IsLiquid = false,
+                            LargeImperialUnit = "tbsp",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
                         });
                 });
 
@@ -8874,7 +8914,7 @@ namespace PlatformAPI.Migrations
                             Comparison = ">=",
                             ConversionFactor = 0.33333334f,
                             NewUnit = "Tbsp",
-                            Threshold = 3f,
+                            Threshold = 2.875f,
                             Unit = "tsp"
                         },
                         new
@@ -8883,7 +8923,7 @@ namespace PlatformAPI.Migrations
                             Comparison = "<",
                             ConversionFactor = 3f,
                             NewUnit = "tsp",
-                            Threshold = 1f,
+                            Threshold = 0.958f,
                             Unit = "Tbsp"
                         },
                         new
@@ -8892,7 +8932,7 @@ namespace PlatformAPI.Migrations
                             Comparison = ">=",
                             ConversionFactor = 0.0625f,
                             NewUnit = "cup",
-                            Threshold = 4f,
+                            Threshold = 15.875f,
                             Unit = "Tbsp"
                         },
                         new
@@ -8901,7 +8941,7 @@ namespace PlatformAPI.Migrations
                             Comparison = "<",
                             ConversionFactor = 16f,
                             NewUnit = "Tbsp",
-                            Threshold = 0.25f,
+                            Threshold = 0.9921f,
                             Unit = "cup"
                         },
                         new
@@ -8910,7 +8950,7 @@ namespace PlatformAPI.Migrations
                             Comparison = ">=",
                             ConversionFactor = 0.25f,
                             NewUnit = "qt",
-                            Threshold = 4f,
+                            Threshold = 3.875f,
                             Unit = "cup"
                         },
                         new
@@ -8919,7 +8959,7 @@ namespace PlatformAPI.Migrations
                             Comparison = "<",
                             ConversionFactor = 2f,
                             NewUnit = "Tbsp",
-                            Threshold = 1f,
+                            Threshold = 0.968f,
                             Unit = "fl oz"
                         },
                         new
@@ -8928,34 +8968,34 @@ namespace PlatformAPI.Migrations
                             Comparison = ">=",
                             ConversionFactor = 0.125f,
                             NewUnit = "cup",
-                            Threshold = 8f,
+                            Threshold = 7.875f,
                             Unit = "fl oz"
                         },
                         new
                         {
                             Id = 14,
                             Comparison = "<",
-                            ConversionFactor = 2f,
+                            ConversionFactor = 2.4019f,
                             NewUnit = "cup",
-                            Threshold = 1f,
+                            Threshold = 0.972f,
                             Unit = "pt"
                         },
                         new
                         {
                             Id = 15,
                             Comparison = ">=",
-                            ConversionFactor = 0.5f,
+                            ConversionFactor = 0.6f,
                             NewUnit = "qt",
-                            Threshold = 2f,
+                            Threshold = 1.556f,
                             Unit = "pt"
                         },
                         new
                         {
                             Id = 16,
                             Comparison = "<",
-                            ConversionFactor = 2f,
+                            ConversionFactor = 1.66f,
                             NewUnit = "pt",
-                            Threshold = 1f,
+                            Threshold = 1.124f,
                             Unit = "qt"
                         },
                         new
@@ -8964,7 +9004,7 @@ namespace PlatformAPI.Migrations
                             Comparison = ">=",
                             ConversionFactor = 0.25f,
                             NewUnit = "gal",
-                            Threshold = 4f,
+                            Threshold = 3.875f,
                             Unit = "qt"
                         },
                         new
@@ -8973,7 +9013,7 @@ namespace PlatformAPI.Migrations
                             Comparison = "<",
                             ConversionFactor = 4f,
                             NewUnit = "qt",
-                            Threshold = 1f,
+                            Threshold = 0.968f,
                             Unit = "gal"
                         },
                         new
@@ -8982,7 +9022,7 @@ namespace PlatformAPI.Migrations
                             Comparison = ">=",
                             ConversionFactor = 0.0625f,
                             NewUnit = "lb",
-                            Threshold = 16f,
+                            Threshold = 15.875f,
                             Unit = "oz"
                         },
                         new
@@ -8991,7 +9031,7 @@ namespace PlatformAPI.Migrations
                             Comparison = "<",
                             ConversionFactor = 16f,
                             NewUnit = "oz",
-                            Threshold = 1f,
+                            Threshold = 0.9921f,
                             Unit = "lb"
                         },
                         new

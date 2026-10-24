@@ -37,7 +37,12 @@ namespace PlatformAPI.Helpers
 
         public string? FinalQuantityMax { get; set; }
 
-        public bool Convert {  get; set; }
+        public bool Convert { get; set; }
+
+        public int? SortOrder { get; set; }
+        public bool IsActive { get; set; }
+
+        
     }
     public class UnitConversionHelper
     {
@@ -74,7 +79,8 @@ namespace PlatformAPI.Helpers
             return await _context.Set<ImperialRoundingRule>().ToListAsync();
         }
 
-        public async Task<List<IngredientUnitList>> GetConvertedUnit(List<Ingredient> Ingredients, MeasurementSystem measurementSystem)
+        //public async Task<List<IngredientUnitList>> GetConvertedUnit(List<Ingredient> Ingredients, MeasurementSystem measurementSystem)
+        public async Task<List<Ingredient>> GetConvertedUnit(List<Ingredient> Ingredients, MeasurementSystem measurementSystem)
         {
             List<IngredientUnitList> subList = new List<IngredientUnitList>();
             List<Ingredient> newList = new List<Ingredient>();
@@ -104,7 +110,7 @@ namespace PlatformAPI.Helpers
                 //we need to take the ingredient name, normalize it
                 string normalizedDesc = i.Description;
                 
-                normalizedDesc = SearchAlgorithmHelper.NormalizePhraseSingular(normalizedDesc);
+                normalizedDesc = SearchAlgorithmHelper.NormalizePhraseSingular(normalizedDesc).Trim();
                 
                 //desc = SearchAlgorithmHelper.GetSoundExPhrase(desc);
 
@@ -140,6 +146,8 @@ namespace PlatformAPI.Helpers
                         abbreviatedUnit,
                         i,
                         measurementSystem,
+                        i.SortOrder,
+                        i.IsActive,
                         passInfo.Pass,
                         passInfo.IsLiquid);
 
@@ -152,9 +160,9 @@ namespace PlatformAPI.Helpers
                     passCount++;
                 }
 
-                var newIngredient = new Ingredient();
-                newIngredient.Description = i.Description;
-                newList.Add(newIngredient);
+                //var newIngredient = new Ingredient();
+                //newIngredient.Description = i.Description;
+                //newList.Add(newIngredient);
 
             }
 
@@ -164,7 +172,7 @@ namespace PlatformAPI.Helpers
             foreach (var ingredient in Ingredients)
             {
                 // Normalize the original ingredient description to ensure an accurate match comparison
-                string normalizedOriginalDesc = SearchAlgorithmHelper.NormalizePhraseSingular(ingredient.Description);
+                string normalizedOriginalDesc = SearchAlgorithmHelper.NormalizePhraseSingular(ingredient.Description).Trim();
 
                 // Check if this ingredient description does not exist anywhere in our processed newList
                 //bool isFound = !newList.Any(n => string.Equals(n.Description, ingredient.Description, StringComparison.OrdinalIgnoreCase));
@@ -191,6 +199,8 @@ namespace PlatformAPI.Helpers
                         subIngredient.QuantityMax = ingredient.QuantityMax;
                         subIngredient.TargetSystem = measurementSystem == MeasurementSystem.Imperial ? MeasurementSystem.Metric : MeasurementSystem.Imperial;
                         subIngredient.Convert = false;
+                        subIngredient.SortOrder = ingredient.SortOrder;
+                        subIngredient.IsActive = ingredient.IsActive;
                         subList.Add(subIngredient);
                     }
                     //Do standard conversion
@@ -226,6 +236,8 @@ namespace PlatformAPI.Helpers
                         subIngredient.QuantityMax = ingredient.QuantityMax;
                         subIngredient.TargetSystem = measurementSystem == MeasurementSystem.Imperial ? MeasurementSystem.Metric : MeasurementSystem.Imperial;
                         subIngredient.Convert = true;
+                        subIngredient.SortOrder = ingredient.SortOrder;
+                        subIngredient.IsActive = ingredient.IsActive;
                         subList.Add(subIngredient);
                     }
                     var placeholder = 0;
@@ -346,8 +358,8 @@ namespace PlatformAPI.Helpers
                 // Guard Clause: If the ingredient does not need conversion, keep original values and skip rounding
                 if (!ingredient.Convert)
                 {
-                    ingredient.FinalQuantity = ingredient.Quantity?.ToString() ?? "";
-                    ingredient.FinalQuantityMax = ingredient.QuantityMax?.ToString() ?? "";
+                    ingredient.FinalQuantity = ingredient.Quantity?.ToString() ?? null;
+                    ingredient.FinalQuantityMax = ingredient.QuantityMax?.ToString() ?? null;
                     continue; // Skip the metric/imperial rounding logic entirely
                 }
 
@@ -516,9 +528,33 @@ namespace PlatformAPI.Helpers
 
             }
 
+            FractionHelperDB fhdb = new FractionHelperDB(_context);
+            List<FractionDecimal> fractionTable = await fhdb.LoadFractionTableAsync();
+            var targetMeasurementSystem = measurementSystem == MeasurementSystem.Imperial ? MeasurementSystem.Metric : MeasurementSystem.Imperial;
+
+            //Build new list of ingredients, with converted units
+            foreach (var subIngredient in subList)
+            {
+                var ingredient = new Ingredient();
+                ingredient.Description = subIngredient.Ingredient;
+
+                ingredient.Quantity = subIngredient.FinalQuantity != null ? FractionHelper.ConvertStringToDbValueBySystem(subIngredient.FinalQuantity, fractionTable, targetMeasurementSystem) : null;
+                ingredient.QuantityMax = subIngredient.FinalQuantityMax != null ? FractionHelper.ConvertStringToDbValueBySystem(subIngredient.FinalQuantityMax, fractionTable, targetMeasurementSystem) : null;
+                //ingredient.Quantity = subIngredient.FinalQuantity != null ?  Convert.ToInt32(subIngredient.FinalQuantity) : null;
+                //ingredient.QuantityMax = subIngredient.FinalQuantityMax != null ? Convert.ToInt32(subIngredient.FinalQuantityMax) : null;
+                //ingredient.Quantity = subIngredient.Quantity;
+                //ingredient.QuantityMax = subIngredient.QuantityMax;
+                ingredient.Unit = subIngredient.TargetUnit;
+                ingredient.SortOrder = subIngredient.SortOrder;
+                ingredient.IsActive = subIngredient.IsActive;
+                
+
+                newList.Add(ingredient);
+            }
 
 
-            return subList;
+            return newList;
+            //return subList;
         }
 
 
@@ -531,6 +567,8 @@ namespace PlatformAPI.Helpers
             string abbreviatedUnit,
             Ingredient ingredient,
             MeasurementSystem measurementSystem,
+            int? sortOrder,
+            bool isActive,
             int pass,
             bool isLiquid)
         {
@@ -558,6 +596,8 @@ namespace PlatformAPI.Helpers
                         QuantityMax = ingredient.QuantityMax,
                         TargetSystem = MeasurementSystem.Metric,
                         Convert = true,
+                        SortOrder = sortOrder,
+                        IsActive = isActive
                     };
                 }
             }
@@ -574,12 +614,16 @@ namespace PlatformAPI.Helpers
                     return new IngredientUnitList
                     {
                         Ingredient = desc,
+                        NormalizedIngredient = normalizedDesc,
                         BaseUnit = fullUnit,
-                        TargetUnit = entry.LargeImperialUnit,
-                        TargetUnitAlternative = entry.SmallImperialUnit,
+                        TargetUnit = entry.SmallImperialUnit,
+                        TargetUnitAlternative = null,
                         Quantity = ingredient.Quantity,
                         QuantityMax = ingredient.QuantityMax,
-                        TargetSystem = MeasurementSystem.Imperial
+                        TargetSystem = MeasurementSystem.Imperial,
+                        Convert = true,
+                        SortOrder = sortOrder,
+                        IsActive = isActive
                     };
                 }
             }
