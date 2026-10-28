@@ -581,7 +581,10 @@ namespace PlatformAPI.Data
                 new UnitConversion { Id = 21, BaseSystem = 1, BaseUnit = "Inch", TargetSystem = 2, TargetUnit = "Millimeter", Quantity = 25.4f },
                 new UnitConversion { Id = 22, BaseSystem = 2, BaseUnit = "Millimeter", TargetSystem = 1, TargetUnit = "Inch", Quantity = 0.0393701f },
                 new UnitConversion { Id = 23, BaseSystem = 1, BaseUnit = "Ounce", TargetSystem = 2, TargetUnit = "Milliliter", Quantity = 29.5735f },
-                new UnitConversion { Id = 24, BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 1, TargetUnit = "Ounce", Quantity = 0.0338f }            );
+                new UnitConversion { Id = 24, BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 1, TargetUnit = "Ounce", Quantity = 0.0338f },
+                new UnitConversion { Id = 25, BaseSystem = 1, BaseUnit = "Ounce", TargetSystem = 2, TargetUnit = "Kilogram", Quantity = 0.02835f },
+                new UnitConversion { Id = 26, BaseSystem = 2, BaseUnit = "Kilogram", TargetSystem = 1, TargetUnit = "Ounce", Quantity = 35.274f }
+                );
 
 
 
@@ -937,7 +940,40 @@ namespace PlatformAPI.Data
                 new UnitConversionException { Id = 348, Ingredient = "navy beans", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Ounce", Quantity = 0.042105f },
                 new UnitConversionException { Id = 349, Ingredient = "navy beans", BaseSystem = 1, BaseUnit = "Teaspoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 3.96f },
                 new UnitConversionException { Id = 350, Ingredient = "navy beans", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Teaspoon", Quantity = 0.252525f },
-                new UnitConversionException { Id = 351, Ingredient = "navy beans", BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 2, TargetUnit = "Gram", Quantity = 0.8f }
+                new UnitConversionException { Id = 351, Ingredient = "navy beans", BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 2, TargetUnit = "Gram", Quantity = 0.8f },
+                new UnitConversionException { Id = 352, Ingredient = "ground pepper", BaseSystem = 1, BaseUnit = "Cup", TargetSystem = 2, TargetUnit = "Gram", Quantity = 101f },
+                new UnitConversionException { Id = 353, Ingredient = "ground pepper", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Cup", Quantity = 0.009901f },
+                new UnitConversionException { Id = 354, Ingredient = "ground pepper", BaseSystem = 1, BaseUnit = "Tablespoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 6.31f },
+                new UnitConversionException { Id = 355, Ingredient = "ground pepper", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Tablespoon", Quantity = 0.158479f },
+                new UnitConversionException { Id = 356, Ingredient = "ground pepper", BaseSystem = 1, BaseUnit = "Teaspoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 2.1f },
+                new UnitConversionException { Id = 357, Ingredient = "ground pepper", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Teaspoon", Quantity = 0.47619f },
+                new UnitConversionException { Id = 358, Ingredient = "ground pepper", BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 2, TargetUnit = "Gram", Quantity = 0.43f },
+                new UnitConversionException { Id = 359, Ingredient = "ground pepper", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 2, TargetUnit = "Milliliter", Quantity = 2.325581f },
+                new UnitConversionException { Id = 360, Ingredient = "crushed pepper", BaseSystem = 1, BaseUnit = "Cup", TargetSystem = 2, TargetUnit = "Gram", Quantity = 96f },
+                new UnitConversionException { Id = 361, Ingredient = "crushed pepper", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Cup", Quantity = 0.010417f },
+                new UnitConversionException { Id = 362, Ingredient = "crushed pepper", BaseSystem = 1, BaseUnit = "Tablespoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 6f },
+                new UnitConversionException { Id = 363, Ingredient = "crushed pepper", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Tablespoon", Quantity = 0.166667f },
+                new UnitConversionException { Id = 364, Ingredient = "crushed pepper", BaseSystem = 1, BaseUnit = "Teaspoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 2f },
+                new UnitConversionException { Id = 365, Ingredient = "crushed pepper", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Teaspoon", Quantity = 0.5f },
+                new UnitConversionException { Id = 366, Ingredient = "crushed pepper", BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 2, TargetUnit = "Gram", Quantity = 0.41f },
+                new UnitConversionException { Id = 367, Ingredient = "crushed pepper", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 2, TargetUnit = "Milliliter", Quantity = 2.439024f },
+                new UnitConversionException { Id = 368, Ingredient = "garlic powder", BaseSystem = 1, BaseUnit = "Cup", TargetSystem = 2, TargetUnit = "Gram", Quantity = 128f },
+                new UnitConversionException { Id = 369, Ingredient = "garlic powder", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Cup", Quantity = 0.007813f },
+                new UnitConversionException { Id = 370, Ingredient = "garlic powder", BaseSystem = 1, BaseUnit = "Tablespoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 8f },
+                new UnitConversionException { Id = 371, Ingredient = "garlic powder", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Tablespoon", Quantity = 0.125f },
+                new UnitConversionException { Id = 372, Ingredient = "garlic powder", BaseSystem = 1, BaseUnit = "Teaspoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 2.67f },
+                new UnitConversionException { Id = 373, Ingredient = "garlic powder", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Teaspoon", Quantity = 0.374531f },
+                new UnitConversionException { Id = 374, Ingredient = "garlic powder", BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 2, TargetUnit = "Gram", Quantity = 0.54f },
+                new UnitConversionException { Id = 375, Ingredient = "garlic powder", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 2, TargetUnit = "Milliliter", Quantity = 1.851852f },
+                new UnitConversionException { Id = 376, Ingredient = "ginger powder", BaseSystem = 1, BaseUnit = "Cup", TargetSystem = 2, TargetUnit = "Gram", Quantity = 96f },
+                new UnitConversionException { Id = 377, Ingredient = "ginger powder", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Cup", Quantity = 0.010417f },
+                new UnitConversionException { Id = 378, Ingredient = "ginger powder", BaseSystem = 1, BaseUnit = "Tablespoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 6f },
+                new UnitConversionException { Id = 379, Ingredient = "ginger powder", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Tablespoon", Quantity = 0.166667f },
+                new UnitConversionException { Id = 380, Ingredient = "ginger powder", BaseSystem = 1, BaseUnit = "Teaspoon", TargetSystem = 2, TargetUnit = "Gram", Quantity = 2f },
+                new UnitConversionException { Id = 381, Ingredient = "ginger powder", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 1, TargetUnit = "Teaspoon", Quantity = 0.5f },
+                new UnitConversionException { Id = 382, Ingredient = "ginger powder", BaseSystem = 2, BaseUnit = "Milliliter", TargetSystem = 2, TargetUnit = "Gram", Quantity = 0.41f },
+                new UnitConversionException { Id = 383, Ingredient = "ginger powder", BaseSystem = 2, BaseUnit = "Gram", TargetSystem = 2, TargetUnit = "Milliliter", Quantity = 2.439024f }
+
 
 
             );
