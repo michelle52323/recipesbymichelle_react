@@ -2714,10 +2714,18 @@ namespace PlatformAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("IngredientType")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsLiquid")
                         .HasColumnType("bit");
 
                     b.Property<string>("LargeImperialUnit")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LargeMetricUnit")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -2744,318 +2752,382 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 1,
                             Ingredient = "salt",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 2,
                             Ingredient = "black pepper",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 3,
                             Ingredient = "white pepper",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 4,
                             Ingredient = "cayenne pepper",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 5,
                             Ingredient = "paprika",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 6,
                             Ingredient = "smoked paprika",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 7,
                             Ingredient = "chili powder",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 8,
                             Ingredient = "cumin",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 9,
                             Ingredient = "coriander",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 10,
                             Ingredient = "cumin seeds",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 11,
                             Ingredient = "mustard seeds",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 12,
                             Ingredient = "fennel seeds",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 13,
                             Ingredient = "caraway seeds",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 14,
                             Ingredient = "turmeric",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 15,
                             Ingredient = "cinnamon",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 16,
                             Ingredient = "nutmeg",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 17,
                             Ingredient = "clove",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 18,
                             Ingredient = "allspice",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 19,
                             Ingredient = "cardamom",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 20,
                             Ingredient = "garam masala",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 21,
                             Ingredient = "oregano",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 22,
                             Ingredient = "basil",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 23,
                             Ingredient = "thyme",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 24,
                             Ingredient = "rosemary",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 25,
                             Ingredient = "sage",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 26,
                             Ingredient = "parsley",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 27,
                             Ingredient = "dill",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 28,
                             Ingredient = "bay leaf",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 29,
                             Ingredient = "mint",
+                            IngredientType = 3,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 30,
                             Ingredient = "vanilla extract",
+                            IngredientType = 4,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 31,
                             Ingredient = "almond extract",
+                            IngredientType = 4,
                             IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "tbsp"
                         },
                         new
                         {
                             Id = 32,
                             Ingredient = "lemon juice",
+                            IngredientType = 2,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "tbsp"
@@ -3064,8 +3136,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 33,
                             Ingredient = "lime juice",
+                            IngredientType = 2,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "tbsp"
@@ -3074,8 +3148,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 34,
                             Ingredient = "vinegar",
+                            IngredientType = 2,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "tbsp"
@@ -3084,8 +3160,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 35,
                             Ingredient = "olive oil",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "tbsp"
@@ -3094,8 +3172,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 36,
                             Ingredient = "canola oil",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "tbsp"
@@ -3104,8 +3184,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 37,
                             Ingredient = "vegetable oil",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "tbsp"
@@ -3113,9 +3195,11 @@ namespace PlatformAPI.Migrations
                         new
                         {
                             Id = 38,
-                            Ingredient = "sesame oil",
+                            Ingredient = "Sesame oil",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "tbsp"
@@ -3124,8 +3208,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 39,
                             Ingredient = "coconut oil",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "tbsp"
@@ -3134,8 +3220,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 40,
                             Ingredient = "butter",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "tbsp"
@@ -3144,178 +3232,214 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 41,
                             Ingredient = "flour",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 42,
                             Ingredient = "all purpose flour",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 43,
                             Ingredient = "bread flour",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 44,
                             Ingredient = "cake flour",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 45,
                             Ingredient = "whole wheat flour",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 46,
                             Ingredient = "cornmeal",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 47,
                             Ingredient = "oatmeal",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 48,
                             Ingredient = "rolled oats",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 49,
                             Ingredient = "oats",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 50,
                             Ingredient = "rice",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 51,
                             Ingredient = "brown rice",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 52,
                             Ingredient = "jasmine rice",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 53,
                             Ingredient = "basmati rice",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 54,
                             Ingredient = "quinoa",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 55,
                             Ingredient = "barley",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 56,
                             Ingredient = "lentils",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 57,
                             Ingredient = "chickpeas",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 58,
                             Ingredient = "black beans",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3324,8 +3448,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 59,
                             Ingredient = "pinto beans",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3334,8 +3460,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 60,
                             Ingredient = "kidney beans",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3344,8 +3472,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 61,
                             Ingredient = "great northern beans",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3354,8 +3484,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 62,
                             Ingredient = "navy beans",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3364,8 +3496,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 63,
                             Ingredient = "beans",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
@@ -3374,168 +3508,202 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 64,
                             Ingredient = "sugar",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 65,
                             Ingredient = "brown sugar",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 66,
                             Ingredient = "powdered sugar",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 67,
                             Ingredient = "honey",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 68,
                             Ingredient = "maple syrup",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 69,
                             Ingredient = "molasses",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 70,
                             Ingredient = "corn syrup",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 71,
                             Ingredient = "milk",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 72,
                             Ingredient = "whole milk",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 73,
                             Ingredient = "skim milk",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 74,
-                            Ingredient = "heavy cream",
+                            Ingredient = "Heavy cream",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 75,
                             Ingredient = "half and half",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 76,
                             Ingredient = "buttermilk",
+                            IngredientType = 2,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 77,
                             Ingredient = "sour cream",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 78,
                             Ingredient = "yogurt",
+                            IngredientType = 1,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 79,
                             Ingredient = "greek yogurt",
+                            IngredientType = 1,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 80,
                             Ingredient = "cream cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3544,28 +3712,34 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 81,
                             Ingredient = "cottage cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 82,
                             Ingredient = "ricotta cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 83,
                             Ingredient = "parmesan cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3574,8 +3748,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 84,
                             Ingredient = "cheddar cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3584,8 +3760,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 85,
                             Ingredient = "mozzarella cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3594,8 +3772,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 86,
                             Ingredient = "swiss cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3604,8 +3784,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 87,
                             Ingredient = "provolone cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3614,8 +3796,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 88,
                             Ingredient = "feta cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3624,9 +3808,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 89,
                             Ingredient = "egg",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
                         },
@@ -3634,29 +3820,35 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 90,
                             Ingredient = "egg white",
+                            IngredientType = 2,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 91,
                             Ingredient = "egg yolk",
+                            IngredientType = 2,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 92,
-                            Ingredient = "chicken breast",
+                            Ingredient = "green beans",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3664,9 +3856,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 93,
                             Ingredient = "chicken thigh",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3674,9 +3868,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 94,
                             Ingredient = "ground chicken",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3684,9 +3880,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 95,
                             Ingredient = "chicken",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
                         },
@@ -3694,9 +3892,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 96,
                             Ingredient = "turkey",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
                         },
@@ -3704,9 +3904,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 97,
                             Ingredient = "ground turkey",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3714,9 +3916,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 98,
                             Ingredient = "ground beef",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3724,9 +3928,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 99,
                             Ingredient = "beef chuck",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3734,9 +3940,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 100,
                             Ingredient = "beef roast",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3744,9 +3952,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 101,
                             Ingredient = "beef",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
                         },
@@ -3754,9 +3964,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 102,
                             Ingredient = "steak",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3764,9 +3976,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 103,
                             Ingredient = "pork chop",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3774,9 +3988,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 104,
                             Ingredient = "ground pork",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3784,9 +4000,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 105,
                             Ingredient = "pork",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
                         },
@@ -3794,9 +4012,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 106,
                             Ingredient = "bacon",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3804,9 +4024,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 107,
                             Ingredient = "sausage",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3814,9 +4036,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 108,
                             Ingredient = "ham",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3824,9 +4048,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 109,
                             Ingredient = "lamb",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3834,9 +4060,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 110,
                             Ingredient = "salmon",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3844,9 +4072,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 111,
                             Ingredient = "tuna",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3854,9 +4084,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 112,
                             Ingredient = "cod",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3864,9 +4096,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 113,
                             Ingredient = "halibut",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3874,9 +4108,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 114,
                             Ingredient = "shrimp",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3884,9 +4120,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 115,
                             Ingredient = "crab",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3894,9 +4132,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 116,
                             Ingredient = "lobster",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3904,9 +4144,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 117,
                             Ingredient = "scallop",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3914,9 +4156,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 118,
                             Ingredient = "potato",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
                         },
@@ -3924,9 +4168,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 119,
                             Ingredient = "sweet potato",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3934,9 +4180,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 120,
                             Ingredient = "onion",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
                         },
@@ -3944,9 +4192,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 121,
                             Ingredient = "red onion",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3954,9 +4204,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 122,
                             Ingredient = "green onion",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -3964,8 +4216,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 123,
                             Ingredient = "shallot",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3974,8 +4228,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 124,
                             Ingredient = "garlic",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3984,8 +4240,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 125,
                             Ingredient = "ginger",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -3994,9 +4252,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 126,
                             Ingredient = "carrot",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4004,9 +4264,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 127,
                             Ingredient = "celery",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4014,9 +4276,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 128,
                             Ingredient = "broccoli",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4024,9 +4288,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 129,
                             Ingredient = "cauliflower",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4034,9 +4300,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 130,
                             Ingredient = "cabbage",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4044,8 +4312,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 131,
                             Ingredient = "spinach",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4054,8 +4324,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 132,
                             Ingredient = "kale",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4064,9 +4336,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 133,
                             Ingredient = "lettuce",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4074,9 +4348,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 134,
                             Ingredient = "zucchini",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4084,9 +4360,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 135,
                             Ingredient = "cucumber",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4094,9 +4372,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 136,
                             Ingredient = "eggplant",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4104,9 +4384,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 137,
                             Ingredient = "bell pepper",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4114,8 +4396,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 138,
                             Ingredient = "jalapeno",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4124,8 +4408,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 139,
                             Ingredient = "serrano pepper",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4134,8 +4420,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 140,
                             Ingredient = "mushroom",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4144,9 +4432,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 141,
                             Ingredient = "tomato",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
                         },
@@ -4154,8 +4444,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 142,
                             Ingredient = "cherry tomato",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4164,9 +4456,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 143,
                             Ingredient = "apple",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4174,9 +4468,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 144,
                             Ingredient = "banana",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4184,9 +4480,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 145,
                             Ingredient = "orange",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4194,9 +4492,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 146,
                             Ingredient = "lemon",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4204,9 +4504,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 147,
                             Ingredient = "lime",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4214,8 +4516,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 148,
                             Ingredient = "strawberry",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4224,8 +4528,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 149,
                             Ingredient = "blueberry",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4234,8 +4540,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 150,
                             Ingredient = "raspberry",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4244,8 +4552,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 151,
                             Ingredient = "blackberry",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4254,8 +4564,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 152,
                             Ingredient = "berry",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
@@ -4264,9 +4576,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 153,
                             Ingredient = "grape",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4274,9 +4588,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 154,
                             Ingredient = "peach",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4284,9 +4600,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 155,
                             Ingredient = "pear",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4294,9 +4612,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 156,
                             Ingredient = "avocado",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4304,9 +4624,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 157,
                             Ingredient = "pineapple",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4314,9 +4636,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 158,
                             Ingredient = "mango",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4324,9 +4648,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 159,
                             Ingredient = "papaya",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4334,9 +4660,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 160,
                             Ingredient = "cantaloupe",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4344,9 +4672,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 161,
                             Ingredient = "watermelon",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4354,9 +4684,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 162,
                             Ingredient = "honeydew",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4364,8 +4696,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 163,
                             Ingredient = "kiwi",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4374,9 +4708,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 164,
                             Ingredient = "pomegranate",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4384,18 +4720,22 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 165,
                             Ingredient = "coconut",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
-                            Pass = 1,
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
+                            Pass = 2,
                             SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 166,
                             Ingredient = "cranberry",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4404,8 +4744,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 167,
                             Ingredient = "cherry",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4414,9 +4756,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 168,
                             Ingredient = "apricot",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4424,9 +4768,11 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 169,
                             Ingredient = "plum",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
-                            MetricUnit = "kg",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
@@ -4434,8 +4780,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 170,
                             Ingredient = "fig",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4444,8 +4792,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 171,
                             Ingredient = "date",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4454,8 +4804,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 172,
                             Ingredient = "raisin",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4464,8 +4816,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 173,
                             Ingredient = "walnut",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4474,8 +4828,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 174,
                             Ingredient = "pecan",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4484,8 +4840,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 175,
                             Ingredient = "almond",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4494,8 +4852,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 176,
                             Ingredient = "cashew",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4504,8 +4864,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 177,
                             Ingredient = "pistachio",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4514,8 +4876,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 178,
                             Ingredient = "peanut",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4524,8 +4888,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 179,
                             Ingredient = "pine nut",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4534,8 +4900,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 180,
                             Ingredient = "hazelnut",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4544,8 +4912,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 181,
                             Ingredient = "macadamia nut",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4554,8 +4924,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 182,
                             Ingredient = "nut",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
@@ -4564,88 +4936,106 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 183,
                             Ingredient = "chia seed",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "oz"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 184,
                             Ingredient = "flax seed",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "oz"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 185,
                             Ingredient = "sunflower seed",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "oz"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 186,
                             Ingredient = "pumpkin seed",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "oz"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 187,
                             Ingredient = "sesame seed",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "oz"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 188,
                             Ingredient = "seed",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
-                            SmallImperialUnit = "oz"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 189,
                             Ingredient = "cocoa powder",
+                            IngredientType = 3,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 190,
                             Ingredient = "chocolate chip",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 191,
                             Ingredient = "dark chocolate",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4654,8 +5044,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 192,
                             Ingredient = "milk chocolate",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4664,8 +5056,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 193,
                             Ingredient = "white chocolate",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4674,8 +5068,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 194,
                             Ingredient = "chocolate",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
@@ -4684,8 +5080,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 195,
                             Ingredient = "baking soda",
+                            IngredientType = 3,
                             IsLiquid = false,
                             LargeImperialUnit = "tbsp",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "tsp"
@@ -4694,8 +5092,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 196,
                             Ingredient = "baking powder",
+                            IngredientType = 3,
                             IsLiquid = false,
                             LargeImperialUnit = "tbsp",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "tsp"
@@ -4704,8 +5104,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 197,
                             Ingredient = "yeast",
+                            IngredientType = 3,
                             IsLiquid = false,
                             LargeImperialUnit = "tbsp",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "tsp"
@@ -4714,158 +5116,190 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 198,
                             Ingredient = "cornstarch",
+                            IngredientType = 3,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 199,
                             Ingredient = "corn starch",
+                            IngredientType = 3,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 200,
                             Ingredient = "cocoa nib",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 201,
+                            Ingredient = "peanut butter",
+                            IngredientType = 5,
+                            IsLiquid = true,
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 202,
+                            Ingredient = "almond butter",
+                            IngredientType = 5,
+                            IsLiquid = true,
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 203,
+                            Ingredient = "jam",
+                            IngredientType = 5,
+                            IsLiquid = false,
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 204,
+                            Ingredient = "jelly",
+                            IngredientType = 5,
+                            IsLiquid = false,
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 205,
+                            Ingredient = "pumpkin puree",
+                            IngredientType = 1,
+                            IsLiquid = true,
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
                         new
                         {
-                            Id = 201,
-                            Ingredient = "peanut butter",
-                            IsLiquid = true,
-                            LargeImperialUnit = "cup",
-                            MetricUnit = "g",
-                            Pass = 1,
-                            SmallImperialUnit = "tbsp"
-                        },
-                        new
-                        {
-                            Id = 202,
-                            Ingredient = "almond butter",
-                            IsLiquid = true,
-                            LargeImperialUnit = "cup",
-                            MetricUnit = "g",
-                            Pass = 1,
-                            SmallImperialUnit = "tbsp"
-                        },
-                        new
-                        {
-                            Id = 203,
-                            Ingredient = "jam",
-                            IsLiquid = false,
-                            LargeImperialUnit = "cup",
-                            MetricUnit = "g",
-                            Pass = 1,
-                            SmallImperialUnit = "tbsp"
-                        },
-                        new
-                        {
-                            Id = 204,
-                            Ingredient = "jelly",
-                            IsLiquid = false,
-                            LargeImperialUnit = "cup",
-                            MetricUnit = "g",
-                            Pass = 1,
-                            SmallImperialUnit = "tbsp"
-                        },
-                        new
-                        {
-                            Id = 205,
-                            Ingredient = "pumpkin puree",
-                            IsLiquid = true,
-                            LargeImperialUnit = "cup",
-                            MetricUnit = "g",
-                            Pass = 1,
-                            SmallImperialUnit = "tbsp"
-                        },
-                        new
-                        {
                             Id = 206,
                             Ingredient = "pumpkin",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 207,
                             Ingredient = "crushed tomato",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 208,
                             Ingredient = "tomato sauce",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 209,
                             Ingredient = "tomato paste",
+                            IngredientType = 5,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 210,
                             Ingredient = "chicken broth",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 211,
                             Ingredient = "beef broth",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 212,
                             Ingredient = "broth",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 213,
                             Ingredient = "vegan cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "oz"
@@ -4874,8 +5308,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 214,
                             Ingredient = "cheese",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
@@ -4884,8 +5320,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 215,
                             Ingredient = "parmesan",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
@@ -4894,8 +5332,10 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 216,
                             Ingredient = "mozzarella",
+                            IngredientType = 1,
                             IsLiquid = false,
                             LargeImperialUnit = "lb",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 2,
                             SmallImperialUnit = "oz"
@@ -4904,78 +5344,94 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 217,
                             Ingredient = "water",
+                            IngredientType = 2,
                             IsLiquid = false,
                             LargeImperialUnit = "gallon",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 2,
-                            SmallImperialUnit = "cup"
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 218,
                             Ingredient = "syrup",
+                            IngredientType = 4,
                             IsLiquid = false,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
-                            Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 219,
                             Ingredient = "oil",
+                            IngredientType = 4,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
-                            Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
                         },
                         new
                         {
                             Id = 220,
                             Ingredient = "sauce",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
-                            MetricUnit = "ml",
-                            Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 221,
                             Ingredient = "puree",
+                            IngredientType = 1,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
-                            MetricUnit = "ml",
-                            Pass = 2,
-                            SmallImperialUnit = "tbsp"
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "oz"
                         },
                         new
                         {
                             Id = 222,
-                            Ingredient = "butter",
-                            IsLiquid = true,
-                            LargeImperialUnit = "cup",
-                            MetricUnit = "ml",
-                            Pass = 2,
-                            SmallImperialUnit = "tbsp"
-                        },
-                        new
-                        {
-                            Id = 223,
                             Ingredient = "soup",
+                            IngredientType = 2,
                             IsLiquid = true,
                             LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
                             MetricUnit = "ml",
                             Pass = 1,
                             SmallImperialUnit = "oz"
                         },
                         new
                         {
-                            Id = 224,
+                            Id = 223,
                             Ingredient = "ground pepper",
+                            IngredientType = 3,
                             IsLiquid = false,
                             LargeImperialUnit = "tbsp",
+                            LargeMetricUnit = "kg",
+                            MetricUnit = "g",
+                            Pass = 1,
+                            SmallImperialUnit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 224,
+                            Ingredient = "crushed pepper",
+                            IngredientType = 3,
+                            IsLiquid = false,
+                            LargeImperialUnit = "tbsp",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "tsp"
@@ -4983,9 +5439,11 @@ namespace PlatformAPI.Migrations
                         new
                         {
                             Id = 225,
-                            Ingredient = "crushed pepper",
+                            Ingredient = "garlic powder",
+                            IngredientType = 3,
                             IsLiquid = false,
                             LargeImperialUnit = "tbsp",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "tsp"
@@ -4993,9 +5451,11 @@ namespace PlatformAPI.Migrations
                         new
                         {
                             Id = 226,
-                            Ingredient = "garlic powder",
+                            Ingredient = "ginger powder",
+                            IngredientType = 3,
                             IsLiquid = false,
                             LargeImperialUnit = "tbsp",
+                            LargeMetricUnit = "kg",
                             MetricUnit = "g",
                             Pass = 1,
                             SmallImperialUnit = "tsp"
@@ -5003,12 +5463,14 @@ namespace PlatformAPI.Migrations
                         new
                         {
                             Id = 227,
-                            Ingredient = "ginger powder",
-                            IsLiquid = false,
-                            LargeImperialUnit = "tbsp",
-                            MetricUnit = "g",
+                            Ingredient = "coconut milk",
+                            IngredientType = 2,
+                            IsLiquid = true,
+                            LargeImperialUnit = "cup",
+                            LargeMetricUnit = "L",
+                            MetricUnit = "ml",
                             Pass = 1,
-                            SmallImperialUnit = "tsp"
+                            SmallImperialUnit = "oz"
                         });
                 });
 
@@ -5065,141 +5527,15 @@ namespace PlatformAPI.Migrations
                         new
                         {
                             Id = 3,
-                            BaseSystem = 1,
-                            BaseUnit = "Teaspoon",
-                            Quantity = 4.92892f,
-                            TargetSystem = 2,
-                            TargetUnit = "Milliliter"
+                            BaseSystem = 2,
+                            BaseUnit = "Gram",
+                            Quantity = 0.33814f,
+                            TargetSystem = 1,
+                            TargetUnit = "Teaspoon"
                         },
                         new
                         {
                             Id = 4,
-                            BaseSystem = 2,
-                            BaseUnit = "Milliliter",
-                            Quantity = 0.202884f,
-                            TargetSystem = 1,
-                            TargetUnit = "Teaspoon"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            BaseSystem = 1,
-                            BaseUnit = "Tablespoon",
-                            Quantity = 14.7868f,
-                            TargetSystem = 2,
-                            TargetUnit = "Milliliter"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            BaseSystem = 2,
-                            BaseUnit = "Milliliter",
-                            Quantity = 0.067628f,
-                            TargetSystem = 1,
-                            TargetUnit = "Tablespoon"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            BaseSystem = 1,
-                            BaseUnit = "Fluid Ounce",
-                            Quantity = 29.5735f,
-                            TargetSystem = 2,
-                            TargetUnit = "Milliliter"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            BaseSystem = 2,
-                            BaseUnit = "Milliliter",
-                            Quantity = 0.033814f,
-                            TargetSystem = 1,
-                            TargetUnit = "Teaspoon"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            BaseSystem = 1,
-                            BaseUnit = "Cup",
-                            Quantity = 236.588f,
-                            TargetSystem = 2,
-                            TargetUnit = "Milliliter"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            BaseSystem = 2,
-                            BaseUnit = "Milliliter",
-                            Quantity = 0.00422675f,
-                            TargetSystem = 1,
-                            TargetUnit = "Cup"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            BaseSystem = 1,
-                            BaseUnit = "Pint",
-                            Quantity = 473.176f,
-                            TargetSystem = 2,
-                            TargetUnit = "Milliliter"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            BaseSystem = 2,
-                            BaseUnit = "Milliliter",
-                            Quantity = 0.00211338f,
-                            TargetSystem = 1,
-                            TargetUnit = "Pint"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            BaseSystem = 1,
-                            BaseUnit = "Quart",
-                            Quantity = 0.946353f,
-                            TargetSystem = 2,
-                            TargetUnit = "Liter"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            BaseSystem = 2,
-                            BaseUnit = "Liter",
-                            Quantity = 1.05669f,
-                            TargetSystem = 1,
-                            TargetUnit = "Quart"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            BaseSystem = 1,
-                            BaseUnit = "Gallon",
-                            Quantity = 3.78541f,
-                            TargetSystem = 2,
-                            TargetUnit = "Liter"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            BaseSystem = 2,
-                            BaseUnit = "Liter",
-                            Quantity = 0.264172f,
-                            TargetSystem = 1,
-                            TargetUnit = "Gallon"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            BaseSystem = 1,
-                            BaseUnit = "Ounce",
-                            Quantity = 28.3495f,
-                            TargetSystem = 2,
-                            TargetUnit = "Gram"
-                        },
-                        new
-                        {
-                            Id = 18,
                             BaseSystem = 2,
                             BaseUnit = "Gram",
                             Quantity = 0.035274f,
@@ -5208,43 +5544,106 @@ namespace PlatformAPI.Migrations
                         },
                         new
                         {
-                            Id = 19,
-                            BaseSystem = 1,
-                            BaseUnit = "Pound",
-                            Quantity = 0.453592f,
-                            TargetSystem = 2,
-                            TargetUnit = "Kilogram"
-                        },
-                        new
-                        {
-                            Id = 20,
+                            Id = 5,
                             BaseSystem = 2,
                             BaseUnit = "Kilogram",
-                            Quantity = 2.20462f,
+                            Quantity = 338.14f,
                             TargetSystem = 1,
-                            TargetUnit = "Pound"
+                            TargetUnit = "Teaspoon"
                         },
                         new
                         {
-                            Id = 21,
-                            BaseSystem = 1,
-                            BaseUnit = "Inch",
-                            Quantity = 25.4f,
-                            TargetSystem = 2,
-                            TargetUnit = "Millimeter"
-                        },
-                        new
-                        {
-                            Id = 22,
+                            Id = 6,
                             BaseSystem = 2,
-                            BaseUnit = "Millimeter",
-                            Quantity = 0.0393701f,
+                            BaseUnit = "Kilogram",
+                            Quantity = 35.274f,
                             TargetSystem = 1,
-                            TargetUnit = "Inch"
+                            TargetUnit = "Ounce"
                         },
                         new
                         {
-                            Id = 23,
+                            Id = 7,
+                            BaseSystem = 2,
+                            BaseUnit = "Milliliter",
+                            Quantity = 0.202884f,
+                            TargetSystem = 1,
+                            TargetUnit = "Teaspoon"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BaseSystem = 2,
+                            BaseUnit = "Milliliter",
+                            Quantity = 0.033814f,
+                            TargetSystem = 1,
+                            TargetUnit = "Ounce"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            BaseSystem = 2,
+                            BaseUnit = "Liter",
+                            Quantity = 202.884f,
+                            TargetSystem = 1,
+                            TargetUnit = "Teaspoon"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            BaseSystem = 2,
+                            BaseUnit = "Liter",
+                            Quantity = 33.814f,
+                            TargetSystem = 1,
+                            TargetUnit = "Ounce"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            BaseSystem = 1,
+                            BaseUnit = "Teaspoon",
+                            Quantity = 2.95735f,
+                            TargetSystem = 2,
+                            TargetUnit = "Gram"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            BaseSystem = 1,
+                            BaseUnit = "Teaspoon",
+                            Quantity = 4.92892f,
+                            TargetSystem = 2,
+                            TargetUnit = "Milliliter"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            BaseSystem = 1,
+                            BaseUnit = "Tablespoon",
+                            Quantity = 8.87206f,
+                            TargetSystem = 2,
+                            TargetUnit = "Gram"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            BaseSystem = 1,
+                            BaseUnit = "Tablespoon",
+                            Quantity = 14.7868f,
+                            TargetSystem = 2,
+                            TargetUnit = "Milliliter"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            BaseSystem = 1,
+                            BaseUnit = "Ounce",
+                            Quantity = 28.3495f,
+                            TargetSystem = 2,
+                            TargetUnit = "Gram"
+                        },
+                        new
+                        {
+                            Id = 16,
                             BaseSystem = 1,
                             BaseUnit = "Ounce",
                             Quantity = 29.5735f,
@@ -5253,30 +5652,111 @@ namespace PlatformAPI.Migrations
                         },
                         new
                         {
+                            Id = 17,
+                            BaseSystem = 1,
+                            BaseUnit = "Cup",
+                            Quantity = 141.953f,
+                            TargetSystem = 2,
+                            TargetUnit = "Gram"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            BaseSystem = 1,
+                            BaseUnit = "Cup",
+                            Quantity = 236.588f,
+                            TargetSystem = 2,
+                            TargetUnit = "Milliliter"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            BaseSystem = 1,
+                            BaseUnit = "Gallon",
+                            Quantity = 2271.25f,
+                            TargetSystem = 2,
+                            TargetUnit = "Gram"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            BaseSystem = 1,
+                            BaseUnit = "Gallon",
+                            Quantity = 3785.41f,
+                            TargetSystem = 2,
+                            TargetUnit = "Milliliter"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            BaseSystem = 1,
+                            BaseUnit = "Pint",
+                            Quantity = 283.906f,
+                            TargetSystem = 2,
+                            TargetUnit = "Gram"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            BaseSystem = 1,
+                            BaseUnit = "Pint",
+                            Quantity = 473.176f,
+                            TargetSystem = 2,
+                            TargetUnit = "Milliliter"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            BaseSystem = 1,
+                            BaseUnit = "Quart",
+                            Quantity = 567.812f,
+                            TargetSystem = 2,
+                            TargetUnit = "Gram"
+                        },
+                        new
+                        {
                             Id = 24,
-                            BaseSystem = 2,
-                            BaseUnit = "Milliliter",
-                            Quantity = 0.0338f,
-                            TargetSystem = 1,
-                            TargetUnit = "Ounce"
+                            BaseSystem = 1,
+                            BaseUnit = "Quart",
+                            Quantity = 946.353f,
+                            TargetSystem = 2,
+                            TargetUnit = "Milliliter"
                         },
                         new
                         {
                             Id = 25,
                             BaseSystem = 1,
-                            BaseUnit = "Ounce",
-                            Quantity = 0.02835f,
+                            BaseUnit = "Fluid Ounce",
+                            Quantity = 17.7441f,
                             TargetSystem = 2,
-                            TargetUnit = "Kilogram"
+                            TargetUnit = "Gram"
                         },
                         new
                         {
                             Id = 26,
-                            BaseSystem = 2,
-                            BaseUnit = "Kilogram",
-                            Quantity = 35.274f,
-                            TargetSystem = 1,
-                            TargetUnit = "Ounce"
+                            BaseSystem = 1,
+                            BaseUnit = "Fluid Ounce",
+                            Quantity = 29.5735f,
+                            TargetSystem = 2,
+                            TargetUnit = "Milliliter"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            BaseSystem = 1,
+                            BaseUnit = "Pound",
+                            Quantity = 453.592f,
+                            TargetSystem = 2,
+                            TargetUnit = "Gram"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            BaseSystem = 1,
+                            BaseUnit = "Pound",
+                            Quantity = 755.987f,
+                            TargetSystem = 2,
+                            TargetUnit = "Milliliter"
                         });
                 });
 
@@ -9167,6 +9647,9 @@ namespace PlatformAPI.Migrations
                     b.Property<float?>("ConversionFactor")
                         .HasColumnType("real");
 
+                    b.Property<int?>("IngredientType")
+                        .HasColumnType("int");
+
                     b.Property<string>("NewUnit")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -9376,6 +9859,126 @@ namespace PlatformAPI.Migrations
                         {
                             Id = 21,
                             Unit = "inch"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Comparison = ">=",
+                            ConversionFactor = 0.125f,
+                            IngredientType = 1,
+                            NewUnit = "cup",
+                            Threshold = 7.875f,
+                            Unit = "oz"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Comparison = ">=",
+                            ConversionFactor = 0.0625f,
+                            IngredientType = 1,
+                            NewUnit = "lb",
+                            Threshold = 15.875f,
+                            Unit = "cup"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Comparison = ">=",
+                            ConversionFactor = 0.33333334f,
+                            IngredientType = 3,
+                            NewUnit = "Tbsp",
+                            Threshold = 2.875f,
+                            Unit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Comparison = ">=",
+                            ConversionFactor = 0.5f,
+                            IngredientType = 3,
+                            NewUnit = "oz",
+                            Threshold = 2.875f,
+                            Unit = "Tbsp"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Comparison = ">=",
+                            ConversionFactor = 0.33333334f,
+                            IngredientType = 4,
+                            NewUnit = "Tbsp",
+                            Threshold = 2.875f,
+                            Unit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Comparison = ">=",
+                            ConversionFactor = 0.33333334f,
+                            IngredientType = 2,
+                            NewUnit = "Tbsp",
+                            Threshold = 2.875f,
+                            Unit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Comparison = ">=",
+                            ConversionFactor = 0.5f,
+                            IngredientType = 2,
+                            NewUnit = "oz",
+                            Threshold = 1.875f,
+                            Unit = "Tbsp"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Comparison = ">=",
+                            ConversionFactor = 0.125f,
+                            IngredientType = 2,
+                            NewUnit = "cup",
+                            Threshold = 7.875f,
+                            Unit = "oz"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Comparison = ">=",
+                            ConversionFactor = 0.0625f,
+                            IngredientType = 2,
+                            NewUnit = "gal",
+                            Threshold = 15.875f,
+                            Unit = "cup"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Comparison = ">=",
+                            ConversionFactor = 0.33333334f,
+                            IngredientType = 5,
+                            NewUnit = "Tbsp",
+                            Threshold = 2.875f,
+                            Unit = "tsp"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Comparison = ">=",
+                            ConversionFactor = 0.5f,
+                            IngredientType = 5,
+                            NewUnit = "oz",
+                            Threshold = 1.875f,
+                            Unit = "Tbsp"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Comparison = ">=",
+                            ConversionFactor = 0.125f,
+                            IngredientType = 5,
+                            NewUnit = "cup",
+                            Threshold = 7.875f,
+                            Unit = "oz"
                         });
                 });
 

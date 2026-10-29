@@ -1,5 +1,6 @@
 ﻿namespace PlatformAPI.Models.UnitConversion
 {
+    using PlatformAPI.Enums;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -23,6 +24,8 @@
         public float? RoundToConditional { get; set; }
 
         public float? RoundToElse { get; set; }
+
+        public IngredientType? IngredientType { get; set; }
     }
 
 }
