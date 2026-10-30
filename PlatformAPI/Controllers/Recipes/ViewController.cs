@@ -110,11 +110,11 @@ namespace PlatformAPI.Controllers.Recipes
 
             //Unit conversion code
             //STILL IN DEVELOPMENT
-            UnitConversionHelper unitConversionHelper = new UnitConversionHelper(_context);
-            if (!isMyRecipe) {
-                if (measurementSystemRecipe != measurementSystemUser)
-                    ingredients = await unitConversionHelper.GetConvertedUnit(ingredients, measurementSystemRecipe);
-            }
+            //UnitConversionHelper unitConversionHelper = new UnitConversionHelper(_context);
+            //if (!isMyRecipe) {
+            //    if (measurementSystemRecipe != measurementSystemUser)
+            //        ingredients = await unitConversionHelper.GetConvertedUnit(ingredients, measurementSystemRecipe);
+            //}
             
 
 

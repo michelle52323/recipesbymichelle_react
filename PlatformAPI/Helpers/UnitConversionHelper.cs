@@ -300,6 +300,7 @@ namespace PlatformAPI.Helpers
                 
             }
 
+            var aa = 0;
 
             foreach (var ingredient in subList)
             {
@@ -356,7 +357,7 @@ namespace PlatformAPI.Helpers
                 // Step 5. Get better unit
                 string canonicalUnit = GetUnitAbbreviationOrSingular(ingredient.TargetUnit, unitTable);
 
-                if (ingredient.IngredientType == null)
+                if (ingredient.IngredientType == null || measurementSystem == MeasurementSystem.Imperial)
                 {
                     // Original logic for ingredients without a specified IngredientType
                     var matchingRules = unitPrecisionRuleTable
