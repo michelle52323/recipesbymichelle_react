@@ -312,6 +312,11 @@ a.button-tiny-responsive-mobile {
     /* Ensure all content is visible */
 }
 
+.gof-recipe-settings{
+    height: 465px;
+    overflow-x: hidden;
+}
+
 .gof-view {
     height: 370px;
 }

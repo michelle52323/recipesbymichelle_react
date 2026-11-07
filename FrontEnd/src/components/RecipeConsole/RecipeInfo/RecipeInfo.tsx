@@ -28,6 +28,7 @@ interface RecipeForm {
     showAbbreviations: boolean;
     recipeVisibility: "MeOnly" | "AllUsers" | null;
     recipeFont: "SansSerif" | "Serif" | "Handwritten";
+    recipePaper: "Panel" | "Parchment" | "NotebookPaper";
     categories: Category[];
 }
 
@@ -148,6 +149,7 @@ const RecipeInfo: React.FC = () => {
         showAbbreviations: true,
         recipeVisibility: 'MeOnly',
         recipeFont: "SansSerif",
+        recipePaper: "Panel",
         categories: []
 
     });
@@ -201,6 +203,7 @@ const RecipeInfo: React.FC = () => {
                     showAbbreviations: data.showAbbreviations,
                     recipeVisibility: data.recipeVisibility,
                     recipeFont: data.recipeFont,
+                    recipePaper: "Panel",
                     categories: data.categories
 
                 };
@@ -455,225 +458,296 @@ const RecipeInfo: React.FC = () => {
             <form id="page-form">
                 <div className="content-holder-desktop" >
                     <ProgressBar />
-                    <div className="content-inner-desktop">
-                        <div className="page-container row pt-3">
-                            <div className="page-item col-12 col-md-6">
-                                <label className='form-label-tight'>Recipe Name</label>
-                                <span className="required">*</span>
-                                <br />
-                                <div className="form-element">
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        className="form-control textbox textbox-text textbox-large"
-                                        value={recipe.name}
-                                        onChange={handleChange}
-                                    />
+                    <div className="grid-overflow-box gof-recipe-settings">
+                        <div className="content-inner-desktop">
+
+                            <div className="page-container row pt-3">
+                                <div className="page-item col-12 col-md-6">
+                                    <label className='form-label-tight'>Recipe Name</label>
+                                    <span className="required">*</span>
+                                    <br />
+                                    <div className="form-element">
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            className="form-control textbox textbox-text textbox-large"
+                                            value={recipe.name}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    {errors.recipe?.name ? (
+                                        <div className="error-message">{errors.recipe.name}</div>
+                                    ) : (
+                                        <div className="error-message-placeholder-height"></div>
+                                    )}
                                 </div>
-                                {errors.recipe?.name ? (
-                                    <div className="error-message">{errors.recipe.name}</div>
-                                ) : (
+                                <div className="page-item col-12 col-md-6">
+                                    <label className='form-label-tight'>Description</label>
+                                    <br />
+                                    <div className="form-element">
+                                        <textarea
+                                            className="form-control textarea textbox-large textarea-text"
+                                            name="description"
+                                            maxLength={500}
+                                            value={recipe.description}
+                                            onChange={handleChange}
+                                            rows={4}
+                                        />
+                                    </div>
                                     <div className="error-message-placeholder-height"></div>
-                                )}
-                            </div>
-                            <div className="page-item col-12 col-md-6">
-                                <label className='form-label-tight'>Description</label>
-                                <br />
-                                <div className="form-element">
-                                    <textarea
-                                        className="form-control textarea textbox-large textarea-text"
-                                        name="description"
-                                        maxLength={500}
-                                        value={recipe.description}
-                                        onChange={handleChange}
-                                        rows={4}
-                                    />
                                 </div>
-                                <div className="error-message-placeholder-height"></div>
-                            </div>
-                            <div className="page-item col-12 col-md-6 ">
-                                <label>Unit Display</label>
-                                <div className="form-element form-row-130">
-                                    <div className="radio-holder-vertical">
-                                        <ul>
-                                            <li>
-                                                <input
-                                                    type="radio"
-                                                    id="show-abbreviations-true"
-                                                    name="showAbbreviations"
-                                                    value="true"
-                                                    checked={recipe.showAbbreviations === true}
-                                                    onChange={() =>
-                                                        setRecipe(prev => ({ ...prev, showAbbreviations: !prev.showAbbreviations }))
-                                                    }
-                                                />
-                                                <div className="check"></div>
-                                                <label htmlFor="show-abbreviations-true">Show Abbreviations</label>
-                                            </li>
-
-                                            <li>
-                                                <input
-                                                    type="radio"
-                                                    id="show-abbreviations-false"
-                                                    name="showAbbreviations"
-                                                    value="false"
-                                                    checked={recipe.showAbbreviations === false}
-                                                    onChange={() =>
-                                                        setRecipe(prev => ({ ...prev, showAbbreviations: !prev.showAbbreviations }))
-                                                    }
-                                                />
-                                                <div className="check"></div>
-                                                <label htmlFor="show-abbreviations-false">Show Full Unit</label>
-                                            </li>
-                                        </ul>
-                                        <span className="ps-3 d-block">
-                                            Used to determine layout preference
-                                        </span>
-                                    </div>
-                                    <div className="form-row-extra-space"></div>
-                                </div>
-
-                            </div>
-                            <div className="page-item col-12 col-md-6 ">
-                                <label>Recipe Font</label>
-                                <div className="form-element">
-                                    <div className="radio-holder-vertical">
-                                        <ul>
-                                            <li>
-                                                <input
-                                                    type="radio"
-                                                    id="recipe-font-sans-serif"
-                                                    name="recipeFont"
-                                                    value="SansSerif"
-                                                    checked={recipe.recipeFont === "SansSerif"}
-                                                    onChange={() =>
-                                                        setRecipe(prev => ({
-                                                            ...prev,
-                                                            recipeFont: "SansSerif"
-                                                        }))
-                                                    }
-                                                />
-                                                <div className="check"></div>
-                                                <label htmlFor="recipe-font-sans-serif">Sans‑Serif</label>
-                                            </li>
-
-                                            <li>
-                                                <input
-                                                    type="radio"
-                                                    id="recipe-font-handwritten"
-                                                    name="recipeFont"
-                                                    value="Handwritten"
-                                                    checked={recipe.recipeFont === "Handwritten"}
-                                                    onChange={() =>
-                                                        setRecipe(prev => ({
-                                                            ...prev,
-                                                            recipeFont: "Handwritten"
-                                                        }))
-                                                    }
-                                                />
-                                                <div className="check"></div>
-                                                <label htmlFor="recipe-font-handwritten">Handwritten</label>
-                                            </li>
-                                        </ul>
-
-                                        <span className="ps-3 d-block">
-                                            Choose how this recipe will be displayed
-                                        </span>
-                                    </div>
-
-                                    <div className="form-row-extra-space"></div>
-                                </div>
-                            </div>
-
-                            <div className="page-item col-12 col-md-6 ">
-                                <label>Recipe Visibility</label>
-                                <div className="form-element">
-                                    <div className="radio-holder-vertical">
-                                        <ul>
-                                            <li>
-                                                <input
-                                                    type="radio"
-                                                    id="recipe-visibility-me-only"
-                                                    name="recipeVisibility"
-                                                    value="MeOnly"
-                                                    checked={recipe.recipeVisibility === 'MeOnly'}
-                                                    onChange={() => setRecipe(prev => ({ ...prev, recipeVisibility: "MeOnly" }))}
-
-                                                />
-                                                <div className="check"></div>
-                                                <label htmlFor="recipe-visibility-me-only">Me Only</label>
-                                            </li>
-
-                                            <li>
-                                                <input
-                                                    type="radio"
-                                                    id="recipe-visibility-all-users"
-                                                    name="recipeVisibility"
-                                                    value="AllUsers"
-                                                    checked={recipe.recipeVisibility === 'AllUsers'}
-                                                    onChange={() => setRecipe(prev => ({ ...prev, recipeVisibility: "AllUsers" }))}
-
-                                                />
-                                                <div className="check"></div>
-                                                <label htmlFor="recipe-visibility-all-users">All Users</label>
-                                            </li>
-                                        </ul>
-                                        <span className="ps-3 d-block">
-                                            Enables recipe to be searchable by other users
-                                        </span>
-
-                                    </div>
-                                    <span className="error-message-placeholder-height">&nbsp;</span>
-                                </div>
-                            </div>
-
-                            <div className="page-item col-12 col-md-6">
-                                <div className="row">
-
-                                    <div className="form-element pt-3 pb-3 col-12 col-md-6">
-                                        <button
-                                            type="button"
-                                            onClick={() => { setAssignCategoriesModalIsOpen(true); }}
-                                            className="button button-super-large"
-                                        >
-                                            Assign Categories
-                                        </button>
-                                    </div>
-
-                                    <div className="col-12 col-md-6">
-                                        <div className="categories-overflow-box panel">
-                                            {(!recipeCategories || recipeCategories.length === 0) ? (
-                                                <div className="no-categories">
-                                                    Not assigned to any categories
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    <div className="categories-header">
-                                                        Assigned to these categories:
-                                                    </div>
-
-                                                    <div className="categories-list ps-3">
-                                                        {recipeCategories
-                                                            .slice() // ← avoid mutating state
-                                                            .sort((a, b) => a.name.localeCompare(b.name))
-                                                            .map(c => (
-                                                                <div key={c.id} className="category-pill">
-                                                                    {c.name}
-                                                                </div>
-                                                            ))
+                                <div className="page-item col-12 col-md-6 ">
+                                    <label>Recipe Font</label>
+                                    <div className="form-element form-row-130">
+                                        <div className="radio-holder-vertical">
+                                            <ul>
+                                                <li>
+                                                    <input
+                                                        type="radio"
+                                                        id="recipe-font-sans-serif"
+                                                        name="recipeFont"
+                                                        value="SansSerif"
+                                                        checked={recipe.recipeFont === "SansSerif"}
+                                                        onChange={() =>
+                                                            setRecipe(prev => ({
+                                                                ...prev,
+                                                                recipeFont: "SansSerif"
+                                                            }))
                                                         }
+                                                    />
+                                                    <div className="check"></div>
+                                                    <label htmlFor="recipe-font-sans-serif">Sans‑Serif</label>
+                                                </li>
 
-                                                    </div>
-                                                </>
-                                            )}
+                                                <li>
+                                                    <input
+                                                        type="radio"
+                                                        id="recipe-font-handwritten"
+                                                        name="recipeFont"
+                                                        value="Handwritten"
+                                                        checked={recipe.recipeFont === "Handwritten"}
+                                                        onChange={() =>
+                                                            setRecipe(prev => ({
+                                                                ...prev,
+                                                                recipeFont: "Handwritten"
+                                                            }))
+                                                        }
+                                                    />
+                                                    <div className="check"></div>
+                                                    <label htmlFor="recipe-font-handwritten">Handwritten</label>
+                                                </li>
+                                            </ul>
+
+                                            <span className="ps-3 d-block">
+                                                Choose how this recipe will be displayed
+                                            </span>
                                         </div>
+
+                                        <div className="form-row-extra-space"></div>
+                                    </div>
+                                </div>
+                                <div className="page-item col-12 col-md-6 ">
+                                    <label>Recipe Paper / Background</label>
+                                    <div className="form-element form-row-130">
+                                        <div className="radio-holder-vertical">
+                                            <ul>
+                                                <li>
+                                                    <input
+                                                        type="radio"
+                                                        id="recipe-paper-panel"
+                                                        name="recipePaper"
+                                                        value="Panel"
+                                                        checked={recipe.recipePaper === "Panel"}
+                                                        onChange={() =>
+                                                            setRecipe(prev => ({
+                                                                ...prev,
+                                                                recipePaper: "Panel"
+                                                            }))
+                                                        }
+                                                    />
+                                                    <div className="check"></div>
+                                                    <label htmlFor="recipe-paper-panel">Panel</label>
+                                                </li>
+                                                <li>
+                                                    <input
+                                                        type="radio"
+                                                        id="recipe-paper-parchment"
+                                                        name="recipePaper"
+                                                        value="Parchment"
+                                                        checked={recipe.recipePaper === "Parchment"}
+                                                        onChange={() =>
+                                                            setRecipe(prev => ({
+                                                                ...prev,
+                                                                recipePaper: "Parchment"
+                                                            }))
+                                                        }
+                                                    />
+                                                    <div className="check"></div>
+                                                    <label htmlFor="recipe-paper-parchment">Parchment</label>
+                                                </li>
+
+                                                <li>
+                                                    <input
+                                                        type="radio"
+                                                        id="recipe-paper-notebook"
+                                                        name="recipeFont"
+                                                        value="NotebookPaper"
+                                                        checked={recipe.recipePaper === "NotebookPaper"}
+                                                        onChange={() =>
+                                                            setRecipe(prev => ({
+                                                                ...prev,
+                                                                recipePaper: "NotebookPaper"
+                                                            }))
+                                                        }
+                                                    />
+                                                    <div className="check"></div>
+                                                    <label htmlFor="recipe-paper-notebook">Notebook paper</label>
+                                                </li>
+                                            </ul>
+
+                                            <span className="ps-3 d-block">
+                                                Choose background for recipe
+                                            </span>
+                                        </div>
+
+                                        <div className="form-row-extra-space"></div>
+                                    </div>
+                                </div>
+                                <div className="page-item col-12 col-md-6 ">
+                                    <label>Unit Display</label>
+                                    <div className="form-element form-row-130">
+                                        <div className="radio-holder-vertical">
+                                            <ul>
+                                                <li>
+                                                    <input
+                                                        type="radio"
+                                                        id="show-abbreviations-true"
+                                                        name="showAbbreviations"
+                                                        value="true"
+                                                        checked={recipe.showAbbreviations === true}
+                                                        onChange={() =>
+                                                            setRecipe(prev => ({ ...prev, showAbbreviations: !prev.showAbbreviations }))
+                                                        }
+                                                    />
+                                                    <div className="check"></div>
+                                                    <label htmlFor="show-abbreviations-true">Show Abbreviations</label>
+                                                </li>
+
+                                                <li>
+                                                    <input
+                                                        type="radio"
+                                                        id="show-abbreviations-false"
+                                                        name="showAbbreviations"
+                                                        value="false"
+                                                        checked={recipe.showAbbreviations === false}
+                                                        onChange={() =>
+                                                            setRecipe(prev => ({ ...prev, showAbbreviations: !prev.showAbbreviations }))
+                                                        }
+                                                    />
+                                                    <div className="check"></div>
+                                                    <label htmlFor="show-abbreviations-false">Show Full Unit</label>
+                                                </li>
+                                            </ul>
+                                            <span className="ps-3 d-block">
+                                                Used to determine layout preference
+                                            </span>
+                                        </div>
+                                        <div className="form-row-extra-space"></div>
                                     </div>
 
                                 </div>
+                                <div className="page-item col-12 col-md-6 ">
+                                    <label>Recipe Visibility</label>
+                                    <div className="form-element form-row-130">
+                                        <div className="radio-holder-vertical">
+                                            <ul>
+                                                <li>
+                                                    <input
+                                                        type="radio"
+                                                        id="recipe-visibility-me-only"
+                                                        name="recipeVisibility"
+                                                        value="MeOnly"
+                                                        checked={recipe.recipeVisibility === 'MeOnly'}
+                                                        onChange={() => setRecipe(prev => ({ ...prev, recipeVisibility: "MeOnly" }))}
+
+                                                    />
+                                                    <div className="check"></div>
+                                                    <label htmlFor="recipe-visibility-me-only">Me Only</label>
+                                                </li>
+
+                                                <li>
+                                                    <input
+                                                        type="radio"
+                                                        id="recipe-visibility-all-users"
+                                                        name="recipeVisibility"
+                                                        value="AllUsers"
+                                                        checked={recipe.recipeVisibility === 'AllUsers'}
+                                                        onChange={() => setRecipe(prev => ({ ...prev, recipeVisibility: "AllUsers" }))}
+
+                                                    />
+                                                    <div className="check"></div>
+                                                    <label htmlFor="recipe-visibility-all-users">All Users</label>
+                                                </li>
+                                            </ul>
+                                            <span className="ps-3 d-block">
+                                                Enables recipe to be searchable by other users
+                                            </span>
+
+                                        </div>
+                                        <span className="error-message-placeholder-height">&nbsp;</span>
+                                        <div className="form-row-extra-space"></div>
+                                    </div>
+                                </div>
+
+                                <div className="page-item col-12 rs-category-width">
+                                    <div className="row category-assignment-row">
+
+                                        <div className="form-element pt-3 pb-3 category-button-col">
+                                            <button
+                                                type="button"
+                                                onClick={() => { setAssignCategoriesModalIsOpen(true); }}
+                                                className="button button-super-large"
+                                            >
+                                                Assign Categories
+                                            </button>
+                                        </div>
+
+                                        <div className="category-list-col">
+                                            <div className="categories-overflow-box panel">
+                                                {(!recipeCategories || recipeCategories.length === 0) ? (
+                                                    <div className="no-categories">
+                                                        Not assigned to any categories
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <div className="categories-header">
+                                                            Assigned to these categories:
+                                                        </div>
+
+                                                        <div className="categories-list ps-3">
+                                                            {recipeCategories
+                                                                .slice() // ← avoid mutating state
+                                                                .sort((a, b) => a.name.localeCompare(b.name))
+                                                                .map(c => (
+                                                                    <div key={c.id} className="category-pill">
+                                                                        {c.name}
+                                                                    </div>
+                                                                ))
+                                                            }
+
+                                                        </div>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
                             </div>
-
-
                         </div>
+
                     </div>
                 </div>
             </form>

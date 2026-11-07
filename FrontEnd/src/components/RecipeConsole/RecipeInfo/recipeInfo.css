@@ -6,3 +6,36 @@
     max-width: 300px;
     /* Ensure all content is visible */
 }
+
+.rs-category-width{
+    max-width: 600px;
+}
+
+.category-assignment-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+}
+
+.category-button-col,
+.category-list-col {
+    width: 100%;
+    min-width: 0;
+}
+
+/* Mobile */
+
+@supports (-webkit-touch-callout: none) {
+    .category-assignment-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        .category-assignment-row {
+        grid-template-columns: 1fr;
+    }
+    }
+}
