@@ -28,7 +28,7 @@ interface RecipeForm {
     showAbbreviations: boolean;
     recipeVisibility: "MeOnly" | "AllUsers" | null;
     recipeFont: "SansSerif" | "Serif" | "Handwritten";
-    recipePaper: "Panel" | "Parchment" | "NotebookPaper";
+    recipeBackground: "Panel" | "Card" | "NotebookPaper";
     categories: Category[];
 }
 
@@ -71,6 +71,9 @@ const RecipeInfo: React.FC = () => {
     const [newlyAddedCategory, setNewlyAddedCategory] = useState<Category | null>(null);
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [recipeCategories, setRecipeCategories] = useState<Category[]>([]);
+    const [visibleBackgrounds, setVisibleBackgrounds] = useState([]);
+
+    const [recipeBackgroundDefaultSelected, setRecipeBackgroundDefaultSelected] = useState(true);
 
     useEffect(() => {
 
@@ -149,7 +152,7 @@ const RecipeInfo: React.FC = () => {
         showAbbreviations: true,
         recipeVisibility: 'MeOnly',
         recipeFont: "SansSerif",
-        recipePaper: "Panel",
+        recipeBackground: "Panel",
         categories: []
 
     });
@@ -203,7 +206,7 @@ const RecipeInfo: React.FC = () => {
                     showAbbreviations: data.showAbbreviations,
                     recipeVisibility: data.recipeVisibility,
                     recipeFont: data.recipeFont,
-                    recipePaper: "Panel",
+                    recipeBackground: "Panel",
                     categories: data.categories
 
                 };
@@ -227,9 +230,57 @@ const RecipeInfo: React.FC = () => {
         }
     }, [isEditMode, recipe.name, setTitle]);
 
+    // Decide which background options to make visible
+    useEffect(() => {
+        if (recipe.recipeFont === "SansSerif") {
+            // Sans Serif: Panel and Notebook
+            setVisibleBackgrounds(["Panel", "NotebookPaper"]);
+        } else if (recipe.recipeFont === "Handwritten") {
+            // Handwritten: Card and Notebook
+            setVisibleBackgrounds(["Card", "NotebookPaper"]);
+        }
+    }, [isEditMode, recipe.recipeFont]);
+
+    // Set default recipe background if default selection is disabled
+    // useEffect(() => {
+    //     if (!recipeBackgroundDefaultSelected) {
+    //         if (!isEditMode) {
+    //             setRecipe(prev => ({
+    //                 ...prev,
+    //                 recipeBackground: recipe.recipeFont === "SansSerif"
+    //                     ? "Panel"
+    //                     : "Card"
+    //             }));
+    //         } else if (isEditMode) {
+    //             // Leave blank for now
+    //         }
+    //     }
+    // }, [recipeBackgroundDefaultSelected, isEditMode, recipe.recipeFont]);
+
+    const setRecipeBackground = (newFont) => {
+        if (isEditMode) {
+            return recipe.recipeBackground;
+        }
+
+        //If add mode AND if default recipe background
+        if (recipeBackgroundDefaultSelected) {
+            if (newFont === "Handwritten") {
+                return "Card";
+            }
+
+            if (newFont === "SansSerif") {
+                return "Panel";
+            }
+        }
+
+
+        return recipe.recipeBackground;
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setRecipe(prev => ({ ...prev, [name]: value }));
+
     };
 
     const CreateRecipe = async (
@@ -511,7 +562,8 @@ const RecipeInfo: React.FC = () => {
                                                         onChange={() =>
                                                             setRecipe(prev => ({
                                                                 ...prev,
-                                                                recipeFont: "SansSerif"
+                                                                recipeFont: "SansSerif",
+                                                                recipeBackground: setRecipeBackground("SansSerif")
                                                             }))
                                                         }
                                                     />
@@ -529,7 +581,8 @@ const RecipeInfo: React.FC = () => {
                                                         onChange={() =>
                                                             setRecipe(prev => ({
                                                                 ...prev,
-                                                                recipeFont: "Handwritten"
+                                                                recipeFont: "Handwritten",
+                                                                recipeBackground: setRecipeBackground("Handwritten")
                                                             }))
                                                         }
                                                     />
@@ -551,58 +604,71 @@ const RecipeInfo: React.FC = () => {
                                     <div className="form-element form-row-130">
                                         <div className="radio-holder-vertical">
                                             <ul>
-                                                <li>
-                                                    <input
-                                                        type="radio"
-                                                        id="recipe-paper-panel"
-                                                        name="recipePaper"
-                                                        value="Panel"
-                                                        checked={recipe.recipePaper === "Panel"}
-                                                        onChange={() =>
-                                                            setRecipe(prev => ({
-                                                                ...prev,
-                                                                recipePaper: "Panel"
-                                                            }))
-                                                        }
-                                                    />
-                                                    <div className="check"></div>
-                                                    <label htmlFor="recipe-paper-panel">Panel</label>
-                                                </li>
-                                                <li>
-                                                    <input
-                                                        type="radio"
-                                                        id="recipe-paper-parchment"
-                                                        name="recipePaper"
-                                                        value="Parchment"
-                                                        checked={recipe.recipePaper === "Parchment"}
-                                                        onChange={() =>
-                                                            setRecipe(prev => ({
-                                                                ...prev,
-                                                                recipePaper: "Parchment"
-                                                            }))
-                                                        }
-                                                    />
-                                                    <div className="check"></div>
-                                                    <label htmlFor="recipe-paper-parchment">Parchment</label>
-                                                </li>
+                                                {visibleBackgrounds.includes("Panel") && (
+                                                    <li id="recipe-background-panel-container">
+                                                        <input
+                                                            type="radio"
+                                                            id="recipe-background-panel"
+                                                            name="recipeBackground"
+                                                            value="Panel"
+                                                            checked={recipe.recipeBackground === "Panel"}
+                                                            onChange={() => {
+                                                                setRecipe(prev => ({
+                                                                    ...prev,
+                                                                    recipeBackground: "Panel"
+                                                                }));
+                                                                setRecipeBackgroundDefaultSelected(false);
+                                                            }}
 
-                                                <li>
-                                                    <input
-                                                        type="radio"
-                                                        id="recipe-paper-notebook"
-                                                        name="recipeFont"
-                                                        value="NotebookPaper"
-                                                        checked={recipe.recipePaper === "NotebookPaper"}
-                                                        onChange={() =>
-                                                            setRecipe(prev => ({
-                                                                ...prev,
-                                                                recipePaper: "NotebookPaper"
-                                                            }))
-                                                        }
-                                                    />
-                                                    <div className="check"></div>
-                                                    <label htmlFor="recipe-paper-notebook">Notebook paper</label>
-                                                </li>
+                                                        />
+                                                        <div className="check"></div>
+                                                        <label htmlFor="recipe-background-panel">Panel</label>
+                                                    </li>
+                                                )}
+
+                                                {visibleBackgrounds.includes("Card") && (
+                                                    <li id="recipe-background-card-container">
+                                                        <input
+                                                            type="radio"
+                                                            id="recipe-background-card"
+                                                            name="recipeBackground"
+                                                            value="Card"
+                                                            checked={recipe.recipeBackground === "Card"}
+                                                            onChange={() => {
+                                                                setRecipe(prev => ({
+                                                                    ...prev,
+                                                                    recipeBackground: "Card"
+                                                                }));
+                                                                setRecipeBackgroundDefaultSelected(false);
+                                                            }}
+                                                        />
+                                                        <div className="check"></div>
+                                                        <label htmlFor="recipe-background-card">Card</label>
+                                                    </li>
+
+                                                )}
+
+                                                {visibleBackgrounds.includes("NotebookPaper") && (
+                                                    <li id="recipe-background-notebook-container">
+                                                        <input
+                                                            type="radio"
+                                                            id="recipe-background-notebook"
+                                                            name="recipeBackground"
+                                                            value="NotebookPaper"
+                                                            checked={recipe.recipeBackground === "NotebookPaper"}
+                                                            onChange={() => {
+                                                                setRecipe(prev => ({
+                                                                    ...prev,
+                                                                    recipeBackground: "NotebookPaper"
+                                                                }));
+                                                                setRecipeBackgroundDefaultSelected(false);
+                                                            }}
+                                                        />
+                                                        <div className="check"></div>
+                                                        <label htmlFor="recipe-background-notebook">Notebook paper</label>
+                                                    </li>
+                                                )}
+
                                             </ul>
 
                                             <span className="ps-3 d-block">

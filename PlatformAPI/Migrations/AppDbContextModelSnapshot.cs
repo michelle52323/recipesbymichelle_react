@@ -584,6 +584,9 @@ namespace PlatformAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("RecipeBackground")
+                        .HasColumnType("int");
+
                     b.Property<int>("RecipeFont")
                         .HasColumnType("int");
 

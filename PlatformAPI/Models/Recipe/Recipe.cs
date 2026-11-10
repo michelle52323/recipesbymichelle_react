@@ -19,6 +19,8 @@ namespace PlatformAPI.Models.Recipe
 
         public RecipeVisibility RecipeVisibility { get; set; }
 
+        public RecipeBackground RecipeBackground { get; set; }
+
         public RecipeFont RecipeFont { get; set; }
 
         public UserRecipe UserRecipe { get; set; }
