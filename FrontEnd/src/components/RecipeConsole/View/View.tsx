@@ -463,7 +463,7 @@ function View() {
                                                             <li
                                                                 key={ingredient.id}
                                                                 style={{ display: "list-item", width: "100%" }}
-                                                                className="pb-2 text-specified"
+                                                                className="text-specified ingredients-line-spacing"
                                                             >
                                                                 <span
                                                                     dangerouslySetInnerHTML={{
@@ -521,7 +521,7 @@ function View() {
                                                         .map((step) => (
                                                             <li
                                                                 key={step.id}
-                                                                className="pb-2 text-specified"
+                                                                className="text-specified step-line-spacing"
                                                                 dangerouslySetInnerHTML={{
                                                                     __html: renderStep(step.description, recipe.recipeFont)
                                                                 }}

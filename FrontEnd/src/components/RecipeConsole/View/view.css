@@ -22,7 +22,7 @@
     z-index: 1;
 }
 
-.recipe-card-notebook-paper-holes-top  {
+.recipe-card-notebook-paper-holes-top {
     position: relative;
 
     /* Combine the image layers */
@@ -40,7 +40,7 @@
     background-attachment: local;
 }
 
-.recipe-card-notebook-paper-holes-bottom  {
+.recipe-card-notebook-paper-holes-bottom {
     position: relative;
 
     /* Combine the image layers */
@@ -58,7 +58,7 @@
     background-attachment: local;
 }
 
-.recipe-card-notebook-paper-top  {
+.recipe-card-notebook-paper-top {
     position: relative;
 
     /* Combine the image layers */
@@ -101,7 +101,7 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
     z-index: 1;
 
     background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
-/* background-color:blue; */
+    /* background-color:blue; */
     background-size: 100% 300px;
     background-repeat: repeat-y;
     background-position: left top;
@@ -109,7 +109,8 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
 
     height: auto;
 }
-.recipe-card-notebook-paper-bottom  {
+
+.recipe-card-notebook-paper-bottom {
     position: relative;
     z-index: 1;
 }
@@ -165,7 +166,104 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
     -webkit-box-orient: unset !important;
 }
 
+.ingredients-line-spacing {
+    line-height: 37.5px;
+}
 
+.step-line-spacing {
+    line-height: 37.5px;
+}
+
+/* iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    .ingredients-line-spacing {
+        line-height: 37.0px;
+    }
+
+    .step-line-spacing {
+        line-height: 37.0px;
+    }
+
+    .recipe-card-notebook-paper-bottom, .recipe-card-notebook-paper-holes-bottom {
+            
+            background-size: 100% 296px;
+            
+        }
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        .ingredients-line-spacing {
+            line-height: 36.3px;
+        }
+
+        .step-line-spacing {
+            line-height: 37.5px;
+        }
+
+        
+    }
+}
+
+/* iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    .recipe-font-handwritten {
+        font-family: 'Caveat', cursive;
+        font-size: 25px;
+    }
+}
+
+/* Android Chrome (touch devices only) */
+@media (pointer: coarse) {
+    @supports not (-webkit-touch-callout: none) {
+        .recipe-font-handwritten {
+            font-family: 'Caveat', cursive;
+            font-size: 23px;
+            /* same for now, adjustable later */
+        }
+    }
+}
+
+
+.step-line-spacing>p {
+    margin: 0;
+    padding: 0;
+    line-height: inherit;
+}
+
+.step-line-spacing>p:empty {
+    display: none;
+}
+
+/* Reset spacing on nested lists */
+.step-line-spacing ol,
+.step-line-spacing ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: inherit;
+}
+
+/* Reset spacing on nested list items */
+.step-line-spacing ol li,
+.step-line-spacing ul li {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: inherit;
+}
+
+/* Reset paragraph spacing within nested lists */
+.step-line-spacing ol li p,
+.step-line-spacing ul li p {
+    margin: 0;
+    padding: 0;
+    line-height: inherit;
+}
+
+.step-line-spacing ul {
+    list-style-type: disc;
+}
 
 
 
