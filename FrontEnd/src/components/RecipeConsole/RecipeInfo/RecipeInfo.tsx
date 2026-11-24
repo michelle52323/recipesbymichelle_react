@@ -206,7 +206,7 @@ const RecipeInfo: React.FC = () => {
                     showAbbreviations: data.showAbbreviations,
                     recipeVisibility: data.recipeVisibility,
                     recipeFont: data.recipeFont,
-                    recipeBackground: "Panel",
+                    recipeBackground: data.recipeBackground,
                     categories: data.categories
 
                 };
@@ -307,6 +307,7 @@ const RecipeInfo: React.FC = () => {
                 ShowAbbreviations: formData.showAbbreviations,
                 RecipeVisibility: formData.recipeVisibility,
                 RecipeFont: formData.recipeFont,
+                RecipeBackground: formData.recipeBackground,
                 Categories: recipeCategories
             };
 
@@ -351,6 +352,7 @@ const RecipeInfo: React.FC = () => {
                 ShowAbbreviations: formData.showAbbreviations,
                 RecipeVisibility: formData.recipeVisibility,
                 RecipeFont: formData.recipeFont,
+                RecipeBackground: formData.recipeBackground,
                 Categories: recipeCategories
             };
 

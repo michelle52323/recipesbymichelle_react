@@ -160,6 +160,7 @@ namespace PlatformAPI.Controllers.Recipes
                 IsMyRecipe = isMyRecipe,
                 RecipeVisibility = recipe.RecipeVisibility.ToString(),
                 RecipeFont = recipe.RecipeFont.ToString(),
+                RecipeBackground = recipe.RecipeBackground.ToString(),
                 Ingredients = ingredientDtos,
                 Steps = stepDtos,
                 MeasurementSystem = measurementSystemUser.ToString(),

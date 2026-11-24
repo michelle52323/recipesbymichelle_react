@@ -41,6 +41,8 @@ namespace PlatformAPI.Controllers.Recipes
 
         public string RecipeFont {  get; set; }
 
+        public string RecipeBackground { get; set; }
+
         public string UserId { get; set; }
 
         public List<RecipeInfoCategoriesDto>? Categories { get; set; }
@@ -54,6 +56,8 @@ namespace PlatformAPI.Controllers.Recipes
         public string RecipeVisibility { get; set; }
 
         public string RecipeFont { get; set; }
+
+        public string RecipeBackground { get; set; }
 
         public List<SaveRecipeCategoriesDto>? Categories { get; set; }
     }
@@ -70,6 +74,8 @@ namespace PlatformAPI.Controllers.Recipes
         public string RecipeVisibility { get; set; }
 
         public string RecipeFont { get; set; }
+
+        public string RecipeBackground { get; set; }
 
         public List<SaveRecipeCategoriesDto>? Categories { get; set; }
     }
@@ -126,6 +132,7 @@ namespace PlatformAPI.Controllers.Recipes
                 ShowAbbreviations = recipe.ShowAbbreviations,
                 RecipeVisibility = recipe.RecipeVisibility.ToString(),
                 RecipeFont = recipe.RecipeFont.ToString(),
+                RecipeBackground = recipe.RecipeBackground.ToString(),
                 UserId = recipe.UserRecipe.UserId.ToString(),
 
                 Categories = recipe.RecipeCategories?
@@ -210,6 +217,7 @@ namespace PlatformAPI.Controllers.Recipes
                     ShowAbbreviations = dto.ShowAbbreviations,
                     RecipeVisibility = Enum.Parse<RecipeVisibility>(dto.RecipeVisibility),
                     RecipeFont = Enum.Parse<RecipeFont>(dto.RecipeFont),
+                    RecipeBackground = Enum.Parse<RecipeBackground>(dto.RecipeBackground),
                     IsActive = true,
                     SortOrder = maxSortOrder+1
                 };
@@ -282,6 +290,7 @@ namespace PlatformAPI.Controllers.Recipes
                 recipe.ShowAbbreviations = dto.ShowAbbreviations;
                 recipe.RecipeVisibility = Enum.Parse<RecipeVisibility>(dto.RecipeVisibility);
                 recipe.RecipeFont = Enum.Parse<RecipeFont>(dto.RecipeFont);
+                recipe.RecipeBackground = Enum.Parse<RecipeBackground>(dto.RecipeBackground);
 
                 // ⭐ Clear existing category assignments
                 recipe.RecipeCategories.Clear();

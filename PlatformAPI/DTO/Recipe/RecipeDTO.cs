@@ -15,6 +15,8 @@ namespace PlatformAPI.DTO.Recipe
         public bool IsMyRecipe { get; set; }
         public string RecipeVisibility { get; set; }
         public string RecipeFont { get; set; }
+
+        public string RecipeBackground { get; set; }
     }
 
     public class ViewRecipeDTO : RecipeDto

@@ -376,6 +376,10 @@ a.button-tiny-responsive-mobile {
     overflow-x: hidden;
 }
 
+.gof-row-view {
+    overflow-x: hidden;
+}
+
 .sortable-ghost {
     opacity: 0.5;
     /* Makes the dragged item semi-transparent */

@@ -13,11 +13,103 @@
 
     /* 🌟 THE CRITICAL FIX: Forces background to scroll with internal content text */
     background-attachment: local;
-    
+
 }
 
 /* Ensure child text containers stack correctly and stay readable */
 .recipe-card-handwritten-font .grid-overflow-box>* {
+    position: relative;
+    z-index: 1;
+}
+
+.recipe-card-notebook-paper-holes-top  {
+    position: relative;
+
+    /* Combine the image layers */
+    background-image: url("/images/notebook-paper/notebook-paper-top-holes.png");
+    /* background-color: orange; */
+    /* 100% width forces it to span horizontally, 'auto' lets height scale naturally */
+    /* background-size: 100% auto; */
+    background-size: 100% 350px;
+
+    /* Tells the browser to only repeat downward */
+    background-repeat: repeat-y;
+    background-blend-mode: multiply;
+
+    /* 🌟 THE CRITICAL FIX: Forces background to scroll with internal content text */
+    background-attachment: local;
+}
+
+.recipe-card-notebook-paper-holes-bottom  {
+    position: relative;
+
+    /* Combine the image layers */
+    background-image: url("/images/notebook-paper/notebook-paper-bottom-holes.png");
+    /* background-color: green; */
+    /* 100% width forces it to span horizontally, 'auto' lets height scale naturally */
+    /* background-size: 100% auto; */
+    background-size: 100% 300px;
+
+    /* Tells the browser to only repeat downward */
+    background-repeat: repeat-y;
+    background-blend-mode: multiply;
+
+    /* 🌟 THE CRITICAL FIX: Forces background to scroll with internal content text */
+    background-attachment: local;
+}
+
+.recipe-card-notebook-paper-top  {
+    position: relative;
+
+    /* Combine the image layers */
+    background-image: url("/images/notebook-paper/notebook-paper-top.png");
+    /* background-color: red; */
+    /* 100% width forces it to span horizontally, 'auto' lets height scale naturally */
+    /* background-size: 100% auto; */
+    background-size: 100% 1000px;
+
+    /* Tells the browser to only repeat downward */
+    background-repeat: repeat-y;
+    background-blend-mode: multiply;
+
+    /* 🌟 THE CRITICAL FIX: Forces background to scroll with internal content text */
+    background-attachment: local;
+}
+
+.recipe-card-notebook-paper-top .grid-overflow-box>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* .recipe-card-notebook-paper-bottom {
+    position: relative;
+    
+background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
+    height: auto;
+    min-height: 100%;
+
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+    background-blend-mode: multiply;
+    background-attachment: local;
+
+    z-index: 1;
+} */
+
+.recipe-card-notebook-paper-bottom {
+    position: relative;
+    z-index: 1;
+
+    background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
+/* background-color:blue; */
+    background-size: 100% 300px;
+    background-repeat: repeat-y;
+    background-position: left top;
+    background-attachment: local;
+
+    height: auto;
+}
+.recipe-card-notebook-paper-bottom  {
     position: relative;
     z-index: 1;
 }
