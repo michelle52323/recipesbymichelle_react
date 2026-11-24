@@ -51,7 +51,8 @@ namespace UnitTests
                 Description = "Rich and moist",
                 ShowAbbreviations = false,
                 RecipeVisibility = RecipeVisibility.MeOnly.ToString(),
-                RecipeFont = RecipeFont.SansSerif.ToString()
+                RecipeFont = RecipeFont.SansSerif.ToString(),
+                RecipeBackground = RecipeBackground.Panel.ToString()
             };
 
             var json = JsonConvert.SerializeObject(dto);
