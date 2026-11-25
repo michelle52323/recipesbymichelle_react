@@ -14,6 +14,7 @@ import type { PreviousPageNavigation } from '../../../types/Navigation/Navigatio
 import Loader from '../../UserControls/Loader/Loader';
 import FavoritesStar from '../../../components/UserControls/Favorites/FavoriteStar';
 import BadgeList from '../../../components/UserControls/Badges/BadgeList';
+import { isIOS, isAndroid } from '../../../helpers/config.jsx';
 import '../../../grid-layout.css';
 import './view.css';
 
@@ -57,6 +58,13 @@ function View() {
 
     const [backgroundPaperClassUpper, setBackgroundPaperClassUpper] = useState<string | null>(null);
     const [backgroundPaperClassLower, setBackgroundPaperClassLower] = useState<string | null>(null);
+
+    const [ingredientLineSpacingClass, setIngredientLineSpacingClass] = useState<string | null>(null);
+    const [stepLineSpacingClass, setStepLineSpacingClass] = useState<string | null>(null);
+    const [subHeaderHeightClass, setSubHeaderHeightClass] = useState<string | null>(null);
+    const [subHeaderOffsetClass, setSubHeaderOffsetClass] = useState<string | null>(null);
+    const [stepSubHeaderTopOffsetClass, setStepSubHeaderTopOffsetClass] = useState<string | null>(null);
+    const [fontColorClass, setFontColorClass] = useState<string | null>(null);
 
     const [previousPageNavigation, setPreviousPathNavigation] = useState<PreviousPageNavigation | null>(null);
     const [isMyRecipe, setIsMyRecipe] = useState<boolean>(false);
@@ -260,6 +268,61 @@ function View() {
                     : ""
             );
 
+            var isAndroidDevice = isAndroid();
+            var isIosDevice = isIOS();
+            var isDesktopDevice = !isAndroidDevice && !isIosDevice;
+
+            setIngredientLineSpacingClass(
+                isIosDevice || isDesktopDevice
+                    ? "ingredients-line-spacing"
+                    : isAndroidDevice && recipe.recipeFont === "SansSerif"
+                        ? "ingredients-line-spacing-sans-serif"
+                        : isAndroidDevice && recipe.recipeFont === "Handwritten"
+                            ? "ingredients-line-spacing-handwritten"
+                            : "ingredients-line-spacing"
+            );
+
+            setStepLineSpacingClass(
+                isIosDevice || isDesktopDevice
+                    ? "step-line-spacing"
+                    : isAndroidDevice && recipe.recipeFont === "SansSerif"
+                        ? "step-line-spacing-sans-serif"
+                        : isAndroidDevice && recipe.recipeFont === "Handwritten"
+                            ? "step-line-spacing-handwritten"
+                            : "step-line-spacing"
+            );
+
+            setSubHeaderHeightClass(
+                isIosDevice || isDesktopDevice
+                    ? "sub-header-line-spacing"
+                    : isAndroidDevice && recipe.recipeFont === "SansSerif"
+                        ? "sub-header-line-spacing-sans-serif"
+                        : isAndroidDevice && recipe.recipeFont === "Handwritten"
+                            ? "sub-header-line-spacing-handwritten"
+                            : "sub-header-line-spacing"
+            )
+
+            setSubHeaderOffsetClass(
+                isIosDevice || isDesktopDevice
+                    ? "sub-header-offset"
+                    : isAndroidDevice && recipe.recipeFont === "SansSerif"
+                        ? "sub-header-offset-sans-serif"
+                        : isAndroidDevice && recipe.recipeFont === "Handwritten"
+                            ? "sub-header-offset-handwritten"
+                            : "sub-header-offset"
+            )
+
+            setStepSubHeaderTopOffsetClass(
+                isIosDevice || isDesktopDevice
+                    ? "step-sub-header-top-offset"
+                    : isAndroidDevice && recipe.recipeFont === "SansSerif"
+                        ? "step-sub-header-top-offset-sans-serif"
+                        : isAndroidDevice && recipe.recipeFont === "Handwritten"
+                            ? "step-sub-header-top-offset-handwritten"
+                            : "step-sub-header-top-offset"
+            )
+
+            setFontColorClass(recipe.recipeBackground == "NotebookPaper" ? "font-color-class" : "");
 
         }
     }, [recipe?.recipeFont]);
@@ -389,7 +452,7 @@ function View() {
                         </div>
 
                     </div>
-                    <div className={`${backgroundCardClass}`}>
+                    <div className={`${backgroundCardClass} ${fontColorClass}`}>
                         {/*INSERT CONTENT HERE */}
 
                         <div className={` grid-overflow-box gof-row-view  ${fontClass} `} style={{ height: gofHeight }}>
@@ -429,8 +492,8 @@ function View() {
                                     </div>
                                     <div className={`d-flex row mx-0 align-items-start pt-4 flex-grow-1 ${backgroundPaperClassLower}`}>
                                         {/* Ingredients Column */}
-                                        <div className="col-md-6 col-12 pt-2">
-                                            <div className="d-flex align-items-center pb-3 fw-bold">
+                                        <div className={`col-md-6 col-12 pt-2`}>
+                                            <div className={`d-flex align-items-center fw-bold  ${subHeaderHeightClass}`}>
                                                 <span className="me-2">Ingredients</span>
 
                                                 {isMyRecipe && (
@@ -455,7 +518,7 @@ function View() {
                                             {recipe?.ingredients && recipe.ingredients.length > 0 ? (
                                                 <ul
                                                     style={{ display: "block", paddingLeft: "20px", listStyleType: "disc" }}
-                                                    className="m-0"
+                                                    className={`m-0  ${subHeaderOffsetClass}`}
                                                 >
                                                     {recipe.ingredients
                                                         .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
@@ -463,7 +526,7 @@ function View() {
                                                             <li
                                                                 key={ingredient.id}
                                                                 style={{ display: "list-item", width: "100%" }}
-                                                                className="text-specified ingredients-line-spacing"
+                                                                className={`text-specified ${fontColorClass} ${ingredientLineSpacingClass}`}
                                                             >
                                                                 <span
                                                                     dangerouslySetInnerHTML={{
@@ -493,8 +556,8 @@ function View() {
                                         </div>
 
                                         {/* Steps Column */}
-                                        <div className="col-md-6 col-12 pt-2">
-                                            <div className="d-flex align-items-center pb-2 fw-bold">
+                                        <div className={`col-md-6 col-12 pt-2 ${stepSubHeaderTopOffsetClass}`}>
+                                            <div className={`d-flex align-items-center fw-bold ${subHeaderHeightClass} `}>
                                                 <span className="me-2">Steps</span>
 
                                                 {isMyRecipe && (
@@ -515,13 +578,13 @@ function View() {
                                             </div>
 
                                             {recipe?.steps && recipe.steps.length > 0 ? (
-                                                <ol>
+                                                <ol className={`m-0 ${subHeaderOffsetClass} `}>
                                                     {recipe.steps
                                                         .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
                                                         .map((step) => (
                                                             <li
                                                                 key={step.id}
-                                                                className="text-specified step-line-spacing"
+                                                                className={`text-specified ${fontColorClass} ${stepLineSpacingClass}`}
                                                                 dangerouslySetInnerHTML={{
                                                                     __html: renderStep(step.description, recipe.recipeFont)
                                                                 }}

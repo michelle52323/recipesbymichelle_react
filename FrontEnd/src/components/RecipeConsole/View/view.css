@@ -1,4 +1,32 @@
-﻿/* Clean up the pseudo-element entirely and apply everything to the scroll container */
+﻿.theme-1{
+    --notebookTextColor: #33236a;
+}
+
+.theme-3{
+    --notebookTextColor: #123737;
+}
+
+.theme-4{
+    --notebookTextColor: #133a23;
+}
+
+.theme-5{
+    --notebookTextColor: #123712;
+}
+
+.theme-6{
+    --notebookTextColor: #3f1212;
+}
+
+.theme-7{
+    --notebookTextColor: #23234c;
+}
+
+.theme-8{
+    --notebookTextColor: #123d12;
+}
+
+/* Clean up the pseudo-element entirely and apply everything to the scroll container */
 .recipe-card-handwritten-font .grid-overflow-box {
     position: relative;
 
@@ -174,6 +202,26 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
     line-height: 37.5px;
 }
 
+.sub-header-line-spacing {
+    height: 70px;
+}
+
+.sub-header-offset {
+    padding-top: 21px;
+}
+
+.step-sub-header-top-offset {
+    padding-top: 0px;
+}
+
+@media (max-width: 768px) {
+    .step-sub-header-top-offset {
+        padding-top: 22px !important;
+    }
+
+
+}
+
 /* iOS Safari */
 @supports (-webkit-touch-callout: none) {
     .ingredients-line-spacing {
@@ -184,25 +232,66 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
         line-height: 37.0px;
     }
 
-    .recipe-card-notebook-paper-bottom, .recipe-card-notebook-paper-holes-bottom {
-            
-            background-size: 100% 296px;
-            
-        }
+    .recipe-card-notebook-paper-bottom,
+    .recipe-card-notebook-paper-holes-bottom {
+
+        background-size: 100% 296px;
+
+    }
+
+    .step-sub-header-top-offset {
+        padding-top: 20px !important;
+    }
+}
+
+.font-color-class{
+    color: var(--notebookTextColor);
 }
 
 /* Android Chrome (touch devices only) */
 @media (pointer: coarse) {
     @supports not (-webkit-touch-callout: none) {
-        .ingredients-line-spacing {
-            line-height: 36.3px;
-        }
-
-        .step-line-spacing {
+        .ingredients-line-spacing-sans-serif {
             line-height: 37.5px;
         }
 
-        
+        .step-line-spacing-sans-serif {
+            line-height: 37.5px;
+        }
+
+        .ingredients-line-spacing-handwritten {
+            line-height: 37.5px;
+        }
+
+        .step-line-spacing-handwritten {
+            line-height: 37.5px;
+        }
+
+        .sub-header-line-spacing-sans-serif {
+            height: 70px;
+        }
+
+        .sub-header-offset-sans-serif {
+            padding-top: 21px;
+        }
+
+        .step-sub-header-top-offset-sans-serif {
+            padding-top: 22px !important;
+        }
+
+        .sub-header-line-spacing-handwritten {
+            height: 70px;
+        }
+
+        .sub-header-offset-handwritten {
+            padding-top: 21px;
+        }
+
+        .step-sub-header-top-offset-handwritten {
+            padding-top: 22px !important;
+        }
+
+
     }
 }
 
@@ -226,19 +315,29 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
 }
 
 
-.step-line-spacing>p {
+/* Reset paragraph spacing */
+.step-line-spacing>p,
+.step-line-spacing-sans-serif>p,
+.step-line-spacing-handwritten>p {
     margin: 0;
     padding: 0;
     line-height: inherit;
 }
 
-.step-line-spacing>p:empty {
+/* Hide empty paragraphs */
+.step-line-spacing>p:empty,
+.step-line-spacing-sans-serif>p:empty,
+.step-line-spacing-handwritten>p:empty {
     display: none;
 }
 
 /* Reset spacing on nested lists */
 .step-line-spacing ol,
-.step-line-spacing ul {
+.step-line-spacing ul,
+.step-line-spacing-sans-serif ol,
+.step-line-spacing-sans-serif ul,
+.step-line-spacing-handwritten ol,
+.step-line-spacing-handwritten ul {
     margin-top: 0;
     margin-bottom: 0;
     line-height: inherit;
@@ -246,7 +345,11 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
 
 /* Reset spacing on nested list items */
 .step-line-spacing ol li,
-.step-line-spacing ul li {
+.step-line-spacing ul li,
+.step-line-spacing-sans-serif ol li,
+.step-line-spacing-sans-serif ul li,
+.step-line-spacing-handwritten ol li,
+.step-line-spacing-handwritten ul li {
     margin: 0;
     padding-top: 0;
     padding-bottom: 0;
@@ -255,13 +358,20 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
 
 /* Reset paragraph spacing within nested lists */
 .step-line-spacing ol li p,
-.step-line-spacing ul li p {
+.step-line-spacing ul li p,
+.step-line-spacing-sans-serif ol li p,
+.step-line-spacing-sans-serif ul li p,
+.step-line-spacing-handwritten ol li p,
+.step-line-spacing-handwritten ul li p {
     margin: 0;
     padding: 0;
     line-height: inherit;
 }
 
-.step-line-spacing ul {
+/* Force solid bullets on unordered lists */
+.step-line-spacing ul,
+.step-line-spacing-sans-serif ul,
+.step-line-spacing-handwritten ul {
     list-style-type: disc;
 }
 
