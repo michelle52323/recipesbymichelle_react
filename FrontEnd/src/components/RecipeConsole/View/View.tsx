@@ -239,33 +239,65 @@ function View() {
             setBackgroundCardClass(
                 recipe.recipeBackground === "Card"
                     ? "recipe-card-handwritten-font"
-                    : recipe.recipeBackground === "NotebookPaper"
+                    : recipe.recipeBackground === "NotebookPaper" || "NotebookPaperColor"
                         ? ""
                         : "panel"
             );
 
+            // setBackgroundPaperHolesClassUpper(
+            //     recipe.recipeBackground === "NotebookPaper"
+            //         ? "recipe-card-notebook-paper-holes-top"
+            //         : ""
+            // );
+
+            // setBackgroundPaperHolesClassLower(
+            //     recipe.recipeBackground === "NotebookPaper"
+            //         ? "recipe-card-notebook-paper-holes-bottom"
+            //         : ""
+            // );
+
+            // setBackgroundPaperClassUpper(
+            //     recipe.recipeBackground === "NotebookPaper"
+            //         ? "recipe-card-notebook-paper-top"
+            //         : ""
+            // );
+
+            // setBackgroundPaperClassLower(
+            //     recipe.recipeBackground === "NotebookPaper"
+            //         ? "recipe-card-notebook-paper-bottom"
+            //         : ""
+            // );
+
             setBackgroundPaperHolesClassUpper(
                 recipe.recipeBackground === "NotebookPaper"
                     ? "recipe-card-notebook-paper-holes-top"
-                    : ""
+                    : recipe.recipeBackground === "NotebookPaperColor"
+                        ? "recipe-card-notebook-paper-color-holes-top"
+                        : ""
             );
 
             setBackgroundPaperHolesClassLower(
                 recipe.recipeBackground === "NotebookPaper"
                     ? "recipe-card-notebook-paper-holes-bottom"
-                    : ""
+                    : recipe.recipeBackground === "NotebookPaperColor"
+                        ? "recipe-card-notebook-paper-color-holes-bottom"
+                        : ""
             );
 
             setBackgroundPaperClassUpper(
                 recipe.recipeBackground === "NotebookPaper"
                     ? "recipe-card-notebook-paper-top"
-                    : ""
+                    : recipe.recipeBackground === "NotebookPaperColor"
+                        ? "recipe-card-notebook-paper-color-top"
+                        : ""
             );
 
             setBackgroundPaperClassLower(
                 recipe.recipeBackground === "NotebookPaper"
                     ? "recipe-card-notebook-paper-bottom"
-                    : ""
+                    : recipe.recipeBackground === "NotebookPaperColor"
+                        ? "recipe-card-notebook-paper-color-bottom"
+                        : ""
             );
 
             var isAndroidDevice = isAndroid();
@@ -322,7 +354,13 @@ function View() {
                             : "step-sub-header-top-offset"
             )
 
-            setFontColorClass(recipe.recipeBackground == "NotebookPaper" ? "font-color-class" : "");
+            setFontColorClass(
+                recipe.recipeBackground == "NotebookPaper"
+                    ? "font-color-class"
+                    : recipe.recipeBackground == "NotebookPaperColor"
+                        ? "font-color-class-colored"
+                        : ""
+            );
 
         }
     }, [recipe?.recipeFont]);

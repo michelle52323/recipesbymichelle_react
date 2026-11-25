@@ -1,29 +1,64 @@
 ﻿.theme-1{
     --notebookTextColor: #33236a;
+    --notebookTextColor2: #130c2a;
+    --notebookColorImageUrlHolesTop: url("/images/notebook-paper/notebook-paper-top-holes-1.png");
+    --notebookColorImageUrlHolesBottom: url("/images/notebook-paper/notebook-paper-bottom-holes-1.png");
+    --notebookColorImageUrlTop: url("/images/notebook-paper/notebook-paper-top-1.png");
+    --notebookColorImageUrlBottom: url("/images/notebook-paper/notebook-paper-bottom-1.png");
 }
 
 .theme-3{
     --notebookTextColor: #123737;
+    --notebookTextColor2: #A5E6E4;
+    --notebookColorImageUrlHolesTop: url("/images/notebook-paper/notebook-paper-top-holes-3.png");
+    --notebookColorImageUrlHolesBottom: url("/images/notebook-paper/notebook-paper-bottom-holes-3.png");
+    --notebookColorImageUrlTop: url("/images/notebook-paper/notebook-paper-top-3.png");
+    --notebookColorImageUrlBottom: url("/images/notebook-paper/notebook-paper-bottom-3.png");
 }
 
 .theme-4{
     --notebookTextColor: #133a23;
+    --notebookTextColor2: #08270e;
+    --notebookColorImageUrlHolesTop: url("/images/notebook-paper/notebook-paper-top-holes-4.png");
+    --notebookColorImageUrlHolesBottom: url("/images/notebook-paper/notebook-paper-bottom-holes-4.png");
+    --notebookColorImageUrlTop: url("/images/notebook-paper/notebook-paper-top-4.png");
+    --notebookColorImageUrlBottom: url("/images/notebook-paper/notebook-paper-bottom-4.png");
 }
 
 .theme-5{
     --notebookTextColor: #123712;
+    --notebookTextColor2: #A0F59B;
+    --notebookColorImageUrlHolesTop: url("/images/notebook-paper/notebook-paper-top-holes-5.png");
+    --notebookColorImageUrlHolesBottom: url("/images/notebook-paper/notebook-paper-bottom-holes-5.png");
+    --notebookColorImageUrlTop: url("/images/notebook-paper/notebook-paper-top-5.png");
+    --notebookColorImageUrlBottom: url("/images/notebook-paper/notebook-paper-bottom-5.png");
 }
 
 .theme-6{
     --notebookTextColor: #3f1212;
+    --notebookTextColor2: #1d0808;
+    --notebookColorImageUrlHolesTop: url("/images/notebook-paper/notebook-paper-top-holes-6.png");
+    --notebookColorImageUrlHolesBottom: url("/images/notebook-paper/notebook-paper-bottom-holes-6.png");
+    --notebookColorImageUrlTop: url("/images/notebook-paper/notebook-paper-top-6.png");
+    --notebookColorImageUrlBottom: url("/images/notebook-paper/notebook-paper-bottom-6.png");
 }
 
 .theme-7{
     --notebookTextColor: #23234c;
+    --notebookTextColor2: #C1D4EC;
+    --notebookColorImageUrlHolesTop: url("/images/notebook-paper/notebook-paper-top-holes-7.png");
+    --notebookColorImageUrlHolesBottom: url("/images/notebook-paper/notebook-paper-bottom-holes-7.png");
+    --notebookColorImageUrlTop: url("/images/notebook-paper/notebook-paper-top-7.png");
+    --notebookColorImageUrlBottom: url("/images/notebook-paper/notebook-paper-bottom-7.png");
 }
 
 .theme-8{
     --notebookTextColor: #123d12;
+    --notebookTextColor2: #2C180c;
+    --notebookColorImageUrlHolesTop: url("/images/notebook-paper/notebook-paper-top-holes-8.png");
+    --notebookColorImageUrlHolesBottom: url("/images/notebook-paper/notebook-paper-bottom-holes-8.png");
+    --notebookColorImageUrlTop: url("/images/notebook-paper/notebook-paper-top-8.png");
+    --notebookColorImageUrlBottom: url("/images/notebook-paper/notebook-paper-bottom-8.png");
 }
 
 /* Clean up the pseudo-element entirely and apply everything to the scroll container */
@@ -49,6 +84,8 @@
     position: relative;
     z-index: 1;
 }
+
+/* Notebook paper */
 
 .recipe-card-notebook-paper-holes-top {
     position: relative;
@@ -109,21 +146,6 @@
     z-index: 1;
 }
 
-/* .recipe-card-notebook-paper-bottom {
-    position: relative;
-    
-background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
-    height: auto;
-    min-height: 100%;
-
-    background-size: 100% auto;
-    background-repeat: repeat-y;
-    background-blend-mode: multiply;
-    background-attachment: local;
-
-    z-index: 1;
-} */
-
 .recipe-card-notebook-paper-bottom {
     position: relative;
     z-index: 1;
@@ -142,6 +164,89 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
     position: relative;
     z-index: 1;
 }
+
+/* End Notebook paper */
+
+/* Colored Notebook paper */
+.recipe-card-notebook-paper-color-holes-top {
+    position: relative;
+
+    /* Combine the image layers */
+    background-image: var(--notebookColorImageUrlHolesTop);
+    /* background-color: orange; */
+    /* 100% width forces it to span horizontally, 'auto' lets height scale naturally */
+    /* background-size: 100% auto; */
+    background-size: 100% 350px;
+
+    /* Tells the browser to only repeat downward */
+    background-repeat: repeat-y;
+    background-blend-mode: multiply;
+
+    /* 🌟 THE CRITICAL FIX: Forces background to scroll with internal content text */
+    background-attachment: local;
+}
+
+.recipe-card-notebook-paper-color-holes-bottom {
+    position: relative;
+
+    /* Combine the image layers */
+    background-image: var(--notebookColorImageUrlHolesBottom);
+    /* background-color: green; */
+    /* 100% width forces it to span horizontally, 'auto' lets height scale naturally */
+    /* background-size: 100% auto; */
+    background-size: 100% 300px;
+
+    /* Tells the browser to only repeat downward */
+    background-repeat: repeat-y;
+    background-blend-mode: multiply;
+
+    /* 🌟 THE CRITICAL FIX: Forces background to scroll with internal content text */
+    background-attachment: local;
+}
+
+.recipe-card-notebook-paper-color-top {
+    position: relative;
+
+    /* Combine the image layers */
+    background-image: var(--notebookColorImageUrlTop);
+    /* background-color: red; */
+    /* 100% width forces it to span horizontally, 'auto' lets height scale naturally */
+    /* background-size: 100% auto; */
+    background-size: 100% 1000px;
+
+    /* Tells the browser to only repeat downward */
+    background-repeat: repeat-y;
+    background-blend-mode: multiply;
+
+    /* 🌟 THE CRITICAL FIX: Forces background to scroll with internal content text */
+    background-attachment: local;
+}
+
+.recipe-card-notebook-paper-color-top .grid-overflow-box>* {
+    position: relative;
+    z-index: 1;
+}
+
+.recipe-card-notebook-paper-color-bottom {
+    position: relative;
+    z-index: 1;
+
+    background-image: var(--notebookColorImageUrlBottom);
+    /* background-color:blue; */
+    background-size: 100% 300px;
+    background-repeat: repeat-y;
+    background-position: left top;
+    background-attachment: local;
+
+    height: auto;
+}
+
+.recipe-card-notebook-paper-color-bottom {
+    position: relative;
+    z-index: 1;
+}
+
+/* End Colored Notebook paper*/
 
 
 .recipe-description {
@@ -246,6 +351,10 @@ background-image: url("/images/notebook-paper/notebook-paper-bottom.png");
 
 .font-color-class{
     color: var(--notebookTextColor);
+}
+
+.font-color-class-colored{
+    color: var(--notebookTextColor2);
 }
 
 /* Android Chrome (touch devices only) */

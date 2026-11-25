@@ -8,7 +8,7 @@ export interface RecipeBase {
     sortOrder: number;
     recipeVisibility: "MeOnly" | "AllUsers";
     recipeFont: "SansSerif" | "Serif" | "Handwritten";
-    recipeBackground: "Panel" | "Card" | "NotebookPaper";
+    recipeBackground: "Panel" | "Card" | "NotebookPaper" | "NotebookPaperColor"
     categories?: Category[];
 
 }

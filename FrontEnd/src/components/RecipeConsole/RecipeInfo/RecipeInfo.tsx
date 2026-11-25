@@ -28,7 +28,7 @@ interface RecipeForm {
     showAbbreviations: boolean;
     recipeVisibility: "MeOnly" | "AllUsers" | null;
     recipeFont: "SansSerif" | "Serif" | "Handwritten";
-    recipeBackground: "Panel" | "Card" | "NotebookPaper";
+    recipeBackground: "Panel" | "Card" | "NotebookPaper" | "NotebookPaperColor";
     categories: Category[];
 }
 
@@ -234,10 +234,10 @@ const RecipeInfo: React.FC = () => {
     useEffect(() => {
         if (recipe.recipeFont === "SansSerif") {
             // Sans Serif: Panel and Notebook
-            setVisibleBackgrounds(["Panel", "NotebookPaper"]);
+            setVisibleBackgrounds(["Panel", "NotebookPaper", "NotebookPaperColor"]);
         } else if (recipe.recipeFont === "Handwritten") {
             // Handwritten: Card and Notebook
-            setVisibleBackgrounds(["Card", "NotebookPaper"]);
+            setVisibleBackgrounds(["Card", "NotebookPaper", "NotebookPaperColor"]);
         }
     }, [isEditMode, recipe.recipeFont]);
 
@@ -668,6 +668,27 @@ const RecipeInfo: React.FC = () => {
                                                         />
                                                         <div className="check"></div>
                                                         <label htmlFor="recipe-background-notebook">Notebook paper</label>
+                                                    </li>
+                                                )}
+
+                                                {visibleBackgrounds.includes("NotebookPaperColor") && (
+                                                    <li id="recipe-background-notebook-color-container">
+                                                        <input
+                                                            type="radio"
+                                                            id="recipe-background-notebook-color"
+                                                            name="recipeBackground"
+                                                            value="NotebookPaperColor"
+                                                            checked={recipe.recipeBackground === "NotebookPaperColor"}
+                                                            onChange={() => {
+                                                                setRecipe(prev => ({
+                                                                    ...prev,
+                                                                    recipeBackground: "NotebookPaperColor"
+                                                                }));
+                                                                setRecipeBackgroundDefaultSelected(false);
+                                                            }}
+                                                        />
+                                                        <div className="check"></div>
+                                                        <label htmlFor="recipe-background-notebook-color">Colored notebook paper</label>
                                                     </li>
                                                 )}
 
