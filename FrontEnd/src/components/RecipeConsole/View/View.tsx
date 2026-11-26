@@ -239,7 +239,7 @@ function View() {
             setBackgroundCardClass(
                 recipe.recipeBackground === "Card"
                     ? "recipe-card-handwritten-font"
-                    : recipe.recipeBackground === "NotebookPaper" || "NotebookPaperColor"
+                    : recipe.recipeBackground === "NotebookPaper" || recipe.recipeBackground == "NotebookPaperColor"
                         ? ""
                         : "panel"
             );
