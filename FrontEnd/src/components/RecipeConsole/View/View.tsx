@@ -65,6 +65,7 @@ function View() {
     const [subHeaderOffsetClass, setSubHeaderOffsetClass] = useState<string | null>(null);
     const [stepSubHeaderTopOffsetClass, setStepSubHeaderTopOffsetClass] = useState<string | null>(null);
     const [fontColorClass, setFontColorClass] = useState<string | null>(null);
+    const [recipeMarginLeft, setRecipeMarginLeft] = useState<string | null>(null);
 
     const [previousPageNavigation, setPreviousPathNavigation] = useState<PreviousPageNavigation | null>(null);
     const [isMyRecipe, setIsMyRecipe] = useState<boolean>(false);
@@ -362,6 +363,14 @@ function View() {
                         : ""
             );
 
+            setRecipeMarginLeft(
+                recipe.recipeBackground === "NotebookPaper" ||
+                    recipe.recipeBackground === "NotebookPaperColor"
+                    ? "20px"
+                    : "0px"
+            );
+
+
         }
     }, [recipe?.recipeFont]);
 
@@ -531,8 +540,12 @@ function View() {
                                     <div className={`d-flex row mx-0 align-items-start pt-4 flex-grow-1 ${backgroundPaperClassLower}`}>
                                         {/* Ingredients Column */}
                                         <div className={`col-md-6 col-12 pt-2`}>
-                                            <div className={`d-flex align-items-center fw-bold  ${subHeaderHeightClass}`}>
-                                                <span className="me-2">Ingredients</span>
+                                            <div
+
+                                                className={`d-flex align-items-center fw-bold  ${subHeaderHeightClass}`}>
+                                                <span
+                                                    style={{ paddingLeft: recipeMarginLeft }}
+                                                    className="me-2">Ingredients</span>
 
                                                 {isMyRecipe && (
                                                     <div className="d-print-none">
@@ -555,7 +568,7 @@ function View() {
 
                                             {recipe?.ingredients && recipe.ingredients.length > 0 ? (
                                                 <ul
-                                                    style={{ display: "block", paddingLeft: "20px", listStyleType: "disc" }}
+                                                    style={{ display: "block", paddingLeft: recipeMarginLeft, paddingRight: "2px", listStyleType: "disc" }}
                                                     className={`m-0  ${subHeaderOffsetClass}`}
                                                 >
                                                     {recipe.ingredients
@@ -596,7 +609,9 @@ function View() {
                                         {/* Steps Column */}
                                         <div className={`col-md-6 col-12 pt-2 ${stepSubHeaderTopOffsetClass}`}>
                                             <div className={`d-flex align-items-center fw-bold ${subHeaderHeightClass} `}>
-                                                <span className="me-2">Steps</span>
+                                                <span
+                                                    style={{ paddingLeft: recipeMarginLeft }}
+                                                    className="me-2">Steps</span>
 
                                                 {isMyRecipe && (
                                                     <div className="d-print-none">
@@ -616,7 +631,10 @@ function View() {
                                             </div>
 
                                             {recipe?.steps && recipe.steps.length > 0 ? (
-                                                <ol className={`m-0 ${subHeaderOffsetClass} `}>
+                                                <ol
+                                                    style={{ paddingLeft: recipeMarginLeft, paddingRight: "2px" }}
+                                                    className={`m-0 ${subHeaderOffsetClass} `}
+                                                >
                                                     {recipe.steps
                                                         .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
                                                         .map((step) => (

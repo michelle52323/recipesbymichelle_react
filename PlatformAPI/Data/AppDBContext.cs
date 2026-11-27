@@ -97,7 +97,7 @@ namespace PlatformAPI.Data
                         }
                         else if (property.Name.Contains("Color"))
                         {
-                            property.SetMaxLength(50); // Override: Color fields get length 7
+                            property.SetMaxLength(100); // Override: Color fields get length 100
                         }
                         else if (property.Name.Contains("Password"))
                         {
